@@ -1,0 +1,325 @@
+/* ReadySuits.module.css */
+:root {
+  --color-secondary: #121212;
+  --color-white: #ffffff;
+  --color-primary: #007bff;
+  --color-accent: #0056b3;
+}
+
+.readySuitsSection {
+  padding: 6rem 0;
+  background: var(--color-secondary);
+  color: var(--color-white);
+  min-height: 100vh;
+}
+
+.emptyState {
+  padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.emptyStateContent {
+  max-width: 600px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emptyStateText {
+  color: #ccc;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.emptyStateButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.heroButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.heroPrimary {
+  composes: heroButton;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+}
+
+.heroPrimary:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.heroSecondary {
+  composes: heroButton;
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.heroSecondary:hover {
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.filtersContainer {
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.filterSelect {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.5rem;
+  padding-right: 3rem;
+}
+
+.filterSelect option {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 1rem;
+}
+
+.filterSelect optgroup {
+  background: #1a1a1a;
+  color: #fff;
+  font-weight: bold;
+}
+
+.suitsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.suitCard {
+  background: #1a1a1a;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 1px solid #333;
+}
+
+.suitCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.suitImageContainer {
+  position: relative;
+  padding-top: 133%;
+  overflow: hidden;
+}
+
+.suitImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.suitCard:hover .suitImage {
+  transform: scale(1.05);
+}
+
+.tagsContainer {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.tag {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.tagSold {
+  composes: tag;
+  background: #00e6ff;
+  color: #1a1a1a;
+}
+
+.suitContent {
+  padding: 1.5rem;
+  background: #1a1a1a;
+  color: #fff;
+  height: 245px;
+  display: flex;
+  flex-direction: column;
+}
+
+.suitInfo {
+  flex-grow: 1;
+}
+
+.suitTitle {
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.suitDescription {
+  color: #ccc;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  height: 3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.suitDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.suitDetailsSold {
+  composes: suitDetails;
+  justify-content: flex-start;
+}
+
+.suitSize {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.suitPrice {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.suitActionBtn {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buyBtn {
+  composes: suitActionBtn;
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.buyBtn:hover {
+  background: var(--color-accent);
+}
+
+.orderBtn {
+  composes: suitActionBtn;
+  background: #00e6ff;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.orderBtn:hover {
+  background: #00ccff;
+}
+
+.orderBtn svg {
+  color: #1a1a1a;
+}
+
+@media (max-width: 768px) {
+  .readySuitsSection {
+    padding: 4rem 0;
+  }
+
+  .suitsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
+
+  .suitContent {
+    padding: 1rem;
+  }
+
+  .emptyState {
+    padding: 2rem 1rem;
+  }
+
+  .emptyStateContent {
+    padding: 2rem 1.5rem;
+  }
+
+  .emptyStateButtons {
+    flex-direction: column;
+  }
+
+  .heroButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
