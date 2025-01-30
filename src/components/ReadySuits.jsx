@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ShoppingBag, Eye, MessageCircle, Phone } from 'lucide-react';
+import { ShoppingBag, MessageCircle, Phone } from 'lucide-react';
 
 function ReadySuits() {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -224,8 +224,6 @@ function ReadySuits() {
             justify-content: center;
           }
         }
-
-        /* Остальные стили компонента остаются без изменений */
         
         .section-header {
           text-align: center;
@@ -340,42 +338,6 @@ function ReadySuits() {
         .tag.sold {
           background: #00e6ff;
           color: #1a1a1a;
-        }
-
-        .suit-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.7);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .suit-card:hover .suit-overlay {
-          opacity: 1;
-        }
-
-        .quick-view-btn {
-          background: var(--color-primary);
-          color: #fff;
-          border: none;
-          padding: 0.8rem 1.5rem;
-          border-radius: 30px;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          cursor: pointer;
-          transform: translateY(20px);
-          transition: all 0.3s ease;
-        }
-
-        .suit-card:hover .quick-view-btn {
-          transform: translateY(0);
         }
 
         .suit-content {
@@ -534,12 +496,6 @@ function ReadySuits() {
                   alt={suit.name}
                   className="suit-image"
                 />
-                <div className="suit-overlay">
-                  <button className="quick-view-btn">
-                    <Eye size={18} />
-                    Быстрый просмотр
-                  </button>
-                </div>
               </div>
 
               <div className="suit-content">
