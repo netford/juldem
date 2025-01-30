@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ShoppingBag, MessageCircle, Phone } from 'lucide-react';
+import nonePhoto from '../assets/images/suits/none_photo.jpg';
+import snegurochka from '../assets/images/suits/snegurochka.jpg';
 
 function ReadySuits() {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -14,18 +16,18 @@ function ReadySuits() {
       price: 15000,
       height: "130-139 см.",
       description: "Гимнастический купальник с кристаллами Swarovski",
-      images: ["/api/placeholder/400/500"],
+      images: [nonePhoto],
       available: true,
       tags: ['Новинка']
     },
     {
       id: 2,
-      name: "Купальник 'Виктория'",
+      name: "Купальник 'Снегурочка'",
       category: "figure-skating",
       price: 17000,
       height: "125-129 см.",
       description: "Купальник для фигурного катания с градиентом",
-      images: ["/api/placeholder/400/500"],
+      images: [snegurochka],
       available: true
     },
     {
@@ -495,6 +497,10 @@ function ReadySuits() {
                   src={suit.images[0]} 
                   alt={suit.name}
                   className="suit-image"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.src = nonePhoto;
+                  }}
                 />
               </div>
 
