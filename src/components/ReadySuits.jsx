@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ShoppingBag, MessageCircle, Phone } from 'lucide-react';
+import ProductImageSlider from './ProductImageSlider';
 import styles from './ReadySuits.module.css';
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 import snegurochka from '../assets/images/suits/snegurochka.jpg';
+import snegurochka01 from '../assets/images/suits/snegurochka_01.png';
+import snegurochka02 from '../assets/images/suits/snegurochka_02.png';
+import snegurochka03 from '../assets/images/suits/snegurochka_03.png';
 
 function ReadySuits() {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -28,7 +32,7 @@ function ReadySuits() {
       price: 17000,
       height: "125-129 см.",
       description: "Купальник для фигурного катания с градиентом",
-      images: [snegurochka],
+      images: [snegurochka, snegurochka01, snegurochka02, snegurochka03],
       available: true
     },
     {
@@ -38,7 +42,7 @@ function ReadySuits() {
       price: 16000,
       height: "до 124 см.",
       description: "Купальник с цветочным орнаментом",
-      images: ["/api/placeholder/400/500"],
+      images: [nonePhoto],
       available: false
     },
     {
@@ -48,7 +52,7 @@ function ReadySuits() {
       price: 18500,
       height: "140-154 см.",
       description: "Купальник для фигурного катания с узором из страз",
-      images: ["/api/placeholder/400/500"],
+      images: [nonePhoto],
       available: false
     },
     {
@@ -58,10 +62,10 @@ function ReadySuits() {
       price: 16500,
       height: "от 155 см.",
       description: "Купальник для спортивной акробатики с эффектом омбре",
-      images: ["/api/placeholder/400/500"],
+      images: [nonePhoto],
       available: true
     }
-  ];
+];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -178,14 +182,9 @@ function ReadySuits() {
                     <span className={styles.tagSold}>Продано</span>
                   )}
                 </div>
-                <img 
-                  src={suit.images[0]} 
-                  alt={suit.name}
-                  className={styles.suitImage}
-                  loading="lazy"
-                  onError={(e) => {
-                    e.target.src = nonePhoto;
-                  }}
+                <ProductImageSlider 
+                  images={suit.images} 
+                  onError={() => nonePhoto}
                 />
               </div>
 
