@@ -1,0 +1,39 @@
+src
+├── assets
+│   ├── images
+│   │   ├── suits
+│   │   │   ├── none_photo.jpg
+│   │   │   ├── snegurochka.jpg
+│   │   │   ├── snegurochka_01.png
+│   │   │   ├── snegurochka_02.png
+│   │   │   ├── snegurochka_03.png
+│   │   ├── half-block.jpg
+│   │   ├── hero-bg.jpg
+│   │   ├── index.js
+│   │   ├── logo.png
+│   │   └── react.svg
+├── components
+│   ├── About.jsx
+│   ├── ContactsSection.jsx
+│   ├── DeliverySection.jsx
+│   ├── Footer.jsx
+│   ├── Hero.jsx
+│   ├── HowToOrder.jsx
+│   ├── Navbar.jsx
+│   ├── PricesSection.jsx
+│   ├── ProductImageSlider.jsx
+│   ├── ProductImageSlider.module.css
+│   ├── ReadySuits.jsx
+│   ├── ReadySuits.module.css
+│   └── ReviewsCarousel.jsx
+├── styles
+│   └── main.css
+├── App.css
+├── App.jsx
+├── App.test.js
+├── index.css
+├── index.js
+├── logo.svg
+├── main.jsx
+├── reportWebVitals.js
+└── setupTests.js

@@ -117,16 +117,38 @@
   padding-right: 3rem;
 }
 
-.filterSelect option {
-  background: #1a1a1a;
+.filterSelect option:first-of-type {
+  font-weight: 600;
   color: #fff;
-  padding: 1rem;
+  background: #1a1a1a;
+  padding: 12px;
 }
 
 .filterSelect optgroup {
-  background: #1a1a1a;
+  font-weight: 600;
   color: #fff;
-  font-weight: bold;
+  background: #1a1a1a;
+  padding: 8px 0;
+ }
+ 
+ .filterSelect option {
+  font-weight: normal;
+  color: #fff;
+  background: #1a1a1a;
+  padding: 8px 12px;
+ }
+ 
+ .filterSelect optgroup option {
+  font-weight: normal;
+  color: #fff;
+  background: #1a1a1a;
+  padding: 8px 12px;
+ }
+
+.mainOption {
+  font-weight: 600 !important;
+  color: #fff !important;
+  background: #1a1a1a !important;
 }
 
 .suitsGrid {

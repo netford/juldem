@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquare, Ruler, Palette, Scissors, Package } from 'lucide-react';
+import { MessageSquare, Ruler, Palette, Scissors, Package, Info } from 'lucide-react';
 
 const steps = [
  {
@@ -70,14 +70,14 @@ const HowToOrder = () => {
        }
 
        .container {
-        max-width: 1200px;
-        width: 100%;
-        margin: 0 auto;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+         max-width: 1200px;
+         width: 100%;
+         margin: 0 auto;
+         padding: 0;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+       }
 
        .section-header {
          text-align: center;
@@ -161,6 +161,53 @@ const HowToOrder = () => {
          background: var(--color-primary);
        }
 
+       .info-container {
+         width: 100%;
+         max-width: 1200px;
+         margin: 0 auto;
+         padding: 2rem;
+         background: #262626;
+         border: 1px solid #333;
+         border-radius: 16px;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         gap: 1.5rem;
+       }
+
+       .info-header {
+         display: flex;
+         align-items: center;
+         gap: 0.75rem;
+       }
+
+       .info-title {
+         font-size: 1.25rem;
+         color: #fff;
+         font-weight: 600;
+       }
+
+       .info-links {
+         display: flex;
+         gap: 2rem;
+         flex-wrap: wrap;
+         justify-content: center;
+       }
+
+       .info-link {
+         color: var(--color-primary);
+         text-decoration: none;
+         padding: 0.5rem 1rem;
+         border: 1px solid var(--color-primary);
+         border-radius: 8px;
+         transition: all 0.3s ease;
+       }
+
+       .info-link:hover {
+         background: var(--color-primary);
+         color: #fff;
+       }
+
        @media (max-width: 1200px) {
          .steps-container {
            grid-template-columns: repeat(3, 1fr);
@@ -177,6 +224,20 @@ const HowToOrder = () => {
            grid-template-columns: 1fr;
            gap: 1.5rem;
            transform: translateX(0);
+         }
+
+         .info-container {
+           padding: 1.5rem;
+         }
+
+         .info-links {
+           flex-direction: column;
+           gap: 1rem;
+           width: 100%;
+         }
+
+         .info-link {
+           text-align: center;
          }
        }
      `}</style>
@@ -203,6 +264,18 @@ const HowToOrder = () => {
              </div>
            );
          })}
+       </div>
+
+       <div className="info-container">
+         <div className="info-header">
+           <Info size={24} color="var(--color-primary)" />
+           <h3 className="info-title">Дополнительная информация</h3>
+         </div>
+         <div className="info-links">
+           <a href="#" className="info-link">Как снять мерки самостоятельно</a>
+           <a href="#" className="info-link">Прокат купальников</a>
+           <a href="#" className="info-link">Договора</a>
+         </div>
        </div>
      </div>
    </section>

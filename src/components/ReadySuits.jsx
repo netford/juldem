@@ -65,7 +65,7 @@ function ReadySuits() {
       images: [nonePhoto],
       available: true
     }
-];
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -89,12 +89,13 @@ function ReadySuits() {
 
   const filteredSuits = suits.filter(suit => {
     if (activeFilter === 'all') return true;
-    if (activeFilter === 'available') return suit.available;
-    if (activeFilter === 'sold') return !suit.available;
     if (activeFilter === suit.category) return true;
+    if (activeFilter === 'sold') return !suit.available;
     
-    if (activeFilter.startsWith('height-')) {
+    if (activeFilter.startsWith('available')) {
       if (!suit.available) return false;
+      
+      if (activeFilter === 'available') return true;
       
       const heightRange = activeFilter.split('-')[1];
       switch (heightRange) {
@@ -151,21 +152,21 @@ function ReadySuits() {
           value={activeFilter}
           onChange={(e) => setActiveFilter(e.target.value)}
         >
-          <option value="all">Все купальники</option>
-          <option value="available">В наличии</option>
-          <option value="sold">Продано</option>
-          <optgroup label="Рост">
-            <option value="height-124">до 124 см.</option>
-            <option value="height-129">125-129 см.</option>
-            <option value="height-139">130-139 см.</option>
-            <option value="height-154">140-154 см.</option>
-            <option value="height-155">от 155 см.</option>
-          </optgroup>
+          <option value="all" className={styles.mainOption}>Все купальники</option>
           <optgroup label="Категории">
             <option value="gymnastics">Художественная гимнастика</option>
             <option value="figure-skating">Фигурное катание</option>
             <option value="acrobatics">Спортивная акробатика</option>
           </optgroup>
+          <optgroup label="В наличии">
+            <option value="available">Все размеры</option>
+            <option value="available-124">до 124 см.</option>
+            <option value="available-129">125-129 см.</option>
+            <option value="available-139">130-139 см.</option>
+            <option value="available-154">140-154 см.</option>
+            <option value="available-155">от 155 см.</option>
+          </optgroup>
+          <option value="sold">Продано</option>
         </select>
       </div>
 
