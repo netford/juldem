@@ -85,6 +85,107 @@
   right: 1rem;
 }
 
+/* Мобильные подсказки для свайпа */
+.swipeHints {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.swipeHint {
+  display: flex;
+  gap: 4px;
+}
+
+.swipeHint.left {
+  margin-right: auto;
+}
+
+.swipeHint.right {
+  margin-left: auto;
+}
+
+.swipeArrow {
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swipeArrow svg {
+  width: 14px;
+  height: 14px;
+  color: #1a1a1a;
+}
+
+/* Анимация для правых стрелок */
+.swipeHint.right .swipeArrow {
+  animation: swipeRightAnimation 1.5s infinite;
+}
+
+.swipeHint.right .swipeArrow:nth-child(2) {
+  animation-delay: 0.2s;
+  opacity: 0.7;
+}
+
+.swipeHint.right .swipeArrow:nth-child(3) {
+  animation-delay: 0.4s;
+  opacity: 0.4;
+}
+
+/* Анимация для левых стрелок */
+.swipeHint.left .swipeArrow {
+  animation: swipeLeftAnimation 1.5s infinite;
+}
+
+.swipeHint.left .swipeArrow:nth-child(2) {
+  animation-delay: 0.2s;
+  opacity: 0.7;
+}
+
+.swipeHint.left .swipeArrow:nth-child(3) {
+  animation-delay: 0.4s;
+  opacity: 0.4;
+}
+
+@keyframes swipeRightAnimation {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+}
+
+@keyframes swipeLeftAnimation {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .sliderTrack {
     overflow-x: auto;
@@ -117,64 +218,4 @@
     width: 6px;
     height: 6px;
   }
-}
-
-/* Анимация перехода */
-.fadeIn {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Состояние загрузки */
-.loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #1a1a1a;
-}
-
-.loading::after {
-  content: "";
-  width: 30px;
-  height: 30px;
-  border: 2px solid #333;
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Состояние ошибки */
-.error {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #1a1a1a;
-  color: #fff;
-  font-size: 14px;
-  padding: 1rem;
-  text-align: center;
 }

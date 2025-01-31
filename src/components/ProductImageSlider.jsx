@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from 'lucide-react';
 import styles from './ProductImageSlider.module.css';
 
 const ProductImageSlider = ({ images, onError }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [canSwipeLeft, setCanSwipeLeft] = useState(false);
+  const [canSwipeRight, setCanSwipeRight] = useState(true);
   const trackRef = useRef(null);
 
   // Определяем мобильное устройство при монтировании и при ресайзе
@@ -54,7 +56,7 @@ const ProductImageSlider = ({ images, onError }) => {
     }
   };
 
-  // Отслеживание текущего слайда в мобильной версии
+  // Отслеживание текущего слайда и возможности свайпа
   useEffect(() => {
     if (!isMobile || !trackRef.current) return;
 
@@ -64,6 +66,8 @@ const ProductImageSlider = ({ images, onError }) => {
           if (entry.isIntersecting) {
             const index = Array.from(trackRef.current.children).indexOf(entry.target);
             setCurrentIndex(index);
+            setCanSwipeLeft(index > 0);
+            setCanSwipeRight(index < images.length - 1);
           }
         });
       },
@@ -78,7 +82,7 @@ const ProductImageSlider = ({ images, onError }) => {
     });
 
     return () => observer.disconnect();
-  }, [isMobile]);
+  }, [isMobile, images.length]);
 
   return (
     <div className={styles.sliderContainer}>
@@ -105,6 +109,38 @@ const ProductImageSlider = ({ images, onError }) => {
           />
         ))}
       </div>
+
+      {/* Мобильные подсказки для свайпа */}
+      {isMobile && images.length > 1 && (
+        <div className={styles.swipeHints}>
+          {canSwipeLeft && (
+            <div className={`${styles.swipeHint} ${styles.left}`}>
+              <div className={styles.swipeArrow}>
+                <ArrowLeft />
+              </div>
+              <div className={styles.swipeArrow}>
+                <ArrowLeft />
+              </div>
+              <div className={styles.swipeArrow}>
+                <ArrowLeft />
+              </div>
+            </div>
+          )}
+          {canSwipeRight && (
+            <div className={`${styles.swipeHint} ${styles.right}`}>
+              <div className={styles.swipeArrow}>
+                <ArrowRight />
+              </div>
+              <div className={styles.swipeArrow}>
+                <ArrowRight />
+              </div>
+              <div className={styles.swipeArrow}>
+                <ArrowRight />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Навигационные точки */}
       {images.length > 1 && (
