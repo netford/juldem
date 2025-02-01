@@ -1,3 +1,4 @@
+// ReadySuits.js
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { ShoppingBag, MessageCircle, Phone } from 'lucide-react';
 import ProductImageSlider from './ProductImageSlider';
@@ -9,6 +10,7 @@ import snegurochka01 from '../assets/images/suits/snegurochka_01.png';
 import snegurochka02 from '../assets/images/suits/snegurochka_02.png';
 import snegurochka03 from '../assets/images/suits/snegurochka_03.png';
 
+// Массив товаров вынесен за пределы компонента
 const suits = [
   {
     id: 1,
@@ -76,9 +78,7 @@ function ReadySuits() {
           observer.unobserve(entry.target);
         }
       },
-      {
-        threshold: 0.1
-      }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -93,12 +93,11 @@ function ReadySuits() {
       if (activeFilter === 'all') return true;
       if (activeFilter === suit.category) return true;
       if (activeFilter === 'sold') return !suit.available;
-      
+
       if (activeFilter.startsWith('available')) {
         if (!suit.available) return false;
-        
         if (activeFilter === 'available') return true;
-        
+
         const heightRange = activeFilter.split('-')[1];
         switch (heightRange) {
           case '124':
@@ -115,11 +114,9 @@ function ReadySuits() {
             return false;
         }
       }
-      
       return false;
     });
   }, [activeFilter]);
-  
 
   const EmptyState = () => (
     <div className={styles.emptyState}>
