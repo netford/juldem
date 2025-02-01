@@ -129,21 +129,21 @@
   color: #fff;
   background: #1a1a1a;
   padding: 8px 0;
- }
- 
- .filterSelect option {
+}
+
+.filterSelect option {
   font-weight: normal;
   color: #fff;
   background: #1a1a1a;
   padding: 8px 12px;
- }
- 
- .filterSelect optgroup option {
+}
+
+.filterSelect optgroup option {
   font-weight: normal;
   color: #fff;
   background: #1a1a1a;
   padding: 8px 12px;
- }
+}
 
 .mainOption {
   font-weight: 600 !important;
@@ -344,4 +344,22 @@
     width: 100%;
     justify-content: center;
   }
+}
+
+/* Новый ключевой кадр для анимации намёка на скролл */
+@keyframes scrollHint {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Класс для применения анимации намёка на скролл */
+.scrollHintAnimation {
+  animation: scrollHint 1s ease-in-out;
 }

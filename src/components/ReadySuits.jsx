@@ -13,7 +13,7 @@ import snegurochka01 from '../assets/images/suits/snegurochka_01.png';
 import snegurochka02 from '../assets/images/suits/snegurochka_02.png';
 import snegurochka03 from '../assets/images/suits/snegurochka_03.png';
 
-// Массив товаров вынесен за пределы компонента
+// Массив товаров (12 карточек)
 const suits = [
   {
     id: 1,
@@ -139,12 +139,12 @@ const suits = [
   }
 ];
 
-
 function ReadySuits() {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [showScrollHint, setShowScrollHint] = useState(false);
   const sectionRef = useRef(null);
 
-  // Наблюдатель для отложенного рендеринга (если потребуется)
+  // Отслеживаем видимость секции (если потребуется)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -158,7 +158,17 @@ function ReadySuits() {
     return () => observer.disconnect();
   }, []);
 
-  // Фильтрация товаров по активному фильтру
+  // Если мобильное устройство, показываем намёк на скролл на 3 секунды
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      setShowScrollHint(true);
+      const timer = setTimeout(() => {
+        setShowScrollHint(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const filteredSuits = useMemo(() => {
     return suits.filter(suit => {
       if (activeFilter === 'all') return true;
@@ -187,14 +197,13 @@ function ReadySuits() {
     });
   }, [activeFilter]);
 
-  // Компонент для отображения состояния пустого результата
   const EmptyState = () => (
     <div className={styles.emptyState}>
       <div className={styles.emptyStateContent}>
         <p className={styles.emptyStateText}>
-          К сожалению, по вашим критериям не найдено ни одного подходящего купальника. 
-          Но не стоит расстраиваться! Мы с радостью изготовим для вас идеальный купальник 
-          по индивидуальному заказу в кратчайшие сроки. Свяжитесь с нами для консультации 
+          К сожалению, по вашим критериям не найдено ни одного подходящего купальника.
+          Но не стоит расстраиваться! Мы с радостью изготовим для вас идеальный купальник
+          по индивидуальному заказу в кратчайшие сроки. Свяжитесь с нами для консультации
           и обсуждения деталей.
         </p>
         <div className={styles.emptyStateButtons}>
@@ -211,10 +220,10 @@ function ReadySuits() {
     </div>
   );
 
-  // Фиксированные размеры для виртуализации (подберите по вашему дизайну)
-  const cardWidth = 300;  // ширина карточки
-  const cardHeight = 650; // высота карточки (примерное значение)
-  const gap = 32;         // отступ между карточками (примерно 2rem)
+  // Фиксированные размеры для виртуализированного списка
+  const cardWidth = 300;  // ширина карточки (px)
+  const cardHeight = 650; // высота карточки (примерное значение, px)
+  const gap = 32;         // отступ между карточками (px)
 
   // Компонент для отрисовки одной карточки в виртуализированном горизонтальном списке
   const Row = ({ index, style, data }) => {
@@ -261,8 +270,15 @@ function ReadySuits() {
       </div>
 
       {filteredSuits.length > 10 ? (
-        // Если карточек больше 10, используем виртуализацию (горизонтальный список)
-        <div style={{ display: 'flex', justifyContent: 'center', height: cardHeight }}>
+        // Если карточек больше 10 – используем виртуализацию (горизонтальный список)
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            height: cardHeight,
+          }}
+          className={showScrollHint ? styles.scrollHintAnimation : ''}
+        >
           <div style={{ width: filteredSuits.length * (cardWidth + gap) - gap, height: cardHeight }}>
             <AutoSizer>
               {({ width }) => (
@@ -281,7 +297,7 @@ function ReadySuits() {
           </div>
         </div>
       ) : (
-        // Если карточек 10 или меньше, отображаем их стандартной CSS-сеткой
+        // Если карточек 10 или меньше – отображаем их стандартной CSS-сеткой
         <div className={styles.suitsGrid}>
           {filteredSuits.map(suit => (
             <SuitCard key={suit.id} suit={suit} />
