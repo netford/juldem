@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Ruler, Palette, Scissors, Package, Info } from 'lucide-react';
+import VideoModal from './VideoModal';
 
 const steps = [
  {
@@ -60,6 +61,31 @@ const steps = [
 ];
 
 const HowToOrder = () => {
+ const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+ const sectionRef = useRef(null);
+ const itemsRef = useRef([]);
+
+ useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      {
+        threshold: 0.1
+      }
+    );
+
+    itemsRef.current.forEach((item) => {
+      if (item) observer.observe(item);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
  return (
    <section id="how-to-order" className="how-to-order-section">
      <style>{`
@@ -248,10 +274,14 @@ const HowToOrder = () => {
        </div>
 
        <div className="steps-container">
-         {steps.map((step) => {
+         {steps.map((step, index) => {
            const Icon = step.icon;
            return (
-             <div key={step.id} className="step-item">
+             <div
+               key={step.id}
+               ref={el => itemsRef.current[index] = el}
+               className="step-item"
+             >
                <div className="step-icon">
                  <Icon />
                </div>
@@ -272,12 +302,27 @@ const HowToOrder = () => {
            <h3 className="info-title">Дополнительная информация</h3>
          </div>
          <div className="info-links">
-           <a href="#" className="info-link">Как снять мерки самостоятельно</a>
+           <a 
+             href="#" 
+             onClick={(e) => {
+               e.preventDefault();
+               setIsVideoModalOpen(true);
+             }}
+             className="info-link"
+           >
+             Как снять мерки самостоятельно
+           </a>
            <a href="#" className="info-link">Прокат купальников</a>
            <a href="#" className="info-link">Договора</a>
          </div>
        </div>
      </div>
+
+     <VideoModal
+       isOpen={isVideoModalOpen}
+       onClose={() => setIsVideoModalOpen(false)}
+       videoSource="/videos/merki_min.webm"
+     />
    </section>
  );
 };
