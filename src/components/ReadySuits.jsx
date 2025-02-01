@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { ShoppingBag, MessageCircle, Phone } from 'lucide-react';
 import ProductImageSlider from './ProductImageSlider';
+import SuitCard from './SuitCard';
 import styles from './ReadySuits.module.css';
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 import snegurochka from '../assets/images/suits/snegurochka.jpg';
@@ -8,64 +9,64 @@ import snegurochka01 from '../assets/images/suits/snegurochka_01.png';
 import snegurochka02 from '../assets/images/suits/snegurochka_02.png';
 import snegurochka03 from '../assets/images/suits/snegurochka_03.png';
 
+const suits = [
+  {
+    id: 1,
+    name: "Купальник 'Аврора'",
+    category: "gymnastics",
+    price: 15000,
+    height: "130-139 см.",
+    description: "Гимнастический купальник с кристаллами Swarovski",
+    images: [nonePhoto],
+    available: true,
+    tags: ['Новинка']
+  },
+  {
+    id: 2,
+    name: "Купальник 'Снегурочка'",
+    category: "figure-skating",
+    price: 17000,
+    height: "125-129 см.",
+    description: "Купальник для фигурного катания с градиентом",
+    images: [snegurochka, snegurochka01, snegurochka02, snegurochka03],
+    available: true
+  },
+  {
+    id: 3,
+    name: "Купальник 'Лилия'",
+    category: "gymnastics",
+    price: 16000,
+    height: "до 124 см.",
+    description: "Купальник с цветочным орнаментом",
+    images: [nonePhoto],
+    available: false
+  },
+  {
+    id: 4,
+    name: "Купальник 'Снежинка'",
+    category: "figure-skating",
+    price: 18500,
+    height: "140-154 см.",
+    description: "Купальник для фигурного катания с узором из страз",
+    images: [nonePhoto],
+    available: false
+  },
+  {
+    id: 5,
+    name: "Купальник 'Феникс'",
+    category: "acrobatics",
+    price: 16500,
+    height: "от 155 см.",
+    description: "Купальник для спортивной акробатики с эффектом омбре",
+    images: [nonePhoto],
+    available: true
+  }
+];
+
 function ReadySuits() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
-
-  const suits = [
-    {
-      id: 1,
-      name: "Купальник 'Аврора'",
-      category: "gymnastics",
-      price: 15000,
-      height: "130-139 см.",
-      description: "Гимнастический купальник с кристаллами Swarovski",
-      images: [nonePhoto],
-      available: true,
-      tags: ['Новинка']
-    },
-    {
-      id: 2,
-      name: "Купальник 'Снегурочка'",
-      category: "figure-skating",
-      price: 17000,
-      height: "125-129 см.",
-      description: "Купальник для фигурного катания с градиентом",
-      images: [snegurochka, snegurochka01, snegurochka02, snegurochka03],
-      available: true
-    },
-    {
-      id: 3,
-      name: "Купальник 'Лилия'",
-      category: "gymnastics",
-      price: 16000,
-      height: "до 124 см.",
-      description: "Купальник с цветочным орнаментом",
-      images: [nonePhoto],
-      available: false
-    },
-    {
-      id: 4,
-      name: "Купальник 'Снежинка'",
-      category: "figure-skating",
-      price: 18500,
-      height: "140-154 см.",
-      description: "Купальник для фигурного катания с узором из страз",
-      images: [nonePhoto],
-      available: false
-    },
-    {
-      id: 5,
-      name: "Купальник 'Феникс'",
-      category: "acrobatics",
-      price: 16500,
-      height: "от 155 см.",
-      description: "Купальник для спортивной акробатики с эффектом омбре",
-      images: [nonePhoto],
-      available: true
-    }
-  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,35 +88,37 @@ function ReadySuits() {
     return () => observer.disconnect();
   }, []);
 
-  const filteredSuits = suits.filter(suit => {
-    if (activeFilter === 'all') return true;
-    if (activeFilter === suit.category) return true;
-    if (activeFilter === 'sold') return !suit.available;
-    
-    if (activeFilter.startsWith('available')) {
-      if (!suit.available) return false;
+  const filteredSuits = useMemo(() => {
+    return suits.filter(suit => {
+      if (activeFilter === 'all') return true;
+      if (activeFilter === suit.category) return true;
+      if (activeFilter === 'sold') return !suit.available;
       
-      if (activeFilter === 'available') return true;
-      
-      const heightRange = activeFilter.split('-')[1];
-      switch (heightRange) {
-        case '124':
-          return suit.height === 'до 124 см.';
-        case '129':
-          return suit.height === '125-129 см.';
-        case '139':
-          return suit.height === '130-139 см.';
-        case '154':
-          return suit.height === '140-154 см.';
-        case '155':
-          return suit.height === 'от 155 см.';
-        default:
-          return false;
+      if (activeFilter.startsWith('available')) {
+        if (!suit.available) return false;
+        
+        if (activeFilter === 'available') return true;
+        
+        const heightRange = activeFilter.split('-')[1];
+        switch (heightRange) {
+          case '124':
+            return suit.height === 'до 124 см.';
+          case '129':
+            return suit.height === '125-129 см.';
+          case '139':
+            return suit.height === '130-139 см.';
+          case '154':
+            return suit.height === '140-154 см.';
+          case '155':
+            return suit.height === 'от 155 см.';
+          default:
+            return false;
+        }
       }
-    }
-    
-    return false;
-  });
+      
+      return false;
+    });
+  }, [activeFilter]);
 
   const EmptyState = () => (
     <div className={styles.emptyState}>
@@ -127,11 +130,11 @@ function ReadySuits() {
           и обсуждения деталей.
         </p>
         <div className={styles.emptyStateButtons}>
-          <button className={`${styles.heroPrimary}`}>
+          <button className={styles.heroPrimary}>
             <MessageCircle size={20} />
             Получить консультацию
           </button>
-          <button className={`${styles.heroSecondary}`}>
+          <button className={styles.heroSecondary}>
             <Phone size={20} />
             Оформить заказ
           </button>
@@ -173,49 +176,7 @@ function ReadySuits() {
       {filteredSuits.length > 0 ? (
         <div className={styles.suitsGrid}>
           {filteredSuits.map(suit => (
-            <article key={suit.id} className={styles.suitCard}>
-              <div className={styles.suitImageContainer}>
-                <div className={styles.tagsContainer}>
-                  {suit.tags && suit.tags.map((tag, index) => (
-                    <span key={index} className={styles.tag}>{tag}</span>
-                  ))}
-                  {!suit.available && (
-                    <span className={styles.tagSold}>Продано</span>
-                  )}
-                </div>
-                <ProductImageSlider 
-                  images={suit.images} 
-                  onError={() => nonePhoto}
-                />
-              </div>
-
-              <div className={styles.suitContent}>
-                <div className={styles.suitInfo}>
-                  <h3 className={styles.suitTitle}>{suit.name}</h3>
-                  <p className={styles.suitDescription}>{suit.description}</p>
-                  <div className={`${styles.suitDetails} ${!suit.available ? styles.suitDetailsSold : ''}`}>
-                    <span className={styles.suitSize}>Рост: {suit.height}</span>
-                    {suit.available && (
-                      <span className={styles.suitPrice}>
-                        {suit.price.toLocaleString('ru-RU')} ₽
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {suit.available ? (
-                  <button className={styles.buyBtn}>
-                    <ShoppingBag size={18} />
-                    Купить
-                  </button>
-                ) : (
-                  <button className={styles.orderBtn}>
-                    <ShoppingBag size={18} />
-                    Заказать
-                  </button>
-                )}
-              </div>
-            </article>
+            <SuitCard key={suit.id} suit={suit} />
           ))}
         </div>
       ) : (
