@@ -119,6 +119,7 @@ function ReadySuits() {
       return false;
     });
   }, [activeFilter]);
+  
 
   const EmptyState = () => (
     <div className={styles.emptyState}>
