@@ -1,6 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+// Import review images
+import review001 from '../assets/images/reviews/reviews_001.png';
+import review002 from '../assets/images/reviews/reviews_002.png';
+import review003 from '../assets/images/reviews/reviews_003.png';
+import review004 from '../assets/images/reviews/reviews_004.png';
+import review005 from '../assets/images/reviews/reviews_005.png';
+import review006 from '../assets/images/reviews/reviews_006.png';
+import review007 from '../assets/images/reviews/reviews_007.png';
+import review008 from '../assets/images/reviews/reviews_008.png';
+import review009 from '../assets/images/reviews/reviews_009.png';
+
 const ReviewsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
@@ -9,31 +20,15 @@ const ReviewsSection = () => {
   const trackRef = useRef(null);
 
   const reviews = [
-    {
-      id: 1,
-      author: "Наталья К.",
-      text: "Юля, спасибо за срочность - управились за 6 дней! Сразу видно профессионала - когда хотели добавить длинные свисающие ленты на купальник, объяснила, что по новым правилам в 2024 они запрещены на соревнованиях. Сэкономила время и деньги. Сидит идеально!"
-    },
-    {
-      id: 2,
-      author: "Светлана А.",
-      text: "Мастер от бога! За 5 дней сшила купальник для выступления. Особенно ценно, что учла все особенности - у дочки асимметрия плеч, но благодаря правильному крою этого совершенно не заметно. На первых же соревнованиях получили комплименты от судей за костюм."
-    },
-    {
-      id: 3,
-      author: "Ольга М.",
-      text: "Восторг! Горели со сроками, Юля сделала костюм за 8 дней. Когда я хотела блестящую отделку, объяснила что она даёт блики при софитах и может помешать судьям. Сделали матовый декор, смотрится шикарно. Отдельное спасибо за рекомендации по поводу эластичности ткани для поддержки спины при прогибах."
-    },
-    {
-      id: 4,
-      author: "Марина В.",
-      text: "За три года сшили у Юли уже 4 купальника. Каждый раз как часы - ровно неделя от замеров до готового изделия. Понимает все нюансы: для скручиваний посоветовала особый крой рукавов, для прыжков - специальные швы, чтобы ничего не мешало. Всё-таки опыт мастера, который сам выступал - это бесценно."
-    },
-    {
-      id: 5,
-      author: "Анна К.",
-      text: "Срочно понадобился купальник для показательных. Юля сделала за 4 дня! При этом качество идеальное, всё продумано до мелочей. Теперь только к ней."
-    }
+    { id: 1, image: review001 },
+    { id: 2, image: review002 },
+    { id: 3, image: review003 },
+    { id: 4, image: review004 },
+    { id: 5, image: review005 },
+    { id: 6, image: review006 },
+    { id: 7, image: review007 },
+    { id: 8, image: review008 },
+    { id: 9, image: review009 }
   ];
 
   const minSwipeDistance = 50;
@@ -133,34 +128,20 @@ const ReviewsSection = () => {
           align-items: center;
         }
 
-        .review-content {
-          background: #262626;
-          border: 1px solid #333;
+        .review-image {
+          max-width: 100%;
+          max-height: 500px;
+          object-fit: contain;
           border-radius: 16px;
-          padding: 2rem;
-          width: calc(100% - 40px);
-          max-width: 500px;
-          margin: 0 auto;
-          min-height: 300px;
-          display: flex;
-          flex-direction: column;
+          background: transparent;
         }
 
-        .review-header {
-          margin-bottom: 1.5rem;
+        .carousel-container {
+          background: transparent;
         }
 
-        .review-author {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: #fff;
-        }
-
-        .review-text {
-          color: #ccc;
-          line-height: 1.6;
-          margin: 0;
-          flex: 1;
+        .review-card {
+          background: transparent;
         }
 
         .carousel-button {
@@ -224,17 +205,8 @@ const ReviewsSection = () => {
             touch-action: pan-y pinch-zoom;
           }
 
-          .review-content {
-            padding: 1.5rem;
-            width: calc(100% - 48px);
-            max-width: none;
-            min-height: 300px;
-            margin: 0 24px;
-          }
-
-          .review-text {
-            font-size: 1rem;
-            line-height: 1.6;
+          .review-image {
+            max-height: 400px;
           }
         }
       `}</style>
@@ -266,12 +238,11 @@ const ReviewsSection = () => {
           >
             {reviews.map((review) => (
               <div key={review.id} className="review-card">
-                <div className="review-content">
-                  <div className="review-header">
-                    <div className="review-author">{review.author}</div>
-                  </div>
-                  <p className="review-text">{review.text}</p>
-                </div>
+                <img 
+                  src={review.image} 
+                  alt={`Отзыв ${review.id}`} 
+                  className="review-image" 
+                />
               </div>
             ))}
           </div>
