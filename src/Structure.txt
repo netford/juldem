@@ -1,18 +1,14 @@
-src
-├── assets
-│   ├── images
-│   │   ├── suits
-│   │   │   ├── none_photo.jpg
-│   │   │   ├── snegurochka.jpg
-│   │   │   ├── snegurochka_01.png
-│   │   │   ├── snegurochka_02.png
-│   │   │   ├── snegurochka_03.png
-│   │   ├── half-block.jpg
-│   │   ├── hero-bg.jpg
-│   │   ├── index.js
-│   │   ├── logo.png
-│   │   └── react.svg
-├── components
+src/
+├── assets/
+│   ├── images/
+│   │   ├── none_photo.jpg
+│   │   ├── snegurotchka_01.png
+│   │   ├── snegurotchka_02.png
+│   │   └── snegurotchka_03.png
+│   ├── half-block.jpg
+│   ├── hero-bg.jpg
+│   └── logo.png
+├── components/
 │   ├── About.jsx
 │   ├── ContactsSection.jsx
 │   ├── DeliverySection.jsx
@@ -24,16 +20,24 @@ src
 │   ├── ProductImageSlider.jsx
 │   ├── ProductImageSlider.module.css
 │   ├── ReadySuits.jsx
-│   ├── ReadySuits.module.css
-│   └── ReviewsCarousel.jsx
-├── styles
-│   └── main.css
-├── App.css
-├── App.jsx
-├── App.test.js
-├── index.css
+│   └── ReadySuits.module.css
+├── styles/
+│   ├── main.css
+│   ├── App.css
+│   ├── App.js
+│   └── index.css
 ├── index.js
 ├── logo.svg
 ├── main.jsx
 ├── reportWebVitals.js
-└── setupTests.js
+├── setupTests.js
+└── Structure.txt
+
+Данная структура включает в себя следующие основные компоненты:
+
+assets/: Содержит различные изображения, используемые в проекте.
+components/: Содержит JSX-компоненты, реализующие различные части пользовательского интерфейса.
+styles/: Содержит файлы CSS, используемые для стилизации компонентов.
+index.js и main.jsx: Основные точки входа в приложение.
+reportWebVitals.js и setupTests.js: Вспомогательные файлы, связанные с тестированием и аналитикой производительности.
+Structure.txt: Текстовый файл, содержащий описание структуры проекта.

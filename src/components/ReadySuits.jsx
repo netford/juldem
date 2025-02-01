@@ -197,6 +197,35 @@ function ReadySuits() {
     });
   }, [activeFilter]);
 
+  // Функция для подсчёта количества товаров для каждого фильтра
+  const getCountForFilter = (filter) => {
+    return suits.filter(suit => {
+      if (filter === 'all') return true;
+      if (filter === suit.category) return true;
+      if (filter === 'sold') return !suit.available;
+      if (filter.startsWith('available')) {
+        if (!suit.available) return false;
+        if (filter === 'available') return true;
+        const heightRange = filter.split('-')[1];
+        switch (heightRange) {
+          case '124':
+            return suit.height === 'до 124 см.';
+          case '129':
+            return suit.height === '125-129 см.';
+          case '139':
+            return suit.height === '130-139 см.';
+          case '154':
+            return suit.height === '140-154 см.';
+          case '155':
+            return suit.height === 'от 155 см.';
+          default:
+            return false;
+        }
+      }
+      return false;
+    }).length;
+  };
+
   const EmptyState = () => (
     <div className={styles.emptyState}>
       <div className={styles.emptyStateContent}>
@@ -251,25 +280,49 @@ function ReadySuits() {
           value={activeFilter}
           onChange={(e) => setActiveFilter(e.target.value)}
         >
-          <option value="all" className={styles.mainOption}>Все купальники</option>
+          <option value="all" className={styles.mainOption}>
+            Все купальники ({getCountForFilter('all')})
+          </option>
           <optgroup label="Категории">
-            <option value="gymnastics">Художественная гимнастика</option>
-            <option value="figure-skating">Фигурное катание</option>
-            <option value="acrobatics">Спортивная акробатика</option>
+            <option value="gymnastics">
+              Художественная гимнастика ({getCountForFilter('gymnastics')})
+            </option>
+            <option value="figure-skating">
+              Фигурное катание ({getCountForFilter('figure-skating')})
+            </option>
+            <option value="acrobatics">
+              Спортивная акробатика ({getCountForFilter('acrobatics')})
+            </option>
           </optgroup>
           <optgroup label="В наличии">
-            <option value="available">Все размеры</option>
-            <option value="available-124">до 124 см.</option>
-            <option value="available-129">125-129 см.</option>
-            <option value="available-139">130-139 см.</option>
-            <option value="available-154">140-154 см.</option>
-            <option value="available-155">от 155 см.</option>
+            <option value="available">
+              Все размеры ({getCountForFilter('available')})
+            </option>
+            <option value="available-124">
+              до 124 см. ({getCountForFilter('available-124')})
+            </option>
+            <option value="available-129">
+              125-129 см. ({getCountForFilter('available-129')})
+            </option>
+            <option value="available-139">
+              130-139 см. ({getCountForFilter('available-139')})
+            </option>
+            <option value="available-154">
+              140-154 см. ({getCountForFilter('available-154')})
+            </option>
+            <option value="available-155">
+              от 155 см. ({getCountForFilter('available-155')})
+            </option>
           </optgroup>
-          <option value="sold">Продано</option>
+          <option value="sold">
+            Продано ({getCountForFilter('sold')})
+          </option>
         </select>
       </div>
 
-      {filteredSuits.length > 10 ? (
+      {filteredSuits.length === 0 ? (
+        <EmptyState />
+      ) : filteredSuits.length > 10 ? (
         // Если карточек больше 10 – используем виртуализацию (горизонтальный список)
         <div
           style={{
