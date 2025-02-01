@@ -5,6 +5,7 @@ import ProductImageSlider from './ProductImageSlider';
 import SuitCard from './SuitCard';
 import styles from './ReadySuits.module.css';
 import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 import snegurochka from '../assets/images/suits/snegurochka.jpg';
@@ -71,7 +72,6 @@ function ReadySuits() {
   const [activeFilter, setActiveFilter] = useState('all');
   const sectionRef = useRef(null);
 
-  // Наблюдатель для отложенного рендеринга (если требуется)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -136,18 +136,13 @@ function ReadySuits() {
     </div>
   );
 
-  // Если исходная вёрстка карточек задаётся через CSS-сетку с minmax(300px, 1fr) и gap 2rem,
-  // то для виртуализации в горизонтальном списке зададим фиксированную ширину карточки.
-  const cardWidth = 300;  // базовая ширина карточки
-  const cardHeight = 650; // приблизительная высота карточки (подберите по необходимости)
+  // Задаем фиксированные размеры карточки и отступ (подберите под ваш дизайн)
+  const cardWidth = 300;  // ширина карточки
+  const cardHeight = 650; // высота карточки (примерное значение)
   const gap = 32;         // отступ между карточками (примерно 2rem)
 
-  // Ширина списка – либо суммарная ширина всех карточек с отступами, либо ограниченная ширина окна.
-  const listWidth = Math.min(filteredSuits.length * (cardWidth + gap), window.innerWidth - 40);
-
-  // Компонент для отрисовки одной карточки в горизонтальном списке.
+  // Компонент для отрисовки одной карточки в горизонтальном списке
   const Row = ({ index, style, data }) => {
-    // Корректируем стиль: фиксированная ширина и отступ справа
     const newStyle = {
       ...style,
       width: cardWidth,
@@ -191,22 +186,27 @@ function ReadySuits() {
       </div>
 
       {filteredSuits.length > 0 ? (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <List
-            height={cardHeight}
-            itemCount={filteredSuits.length}
-            itemSize={cardWidth + gap}
-            layout="horizontal"
-            width={listWidth}
-            itemData={filteredSuits}
-          >
-            {Row}
-          </List>
+        <div style={{ display: 'flex', justifyContent: 'center', height: cardHeight }}>
+          <div style={{ width: filteredSuits.length * (cardWidth + gap) - gap, height: cardHeight }}>
+            <AutoSizer>
+              {({ width, height }) => (
+                <List
+                  height={cardHeight}
+                  itemCount={filteredSuits.length}
+                  itemSize={cardWidth + gap}
+                  layout="horizontal"
+                  width={width}
+                  itemData={filteredSuits}
+                >
+                  {Row}
+                </List>
+              )}
+            </AutoSizer>
+          </div>
         </div>
       ) : (
         <EmptyState />
       )}
-
     </section>
   );
 }
