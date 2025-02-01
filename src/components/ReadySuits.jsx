@@ -1,4 +1,4 @@
-// ReadySuits.js
+// ReadySuits.jsx
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { ShoppingBag, MessageCircle, Phone } from 'lucide-react';
 import ProductImageSlider from './ProductImageSlider';
@@ -13,7 +13,7 @@ import snegurochka01 from '../assets/images/suits/snegurochka_01.png';
 import snegurochka02 from '../assets/images/suits/snegurochka_02.png';
 import snegurochka03 from '../assets/images/suits/snegurochka_03.png';
 
-// Вынесение данных товаров за пределы компонента
+// Массив товаров вынесен за пределы компонента
 const suits = [
   {
     id: 1,
@@ -65,13 +65,86 @@ const suits = [
     description: "Купальник для спортивной акробатики с эффектом омбре",
     images: [nonePhoto],
     available: true
+  },
+  {
+    id: 6,
+    name: "Купальник 'Виват'",
+    category: "gymnastics",
+    price: 15500,
+    height: "130-139 см.",
+    description: "Элегантный купальник для гимнастики",
+    images: [nonePhoto],
+    available: true,
+    tags: ['Новинка']
+  },
+  {
+    id: 7,
+    name: "Купальник 'Серебро'",
+    category: "figure-skating",
+    price: 17500,
+    height: "125-129 см.",
+    description: "Купальник для фигурного катания с блестками",
+    images: [snegurochka, snegurochka01],
+    available: true
+  },
+  {
+    id: 8,
+    name: "Купальник 'Роза'",
+    category: "gymnastics",
+    price: 16500,
+    height: "до 124 см.",
+    description: "Купальник с нежным розовым оттенком",
+    images: [nonePhoto],
+    available: false
+  },
+  {
+    id: 9,
+    name: "Купальник 'Вьюга'",
+    category: "figure-skating",
+    price: 19000,
+    height: "140-154 см.",
+    description: "Купальник для фигурного катания с ледяным дизайном",
+    images: [nonePhoto],
+    available: false
+  },
+  {
+    id: 10,
+    name: "Купальник 'Огонёк'",
+    category: "acrobatics",
+    price: 17000,
+    height: "от 155 см.",
+    description: "Купальник для акробатики с огненным дизайном",
+    images: [nonePhoto],
+    available: true
+  },
+  {
+    id: 11,
+    name: "Купальник 'Элегия'",
+    category: "gymnastics",
+    price: 16000,
+    height: "130-139 см.",
+    description: "Купальник для гимнастики с изысканным дизайном",
+    images: [nonePhoto],
+    available: true
+  },
+  {
+    id: 12,
+    name: "Купальник 'Нептун'",
+    category: "figure-skating",
+    price: 18000,
+    height: "125-129 см.",
+    description: "Купальник для фигурного катания с морской тематикой",
+    images: [snegurochka, snegurochka03],
+    available: true
   }
 ];
+
 
 function ReadySuits() {
   const [activeFilter, setActiveFilter] = useState('all');
   const sectionRef = useRef(null);
 
+  // Наблюдатель для отложенного рендеринга (если потребуется)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -85,6 +158,7 @@ function ReadySuits() {
     return () => observer.disconnect();
   }, []);
 
+  // Фильтрация товаров по активному фильтру
   const filteredSuits = useMemo(() => {
     return suits.filter(suit => {
       if (activeFilter === 'all') return true;
@@ -113,6 +187,7 @@ function ReadySuits() {
     });
   }, [activeFilter]);
 
+  // Компонент для отображения состояния пустого результата
   const EmptyState = () => (
     <div className={styles.emptyState}>
       <div className={styles.emptyStateContent}>
@@ -136,12 +211,12 @@ function ReadySuits() {
     </div>
   );
 
-  // Задаем фиксированные размеры карточки и отступ (подберите под ваш дизайн)
+  // Фиксированные размеры для виртуализации (подберите по вашему дизайну)
   const cardWidth = 300;  // ширина карточки
   const cardHeight = 650; // высота карточки (примерное значение)
   const gap = 32;         // отступ между карточками (примерно 2rem)
 
-  // Компонент для отрисовки одной карточки в горизонтальном списке
+  // Компонент для отрисовки одной карточки в виртуализированном горизонтальном списке
   const Row = ({ index, style, data }) => {
     const newStyle = {
       ...style,
@@ -185,11 +260,12 @@ function ReadySuits() {
         </select>
       </div>
 
-      {filteredSuits.length > 0 ? (
+      {filteredSuits.length > 10 ? (
+        // Если карточек больше 10, используем виртуализацию (горизонтальный список)
         <div style={{ display: 'flex', justifyContent: 'center', height: cardHeight }}>
           <div style={{ width: filteredSuits.length * (cardWidth + gap) - gap, height: cardHeight }}>
             <AutoSizer>
-              {({ width, height }) => (
+              {({ width }) => (
                 <List
                   height={cardHeight}
                   itemCount={filteredSuits.length}
@@ -205,7 +281,12 @@ function ReadySuits() {
           </div>
         </div>
       ) : (
-        <EmptyState />
+        // Если карточек 10 или меньше, отображаем их стандартной CSS-сеткой
+        <div className={styles.suitsGrid}>
+          {filteredSuits.map(suit => (
+            <SuitCard key={suit.id} suit={suit} />
+          ))}
+        </div>
       )}
     </section>
   );
