@@ -4,13 +4,15 @@ import { ShoppingBag, MessageCircle, Phone } from 'lucide-react';
 import ProductImageSlider from './ProductImageSlider';
 import SuitCard from './SuitCard';
 import styles from './ReadySuits.module.css';
+import { FixedSizeList as List } from 'react-window';
+
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 import snegurochka from '../assets/images/suits/snegurochka.jpg';
 import snegurochka01 from '../assets/images/suits/snegurochka_01.png';
 import snegurochka02 from '../assets/images/suits/snegurochka_02.png';
 import snegurochka03 from '../assets/images/suits/snegurochka_03.png';
 
-// Массив товаров вынесен за пределы компонента
+// Вынесение данных товаров за пределы компонента
 const suits = [
   {
     id: 1,
@@ -67,24 +69,19 @@ const suits = [
 
 function ReadySuits() {
   const [activeFilter, setActiveFilter] = useState('all');
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
+  // Наблюдатель для отложенного рендеринга (если требуется)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
           observer.unobserve(entry.target);
         }
       },
       { threshold: 0.1 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
@@ -93,11 +90,9 @@ function ReadySuits() {
       if (activeFilter === 'all') return true;
       if (activeFilter === suit.category) return true;
       if (activeFilter === 'sold') return !suit.available;
-
       if (activeFilter.startsWith('available')) {
         if (!suit.available) return false;
         if (activeFilter === 'available') return true;
-
         const heightRange = activeFilter.split('-')[1];
         switch (heightRange) {
           case '124':
@@ -141,6 +136,30 @@ function ReadySuits() {
     </div>
   );
 
+  // Если исходная вёрстка карточек задаётся через CSS-сетку с minmax(300px, 1fr) и gap 2rem,
+  // то для виртуализации в горизонтальном списке зададим фиксированную ширину карточки.
+  const cardWidth = 300;  // базовая ширина карточки
+  const cardHeight = 650; // приблизительная высота карточки (подберите по необходимости)
+  const gap = 32;         // отступ между карточками (примерно 2rem)
+
+  // Ширина списка – либо суммарная ширина всех карточек с отступами, либо ограниченная ширина окна.
+  const listWidth = Math.min(filteredSuits.length * (cardWidth + gap), window.innerWidth - 40);
+
+  // Компонент для отрисовки одной карточки в горизонтальном списке.
+  const Row = ({ index, style, data }) => {
+    // Корректируем стиль: фиксированная ширина и отступ справа
+    const newStyle = {
+      ...style,
+      width: cardWidth,
+      marginRight: gap,
+    };
+    return (
+      <div style={newStyle}>
+        <SuitCard suit={data[index]} />
+      </div>
+    );
+  };
+
   return (
     <section ref={sectionRef} id="our-works" className={styles.readySuitsSection}>
       <div className={styles.sectionHeader}>
@@ -172,14 +191,22 @@ function ReadySuits() {
       </div>
 
       {filteredSuits.length > 0 ? (
-        <div className={styles.suitsGrid}>
-          {filteredSuits.map(suit => (
-            <SuitCard key={suit.id} suit={suit} />
-          ))}
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <List
+            height={cardHeight}
+            itemCount={filteredSuits.length}
+            itemSize={cardWidth + gap}
+            layout="horizontal"
+            width={listWidth}
+            itemData={filteredSuits}
+          >
+            {Row}
+          </List>
         </div>
       ) : (
         <EmptyState />
       )}
+
     </section>
   );
 }
