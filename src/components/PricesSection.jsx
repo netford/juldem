@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Ruler, Crown } from 'lucide-react';
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 const PricesSection = () => {
+  const [showScrollHint, setShowScrollHint] = useState(false);
+  const sectionRef = useRef(null);
+
   const cards = [
     {
       icon: Ruler,
@@ -35,8 +40,64 @@ const PricesSection = () => {
     }
   ];
 
+  // Если мобильное устройство, показываем намёк на скролл на 3 секунды
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      setShowScrollHint(true);
+      const timer = setTimeout(() => {
+        setShowScrollHint(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // Фиксированные размеры для виртуализированного списка
+  const cardWidth = 280;  // ширина карточки (px)
+  const cardHeight = 500; // высота карточки (примерное значение, px)
+  const gap = 16;         // отступ между карточками (px)
+
+  // Компонент для отрисовки одной карточки в виртуализированном горизонтальном списке
+  const Row = ({ index, style, data }) => {
+    const newStyle = {
+      ...style,
+      width: cardWidth,
+      marginRight: gap,
+    };
+    const card = data[index];
+    const Icon = card.icon;
+    return (
+      <div style={newStyle}>
+        <div className={`price-card ${card.isHighlighted ? 'highlighted' : ''}`}>
+          <div className="icon-wrapper">
+            <Icon />
+          </div>
+          
+          <div className="height-range">
+            Рост {card.height} см
+          </div>
+          
+          <div className="price-value">
+            от {card.price}₽
+          </div>
+
+          <div className="additional-info">
+            <div className="additional-title">Дополнительно</div>
+            <ul className="additional-list">
+              <li><strong>Рукав</strong> — 2 500 ₽ (1 шт)</li>
+              <li><strong>Юбка</strong> — 4 000 ₽</li>
+            </ul>
+          </div>
+
+          <button className="price-button">
+            Заказать
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <section id="prices" className="prices-section">
+    <section ref={sectionRef} id="prices" className="prices-section">
       <style>{`
         .prices-section {
           padding: 6rem 0;
@@ -230,6 +291,25 @@ const PricesSection = () => {
             height: auto;
             min-height: 500px;
           }
+
+          .scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 1rem; /* Добавляем отступ для скролла */
+          }
+
+          .scroll-container::-webkit-scrollbar {
+            height: 8px;
+          }
+
+          .scroll-container::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 4px;
+          }
+
+          .scroll-container::-webkit-scrollbar-track {
+            background: #333;
+          }
         }
 
         @media (max-width: 480px) {
@@ -251,41 +331,88 @@ const PricesSection = () => {
           </p>
         </div>
 
-        <div className="prices-grid">
-          {cards.map((card, index) => {
-            const Icon = card.icon;
-            return (
-              <div
-                key={index}
-                className={`price-card ${card.isHighlighted ? 'highlighted' : ''}`}
-              >
-                <div className="icon-wrapper">
-                  <Icon />
-                </div>
-                
-                <div className="height-range">
-                  Рост {card.height} см
-                </div>
-                
-                <div className="price-value">
-                  от {card.price}₽
-                </div>
+        {window.innerWidth <= 768 ? (
+          <div className="scroll-container">
+            <div
+              style={{
+                display: 'flex',
+                width: `${cards.length * (cardWidth + gap)}px`,
+                gap: `${gap}px`,
+              }}
+            >
+              {cards.map((card, index) => {
+                const Icon = card.icon;
+                return (
+                  <div
+                    key={index}
+                    className={`price-card ${card.isHighlighted ? 'highlighted' : ''}`}
+                    style={{ width: `${cardWidth}px` }}
+                  >
+                    <div className="icon-wrapper">
+                      <Icon />
+                    </div>
+                    
+                    <div className="height-range">
+                      Рост {card.height} см
+                    </div>
+                    
+                    <div className="price-value">
+                      от {card.price}₽
+                    </div>
 
-                <div className="additional-info">
-                  <div className="additional-title">Дополнительно</div>
-                  <ul className="additional-list">
-                    <li><strong>Рукав</strong> — 2 500 ₽ (1 шт)</li>
-                    <li><strong>Юбка</strong> — 4 000 ₽</li>
-                  </ul>
-                </div>
+                    <div className="additional-info">
+                      <div className="additional-title">Дополнительно</div>
+                      <ul className="additional-list">
+                        <li><strong>Рукав</strong> — 2 500 ₽ (1 шт)</li>
+                        <li><strong>Юбка</strong> — 4 000 ₽</li>
+                      </ul>
+                    </div>
 
-                <button className="price-button">
-                  Заказать
-                </button>
-              </div>
-            );
-          })}
-        </div>
+                    <button className="price-button">
+                      Заказать
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div className="prices-grid">
+            {cards.map((card, index) => {
+              const Icon = card.icon;
+              return (
+                <div
+                  key={index}
+                  className={`price-card ${card.isHighlighted ? 'highlighted' : ''}`}
+                >
+                  <div className="icon-wrapper">
+                    <Icon />
+                  </div>
+                  
+                  <div className="height-range">
+                    Рост {card.height} см
+                  </div>
+                  
+                  <div className="price-value">
+                    от {card.price}₽
+                  </div>
+
+                  <div className="additional-info">
+                    <div className="additional-title">Дополнительно</div>
+                    <ul className="additional-list">
+                      <li><strong>Рукав</strong> — 2 500 ₽ (1 шт)</li>
+                      <li><strong>Юбка</strong> — 4 000 ₽</li>
+                    </ul>
+                  </div>
+
+                  <button className="price-button">
+                    Заказать
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
