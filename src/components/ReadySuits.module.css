@@ -2,7 +2,7 @@
 :root {
   --color-secondary: #121212;
   --color-white: #ffffff;
-  --color-primary: #007bff;
+  --color-primary: #0066cc;
   --color-accent: #0056b3;
 }
 
@@ -11,72 +11,6 @@
   background: var(--color-secondary);
   color: var(--color-white);
   min-height: 100vh;
-}
-
-.emptyState {
-  padding: 3rem 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-}
-
-.emptyStateContent {
-  max-width: 600px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 3rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.emptyStateText {
-  color: #ccc;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-}
-
-.emptyStateButtons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.heroButton {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.heroPrimary {
-  composes: heroButton;
-  background: var(--color-primary);
-  color: #fff;
-  border: none;
-}
-
-.heroPrimary:hover {
-  background: var(--color-accent);
-  transform: translateY(-2px);
-}
-
-.heroSecondary {
-  composes: heroButton;
-  background: transparent;
-  color: #fff;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-}
-
-.heroSecondary:hover {
-  border-color: #fff;
-  transform: translateY(-2px);
 }
 
 .sectionHeader {
@@ -178,20 +112,6 @@
   overflow: hidden;
 }
 
-.suitImage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.suitCard:hover .suitImage {
-  transform: scale(1.05);
-}
-
 .tagsContainer {
   position: absolute;
   top: 1rem;
@@ -221,7 +141,7 @@
   padding: 1.5rem;
   background: #1a1a1a;
   color: #fff;
-  height: 245px;
+  height: 180px;
   display: flex;
   flex-direction: column;
 }
@@ -233,21 +153,8 @@
 .suitTitle {
   font-size: 1.25rem;
   color: #fff;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.suitDescription {
-  color: #ccc;
   margin-bottom: 1rem;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  height: 3rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  font-weight: 600;
 }
 
 .suitDetails {
@@ -313,6 +220,92 @@
   color: #1a1a1a;
 }
 
+/* Empty State Styles */
+.emptyState {
+  padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.emptyStateContent {
+  max-width: 600px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emptyStateText {
+  color: #ccc;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.emptyStateButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Hero Buttons */
+.heroButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.heroPrimary {
+  composes: heroButton;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+}
+
+.heroPrimary:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.heroSecondary {
+  composes: heroButton;
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.heroSecondary:hover {
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Scroll Hint Animation */
+@keyframes scrollHint {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.scrollHintAnimation {
+  animation: scrollHint 1s ease-in-out;
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
   .readySuitsSection {
     padding: 4rem 0;
@@ -344,22 +337,4 @@
     width: 100%;
     justify-content: center;
   }
-}
-
-/* Новый ключевой кадр для анимации намёка на скролл */
-@keyframes scrollHint {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-10px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-/* Класс для применения анимации намёка на скролл */
-.scrollHintAnimation {
-  animation: scrollHint 1s ease-in-out;
 }

@@ -20,9 +20,9 @@ function App() {
       <ReadySuits />
       <PricesSection />
       <HowToOrder />
-      <ReviewsCarousel />
       <DeliverySection />
       <About />
+      <ReviewsCarousel />
       <ContactsSection />
       <Footer />
 

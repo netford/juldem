@@ -24,7 +24,6 @@ const SuitCard = React.memo(({ suit }) => {
       <div className={styles.suitContent}>
         <div className={styles.suitInfo}>
           <h3 className={styles.suitTitle}>{suit.name}</h3>
-          <p className={styles.suitDescription}>{suit.description}</p>
           <div className={`${styles.suitDetails} ${!suit.available ? styles.suitDetailsSold : ''}`}>
             <span className={styles.suitSize}>Рост: {suit.height}</span>
             {suit.available && (
