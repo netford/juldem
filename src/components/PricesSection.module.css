@@ -50,10 +50,15 @@
     border-color: #0077ef;
   }
   
+  .priceCard {
+    transition: all 0.3s ease; /* Добавьте эту строку */
+    transform: translateY(0);   /* Базовое состояние */
+}
+
   .priceCard:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border-color: #444;
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border-color: #444;
   }
   
   .iconWrapper {
