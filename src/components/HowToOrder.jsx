@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Ruler, Palette, Scissors, Package, Info } from 'lucide-react';
 import VideoModal from './VideoModal';
+import styles from './HowToOrder.module.css';
 
 const steps = [
  {
@@ -62,6 +63,7 @@ const steps = [
 
 const HowToOrder = () => {
  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+ const [showScrollHint, setShowScrollHint] = useState(false);
  const sectionRef = useRef(null);
  const itemsRef = useRef([]);
 
@@ -86,234 +88,100 @@ const HowToOrder = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Если мобильное устройство, показываем намёк на скролл на 3 секунды
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      setShowScrollHint(true);
+      const timer = setTimeout(() => {
+        setShowScrollHint(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
  return (
-   <section id="how-to-order" className="how-to-order-section">
-     <style>{`
-       .how-to-order-section {
-         padding: 6rem 0;
-         background: #1a1a1a;
-         color: #fff;
-       }
-
-       .container {
-         max-width: 1200px;
-         width: 100%;
-         margin: 0 auto;
-         padding: 0;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-       }
-
-       .section-header {
-         text-align: center;
-         margin-bottom: 4rem;
-       }
-
-       .section-title {
-         font-size: clamp(2rem, 4vw, 2.5rem);
-         color: #fff;
-         margin-bottom: 1rem;
-       }
-
-       .steps-container {
-         width: 100%;
-         display: grid;
-         grid-template-columns: repeat(5, 240px);
-         gap: 2rem;
-         margin-bottom: 3rem;
-         transform: translateX(-96px);
-       }
-
-       .step-item {
-         background: #262626;
-         border: 1px solid #333;
-         border-radius: 16px;
-         padding: 2rem;
-         width: 100%;
-       }
-
-       .step-icon {
-         width: 64px;
-         height: 64px;
-         background: var(--color-primary);
-         border-radius: 16px;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         margin: 0 auto 1.5rem;
-       }
-
-       .step-icon svg {
-         width: 32px;
-         height: 32px;
-         color: #fff;
-       }
-
-       .step-title {
-         font-size: 1.25rem;
-         font-weight: 600;
-         color: #fff;
-         margin-bottom: 1.5rem;
-         text-align: center;
-       }
-
-       .step-list {
-         list-style: none;
-         padding: 0;
-         margin: 0;
-       }
-
-       .step-list li {
-         position: relative;
-         padding-left: 1.5rem;
-         margin-bottom: 1rem;
-         color: #ccc;
-         line-height: 1.5;
-       }
-
-       .step-list li:last-child {
-         margin-bottom: 0;
-       }
-
-       .step-list li::before {
-         content: "";
-         position: absolute;
-         left: 0;
-         top: 0.65rem;
-         width: 6px;
-         height: 6px;
-         border-radius: 50%;
-         background: var(--color-primary);
-       }
-
-       .info-container {
-         width: 100%;
-         max-width: 1200px;
-         margin: 0 auto;
-         padding: 2rem;
-         background: #262626;
-         border: 1px solid #333;
-         border-radius: 16px;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         gap: 1.5rem;
-       }
-
-       .info-header {
-         display: flex;
-         align-items: center;
-         gap: 0.75rem;
-       }
-
-       .info-title {
-         font-size: 1.25rem;
-         color: #fff;
-         font-weight: 600;
-       }
-
-       .info-links {
-         display: flex;
-         gap: 2rem;
-         flex-wrap: wrap;
-         justify-content: center;
-       }
-
-       .info-link {
-         color: var(--color-primary);
-         text-decoration: none;
-         padding: 0.5rem 1rem;
-         border: 1px solid var(--color-primary);
-         border-radius: 8px;
-         transition: all 0.3s ease;
-       }
-
-       .info-link:hover {
-         background: var(--color-primary);
-         color: #fff;
-       }
-
-       @media (max-width: 1200px) {
-         .steps-container {
-           grid-template-columns: repeat(3, 1fr);
-           transform: translateX(0);
-         }
-       }
-
-       @media (max-width: 768px) {
-         .how-to-order-section {
-           padding: 4rem 0;
-         }
-         
-         .steps-container {
-           grid-template-columns: 1fr;
-           gap: 1.5rem;
-           transform: translateX(0);
-         }
-
-         .info-container {
-           padding: 1.5rem;
-         }
-
-         .info-links {
-           flex-direction: column;
-           gap: 1rem;
-           width: 100%;
-         }
-
-         .info-link {
-           text-align: center;
-         }
-       }
-     `}</style>
-
-     <div className="container">
-       <div className="section-header">
-         <h2 className="section-title">Как заказать</h2>
+   <section id="how-to-order" className={styles.howToOrderSection}>
+     <div className={styles.container}>
+       <div className={styles.sectionHeader}>
+         <h2 className={styles.sectionTitle}>Как заказать</h2>
        </div>
 
-       <div className="steps-container">
-         {steps.map((step, index) => {
-           const Icon = step.icon;
-           return (
-             <div
-               key={step.id}
-               ref={el => itemsRef.current[index] = el}
-               className="step-item"
-             >
-               <div className="step-icon">
-                 <Icon />
-               </div>
-               <h3 className="step-title">{step.id}. {step.title}</h3>
-               <ul className="step-list">
-                 {step.items.map((item, i) => (
-                   <li key={i}>{item}</li>
-                 ))}
-               </ul>
-             </div>
-           );
-         })}
-       </div>
-
-       <div className="info-container">
-         <div className="info-header">
-           <Info size={24} color="var(--color-primary)" />
-           <h3 className="info-title">Дополнительная информация</h3>
+       {window.innerWidth <= 768 ? (
+         <div className={styles.scrollContainer}>
+           <div 
+             className={`${styles.stepsRow} ${showScrollHint ? styles.scrollHint : ''}`}
+             style={{
+               display: 'flex',
+               width: `${steps.length * (280 + 16)}px`,
+               gap: '16px',
+             }}
+           >
+             {steps.map((step, index) => {
+               const Icon = step.icon;
+               return (
+                 <div
+                   key={step.id}
+                   ref={el => itemsRef.current[index] = el}
+                   className={styles.stepItem}
+                   style={{ width: '280px' }}
+                 >
+                   <div className={styles.stepIcon}>
+                     <Icon />
+                   </div>
+                   <h3 className={styles.stepTitle}>{step.id}. {step.title}</h3>
+                   <ul className={styles.stepList}>
+                     {step.items.map((item, i) => (
+                       <li key={i}>{item}</li>
+                     ))}
+                   </ul>
+                 </div>
+               );
+             })}
+           </div>
          </div>
-         <div className="info-links">
+       ) : (
+         <div className={styles.stepsContainer}>
+           {steps.map((step, index) => {
+             const Icon = step.icon;
+             return (
+               <div
+                 key={step.id}
+                 ref={el => itemsRef.current[index] = el}
+                 className={styles.stepItem}
+               >
+                 <div className={styles.stepIcon}>
+                   <Icon />
+                 </div>
+                 <h3 className={styles.stepTitle}>{step.id}. {step.title}</h3>
+                 <ul className={styles.stepList}>
+                   {step.items.map((item, i) => (
+                     <li key={i}>{item}</li>
+                   ))}
+                 </ul>
+               </div>
+             );
+           })}
+         </div>
+       )}
+
+       <div className={styles.infoContainer}>
+         <div className={styles.infoHeader}>
+           <Info size={24} color="var(--color-primary)" />
+           <h3 className={styles.infoTitle}>Дополнительная информация</h3>
+         </div>
+         <div className={styles.infoLinks}>
            <a 
              href="#" 
              onClick={(e) => {
                e.preventDefault();
                setIsVideoModalOpen(true);
              }}
-             className="info-link"
+             className={styles.infoLink}
            >
              Как снять мерки самостоятельно
            </a>
-           <a href="#" className="info-link">Прокат купальников</a>
-           <a href="#" className="info-link">Договора</a>
+           <a href="#" className={styles.infoLink}>Прокат купальников</a>
+           <a href="#" className={styles.infoLink}>Договора</a>
          </div>
        </div>
      </div>
