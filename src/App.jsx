@@ -17,12 +17,12 @@ function App() {
 
       <Navbar />
       <Hero />
-      <About />
       <ReadySuits />
       <PricesSection />
       <HowToOrder />
       <ReviewsCarousel />
       <DeliverySection />
+      <About />
       <ContactsSection />
       <Footer />
 

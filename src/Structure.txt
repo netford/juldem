@@ -1,45 +1,60 @@
-src/
-    assets/
-        images/
-            suits/
-                none_photo.jpg
-                sneeurochka.jpg
-                sneeurochka_01.png
-                sneeurochka_02.png
-                sneeurochka_03.png
-                half-block.jpg
-                hero-bg.jpg
-            index.js
-            logo.png
-            react.svg
-    components/
-        About.jsx
-        ContactsSection.jsx
-        DeliverySection.jsx
-        Footer.jsx
-        Hero.jsx
-        HowToOrder.jsx
-        Navbar.jsx
-        PricesSection.jsx
-        ProductImageSlider.jsx
-        ProductImageSlider.module.css
-        ReadySuits.jsx
-        ReadySuits.module.css
-        ReviewsCarousel.jsx
-        SuitCard.jsx
-    styles/
-        main.css
-App.css
-App.js
-App.jsx
-App.test.js
-index.css
-index.js
-logo.svg
-main.jsx
-reportWebVitals.js
-setupTests.js
-Structure.txt
+├── App.css
+├── App.js
+├── App.jsx
+├── App.test.js
+├── assets
+│   ├── images
+│   │   ├── half-block.jpg
+│   │   ├── hero-bg.jpg
+│   │   ├── index.js
+│   │   ├── logo.png
+│   │   ├── reviews
+│   │   │   ├── reviews_001.png
+│   │   │   ├── reviews_002.png
+│   │   │   ├── reviews_003.png
+│   │   │   ├── reviews_004.png
+│   │   │   ├── reviews_005.png
+│   │   │   ├── reviews_006.png
+│   │   │   ├── reviews_007.png
+│   │   │   ├── reviews_008.png
+│   │   │   └── reviews_009.png
+│   │   └── suits
+│   │       ├── none_photo.jpg
+│   │       ├── snegurochka.jpg
+│   │       ├── snegurochka_01.png
+│   │       ├── snegurochka_02.png
+│   │       └── snegurochka_03.png
+│   └── react.svg
+├── components
+│   ├── About.jsx
+│   ├── ContactsSection.jsx
+│   ├── DeliverySection.jsx
+│   ├── DeliverySection.module.css
+│   ├── Footer.jsx
+│   ├── Hero.jsx
+│   ├── HowToOrder.jsx
+│   ├── HowToOrder.module.css
+│   ├── Navbar.jsx
+│   ├── PricesSection.jsx
+│   ├── PricesSection.module.css
+│   ├── ProductImageSlider.jsx
+│   ├── ProductImageSlider.module.css
+│   ├── ReadySuits.jsx
+│   ├── ReadySuits.module.css
+│   ├── RentalModal.jsx
+│   ├── ReviewsCarousel.jsx
+│   ├── SuitCard.jsx
+│   └── VideoModal.jsx
+├── index.css
+├── index.js
+├── logo.svg
+├── main.jsx
+├── reportWebVitals.js
+├── setupTests.js
+├── Structure.txt
+└── styles
+    └── main.css
+
 
 Данная структура включает в себя следующие основные компоненты:
 
