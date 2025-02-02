@@ -1,0 +1,192 @@
+.deliverySection {
+    padding: 6rem 0;
+    background: #1a1a1a;
+    color: #fff;
+  }
+  
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .sectionHeader {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  
+  .sectionTitle {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  
+  .deliveryGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .deliveryCard {
+    background: #262626;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 2rem;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .deliveryCard.highlighted {
+    background: linear-gradient(135deg, #0066cc, #0052a3);
+    border-color: #0077ef;
+  }
+  
+  .deliveryCard:hover {
+    transform: translateY(-10px) !important;
+    border-color: #444;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Анимация появления карточки */
+  .visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+    margin: 0 auto 1.5rem;
+  }
+  
+  .deliveryCard:hover .iconWrapper {
+    transform: scale(1.1) rotate(5deg);
+  }
+  
+  .deliveryTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .deliveryDescription {
+    color: #ccc;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+  
+  .deliveryInfo {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .infoItem {
+    text-align: center;
+  }
+  
+  .infoLabel {
+    color: #999;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .infoValue {
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .calcButton {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .calcButton:hover {
+    background: var(--color-accent);
+  }
+  
+  /* Анимация для подсказки скролла */
+  @keyframes scrollHint {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  .scrollHint {
+    animation: scrollHint 1s ease-in-out;
+  }
+  
+  .scrollContainer {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+  
+  .scrollContainer::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .scrollContainer::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 4px;
+  }
+  
+  .scrollContainer::-webkit-scrollbar-track {
+    background: #333;
+  }
+  
+  .deliveryRow {
+    transition: transform 0.3s ease;
+  }
+  
+  @media (max-width: 1200px) {
+    .deliveryGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .deliverySection {
+      padding: 4rem 0;
+    }
+  
+    .deliveryGrid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  
+    .deliveryCard {
+      padding: 1.5rem;
+    }
+  
+    .container {
+      padding: 0 1rem;
+    }
+  }
