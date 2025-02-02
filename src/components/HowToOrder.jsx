@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Ruler, Palette, Scissors, Package, Info } from 'lucide-react';
 import VideoModal from './VideoModal';
+import RentalModal from './RentalModal';
 import styles from './HowToOrder.module.css';
 
 const steps = [
@@ -63,6 +64,7 @@ const steps = [
 
 const HowToOrder = () => {
  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+ const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
  const [showScrollHint, setShowScrollHint] = useState(false);
  const sectionRef = useRef(null);
  const itemsRef = useRef([]);
@@ -180,7 +182,16 @@ const HowToOrder = () => {
            >
              Как снять мерки самостоятельно
            </a>
-           <a href="#" className={styles.infoLink}>Прокат купальников</a>
+           <a 
+             href="#" 
+             onClick={(e) => {
+               e.preventDefault();
+               setIsRentalModalOpen(true);
+             }}
+             className={styles.infoLink}
+           >
+             Прокат купальников
+           </a>
            <a href="#" className={styles.infoLink}>Договора</a>
          </div>
        </div>
@@ -190,6 +201,11 @@ const HowToOrder = () => {
        isOpen={isVideoModalOpen}
        onClose={() => setIsVideoModalOpen(false)}
        videoSource="/videos/merki_min.webm"
+     />
+
+     <RentalModal
+       isOpen={isRentalModalOpen}
+       onClose={() => setIsRentalModalOpen(false)}
      />
    </section>
  );
