@@ -6,135 +6,172 @@ import SuitCard from './SuitCard';
 import styles from './ReadySuits.module.css';
 import { FixedSizeList as List } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
-
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
-import snegurochka from '../assets/images/suits/snegurochka.jpg';
-import snegurochka01 from '../assets/images/suits/snegurochka_01.png';
-import snegurochka02 from '../assets/images/suits/snegurochka_02.png';
-import snegurochka03 from '../assets/images/suits/snegurochka_03.png';
+
 
 // Массив товаров (12 карточек)
 const suits = [
   {
     id: 1,
-    name: "Купальник 'Аврора'",
-    category: "gymnastics",
+    name: "Купальник 'Радужный'",
+    category: "acrobatics",
     price: 15000,
     height: "130-139 см.",
     description: "Гимнастический купальник с кристаллами Swarovski",
-    images: [nonePhoto],
-    available: true,
-    tags: ['Новинка']
+    images: ['images/products/categories/acrobatics/photo_000.webp',
+             'images/products/categories/acrobatics/photo_001.webp',
+             'images/products/categories/acrobatics/photo_002.webp',
+             'images/products/categories/acrobatics/photo_003.webp',
+             'images/products/categories/acrobatics/photo_004.webp'
+            ],
+    available: false
   },
   {
     id: 2,
-    name: "Купальник 'Снегурочка'",
+    name: "Купальник 'Рубин'",
     category: "figure-skating",
     price: 17000,
     height: "125-129 см.",
     description: "Купальник для фигурного катания с градиентом",
-    images: [snegurochka, snegurochka01, snegurochka02, snegurochka03],
-    available: true
+    images: ['images/products/categories/acrobatics/photo_003.png'],
+    available: false
   },
   {
     id: 3,
-    name: "Купальник 'Лилия'",
-    category: "gymnastics",
+    name: "Купальник 'Сияние'",
+    category: "acrobatics",
     price: 16000,
     height: "до 124 см.",
     description: "Купальник с цветочным орнаментом",
-    images: [nonePhoto],
+    images: ['images/products/categories/acrobatics/photo_002.png'],
     available: false
   },
   {
     id: 4,
-    name: "Купальник 'Снежинка'",
+    name: "Купальник 'Сказка'",
     category: "figure-skating",
     price: 18500,
     height: "140-154 см.",
     description: "Купальник для фигурного катания с узором из страз",
-    images: [nonePhoto],
+    images: ['images/products/categories/figure-skating/photo_001.png'],
     available: false
   },
   {
     id: 5,
-    name: "Купальник 'Феникс'",
-    category: "acrobatics",
+    name: "Купальник 'Лазурит'",
+    category: "figure-skating",
     price: 16500,
     height: "от 155 см.",
     description: "Купальник для спортивной акробатики с эффектом омбре",
-    images: [nonePhoto],
-    available: true
+    images: ['images/products/categories/figure-skating/photo_002.png',
+             'images/products/categories/figure-skating/photo_003.png'
+            ],
+    available: false
   },
   {
     id: 6,
-    name: "Купальник 'Виват'",
-    category: "gymnastics",
+    name: "Купальник 'Фуксия'",
+    category: "figure-skating",
     price: 15500,
     height: "130-139 см.",
     description: "Элегантный купальник для гимнастики",
-    images: [nonePhoto],
-    available: true,
-    tags: ['Новинка']
+    images: ['images/products/categories/figure-skating/photo_004.png'],
+    available: false
   },
   {
     id: 7,
-    name: "Купальник 'Серебро'",
+    name: "Купальник 'Персея'",
     category: "figure-skating",
     price: 17500,
     height: "125-129 см.",
     description: "Купальник для фигурного катания с блестками",
-    images: [snegurochka, snegurochka01],
-    available: true
+    images: ['images/products/categories/figure-skating/photo_005.png'],
+    available: false
   },
   {
     id: 8,
-    name: "Купальник 'Роза'",
-    category: "gymnastics",
+    name: "Купальник 'Каскад'",
+    category: "figure-skating",
     price: 16500,
     height: "до 124 см.",
     description: "Купальник с нежным розовым оттенком",
-    images: [nonePhoto],
+    images: ['images/products/categories/figure-skating/photo_006.png'],
     available: false
   },
   {
     id: 9,
-    name: "Купальник 'Вьюга'",
-    category: "figure-skating",
+    name: "Купальник 'Лаванда'",
+    category: "gymnastics",
     price: 19000,
     height: "140-154 см.",
     description: "Купальник для фигурного катания с ледяным дизайном",
-    images: [nonePhoto],
+    images: ['images/products/categories/gymnastics/photo_001.png',
+             'images/products/categories/gymnastics/photo_002.png'
+            ],
     available: false
   },
   {
     id: 10,
-    name: "Купальник 'Огонёк'",
-    category: "acrobatics",
+    name: "Купальник 'Феникс'",
+    category: "gymnastics",
     price: 17000,
     height: "от 155 см.",
     description: "Купальник для акробатики с огненным дизайном",
-    images: [nonePhoto],
-    available: true
+    images: ['images/products/categories/gymnastics/photo_003.png'],
+    available: false
   },
   {
     id: 11,
-    name: "Купальник 'Элегия'",
+    name: "Купальник 'Тропикана'",
     category: "gymnastics",
     price: 16000,
     height: "130-139 см.",
     description: "Купальник для гимнастики с изысканным дизайном",
-    images: [nonePhoto],
-    available: true
+    images: ['images/products/categories/gymnastics/photo_004.png',
+             'images/products/categories/gymnastics/photo_005.png',
+             'images/products/categories/gymnastics/photo_006.png'
+            ],
+    available: false
   },
   {
     id: 12,
-    name: "Купальник 'Нептун'",
-    category: "figure-skating",
+    name: "Купальник 'Волна'",
+    category: "gymnastics",
     price: 18000,
     height: "125-129 см.",
     description: "Купальник для фигурного катания с морской тематикой",
-    images: [snegurochka, snegurochka03],
+    images: ['images/products/categories/gymnastics/photo_007.png'],
+    available: false
+  },
+
+  {
+    id: 13,
+    name: "Купальник 'Вулкан'",
+    category: "gymnastics",
+    price: 18000,
+    height: "125-129 см.",
+    description: "Купальник для фигурного катания с морской тематикой",
+    images: ['images/products/categories/gymnastics/photo_008.png'],
+    available: false
+  },
+  {
+    id: 14,
+    name: "Купальник 'Византия'",
+    category: "gymnastics",
+    price: 18000,
+    height: "125-129 см.",
+    description: "Купальник для фигурного катания с морской тематикой",
+    images: ['images/products/categories/gymnastics/photo_009.png'],
+    available: false
+  },
+  {
+    id: 15,
+    name: "Купальник 'Гранат'",
+    category: "gymnastics",
+    price: 35000,
+    height: "от 155 см.",
+    description: "Купальник для фигурного катания с морской тематикой",
+    images: ['images/products/categories/gymnastics/photo_010.png'],
     available: true
   }
 ];
