@@ -7,57 +7,38 @@ import styles from './HowToOrder.module.css';
 const steps = [
  {
    id: 1,
-   title: 'Консультация',
+   title: 'Заявка',
    icon: MessageSquare,
    items: [
-     'Обсуждаем ваши пожелания и требования',
-     'Помогаем с выбором модели, материалов и декора', 
-     'Учитываем регламент соревнований',
-     'Проводим консультацию онлайн или в нашей мастерской'
+     'Обсуждаем ваши требования и пожелания',
+     'Согласовываем основные параметры заказа'
    ]
  },
  {
    id: 2,
-   title: 'Замеры',
-   icon: Ruler,
+   title: 'Дизайн',
+   icon: Palette,
    items: [
-     'Предоставляем подробную инструкцию по снятию мерок',
-     'Принимаем готовые мерки или помогаем их правильно снять',
-     'Учитываем особенности телосложения и пожелания по посадке',
-     'Создаём индивидуальную выкройку'
+     'Создаём эскиз с учетом требований соревнований',
+     'Подбираем материалы и декоративные элементы'
    ]
  },
  {
    id: 3,
-   title: 'Дизайн',
-   icon: Palette,
+   title: 'Производство',
+   icon: Scissors,
    items: [
-     'Разрабатываем эскиз с учётом ваших пожеланий',
-     'Подбираем оптимальное сочетание цветов и материалов',
-     'Рассчитываем расположение декоративных элементов',
-     'Утверждаем финальный дизайн с учётом правил федерации'
+     'Изготавливаем купальник по вашим меркам',
+     'Выполняем декорирование и отделку'
    ]
  },
  {
    id: 4,
-   title: 'Пошив',
-   icon: Scissors,
-   items: [
-     'Изготавливаем купальник по индивидуальным меркам',
-     'Используем профессиональное оборудование',
-     'Выполняем ручную отделку и декорирование',
-     'Проводим примерку и корректировки при необходимости'
-   ]
- },
- {
-   id: 5,
-   title: 'Отправка',
+   title: 'Доставка',
    icon: Package,
    items: [
-     'Бережно упаковываем изделие',
-     'Предоставляем трек-номер для отслеживания',
-     'Отправляем любой удобной для вас транспортной компанией',
-     'Принимаем оплату после примерки'
+     'Отправляем заказ удобным для вас способом',
+     'Предоставляем трек-номер для отслеживания'
    ]
  }
 ];
@@ -105,7 +86,7 @@ const HowToOrder = () => {
    <section id="how-to-order" className={styles.howToOrderSection}>
      <div className={styles.container}>
        <div className={styles.sectionHeader}>
-         <h2 className={styles.sectionTitle}>Как заказать</h2>
+         <h2 className={styles.sectionTitle}>Как мы работаем</h2>
        </div>
 
        {window.innerWidth <= 768 ? (
@@ -128,7 +109,7 @@ const HowToOrder = () => {
                    style={{ width: '280px' }}
                  >
                    <div className={styles.stepIcon}>
-                     <Icon />
+                     <Icon size={24} />
                    </div>
                    <h3 className={styles.stepTitle}>{step.id}. {step.title}</h3>
                    <ul className={styles.stepList}>
@@ -152,7 +133,7 @@ const HowToOrder = () => {
                  className={styles.stepItem}
                >
                  <div className={styles.stepIcon}>
-                   <Icon />
+                   <Icon size={24} />
                  </div>
                  <h3 className={styles.stepTitle}>{step.id}. {step.title}</h3>
                  <ul className={styles.stepList}>
@@ -167,10 +148,6 @@ const HowToOrder = () => {
        )}
 
        <div className={styles.infoContainer}>
-         <div className={styles.infoHeader}>
-           <Info size={24} color="var(--color-primary)" />
-           <h3 className={styles.infoTitle}>Дополнительная информация</h3>
-         </div>
          <div className={styles.infoLinks}>
            <a 
              href="#" 
@@ -180,7 +157,7 @@ const HowToOrder = () => {
              }}
              className={styles.infoLink}
            >
-             Как снять мерки самостоятельно
+             Как снять мерки
            </a>
            <a 
              href="#" 
@@ -192,7 +169,7 @@ const HowToOrder = () => {
            >
              Прокат купальников
            </a>
-           <a href="#" className={styles.infoLink}>Договора</a>
+           <a href="#" className={styles.infoLink}>Договор</a>
          </div>
        </div>
      </div>

@@ -26,7 +26,7 @@ const Navbar = () => {
           <a href="#about" className="nav-link">О нас</a>
           <a href="#our-works" className="nav-link">Наши работы</a>
           <a href="#prices" className="nav-link">Цены</a>
-          <a href="#how-to-order" className="nav-link">Как заказать</a>
+          <a href="#how-to-order" className="nav-link">Как мы работаем</a>
           <a href="#delivery" className="nav-link">Доставка</a>
           <a href="#contacts" className="nav-link">Контакты</a>
         </div>
@@ -71,7 +71,7 @@ const Navbar = () => {
         <a href="#about" className="nav-link" onClick={() => setIsOpen(false)}>О нас</a>
         <a href="#our-works" className="nav-link" onClick={() => setIsOpen(false)}>Наши работы</a>
         <a href="#prices" className="nav-link" onClick={() => setIsOpen(false)}>Цены</a>
-        <a href="#how-to-order" className="nav-link" onClick={() => setIsOpen(false)}>Как заказать</a>
+        <a href="#how-to-order" className="nav-link" onClick={() => setIsOpen(false)}>Как мы работаем</a>
         <a href="#delivery" className="nav-link" onClick={() => setIsOpen(false)}>Доставка</a>
         <a href="#contacts" className="nav-link" onClick={() => setIsOpen(false)}>Контакты</a>
       </div>
