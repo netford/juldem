@@ -14,10 +14,9 @@ const suits = [
   {
     id: 1,
     name: "Купальник 'Радужный'",
-    category: "acrobatics",
+    category: "acrobatics_gymnastics",
     price: 15000,
     height: "130-139 см.",
-    description: "Гимнастический купальник с кристаллами Swarovski",
     images: ['images/products/categories/acrobatics_gymnastics/photo_0000.webp',
              'images/products/categories/acrobatics_gymnastics/photo_0000 (2).webp',
              'images/products/categories/acrobatics_gymnastics/photo_0000 (3).webp',
@@ -32,17 +31,15 @@ const suits = [
     category: "figure-skating",
     price: 17000,
     height: "125-129 см.",
-    description: "Купальник для фигурного катания с градиентом",
     images: ['images/products/categories/acrobatics_gymnastics/photo_0000 (2).png'],
     available: false
   },
   {
     id: 3,
     name: "Купальник 'Сияние'",
-    category: "acrobatics",
+    category: "acrobatics_gymnastics",
     price: 16000,
     height: "до 124 см.",
-    description: "Купальник с цветочным орнаментом",
     images: ['images/products/categories/acrobatics_gymnastics/photo_0000.png'],
     available: false
   },
@@ -52,7 +49,6 @@ const suits = [
     category: "figure-skating",
     price: 18500,
     height: "140-154 см.",
-    description: "Купальник для фигурного катания с узором из страз",
     images: ['images/products/categories/figure-skating/photo_001.png'],
     available: false
   },
@@ -62,7 +58,6 @@ const suits = [
     category: "figure-skating",
     price: 16500,
     height: "от 155 см.",
-    description: "Купальник для спортивной акробатики с эффектом омбре",
     images: ['images/products/categories/figure-skating/photo_002.png',
              'images/products/categories/figure-skating/photo_003.png'
             ],
@@ -74,7 +69,6 @@ const suits = [
     category: "figure-skating",
     price: 15500,
     height: "130-139 см.",
-    description: "Элегантный купальник для гимнастики",
     images: ['images/products/categories/figure-skating/photo_004.png'],
     available: false
   },
@@ -84,7 +78,6 @@ const suits = [
     category: "figure-skating",
     price: 17500,
     height: "125-129 см.",
-    description: "Купальник для фигурного катания с блестками",
     images: ['images/products/categories/figure-skating/photo_005.png'],
     available: false
   },
@@ -94,17 +87,15 @@ const suits = [
     category: "figure-skating",
     price: 16500,
     height: "до 124 см.",
-    description: "Купальник с нежным розовым оттенком",
     images: ['images/products/categories/figure-skating/photo_006.png'],
     available: false
   },
   {
     id: 9,
     name: "Купальник 'Лаванда'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 19000,
     height: "140-154 см.",
-    description: "Купальник для фигурного катания с ледяным дизайном",
     images: ['images/products/categories/acrobatics_gymnastics/photo_001.png',
              'images/products/categories/acrobatics_gymnastics/photo_002.png'
             ],
@@ -113,20 +104,18 @@ const suits = [
   {
     id: 10,
     name: "Купальник 'Феникс'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 17000,
     height: "от 155 см.",
-    description: "Купальник для акробатики с огненным дизайном",
     images: ['images/products/categories/acrobatics_gymnastics/photo_003.png'],
     available: false
   },
   {
     id: 11,
     name: "Купальник 'Тропикана'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 16000,
     height: "130-139 см.",
-    description: "Купальник для гимнастики с изысканным дизайном",
     images: ['images/products/categories/acrobatics_gymnastics/photo_004.png',
              'images/products/categories/acrobatics_gymnastics/photo_005.png',
              'images/products/categories/acrobatics_gymnastics/photo_006.png'
@@ -136,31 +125,27 @@ const suits = [
   {
     id: 12,
     name: "Купальник 'Волна'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 18000,
     height: "125-129 см.",
-    description: "Купальник для фигурного катания с морской тематикой",
     images: ['images/products/categories/acrobatics_gymnastics/photo_007.png'],
     available: false
   },
-
   {
     id: 13,
     name: "Купальник 'Вулкан'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 18000,
     height: "125-129 см.",
-    description: "Купальник для фигурного катания с морской тематикой",
     images: ['images/products/categories/acrobatics_gymnastics/photo_008.png'],
     available: false
   },
   {
     id: 14,
     name: "Купальник 'Византия'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 18000,
     height: "125-129 см.",
-    description: "Купальник для фигурного катания с морской тематикой",
     images: ['images/products/categories/acrobatics_gymnastics/photo_009.png',
              'images/products/categories/acrobatics_gymnastics/photo_009(2).png'
             ],
@@ -169,20 +154,18 @@ const suits = [
   {
     id: 15,
     name: "Купальник 'Гранат'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 35000,
     height: "от 155 см.",
-    description: "Купальник для фигурного катания с морской тематикой",
     images: ['images/products/categories/acrobatics_gymnastics/photo_010.png'],
     available: true
   },
   {
     id: 16,
     name: "Купальник 'Аметист'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 35000,
     height: "от 155 см.",
-    description: "Купальник для фигурного катания с морской тематикой",
     images: ['images/products/categories/acrobatics_gymnastics/photo_018.png',
     'images/products/categories/acrobatics_gymnastics/photo_019.webp',
     'images/products/categories/acrobatics_gymnastics/photo_020.png',
@@ -193,10 +176,9 @@ const suits = [
   {
     id: 17,
     name: "Купальник 'Бабочка'",
-    category: "gymnastics",
+    category: "acrobatics_gymnastics",
     price: 35000,
     height: "от 155 см.",
-    description: "Купальник для фигурного катания с морской тематикой",
     images: ['images/products/categories/acrobatics_gymnastics/photo_017.png',
     'images/products/categories/acrobatics_gymnastics/photo_022.png'
             ],
@@ -349,14 +331,11 @@ function ReadySuits() {
             Все купальники ({getCountForFilter('all')})
           </option>
           <optgroup label="Категории">
-            <option value="gymnastics">
-              Художественная гимнастика ({getCountForFilter('gymnastics')})
+            <option value="acrobatics_gymnastics">
+              Акробатика/Гимнастика ({getCountForFilter('acrobatics_gymnastics')})
             </option>
             <option value="figure-skating">
               Фигурное катание ({getCountForFilter('figure-skating')})
-            </option>
-            <option value="acrobatics">
-              Спортивная акробатика ({getCountForFilter('acrobatics')})
             </option>
           </optgroup>
           <optgroup label="В наличии">
