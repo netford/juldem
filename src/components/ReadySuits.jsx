@@ -9,7 +9,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 
 
-// Массив товаров (12 карточек)
+// Массив товаров
 const suits = [
   {
     id: 1,
@@ -183,6 +183,16 @@ const suits = [
     'images/products/categories/acrobatics_gymnastics/photo_022.png'
             ],
     available: true
+  },
+  // Демопример купальника для проката
+  {
+    id: 18,
+    name: "Купальник 'Венера'",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: "130-139 см.",
+    images: ['images/products/categories/acrobatics_gymnastics/photo_017.png'],
+    available: true
   }
 ];
 
@@ -218,12 +228,19 @@ function ReadySuits() {
 
   const filteredSuits = useMemo(() => {
     return suits.filter(suit => {
+      // Если выбран фильтр по категории или все купальники
       if (activeFilter === 'all') return true;
       if (activeFilter === suit.category) return true;
-      if (activeFilter === 'sold') return !suit.available;
+      
+      // Для фильтра "Продано" - исключаем категорию "renta"
+      if (activeFilter === 'sold') 
+        return !suit.available && suit.category !== 'renta';
+      
+      // Для группы фильтров "В наличии" - исключаем категорию "renta"
       if (activeFilter.startsWith('available')) {
-        if (!suit.available) return false;
+        if (!suit.available || suit.category === 'renta') return false;
         if (activeFilter === 'available') return true;
+        
         const heightRange = activeFilter.split('-')[1];
         switch (heightRange) {
           case '124':
@@ -247,12 +264,19 @@ function ReadySuits() {
   // Функция для подсчёта количества товаров для каждого фильтра
   const getCountForFilter = (filter) => {
     return suits.filter(suit => {
+      // Если выбран фильтр по категории или все купальники
       if (filter === 'all') return true;
       if (filter === suit.category) return true;
-      if (filter === 'sold') return !suit.available;
+      
+      // Для фильтра "Продано" - исключаем категорию "renta"
+      if (filter === 'sold') 
+        return !suit.available && suit.category !== 'renta';
+      
+      // Для группы фильтров "В наличии" - исключаем категорию "renta"
       if (filter.startsWith('available')) {
-        if (!suit.available) return false;
+        if (!suit.available || suit.category === 'renta') return false;
         if (filter === 'available') return true;
+        
         const heightRange = filter.split('-')[1];
         switch (heightRange) {
           case '124':
@@ -337,6 +361,9 @@ function ReadySuits() {
             <option value="figure-skating">
               Фигурное катание ({getCountForFilter('figure-skating')})
             </option>
+            <option value="renta">
+              Прокат ({getCountForFilter('renta')})
+            </option>
           </optgroup>
           <optgroup label="В наличии">
             <option value="available">
@@ -397,7 +424,10 @@ function ReadySuits() {
         // Если карточек 10 или меньше – отображаем их стандартной CSS-сеткой
         <div className={styles.suitsGrid}>
           {filteredSuits.map(suit => (
-            <SuitCard key={suit.id} suit={suit} />
+            <SuitCard 
+              key={suit.id} 
+              suit={suit} 
+            />
           ))}
         </div>
       )}
