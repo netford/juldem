@@ -16,7 +16,7 @@ const suits = [
     name: "Купальник 'Радужный'",
     category: "acrobatics_gymnastics",
     price: 15000,
-    height: "до 124 см.",
+    height: [120,124],
     images: ['images/products/categories/acrobatics_gymnastics/photo_0000.webp',
              'images/products/categories/acrobatics_gymnastics/photo_0000 (2).webp',
              'images/products/categories/acrobatics_gymnastics/photo_0000 (3).webp',
@@ -30,7 +30,7 @@ const suits = [
     name: "Купальник 'Гранат'",
     category: "acrobatics_gymnastics",
     price: 35000,
-    height: "от 155 см.",
+    height: [164],
     images: ['images/products/categories/acrobatics_gymnastics/photo_010.png'],
     available: true
   },
@@ -39,9 +39,9 @@ const suits = [
     name: "Купальник 'Бабочка'",
     category: "acrobatics_gymnastics",
     price: 30000,
-    height: "140-154 см.",
-    images: ['images/products/categories/acrobatics_gymnastics/photo_017.png',
-    'images/products/categories/acrobatics_gymnastics/photo_022.png'
+    height: [144],
+    images: ['images/products/categories/acrobatics_gymnastics/babochka_000.png',
+    'images/products/categories/acrobatics_gymnastics/babochka_001.png'
             ],
     available: true
   },
@@ -50,7 +50,7 @@ const suits = [
     name: "Купальник 'Рубин'",
     category: "figure-skating",
     price: 17000,
-    height: "125-129 см.",
+    height: [125, 129],
     images: ['images/products/categories/acrobatics_gymnastics/photo_0000 (2).png'],
     available: false
   },
@@ -59,7 +59,7 @@ const suits = [
     name: "Купальник 'Сияние'",
     category: "acrobatics_gymnastics",
     price: 16000,
-    height: "до 124 см.",
+    height: [122],
     images: ['images/products/categories/acrobatics_gymnastics/photo_0000.png'],
     available: false
   },
@@ -68,7 +68,7 @@ const suits = [
     name: "Купальник 'Сказка'",
     category: "figure-skating",
     price: 18500,
-    height: "140-154 см.",
+    height: [140, 154],
     images: ['images/products/categories/figure-skating/photo_001.png'],
     available: false
   },
@@ -77,7 +77,7 @@ const suits = [
     name: "Купальник 'Лазурит'",
     category: "figure-skating",
     price: 16500,
-    height: "от 155 см.",
+    height: [160],
     images: ['images/products/categories/figure-skating/photo_002.png',
              'images/products/categories/figure-skating/photo_003.png'
             ],
@@ -88,7 +88,7 @@ const suits = [
     name: "Купальник 'Фуксия'",
     category: "figure-skating",
     price: 15500,
-    height: "130-139 см.",
+    height: [130, 139],
     images: ['images/products/categories/figure-skating/photo_004.png'],
     available: false
   },
@@ -97,7 +97,7 @@ const suits = [
     name: "Купальник 'Персея'",
     category: "figure-skating",
     price: 17500,
-    height: "125-129 см.",
+    height: [125, 129],
     images: ['images/products/categories/figure-skating/photo_005.png'],
     available: false
   },
@@ -106,7 +106,7 @@ const suits = [
     name: "Купальник 'Каскад'",
     category: "figure-skating",
     price: 16500,
-    height: "до 124 см.",
+    height: [120],
     images: ['images/products/categories/figure-skating/photo_006.png'],
     available: false
   },
@@ -115,7 +115,7 @@ const suits = [
     name: "Купальник 'Лаванда'",
     category: "acrobatics_gymnastics",
     price: 19000,
-    height: "140-154 см.",
+    height: [140, 154],
     images: ['images/products/categories/acrobatics_gymnastics/photo_001.png',
              'images/products/categories/acrobatics_gymnastics/photo_002.png'
             ],
@@ -126,7 +126,7 @@ const suits = [
     name: "Купальник 'Феникс'",
     category: "acrobatics_gymnastics",
     price: 17000,
-    height: "от 155 см.",
+    height: [158],
     images: ['images/products/categories/acrobatics_gymnastics/photo_003.png'],
     available: false
   },
@@ -135,7 +135,7 @@ const suits = [
     name: "Купальник 'Тропикана'",
     category: "acrobatics_gymnastics",
     price: 16000,
-    height: "130-139 см.",
+    height: [130, 139],
     images: ['images/products/categories/acrobatics_gymnastics/photo_004.png',
              'images/products/categories/acrobatics_gymnastics/photo_005.png',
              'images/products/categories/acrobatics_gymnastics/photo_006.png'
@@ -147,7 +147,7 @@ const suits = [
     name: "Купальник 'Волна'",
     category: "acrobatics_gymnastics",
     price: 18000,
-    height: "125-129 см.",
+    height: [125, 129],
     images: ['images/products/categories/acrobatics_gymnastics/photo_007.png'],
     available: false
   },
@@ -156,7 +156,7 @@ const suits = [
     name: "Купальник 'Вулкан'",
     category: "acrobatics_gymnastics",
     price: 18000,
-    height: "125-129 см.",
+    height: [125, 129],
     images: ['images/products/categories/acrobatics_gymnastics/photo_008.png'],
     available: false
   },
@@ -165,7 +165,7 @@ const suits = [
     name: "Купальник 'Византия'",
     category: "acrobatics_gymnastics",
     price: 18000,
-    height: "125-129 см.",
+    height: [125, 129],
     images: ['images/products/categories/acrobatics_gymnastics/photo_009.png',
              'images/products/categories/acrobatics_gymnastics/photo_009(2).png'
             ],
@@ -176,7 +176,7 @@ const suits = [
     name: "Купальник 'Аметист'",
     category: "acrobatics_gymnastics",
     price: 35000,
-    height: "от 155 см.",
+    height: [155, 165],
     images: ['images/products/categories/acrobatics_gymnastics/photo_018.png',
     'images/products/categories/acrobatics_gymnastics/photo_019.webp',
     'images/products/categories/acrobatics_gymnastics/photo_020.png',
@@ -189,7 +189,7 @@ const suits = [
     name: "Купальник 'Бабочка'",
     category: "acrobatics_gymnastics",
     price: 35000,
-    height: "140-154 см.",
+    height: [140, 154],
     images: ['images/products/categories/acrobatics_gymnastics/photo_017.png',
     'images/products/categories/acrobatics_gymnastics/photo_022.png'
             ],
@@ -197,11 +197,11 @@ const suits = [
   }
 
   // {
-  //   id: 18,
+  //   id: 19,
   //   name: "Купальник 'Венера'",
   //   category: "renta",
   //   price: 2500, // Цена за неделю проката
-  //   height: "130-139 см.",
+  //   height: [130, 139],
   //   images: ['images/products/categories/acrobatics_gymnastics/photo_017.png'],
   //   available: true
   // }
@@ -255,15 +255,38 @@ function ReadySuits() {
         const heightRange = activeFilter.split('-')[1];
         switch (heightRange) {
           case '124':
-            return suit.height === 'до 124 см.';
+            // Для проверки "до 124 см."
+            return (suit.height.length === 1 && suit.height[0] <= 124) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] <= 124) || 
+                    (suit.height[1] <= 124)));
           case '129':
-            return suit.height === '125-129 см.';
+            // Для проверки "125-129 см."
+            return (suit.height.length === 1 && suit.height[0] >= 125 && suit.height[0] <= 129) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] >= 125 && suit.height[0] <= 129) || 
+                    (suit.height[1] >= 125 && suit.height[1] <= 129) ||
+                    (suit.height[0] < 125 && suit.height[1] > 129)));
           case '139':
-            return suit.height === '130-139 см.';
+            // Для проверки "130-139 см."
+            return (suit.height.length === 1 && suit.height[0] >= 130 && suit.height[0] <= 139) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] >= 130 && suit.height[0] <= 139) || 
+                    (suit.height[1] >= 130 && suit.height[1] <= 139) ||
+                    (suit.height[0] < 130 && suit.height[1] > 139)));
           case '154':
-            return suit.height === '140-154 см.';
+            // Для проверки "140-154 см."
+            return (suit.height.length === 1 && suit.height[0] >= 140 && suit.height[0] <= 154) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] >= 140 && suit.height[0] <= 154) || 
+                    (suit.height[1] >= 140 && suit.height[1] <= 154) ||
+                    (suit.height[0] < 140 && suit.height[1] > 154)));
           case '155':
-            return suit.height === 'от 155 см.';
+            // Для проверки "от 155 см."
+            return (suit.height.length === 1 && suit.height[0] >= 155) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] >= 155) || 
+                    (suit.height[1] >= 155)));
           default:
             return false;
         }
@@ -291,15 +314,38 @@ function ReadySuits() {
         const heightRange = filter.split('-')[1];
         switch (heightRange) {
           case '124':
-            return suit.height === 'до 124 см.';
+            // Для проверки "до 124 см."
+            return (suit.height.length === 1 && suit.height[0] <= 124) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] <= 124) || 
+                    (suit.height[1] <= 124)));
           case '129':
-            return suit.height === '125-129 см.';
+            // Для проверки "125-129 см."
+            return (suit.height.length === 1 && suit.height[0] >= 125 && suit.height[0] <= 129) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] >= 125 && suit.height[0] <= 129) || 
+                    (suit.height[1] >= 125 && suit.height[1] <= 129) ||
+                    (suit.height[0] < 125 && suit.height[1] > 129)));
           case '139':
-            return suit.height === '130-139 см.';
+            // Для проверки "130-139 см."
+            return (suit.height.length === 1 && suit.height[0] >= 130 && suit.height[0] <= 139) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] >= 130 && suit.height[0] <= 139) || 
+                    (suit.height[1] >= 130 && suit.height[1] <= 139) ||
+                    (suit.height[0] < 130 && suit.height[1] > 139)));
           case '154':
-            return suit.height === '140-154 см.';
+            // Для проверки "140-154 см."
+            return (suit.height.length === 1 && suit.height[0] >= 140 && suit.height[0] <= 154) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] >= 140 && suit.height[0] <= 154) || 
+                    (suit.height[1] >= 140 && suit.height[1] <= 154) ||
+                    (suit.height[0] < 140 && suit.height[1] > 154)));
           case '155':
-            return suit.height === 'от 155 см.';
+            // Для проверки "от 155 см."
+            return (suit.height.length === 1 && suit.height[0] >= 155) || 
+                   (suit.height.length === 2 && 
+                   ((suit.height[0] >= 155) || 
+                    (suit.height[1] >= 155)));
           default:
             return false;
         }

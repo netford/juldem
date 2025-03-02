@@ -137,6 +137,12 @@
   color: #1a1a1a;
 }
 
+.tagAvailable {
+  composes: tag;
+  background: var(--color-primary); /* Тот же цвет, что и у кнопки "Купить" */
+  color: #fff;
+}
+
 .suitContent {
   padding: 1.5rem;
   background: #1a1a1a;
