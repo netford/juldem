@@ -16,12 +16,32 @@ const suits = [
     name: "Купальник 'Радужный'",
     category: "acrobatics_gymnastics",
     price: 15000,
-    height: "130-139 см.",
+    height: "до 124 см.",
     images: ['images/products/categories/acrobatics_gymnastics/photo_0000.webp',
              'images/products/categories/acrobatics_gymnastics/photo_0000 (2).webp',
              'images/products/categories/acrobatics_gymnastics/photo_0000 (3).webp',
              'images/products/categories/acrobatics_gymnastics/photo_0000 (4).webp',
              'images/products/categories/acrobatics_gymnastics/photo_0000 (5).webp'
+            ],
+    available: true
+  },
+  {
+    id: 15,
+    name: "Купальник 'Гранат'",
+    category: "acrobatics_gymnastics",
+    price: 35000,
+    height: "от 155 см.",
+    images: ['images/products/categories/acrobatics_gymnastics/photo_010.png'],
+    available: true
+  },
+  {
+    id: 18,
+    name: "Купальник 'Бабочка'",
+    category: "acrobatics_gymnastics",
+    price: 30000,
+    height: "140-154 см.",
+    images: ['images/products/categories/acrobatics_gymnastics/photo_017.png',
+    'images/products/categories/acrobatics_gymnastics/photo_022.png'
             ],
     available: true
   },
@@ -152,15 +172,6 @@ const suits = [
     available: false
   },
   {
-    id: 15,
-    name: "Купальник 'Гранат'",
-    category: "acrobatics_gymnastics",
-    price: 35000,
-    height: "от 155 см.",
-    images: ['images/products/categories/acrobatics_gymnastics/photo_010.png'],
-    available: true
-  },
-  {
     id: 16,
     name: "Купальник 'Аметист'",
     category: "acrobatics_gymnastics",
@@ -171,29 +182,29 @@ const suits = [
     'images/products/categories/acrobatics_gymnastics/photo_020.png',
     'images/products/categories/acrobatics_gymnastics/photo_021.webp'
             ],
-    available: true
+    available: false
   },
   {
     id: 17,
     name: "Купальник 'Бабочка'",
     category: "acrobatics_gymnastics",
     price: 35000,
-    height: "от 155 см.",
+    height: "140-154 см.",
     images: ['images/products/categories/acrobatics_gymnastics/photo_017.png',
     'images/products/categories/acrobatics_gymnastics/photo_022.png'
             ],
-    available: true
-  },
-  // Демопример купальника для проката
-  {
-    id: 18,
-    name: "Купальник 'Венера'",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: "130-139 см.",
-    images: ['images/products/categories/acrobatics_gymnastics/photo_017.png'],
-    available: true
+    available: false
   }
+
+  // {
+  //   id: 18,
+  //   name: "Купальник 'Венера'",
+  //   category: "renta",
+  //   price: 2500, // Цена за неделю проката
+  //   height: "130-139 см.",
+  //   images: ['images/products/categories/acrobatics_gymnastics/photo_017.png'],
+  //   available: true
+  // }
 ];
 
 function ReadySuits() {
