@@ -10,11 +10,11 @@ import ReviewsCarousel from './components/ReviewsCarousel'
 import DeliverySection from './components/DeliverySection'
 import ContactsSection from './components/ContactsSection'
 import Footer from './components/Footer'
+import OrderModal from './components/OrderModal'
 
 function App() {
   return (
     <>
-
       <Navbar />
       <Hero />
       <ReadySuits />
@@ -25,7 +25,6 @@ function App() {
       <ReviewsCarousel />
       <ContactsSection />
       <Footer />
-
    </>
  )
 }
