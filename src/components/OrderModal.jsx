@@ -105,7 +105,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
   };
 
   // Обработка отправки формы
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Получаем только цифры из телефона
@@ -124,30 +124,100 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     // Форматируем телефон для отправки
     const formattedPhone = '+7 ' + formData.phone;
     
-    // Подготавливаем данные для отправки
-    const submitData = {
-      ...formData,
-      phone: formattedPhone,
-      product: {
-        name: product.name,
-        height: product.height,
-        price: product.price
+    // Получаем читаемый формат времени с конкретной датой
+    const getReadableTime = (callTimeValue) => {
+      if (!callTimeValue) return 'Не указано';
+      
+      const [day, hour] = callTimeValue.split('-');
+      const hourNum = parseInt(hour, 10);
+      
+      const today = new Date();
+      const targetDate = new Date();
+      
+      if (day === 'tomorrow') {
+        targetDate.setDate(today.getDate() + 1);
       }
+      
+      // Форматируем дату в формате ММ.ДД.ГГГГ
+      const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+      const date = String(targetDate.getDate()).padStart(2, '0');
+      const year = targetDate.getFullYear();
+      
+      const formattedDate = `${month}.${date}.${year}`;
+      
+      return `${formattedDate} с ${hourNum}:00 до ${hourNum + 1}:00`;
+    };
+
+    // Получаем простое отображение дня (сегодня/завтра) для уведомления пользователю
+    const getSimpleDay = (callTimeValue) => {
+      if (!callTimeValue) return '';
+      
+      const [day, hour] = callTimeValue.split('-');
+      const hourNum = parseInt(hour, 10);
+      
+      const dayText = day === 'today' ? 'сегодня' : 'завтра';
+      return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
     };
     
-    // Здесь можно добавить логику отправки данных
-    console.log('Отправляем данные:', submitData);
+    // Форматируем сообщение для Telegram
+    const message = `
+📝 *НОВЫЙ ЗАКАЗ* 📝
+
+🛍️ *Товар:* ${product.name}
+📏 *Рост:* ${product.height}
+💰 *Цена:* ${product.price.toLocaleString('ru-RU')} руб.
+
+👤 *Клиент:* ${formData.name}
+📞 *Телефон:* ${formattedPhone}
+🕒 *Удобное время для звонка:* ${getReadableTime(formData.callTime)}
+    `.trim();
     
-    // Имитация успешной отправки
-    setError({
-      isOpen: true,
-      message: 'Спасибо за заказ! Мы свяжемся с вами в ближайшее время.'
-    });
+    const botToken = '7964652895:AAF2XFFz8stkwABk7Hdo2tOOVj0QhPglMYU';
+    const chatId = '6249732484';
     
-    // После закрытия оповещения закрываем модальное окно
-    setTimeout(() => {
-      onClose();
-    }, 3000);
+    try {
+      // Отправляем сообщение через Telegram API
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'Markdown'
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.ok) {
+        // Формируем персонализированное сообщение успеха
+        const successMessage = `Спасибо за заказ, ${formData.name}! Мы свяжемся с вами ${getSimpleDay(formData.callTime)}.`;
+        
+        // Успешная отправка
+        setError({
+          isOpen: true,
+          message: successMessage
+        });
+        
+        // После закрытия оповещения закрываем модальное окно
+        setTimeout(() => {
+          onClose();
+        }, 10000);
+      } else {
+        // Ошибка на стороне API Telegram
+        throw new Error(data.description || 'Telegram API error');
+      }
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+      
+      // Показываем сообщение об ошибке
+      setError({
+        isOpen: true,
+        message: 'Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.'
+      });
+    }
   };
 
   // Закрытие окна с ошибкой
