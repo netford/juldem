@@ -14,6 +14,19 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     isOpen: false,
     message: ''
   });
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Определение мобильного устройства
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Генерация временных слотов при открытии модального окна
   useEffect(() => {
@@ -268,43 +281,43 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     alignItems: 'flex-start', // Изменено с center на flex-start
     justifyContent: 'center',
     zIndex: 9999,
-    padding: '2rem',
+    padding: isMobile ? '1rem' : '2rem',
     overflow: 'auto' // Обеспечиваем прокрутку
   };
 
   // Стили для модального окна
   const modalStyles = {
     background: '#262626',
-    borderRadius: '16px',
+    borderRadius: isMobile ? '12px' : '16px',
     maxWidth: '600px',
-    width: '100%',
+    width: isMobile ? 'calc(100% - 20px)' : '100%', // Почти полная ширина на мобильных
     position: 'relative',
-    padding: '2.5rem',
+    padding: isMobile ? '1.5rem' : '2.5rem',
     color: '#fff',
     boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-    margin: '50px auto' // Добавляем отступ сверху и автоматические отступы по бокам
+    margin: isMobile ? '30px 10px' : '50px auto'
   };
 
   const headingStyles = {
-    fontSize: '2rem',
-    marginBottom: '1.5rem',
+    fontSize: isMobile ? '1.6rem' : '2rem',
+    marginBottom: isMobile ? '1rem' : '1.5rem',
     color: '#fff',
     textAlign: 'center'
   };
 
   const productInfoStyles = {
     display: 'flex',
-    gap: '15px',
-    marginBottom: '1.5rem',
+    gap: isMobile ? '10px' : '15px',
+    marginBottom: isMobile ? '1rem' : '1.5rem',
     background: 'rgba(0,0,0,0.2)',
-    padding: '15px',
+    padding: isMobile ? '10px' : '15px',
     borderRadius: '8px'
   };
 
   const productImageStyles = {
-    width: '90px',
-    height: '90px',
-    minWidth: '90px',
+    width: isMobile ? '70px' : '90px',
+    height: isMobile ? '70px' : '90px',
+    minWidth: isMobile ? '70px' : '90px',
     borderRadius: '6px',
     overflow: 'hidden',
     background: '#1a1a1a',
@@ -322,7 +335,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
   };
 
   const productNameStyles = {
-    fontSize: '1.1rem',
+    fontSize: isMobile ? '1rem' : '1.1rem',
     fontWeight: 600,
     marginBottom: '5px',
     color: '#fff'
@@ -330,20 +343,20 @@ const OrderModal = ({ isOpen, onClose, product }) => {
 
   const productParamsStyles = {
     color: '#ccc',
-    fontSize: '0.95rem',
+    fontSize: isMobile ? '0.9rem' : '0.95rem',
     lineHeight: 1.5
   };
 
   const noteStyles = {
-    fontSize: '0.9rem',
+    fontSize: isMobile ? '0.8rem' : '0.9rem',
     color: '#ccc',
-    marginBottom: '1.5rem'
+    marginBottom: isMobile ? '1rem' : '1.5rem'
   };
 
   const formStyles = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '15px'
+    gap: isMobile ? '12px' : '15px'
   };
 
   const formGroupStyles = {
@@ -354,27 +367,27 @@ const OrderModal = ({ isOpen, onClose, product }) => {
 
   const labelStyles = {
     color: '#ccc',
-    fontSize: '0.9rem'
+    fontSize: isMobile ? '0.85rem' : '0.9rem'
   };
 
   const inputStyles = {
-    padding: '10px 15px',
+    padding: isMobile ? '8px 12px' : '10px 15px',
     borderRadius: '8px',
     border: '1px solid #444',
     background: '#1a1a1a',
     color: '#fff',
-    fontSize: '1rem'
+    fontSize: isMobile ? '0.95rem' : '1rem'
   };
 
   const buttonStyles = {
     display: 'block',
     width: '100%',
-    padding: '1rem',
+    padding: isMobile ? '0.8rem' : '1rem',
     backgroundColor: 'var(--color-primary, #0066cc)',
     color: '#fff',
     border: 'none',
     borderRadius: '8px',
-    fontSize: '1rem',
+    fontSize: isMobile ? '0.95rem' : '1rem',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     marginTop: '10px'
@@ -383,12 +396,12 @@ const OrderModal = ({ isOpen, onClose, product }) => {
   // Стили для кнопки закрытия
   const closeButtonStyles = {
     position: 'absolute',
-    top: '1rem',
-    right: '1rem',
+    top: isMobile ? '0.5rem' : '1rem',
+    right: isMobile ? '0.5rem' : '1rem',
     background: 'rgba(0, 0, 0, 0.7)',
     border: '2px solid rgba(255, 255, 255, 0.5)',
-    width: '44px',
-    height: '44px',
+    width: isMobile ? '36px' : '44px',
+    height: isMobile ? '36px' : '44px',
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
@@ -397,7 +410,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     color: 'white',
     zIndex: 2,
     transition: 'all 0.3s ease',
-    padding: '8px'
+    padding: isMobile ? '6px' : '8px'
   };
 
   // Создаем портал для рендеринга модального окна в конце body
@@ -421,7 +434,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
               e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
             }}
           >
-            <X size={28} strokeWidth={2.5} />
+            <X size={isMobile ? 22 : 28} strokeWidth={2.5} />
           </button>
 
           <h2 style={headingStyles}>Оформление заказа</h2>
@@ -497,7 +510,11 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 value={formData.callTime} 
                 onChange={handleChange} 
                 required
-                style={{...inputStyles, appearance: 'none'}}
+                style={{
+                  ...inputStyles, 
+                  appearance: 'none',
+                  height: isMobile ? '40px' : 'auto'
+                }}
               >
                 <option value="">Выберите время</option>
                 {timeSlots.map(slot => (
