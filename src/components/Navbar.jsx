@@ -180,9 +180,9 @@ const Navbar = () => {
           }
 
           .phone-link.mobile {
-            text-align: center;
-            width: 100%;
-            display: block;
+            text-align: left;
+            padding-left: 0;
+            font-size: 1.3rem;
           }
 
           .phone-link:hover {
@@ -214,18 +214,14 @@ const Navbar = () => {
             }
 
             .nav-container.mobile {
-              position: relative;
               display: grid;
               grid-template-columns: auto 1fr auto;
               gap: 0;
-              height: 80px;
             }
 
             .mobile .nav-left {
               justify-content: flex-start;
               padding-left: 0;
-              z-index: 1;
-              position: relative;
             }
 
             .mobile .logo {
@@ -235,27 +231,19 @@ const Navbar = () => {
 
             .mobile .nav-right {
               justify-content: flex-end;
-              z-index: 1;
-              position: relative;
             }
 
             .mobile .nav-center {
-              position: absolute;
-              left: 0;
-              right: 0;
-              top: 0;
-              bottom: 0;
               display: flex;
-              justify-content: center;
+              justify-content: flex-start;
               align-items: center;
-              text-align: center;
-              z-index: 0;
+              text-align: left;
+              margin-left: 15px;
             }
 
             .mobile .phone-link {
               white-space: nowrap;
-              font-size: 1.3rem;
-              text-align: center;
+              text-align: left;
             }
 
             @media (max-width: 360px) {
