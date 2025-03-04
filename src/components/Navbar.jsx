@@ -49,8 +49,7 @@ const Navbar = () => {
         </div>
 
         <div className="nav-center">
-          <a href="tel:+79196853312" className="phone-link">
-            <Phone size={18} />
+          <a href="tel:+79196853312" className="phone-link mobile">
             +7 (919) 685-33-12
           </a>
         </div>
@@ -174,14 +173,20 @@ const Navbar = () => {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: white !important;
+            color: #00e2fc !important;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
           }
 
+          .phone-link.mobile {
+            text-align: center;
+            width: 100%;
+            display: block;
+          }
+
           .phone-link:hover {
-            color: var(--color-primary) !important;
+            color: white !important;
           }
 
           .burger {
@@ -209,38 +214,58 @@ const Navbar = () => {
             }
 
             .nav-container.mobile {
+              position: relative;
               display: grid;
-              grid-template-columns: 1fr 1fr 1fr;
+              grid-template-columns: auto 1fr auto;
               gap: 0;
+              height: 80px;
             }
 
             .mobile .nav-left {
               justify-content: flex-start;
-            }
-
-            .mobile .nav-right {
-              justify-content: flex-end;
-            }
-
-            .mobile .nav-center {
-              display: flex;
-              justify-content: center;
-              align-items: center;
+              padding-left: 0;
+              z-index: 1;
+              position: relative;
             }
 
             .mobile .logo {
               height: 40px;
+              margin-left: 0;
+            }
+
+            .mobile .nav-right {
+              justify-content: flex-end;
+              z-index: 1;
+              position: relative;
+            }
+
+            .mobile .nav-center {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              z-index: 0;
             }
 
             .mobile .phone-link {
               white-space: nowrap;
-              font-size: 0.9rem;
+              font-size: 1.3rem;
+              text-align: center;
             }
 
             @media (max-width: 360px) {
               .mobile .phone-link {
-                font-size: 0.8rem;
+                font-size: 1.1rem;
               }
+            }
+
+            .navbar-container {
+              padding-left: 0;
             }
 
             .nav-links.mobile {
