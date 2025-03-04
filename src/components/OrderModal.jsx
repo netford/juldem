@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import ErrorAlert from './ErrorAlert';
+import ReactDOM from 'react-dom';
 
 const OrderModal = ({ isOpen, onClose, product }) => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,15 @@ const OrderModal = ({ isOpen, onClose, product }) => {
         phone: '',
         callTime: ''
       });
+      
+      // Блокируем прокрутку страницы при открытии модального окна
+      document.body.style.overflow = 'hidden';
     }
+
+    return () => {
+      // Разрешаем прокрутку страницы при закрытии модального окна
+      document.body.style.overflow = 'auto';
+    };
   }, [isOpen]);
 
   // Функция генерации временных слотов
@@ -228,6 +237,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     });
   };
 
+  // Обработка нажатия клавиши ESC для закрытия модального окна
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
@@ -237,17 +247,16 @@ const OrderModal = ({ isOpen, onClose, product }) => {
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
     };
   }, [isOpen, onClose]);
 
   if (!isOpen || !product) return null;
 
+  // Стили для внешнего контейнера модального окна (оверлей)
   const overlayStyles = {
     position: 'fixed',
     top: 0,
@@ -256,23 +265,24 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start', // Изменено с center на flex-start
     justifyContent: 'center',
     zIndex: 9999,
-    padding: '2rem'
+    padding: '2rem',
+    overflow: 'auto' // Обеспечиваем прокрутку
   };
 
+  // Стили для модального окна
   const modalStyles = {
     background: '#262626',
     borderRadius: '16px',
     maxWidth: '600px',
     width: '100%',
-    maxHeight: '90vh',
-    overflowY: 'auto',
     position: 'relative',
     padding: '2.5rem',
     color: '#fff',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+    margin: '50px auto' // Добавляем отступ сверху и автоматические отступы по бокам
   };
 
   const headingStyles = {
@@ -370,7 +380,29 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     marginTop: '10px'
   };
 
-  return (
+  // Стили для кнопки закрытия
+  const closeButtonStyles = {
+    position: 'absolute',
+    top: '1rem',
+    right: '1rem',
+    background: 'rgba(0, 0, 0, 0.7)',
+    border: '2px solid rgba(255, 255, 255, 0.5)',
+    width: '44px',
+    height: '44px',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    color: 'white',
+    zIndex: 2,
+    transition: 'all 0.3s ease',
+    padding: '8px'
+  };
+
+  // Создаем портал для рендеринга модального окна в конце body
+  // Это помогает избежать проблем с z-index и позиционированием
+  const modalContent = (
     <>
       <div 
         style={overlayStyles} 
@@ -379,24 +411,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
         <div style={modalStyles}>
           <button
             onClick={onClose}
-            style={{
-              position: 'absolute',
-              top: '1rem',
-              right: '1rem',
-              background: 'rgba(0, 0, 0, 0.7)',
-              border: '2px solid rgba(255, 255, 255, 0.5)',
-              width: '44px',
-              height: '44px',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: 'white',
-              zIndex: 2,
-              transition: 'all 0.3s ease',
-              padding: '8px'
-            }}
+            style={closeButtonStyles}
             onMouseOver={(e) => {
               e.currentTarget.style.background = 'rgba(0, 0, 0, 0.9)';
               e.currentTarget.style.borderColor = 'white';
@@ -516,6 +531,12 @@ const OrderModal = ({ isOpen, onClose, product }) => {
         message={error.message}
       />
     </>
+  );
+
+  // Используем ReactDOM.createPortal для рендеринга модального окна в конце body
+  return ReactDOM.createPortal(
+    modalContent, 
+    document.body
   );
 };
 
