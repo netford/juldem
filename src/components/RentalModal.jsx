@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
-import { X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { X, DollarSign, Shield, Star, ShoppingBag, ChevronDown, ChevronUp, Users, Calendar, HelpCircle } from 'lucide-react';
 
 const RentalModal = ({ isOpen, onClose }) => {
+  const [showDetails, setShowDetails] = useState(false);
+  
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
@@ -38,58 +40,135 @@ const RentalModal = ({ isOpen, onClose }) => {
 
   const modalStyles = {
     background: '#262626',
-    borderRadius: '16px',
-    maxWidth: '600px',
+    borderRadius: '20px',
+    maxWidth: '500px',
     width: '100%',
-    maxHeight: '90vh',
-    overflowY: 'auto',
     position: 'relative',
     padding: '2.5rem',
     color: '#fff',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+    boxShadow: 'inset 0 0 10px rgba(0,0,0,0.2), 0 15px 35px rgba(0,0,0,0.4)'
   };
 
   const headingStyles = {
     fontSize: '2rem',
-    marginBottom: '1.5rem',
+    marginBottom: '2rem',
     color: '#fff',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: '600'
   };
 
-  const sectionStyles = {
-    marginBottom: '1.5rem'
+  const listItemContainerStyles = {
+    display: 'flex',
+    alignItems: 'flex-start',
+    marginBottom: '1.2rem',
+    gap: '12px'
   };
-
-  const listStyles = {
-    listStyleType: 'none',
-    padding: 0
+  
+  const itemTextStyles = {
+    fontSize: '1.1rem',
+    lineHeight: '1.4',
+    flex: 1
   };
-
-  const listItemStyles = {
-    marginBottom: '0.75rem',
-    paddingLeft: '1.5rem',
-    position: 'relative'
+  
+  const iconContainerStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '36px',
+    height: '36px',
+    background: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '10px',
+    color: '#fff',
+    marginTop: '2px',
+    flexShrink: 0
   };
-
-  const listItemDotStyles = {
-    content: '•',
-    position: 'absolute',
-    left: 0,
-    top: '0.2em',
-    color: 'var(--color-primary)'
+  
+  const priceHighlightStyles = {
+    color: '#00e2fc', 
+    fontWeight: 'bold',
+    fontSize: '1.25rem'
   };
-
-  const buttonStyles = {
-    display: 'block',
+  
+  const detailsButtonStyles = {
+    display: 'flex',
     width: '100%',
-    padding: '1rem',
-    backgroundColor: 'var(--color-primary)',
+    padding: '0.8rem',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    color: '#aaa',
+    border: '1px solid rgba(255, 255, 255, 0.15)',
+    borderRadius: '12px',
+    fontSize: '0.95rem',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    marginBottom: '1.25rem',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px'
+  };
+  
+  const mainButtonStyles = {
+    display: 'flex',
+    width: '100%',
+    padding: '1.1rem',
+    backgroundColor: '#0088cc',
     color: '#fff',
     border: 'none',
-    borderRadius: '8px',
-    fontSize: '1rem',
+    borderRadius: '12px',
+    fontSize: '1.05rem',
+    fontWeight: '600',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease'
+    transition: 'background-color 0.3s ease, transform 0.2s ease',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '10px'
+  };
+  
+  const detailsContainerStyles = {
+    marginBottom: '1.5rem',
+    padding: '0',
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderRadius: '12px',
+    fontSize: '0.95rem',
+    color: '#bbb',
+    display: showDetails ? 'block' : 'none',
+    borderLeft: '3px solid #00e2fc',
+    overflow: 'hidden'
+  };
+  
+  const detailsSectionStyles = {
+    padding: '1.2rem',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.07)',
+    display: 'flex',
+    gap: '15px',
+    alignItems: 'flex-start'
+  };
+  
+  const detailsIconStyles = {
+    width: '28px',
+    height: '28px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    marginTop: '2px'
+  };
+  
+  const detailsTitleStyles = {
+    fontSize: '1rem',
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: '0.5rem'
+  };
+  
+  const detailsTextStyles = {
+    fontSize: '0.95rem',
+    lineHeight: '1.5',
+    color: '#ccc'
+  };
+  
+  const highlightTextStyles = {
+    color: '#FFD700', 
+    fontWeight: '500'
   };
 
   return (
@@ -102,12 +181,12 @@ const RentalModal = ({ isOpen, onClose }) => {
           onClick={onClose}
           style={{
             position: 'absolute',
-            top: '1rem',
-            right: '1rem',
-            background: 'rgba(0, 0, 0, 0.7)',
-            border: '2px solid rgba(255, 255, 255, 0.5)',
-            width: '44px',
-            height: '44px',
+            top: '1.2rem',
+            right: '1.2rem',
+            background: 'rgba(0, 0, 0, 0.5)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            width: '40px',
+            height: '40px',
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
@@ -115,86 +194,127 @@ const RentalModal = ({ isOpen, onClose }) => {
             cursor: 'pointer',
             color: 'white',
             zIndex: 2,
-            transition: 'all 0.3s ease',
-            padding: '8px'
+            transition: 'all 0.2s ease',
+            padding: '0'
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.background = 'rgba(0, 0, 0, 0.9)';
-            e.currentTarget.style.borderColor = 'white';
+            e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.7)';
+            e.currentTarget.style.transform = 'scale(1.05)';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            e.currentTarget.style.background = 'rgba(0, 0, 0, 0.5)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <X size={28} strokeWidth={2.5} />
+          <X size={22} strokeWidth={2.5} />
         </button>
 
         <h2 style={headingStyles}>Прокат спортивных купальников</h2>
 
-        <section style={sectionStyles}>
-          <h3>Для кого:</h3>
-          <ul style={listStyles}>
-            {[
-              'Начинающие гимнастки и фигуристки',
-              'Спортсменки, которым нужен костюм на короткий период',
-              'Те, кто хочет попробовать перед покупкой'
-            ].map((item, index) => (
-              <li key={index} style={listItemStyles}>
-                <span style={listItemDotStyles}>•</span> {item}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section style={sectionStyles}>
-          <h3>Особые условия проката:</h3>
-          <ul style={listStyles}>
-            {[
-              'Купальник выдается за день до соревнований',
-              'Возврат можно осуществить на следующий день после выступления'
-            ].map((item, index) => (
-              <li key={index} style={listItemStyles}>
-                <span style={listItemDotStyles}>•</span> {item}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section style={sectionStyles}>
-          <h3>Почему именно так?</h3>
-          <p>
-            Мы позаботились о том, чтобы в день соревнований спортсменка была 
-            максимально сконцентрирована только на своем выступлении. 
-            Никаких дополнительных волнений о времени сдачи костюма, 
-            никаких логистических хлопот перед ответственным моментом.
-          </p>
-        </section>
-
-        <section style={sectionStyles}>
-          <h3>Стоимость:</h3>
-          <ul style={listStyles}>
-            {[
-              'От 1500 ₽ в неделю',
-              'Залоговая стоимость: 50% от цены купальника'
-            ].map((item, index) => (
-              <li key={index} style={listItemStyles}>
-                <span style={listItemDotStyles}>•</span> {item}
-              </li>
-            ))}
-          </ul>
-        </section>
-
+        <div style={{marginTop: '1.5rem', marginBottom: '1.5rem'}}>
+          <div style={listItemContainerStyles}>
+            <div style={iconContainerStyles}>
+              <DollarSign size={18} color="#00e2fc" />
+            </div>
+            <div style={itemTextStyles}>
+              Стоимость проката: <span style={priceHighlightStyles}>2 000 руб.</span>
+            </div>
+          </div>
+          
+          <div style={listItemContainerStyles}>
+            <div style={iconContainerStyles}>
+              <Shield size={18} color="#FFD700" />
+            </div>
+            <div style={itemTextStyles}>
+              Залог: <strong>50% - 100%</strong> от стоимости купальника
+            </div>
+          </div>
+          
+          <div style={listItemContainerStyles}>
+            <div style={iconContainerStyles}>
+              <Star size={18} color="#FF6B6B" />
+            </div>
+            <div style={itemTextStyles}>
+              Идеально для новичков и коротких проектов
+            </div>
+          </div>
+        </div>
+        
         <button 
-          style={buttonStyles}
+          style={detailsButtonStyles}
+          onClick={() => setShowDetails(!showDetails)}
           onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--color-accent)';
+            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            e.currentTarget.style.color = '#ddd';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+            e.currentTarget.style.color = '#aaa';
           }}
         >
-          Взять купальник напрокат
+          {showDetails ? 'Скрыть подробности' : 'Подробнее об условиях'}
+          {showDetails ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </button>
+        
+        {showDetails && (
+          <div style={detailsContainerStyles}>
+            <div style={detailsSectionStyles}>
+              <div style={detailsIconStyles}>
+                <Users size={18} color="#FF6B6B" />
+              </div>
+              <div>
+                <div style={detailsTitleStyles}>Для кого:</div>
+                <div style={detailsTextStyles}>
+                  <span style={highlightTextStyles}>Начинающие гимнастки и фигуристки</span>, 
+                  спортсменки, которым нужен костюм на короткий период.
+                </div>
+              </div>
+            </div>
+            
+            <div style={detailsSectionStyles}>
+              <div style={detailsIconStyles}>
+                <Calendar size={18} color="#00e2fc" />
+              </div>
+              <div>
+                <div style={detailsTitleStyles}>Особые условия:</div>
+                <div style={detailsTextStyles}>
+                  Купальник выдается <span style={highlightTextStyles}>за день до соревнований</span>, 
+                  возврат на следующий день после выступления.
+                </div>
+              </div>
+            </div>
+            
+            <div style={{...detailsSectionStyles, borderBottom: 'none'}}>
+              <div style={detailsIconStyles}>
+                <HelpCircle size={18} color="#8AE65C" />
+              </div>
+              <div>
+                <div style={detailsTitleStyles}>Почему именно так:</div>
+                <div style={detailsTextStyles}>
+                  Мы позаботились о том, чтобы в день соревнований 
+                  спортсменка была <span style={highlightTextStyles}>максимально сконцентрирована</span> только 
+                  на своем выступлении.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <button 
+          style={mainButtonStyles}
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = '#0099dd';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = '#0088cc';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+        >
+          <ShoppingBag size={20} />
+          Выбрать купальник для проката
         </button>
       </div>
     </div>
