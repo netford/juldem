@@ -1,9 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { X, DollarSign, Shield, Star, ShoppingBag, ChevronDown, ChevronUp, Users, Calendar, HelpCircle } from 'lucide-react';
+import { X, DollarSign, Shield, Star, ShoppingBag, ChevronDown, ChevronUp } from 'lucide-react';
 
 const RentalModal = ({ isOpen, onClose }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isVerySmallScreen, setIsVerySmallScreen] = useState(false);
   
+  // Определение мобильного устройства и очень маленьких экранов
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsVerySmallScreen(window.innerWidth <= 360);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
@@ -35,7 +50,7 @@ const RentalModal = ({ isOpen, onClose }) => {
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 9999,
-    padding: '2rem'
+    padding: isMobile ? '1rem' : '2rem'
   };
 
   const modalStyles = {
@@ -44,14 +59,14 @@ const RentalModal = ({ isOpen, onClose }) => {
     maxWidth: '500px',
     width: '100%',
     position: 'relative',
-    padding: '2.5rem',
+    padding: isMobile ? '1.8rem 1.5rem' : '2.5rem',
     color: '#fff',
     boxShadow: 'inset 0 0 10px rgba(0,0,0,0.2), 0 15px 35px rgba(0,0,0,0.4)'
   };
 
   const headingStyles = {
-    fontSize: '2rem',
-    marginBottom: '2rem',
+    fontSize: isMobile ? '1.8rem' : '2rem',
+    marginBottom: isMobile ? '1.5rem' : '2rem',
     color: '#fff',
     textAlign: 'center',
     fontWeight: '600'
@@ -61,11 +76,11 @@ const RentalModal = ({ isOpen, onClose }) => {
     display: 'flex',
     alignItems: 'flex-start',
     marginBottom: '1.2rem',
-    gap: '12px'
+    gap: isMobile ? '10px' : '12px'
   };
   
   const itemTextStyles = {
-    fontSize: '1.1rem',
+    fontSize: isMobile ? '1rem' : '1.1rem',
     lineHeight: '1.4',
     flex: 1
   };
@@ -74,8 +89,8 @@ const RentalModal = ({ isOpen, onClose }) => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '36px',
-    height: '36px',
+    width: isMobile ? '32px' : '36px',
+    height: isMobile ? '32px' : '36px',
     background: 'rgba(255, 255, 255, 0.1)',
     borderRadius: '10px',
     color: '#fff',
@@ -86,13 +101,13 @@ const RentalModal = ({ isOpen, onClose }) => {
   const priceHighlightStyles = {
     color: '#00e2fc', 
     fontWeight: 'bold',
-    fontSize: '1.25rem'
+    fontSize: isMobile ? '1.15rem' : '1.25rem'
   };
   
   const detailsButtonStyles = {
     display: 'flex',
     width: '100%',
-    padding: '0.8rem',
+    padding: isMobile ? '0.7rem' : '0.8rem',
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     color: '#aaa',
     border: '1px solid rgba(255, 255, 255, 0.15)',
@@ -109,61 +124,61 @@ const RentalModal = ({ isOpen, onClose }) => {
   const mainButtonStyles = {
     display: 'flex',
     width: '100%',
-    padding: '1.1rem',
+    padding: isMobile ? '1.1rem 0.8rem' : '1.1rem',
     backgroundColor: '#0088cc',
     color: '#fff',
     border: 'none',
     borderRadius: '12px',
-    fontSize: '1.05rem',
+    fontSize: isMobile ? '1rem' : '1.05rem',
     fontWeight: '600',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease, transform 0.2s ease',
+    transition: 'all 0.25s ease',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '10px'
+    gap: isMobile ? '8px' : '10px',
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+    position: 'relative',
+    overflow: 'hidden'
   };
   
   const detailsContainerStyles = {
     marginBottom: '1.5rem',
-    padding: '0',
+    padding: '0.5rem 0',
     backgroundColor: 'rgba(0,0,0,0.2)',
     borderRadius: '12px',
-    fontSize: '0.95rem',
+    fontSize: isMobile ? '0.9rem' : '0.95rem',
     color: '#bbb',
     display: showDetails ? 'block' : 'none',
     borderLeft: '3px solid #00e2fc',
     overflow: 'hidden'
   };
   
-  const detailsSectionStyles = {
-    padding: '1.2rem',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.07)',
+  const detailsItemStyles = {
+    padding: isMobile ? '0.8rem 1rem' : '1rem 1.2rem',
     display: 'flex',
-    gap: '15px',
-    alignItems: 'flex-start'
+    gap: isMobile ? '12px' : '15px',
+    alignItems: 'flex-start',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.07)'
   };
   
-  const detailsIconStyles = {
-    width: '28px',
-    height: '28px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    marginTop: '2px'
-  };
-  
-  const detailsTitleStyles = {
-    fontSize: '1rem',
-    fontWeight: '600',
-    color: '#fff',
-    marginBottom: '0.5rem'
+  const numberStyles = {
+    fontSize: isMobile ? '1.6rem' : '1.8rem',
+    fontWeight: 'bold',
+    lineHeight: '1',
+    marginTop: '-2px',
+    marginRight: '4px',
+    width: '26px',
+    textAlign: 'center',
+    fontFamily: "'Arial', sans-serif",
+    textShadow: '0 2px 4px rgba(0,0,0,0.2)'
   };
   
   const detailsTextStyles = {
-    fontSize: '0.95rem',
+    fontSize: isMobile ? '0.9rem' : '0.95rem',
     lineHeight: '1.5',
-    color: '#ccc'
+    color: '#ccc',
+    flex: 1,
+    paddingTop: '3px'
   };
   
   const highlightTextStyles = {
@@ -181,12 +196,12 @@ const RentalModal = ({ isOpen, onClose }) => {
           onClick={onClose}
           style={{
             position: 'absolute',
-            top: '1.2rem',
-            right: '1.2rem',
+            top: isMobile ? '1rem' : '1.2rem',
+            right: isMobile ? '1rem' : '1.2rem',
             background: 'rgba(0, 0, 0, 0.5)',
             border: '2px solid rgba(255, 255, 255, 0.3)',
-            width: '40px',
-            height: '40px',
+            width: isMobile ? '36px' : '40px',
+            height: isMobile ? '36px' : '40px',
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
@@ -208,7 +223,7 @@ const RentalModal = ({ isOpen, onClose }) => {
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <X size={22} strokeWidth={2.5} />
+          <X size={isMobile ? 20 : 22} strokeWidth={2.5} />
         </button>
 
         <h2 style={headingStyles}>Прокат спортивных купальников</h2>
@@ -216,16 +231,16 @@ const RentalModal = ({ isOpen, onClose }) => {
         <div style={{marginTop: '1.5rem', marginBottom: '1.5rem'}}>
           <div style={listItemContainerStyles}>
             <div style={iconContainerStyles}>
-              <DollarSign size={18} color="#00e2fc" />
+              <DollarSign size={isMobile ? 16 : 18} color="#00e2fc" />
             </div>
             <div style={itemTextStyles}>
-              Стоимость проката: <span style={priceHighlightStyles}>2 000 руб.</span>
+              Стоимость проката: <span style={priceHighlightStyles}>2 000 ₽</span>
             </div>
           </div>
           
           <div style={listItemContainerStyles}>
             <div style={iconContainerStyles}>
-              <Shield size={18} color="#FFD700" />
+              <Shield size={isMobile ? 16 : 18} color="#FFD700" />
             </div>
             <div style={itemTextStyles}>
               Залог: <strong>50% - 100%</strong> от стоимости купальника
@@ -234,7 +249,7 @@ const RentalModal = ({ isOpen, onClose }) => {
           
           <div style={listItemContainerStyles}>
             <div style={iconContainerStyles}>
-              <Star size={18} color="#FF6B6B" />
+              <Star size={isMobile ? 16 : 18} color="#FF6B6B" />
             </div>
             <div style={itemTextStyles}>
               Идеально для новичков и коротких проектов
@@ -255,48 +270,37 @@ const RentalModal = ({ isOpen, onClose }) => {
           }}
         >
           {showDetails ? 'Скрыть подробности' : 'Подробнее об условиях'}
-          {showDetails ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+          {showDetails ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </button>
         
         {showDetails && (
-          <div style={detailsContainerStyles}>
-            <div style={detailsSectionStyles}>
-              <div style={detailsIconStyles}>
-                <Users size={18} color="#FF6B6B" />
+          <div style={detailsContainerStyles}>          
+            <div style={detailsItemStyles}>
+              <div style={{...numberStyles, color: '#00e2fc'}}>
+                1
               </div>
-              <div>
-                <div style={detailsTitleStyles}>Для кого:</div>
-                <div style={detailsTextStyles}>
-                  <span style={highlightTextStyles}>Начинающие гимнастки и фигуристки</span>, 
-                  спортсменки, которым нужен костюм на короткий период.
-                </div>
+              <div style={detailsTextStyles}>
+                Купальник выдается <span style={highlightTextStyles}>за день до соревнований</span>, 
+                возврат возможен на следующий день после выступления.
               </div>
             </div>
             
-            <div style={detailsSectionStyles}>
-              <div style={detailsIconStyles}>
-                <Calendar size={18} color="#00e2fc" />
+            <div style={detailsItemStyles}>
+              <div style={{...numberStyles, color: '#FF6B6B'}}>
+                2
               </div>
-              <div>
-                <div style={detailsTitleStyles}>Особые условия:</div>
-                <div style={detailsTextStyles}>
-                  Купальник выдается <span style={highlightTextStyles}>за день до соревнований</span>, 
-                  возврат на следующий день после выступления.
-                </div>
+              <div style={detailsTextStyles}>
+                В перерывах используйте <span style={highlightTextStyles}>накидку или олимпийку</span> поверх 
+                купальника, чтобы избежать загрязнений и повреждений.
               </div>
             </div>
             
-            <div style={{...detailsSectionStyles, borderBottom: 'none'}}>
-              <div style={detailsIconStyles}>
-                <HelpCircle size={18} color="#8AE65C" />
+            <div style={{...detailsItemStyles, borderBottom: 'none'}}>
+              <div style={{...numberStyles, color: '#8AE65C'}}>
+                3
               </div>
-              <div>
-                <div style={detailsTitleStyles}>Почему именно так:</div>
-                <div style={detailsTextStyles}>
-                  Мы позаботились о том, чтобы в день соревнований 
-                  спортсменка была <span style={highlightTextStyles}>максимально сконцентрирована</span> только 
-                  на своем выступлении.
-                </div>
+              <div style={detailsTextStyles}>
+                Купальник должен быть возвращен в исходном состоянии.
               </div>
             </div>
           </div>
@@ -304,17 +308,28 @@ const RentalModal = ({ isOpen, onClose }) => {
 
         <button 
           style={mainButtonStyles}
+          onClick={() => {}}
           onMouseOver={(e) => {
             e.currentTarget.style.backgroundColor = '#0099dd';
             e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.4)';
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.backgroundColor = '#0088cc';
             e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.3)';
+          }}
+          onTouchStart={(e) => {
+            e.currentTarget.style.backgroundColor = '#0099dd';
+            e.currentTarget.style.transform = 'scale(0.98)';
+          }}
+          onTouchEnd={(e) => {
+            e.currentTarget.style.backgroundColor = '#0088cc';
+            e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <ShoppingBag size={20} />
-          Выбрать купальник для проката
+          <ShoppingBag size={isMobile ? 20 : 20} />
+          {isVerySmallScreen ? 'Выбрать купальник' : 'Выбрать купальник для проката'}
         </button>
       </div>
     </div>
