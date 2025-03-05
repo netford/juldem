@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { heroBg } from '../assets/images';
+import RentalModal from './RentalModal';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
   const heroRef = useRef(null);
   const backgroundRef = useRef(null);
 
@@ -32,6 +34,10 @@ const Hero = () => {
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const openRentalModal = () => {
+    setIsRentalModalOpen(true);
   };
 
   return (
@@ -161,6 +167,8 @@ const Hero = () => {
           cursor: pointer;
           opacity: 0;
           transition: opacity 0.6s ease-out;
+          pointer-events: none; /* Добавлено это свойство */
+          user-select: none; /* И это свойство */
         }
 
         .scroll-indicator.visible {
@@ -208,10 +216,10 @@ const Hero = () => {
         
         <div className="hero-buttons">
           <button className="hero-button primary">
-            Получить консультацию
+            Готовые модели
           </button>
-          <button className="hero-button secondary">
-            Оформить заказ
+          <button className="hero-button secondary" onClick={openRentalModal}>
+            Прокат купальников
           </button>
         </div>
       </div>
@@ -230,6 +238,11 @@ const Hero = () => {
           }}
         />
       </div>
+
+      <RentalModal
+        isOpen={isRentalModalOpen}
+        onClose={() => setIsRentalModalOpen(false)}
+      />
     </section>
   );
 };
