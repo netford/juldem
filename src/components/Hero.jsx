@@ -212,7 +212,7 @@ const Hero = () => {
       
       <div className={`hero-content ${isVisible ? 'visible' : ''}`}>
         <h1 className="hero-title">СПОРТИВНЫЕ КУПАЛЬНИКИ НА ЗАКАЗ</h1>
-        <h2 className="hero-subtitle">ИНДИВИДУАЛЬНЫЙ ПОШИВ</h2>
+        <h2 className="hero-subtitle">ПОШИВ | ПРОДАЖА | ПРОКАТ</h2>
         
         <div className="hero-buttons">
           <button className="hero-button primary">

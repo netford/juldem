@@ -13,6 +13,68 @@ import nonePhoto from '../assets/images/suits/none_photo.jpg';
 const suits = [
   {
     id: 1,
+    name: "Купальник 'Бабочка'",
+    category: "acrobatics_gymnastics",
+    price: 30000,
+    height: [144],
+    images: ['images/products/categories/acrobatics_gymnastics/babochka_000.png',
+    'images/products/categories/acrobatics_gymnastics/babochka_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 2,
+    name: "Купальник 'Гранат'",
+    category: "acrobatics_gymnastics",
+    price: 35000,
+    height: [164],
+    images: ['images/products/categories/acrobatics_gymnastics/photo_010.png'],
+    available: true
+  },
+  {
+    id: 3,
+    name: "Купальник 'Полярная звезда'",
+    category: "acrobatics_gymnastics",
+    price: 35000,
+    height: [110, 128],
+    images: ['images/products/categories/acrobatics_gymnastics/star-000.png',
+             'images/products/categories/acrobatics_gymnastics/star-001.png',
+             'images/products/categories/acrobatics_gymnastics/star-002.png',
+             'images/products/categories/acrobatics_gymnastics/star-003.png'
+            ],
+    available: true
+  },
+  {
+    id: 4,
+    name: "Купальник 'Морской бриз'",
+    category: "acrobatics_gymnastics",
+    price: 35000,
+    height: [130, 144],
+    images: ['images/products/categories/acrobatics_gymnastics/briz-000.png',
+             'images/products/categories/acrobatics_gymnastics/briz-001.png',
+             'images/products/categories/acrobatics_gymnastics/briz-002.png',
+             'images/products/categories/acrobatics_gymnastics/briz-003.png',
+             'images/products/categories/acrobatics_gymnastics/briz-004.png',
+             'images/products/categories/acrobatics_gymnastics/briz-005.png',
+             'images/products/categories/acrobatics_gymnastics/briz-006.png'
+            ],
+    available: true
+  },
+  {
+    id: 5,
+    name: "Купальник 'Лаванда'",
+    category: "acrobatics_gymnastics",
+    price: 25000,
+    height: [110, 128],
+    images: ['images/products/categories/acrobatics_gymnastics/lavanda-000.png',
+             'images/products/categories/acrobatics_gymnastics/lavanda-001.png',
+             'images/products/categories/acrobatics_gymnastics/lavanda-002.png',
+             'images/products/categories/acrobatics_gymnastics/lavanda-003.png'
+            ],
+    available: true
+  },
+  {
+    id: 6,
     name: "Купальник 'Радужный'",
     category: "acrobatics_gymnastics",
     price: 15000,
@@ -26,27 +88,33 @@ const suits = [
     available: true
   },
   {
-    id: 15,
-    name: "Купальник 'Гранат'",
+    id: 7,
+    name: "Купальник 'Амазонка'",
     category: "acrobatics_gymnastics",
-    price: 35000,
-    height: [164],
-    images: ['images/products/categories/acrobatics_gymnastics/photo_010.png'],
-    available: true
-  },
-  {
-    id: 18,
-    name: "Купальник 'Бабочка'",
-    category: "acrobatics_gymnastics",
-    price: 30000,
-    height: [144],
-    images: ['images/products/categories/acrobatics_gymnastics/babochka_000.png',
-    'images/products/categories/acrobatics_gymnastics/babochka_001.png'
+    price: 12000,
+    height: [110, 128],
+    images: ['images/products/categories/acrobatics_gymnastics/amazonka-000.png',
+             'images/products/categories/acrobatics_gymnastics/amazonka-001.png',
+             'images/products/categories/acrobatics_gymnastics/amazonka-002.png'
             ],
     available: true
   },
   {
-    id: 2,
+    id: 8,
+    name: "Купальник 'Нежный пион'",
+    category: "acrobatics_gymnastics",
+    price: 10000,
+    height: [89, 110],
+    images: ['images/products/categories/acrobatics_gymnastics/pion-000.png',
+             'images/products/categories/acrobatics_gymnastics/pion-001.png',
+             'images/products/categories/acrobatics_gymnastics/pion-002.png',
+             'images/products/categories/acrobatics_gymnastics/pion-003.png',
+             'images/products/categories/acrobatics_gymnastics/pion-004.png'
+            ],
+    available: true
+  },
+  {
+    id: 9,
     name: "Купальник 'Рубин'",
     category: "figure-skating",
     price: 17000,
@@ -55,7 +123,7 @@ const suits = [
     available: false
   },
   {
-    id: 3,
+    id: 10,
     name: "Купальник 'Сияние'",
     category: "acrobatics_gymnastics",
     price: 16000,
@@ -64,7 +132,7 @@ const suits = [
     available: false
   },
   {
-    id: 4,
+    id: 11,
     name: "Купальник 'Сказка'",
     category: "figure-skating",
     price: 18500,
@@ -73,7 +141,7 @@ const suits = [
     available: false
   },
   {
-    id: 5,
+    id: 12,
     name: "Купальник 'Лазурит'",
     category: "figure-skating",
     price: 16500,
@@ -84,7 +152,7 @@ const suits = [
     available: false
   },
   {
-    id: 6,
+    id: 13,
     name: "Купальник 'Фуксия'",
     category: "figure-skating",
     price: 15500,
@@ -93,7 +161,7 @@ const suits = [
     available: false
   },
   {
-    id: 7,
+    id: 14,
     name: "Купальник 'Персея'",
     category: "figure-skating",
     price: 17500,
@@ -102,7 +170,7 @@ const suits = [
     available: false
   },
   {
-    id: 8,
+    id: 15,
     name: "Купальник 'Каскад'",
     category: "figure-skating",
     price: 16500,
@@ -111,7 +179,7 @@ const suits = [
     available: false
   },
   {
-    id: 9,
+    id: 16,
     name: "Купальник 'Лаванда'",
     category: "acrobatics_gymnastics",
     price: 19000,
@@ -122,7 +190,7 @@ const suits = [
     available: false
   },
   {
-    id: 10,
+    id: 17,
     name: "Купальник 'Феникс'",
     category: "acrobatics_gymnastics",
     price: 17000,
@@ -131,7 +199,7 @@ const suits = [
     available: false
   },
   {
-    id: 11,
+    id: 18,
     name: "Купальник 'Тропикана'",
     category: "acrobatics_gymnastics",
     price: 16000,
@@ -143,7 +211,7 @@ const suits = [
     available: false
   },
   {
-    id: 12,
+    id: 19,
     name: "Купальник 'Волна'",
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -152,7 +220,7 @@ const suits = [
     available: false
   },
   {
-    id: 13,
+    id: 20,
     name: "Купальник 'Вулкан'",
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -161,7 +229,7 @@ const suits = [
     available: false
   },
   {
-    id: 14,
+    id: 21,
     name: "Купальник 'Византия'",
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -172,32 +240,33 @@ const suits = [
     available: false
   },
   {
-    id: 16,
+    id: 22,
     name: "Купальник 'Аметист'",
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [155, 165],
     images: ['images/products/categories/acrobatics_gymnastics/photo_018.png',
-    'images/products/categories/acrobatics_gymnastics/photo_019.webp',
-    'images/products/categories/acrobatics_gymnastics/photo_020.png',
-    'images/products/categories/acrobatics_gymnastics/photo_021.webp'
+             'images/products/categories/acrobatics_gymnastics/photo_019.webp',
+             'images/products/categories/acrobatics_gymnastics/photo_020.png',
+             'images/products/categories/acrobatics_gymnastics/photo_021.webp'
             ],
     available: false
   },
   {
-    id: 17,
+    id: 23,
     name: "Купальник 'Бабочка'",
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [140, 154],
     images: ['images/products/categories/acrobatics_gymnastics/photo_017.png',
-    'images/products/categories/acrobatics_gymnastics/photo_022.png'
+             'images/products/categories/acrobatics_gymnastics/photo_022.png'
             ],
     available: false
   }
 
+
   // {
-  //   id: 19,
+  //   id: 24,
   //   name: "Купальник 'Венера'",
   //   category: "renta",
   //   price: 2500, // Цена за неделю проката
