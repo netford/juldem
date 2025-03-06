@@ -117,6 +117,18 @@ const suits = [
   
   /* КУПАЛЬНИКИ ДЛЯ ПРОКАТА (category: "renta") */
   {
+    id: 17,
+    name: "'Закат'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/sunset_000.png',
+             'images/products/categories/renta/sunset_001.png'
+            ],
+    available: true
+  },
+  {
     id: 9,
     name: "'Малинка'",
     category: "renta",
@@ -166,35 +178,10 @@ const suits = [
     available: true
   },
   {
-    id: 13,
-    name: "'Бразильянка'",
-    category: "renta",
-    price: 2000, // Цена за неделю проката
-    deposit: 7000, // Залог
-    height: [94, 110],
-    images: ['images/products/categories/renta/brazil_000.png',
-             'images/products/categories/renta/brazil_001.png'
-            ],
-    available: true
-  },
-  {
-    id: 14,
-    name: "'Всплеск'",
-    category: "renta",
-    price: 2000, // Цена за неделю проката
-    deposit: 7000, // Залог
-    height: [94, 110],
-    images: ['images/products/categories/renta/splash_000.png',
-             'images/products/categories/renta/splash_001.png',
-             'images/products/categories/renta/splash_002.png'
-            ],
-    available: true
-  },
-  {
     id: 15,
     name: "'Океан'",
     category: "renta",
-    price: 2000, // Цена за неделю проката
+    price: 5000, // Цена за неделю проката
     deposit: 7000, // Залог
     height: [94, 110],
     images: ['images/products/categories/renta/ocean_000.png',
@@ -215,14 +202,40 @@ const suits = [
     available: true
   },
   {
-    id: 17,
-    name: "'Закат'",
+    id: 14,
+    name: "'Всплеск'",
     category: "renta",
     price: 2000, // Цена за неделю проката
-    deposit: 7000, // Залог
-    height: [94, 110],
-    images: ['images/products/categories/renta/sunset_000.png',
-             'images/products/categories/renta/sunset_001.png'
+    deposit: 5000, // Залог
+    height: [100, 116],
+    images: ['images/products/categories/renta/splash_000.png',
+             'images/products/categories/renta/splash_001.png',
+             'images/products/categories/renta/splash_002.png'
+            ],
+    available: true
+  },
+  {
+    id: 114,
+    name: "'Всплеск'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 5000, // Залог
+    height: [124, 132],
+    images: ['images/products/categories/renta/splash_000.png',
+             'images/products/categories/renta/splash_001.png',
+             'images/products/categories/renta/splash_002.png'
+            ],
+    available: true
+  },
+  {
+    id: 13,
+    name: "'Бразильянка'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 5000, // Залог
+    height: [100, 116],
+    images: ['images/products/categories/renta/brazil_000.png',
+             'images/products/categories/renta/brazil_001.png'
             ],
     available: true
   },
