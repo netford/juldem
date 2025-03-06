@@ -138,6 +138,75 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     return `${day}.${month}.${year}`;
   };
 
+  // Добавляем индикатор скролла
+  useEffect(() => {
+    if (isOpen && isMobile) {
+      // Добавляем стиль для анимации
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fadeInOut {
+          0%, 100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
+          50% { opacity: 0.8; transform: translateX(-50%) translateY(5px); }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Добавляем индикатор скролла после короткой задержки
+      const timer = setTimeout(() => {
+        const modalElement = document.querySelector('.rental-modal-content');
+        if (modalElement && modalElement.scrollHeight > modalElement.clientHeight) {
+          // Показываем индикатор прокрутки
+          const scrollIndicator = document.createElement('div');
+          scrollIndicator.className = 'scroll-indicator';
+          scrollIndicator.style.cssText = `
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 20px;
+            opacity: 0.7;
+            text-align: center;
+            animation: fadeInOut 1.5s infinite;
+          `;
+          
+          const arrowSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          arrowSvg.setAttribute('width', '20');
+          arrowSvg.setAttribute('height', '12');
+          arrowSvg.setAttribute('viewBox', '0 0 24 24');
+          arrowSvg.setAttribute('fill', 'none');
+          arrowSvg.setAttribute('stroke', 'white');
+          arrowSvg.setAttribute('stroke-width', '2');
+          arrowSvg.setAttribute('stroke-linecap', 'round');
+          arrowSvg.setAttribute('stroke-linejoin', 'round');
+          
+          const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+          polyline.setAttribute('points', '6 9 12 15 18 9');
+          arrowSvg.appendChild(polyline);
+          
+          scrollIndicator.appendChild(arrowSvg);
+          modalElement.appendChild(scrollIndicator);
+          
+          // Скрываем индикатор при скролле
+          const handleScroll = () => {
+            scrollIndicator.style.opacity = '0';
+            setTimeout(() => {
+              scrollIndicator.remove();
+            }, 300);
+            modalElement.removeEventListener('scroll', handleScroll);
+          };
+          
+          modalElement.addEventListener('scroll', handleScroll);
+        }
+      }, 1000);
+      
+      return () => {
+        clearTimeout(timer);
+        document.head.removeChild(style);
+      };
+    }
+  }, [isOpen, isMobile]);
+
   // Обработка отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -185,35 +254,37 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     backgroundColor: 'rgba(0, 0, 0, 0.85)',
     backdropFilter: 'blur(4px)',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start', // Выравниваем по верхнему краю
     justifyContent: 'center',
     zIndex: 9999,
-    padding: isMobile ? '1rem' : '2rem',
-    overflow: 'auto'
+    padding: isMobile ? '0.5rem' : '2rem',
+    overflow: 'auto' // Прокрутка для всего оверлея
   };
 
   const modalStyles = {
     backgroundColor: '#262626',
-    borderRadius: '16px',
+    borderRadius: isMobile ? '12px' : '16px',
     maxWidth: '500px',
-    width: '100%',
+    width: isMobile ? 'calc(100% - 20px)' : '100%', // Почти полная ширина на мобильных
     position: 'relative',
-    padding: isMobile ? '1.5rem' : '2rem',
+    padding: isMobile ? '1rem 1rem 1.2rem' : '2rem', // Уменьшаем padding
     color: '#fff',
     boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
     border: '1px solid #333',
-    margin: '0 auto'
+    margin: isMobile ? '0.5rem auto' : '0 auto',
+    maxHeight: isMobile ? 'calc(100vh - 2rem)' : 'auto', // Максимальная высота для мобильных
+    overflow: isMobile ? 'auto' : 'visible' // Добавляем прокрутку внутри модального окна
   };
 
   const headerStyles = {
-    marginBottom: '1.5rem',
-    paddingBottom: '1rem',
+    marginBottom: isMobile ? '0.8rem' : '1.5rem',
+    paddingBottom: isMobile ? '0.7rem' : '1rem',
     borderBottom: '1px solid #333',
     textAlign: 'center'
   };
 
   const titleStyles = {
-    fontSize: isMobile ? '1.8rem' : '2rem',
+    fontSize: isMobile ? '1.4rem' : '2rem',
     fontWeight: 'bold',
     color: '#fff',
     margin: 0
@@ -221,18 +292,18 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
 
   const productCardStyles = {
     display: 'flex',
-    gap: '1rem',
-    marginBottom: '1.5rem',
-    padding: '1rem',
+    gap: isMobile ? '0.5rem' : '1rem',
+    marginBottom: isMobile ? '0.7rem' : '1.5rem',
+    padding: isMobile ? '0.7rem' : '1rem',
     backgroundColor: '#1a1a1a',
-    borderRadius: '12px',
+    borderRadius: isMobile ? '8px' : '12px',
     border: '1px solid #333'
   };
 
   const imageContainerStyles = {
-    width: '100px',
-    height: '100px',
-    borderRadius: '8px',
+    width: isMobile ? '60px' : '100px',
+    height: isMobile ? '60px' : '100px',
+    borderRadius: isMobile ? '6px' : '8px',
     overflow: 'hidden',
     flexShrink: 0
   };
@@ -245,13 +316,13 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
 
   const productInfoStyles = {
     flex: 1,
-    paddingTop: '4px'
+    paddingTop: isMobile ? '2px' : '4px'
   };
 
   const productNameStyles = {
-    fontSize: '1.1rem',
+    fontSize: isMobile ? '1rem' : '1.1rem',
     fontWeight: 'bold',
-    marginBottom: '0.8rem',
+    marginBottom: isMobile ? '0.4rem' : '0.8rem',
     color: '#fff'
   };
 
@@ -265,14 +336,14 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     display: 'flex',
     alignItems: 'center',
     color: '#0088ff',
-    fontSize: '0.95rem'
+    fontSize: isMobile ? '0.85rem' : '0.95rem'
   };
 
   const priceInfoStyles = {
     display: 'flex',
     alignItems: 'center',
     color: '#ffc107',
-    fontSize: '0.95rem'
+    fontSize: isMobile ? '0.85rem' : '0.95rem'
   };
 
   // Стили кнопки закрытия, аналогичные OrderModal
@@ -297,45 +368,45 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
 
   const noteStyles = {
     color: '#ddd',
-    fontSize: '1rem',
-    marginBottom: '1.5rem',
-    lineHeight: '1.4'
+    fontSize: isMobile ? '0.85rem' : '1rem',
+    marginBottom: isMobile ? '0.7rem' : '1.5rem',
+    lineHeight: '1.3' // Сжимаем высоту текста
   };
 
   const formStyles = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '1rem'
+    gap: isMobile ? '0.6rem' : '1rem'
   };
 
   const formGroupStyles = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.5rem'
+    gap: isMobile ? '0.3rem' : '0.5rem' // Меньше отступ между меткой и полем
   };
 
   const labelStyles = {
-    fontSize: '0.9rem',
+    fontSize: isMobile ? '0.8rem' : '0.9rem',
     color: '#ccc',
     display: 'flex',
     alignItems: 'center',
-    gap: '0.5rem'
+    gap: '0.4rem'
   };
 
   const inputStyles = {
     width: '100%',
-    padding: '0.75rem 1rem',
+    padding: isMobile ? '0.6rem 0.8rem' : '0.75rem 1rem', // Меньше высота поля
     backgroundColor: '#1a1a1a',
     border: '1px solid #444',
     borderRadius: '8px',
     color: '#fff',
-    fontSize: '1rem',
+    fontSize: isMobile ? '0.9rem' : '1rem',
     transition: 'all 0.2s ease'
   };
 
   const twoColumnContainerStyles = {
-    display: 'grid',
-    gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+    display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
     gap: '1rem'
   };
 
@@ -345,24 +416,26 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
 
   const phoneCodeStyles = {
     position: 'absolute',
-    left: '1rem',
+    left: '0.8rem',
     top: '50%',
     transform: 'translateY(-50%)',
-    color: '#fff'
+    color: '#fff',
+    fontSize: isMobile ? '0.9rem' : '1rem',
+    opacity: '0.9'
   };
 
   const submitButtonStyles = {
     width: '100%',
-    padding: '0.85rem',
+    padding: isMobile ? '0.7rem' : '0.85rem',
     backgroundColor: '#0066cc',
     color: '#fff',
     border: 'none',
     borderRadius: '8px',
-    fontSize: '1rem',
+    fontSize: isMobile ? '0.95rem' : '1rem',
     fontWeight: 'bold',
     cursor: 'pointer',
     transition: 'all 0.3s ease',
-    marginTop: '1rem',
+    marginTop: isMobile ? '0.7rem' : '1rem',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -372,7 +445,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
   // Создаем элемент для модального окна и устанавливаем его инлайн-стили
   const modalContent = (
     <div style={overlayStyles} onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div style={modalStyles}>
+      <div className="rental-modal-content" style={modalStyles}>
         {/* Кнопка закрытия с тем же подходом, как в OrderModal */}
         <button
           onClick={onClose}
@@ -434,11 +507,11 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                 <h3 style={productNameStyles}>Купальник "{product.name}"</h3>
                 <div style={tagContainerStyles}>
                   <div style={sizeInfoStyles}>
-                    <Shield size={16} color="#0088ff" style={{ marginRight: '8px' }} />
+                    <Shield size={isMobile ? 14 : 16} color="#0088ff" style={{ marginRight: '8px' }} />
                     Рост: {product.height}
                   </div>
                   <div style={priceInfoStyles}>
-                    <CreditCard size={16} color="#ffc107" style={{ marginRight: '8px' }} />
+                    <CreditCard size={isMobile ? 14 : 16} color="#ffc107" style={{ marginRight: '8px' }} />
                     Аренда / Залог: {product.price} / {product.deposit} ₽
                   </div>
                 </div>
@@ -453,7 +526,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
               {/* Имя */}
               <div style={formGroupStyles}>
                 <label htmlFor="name" style={labelStyles}>
-                  <User size={16} color="#3498db" /> Ваше имя:
+                  <User size={isMobile ? 14 : 16} color="#3498db" /> Ваше имя:
                 </label>
                 <input 
                   type="text" 
@@ -470,25 +543,58 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
               {/* Два поля в одном ряду */}
               <div style={twoColumnContainerStyles}>
                 {/* Дата выступления */}
-                <div style={formGroupStyles}>
-                  <label htmlFor="performanceDateDisplay" style={labelStyles}>
-                    <Calendar size={16} color="#3498db" /> Дата выступления:
+                <div style={{ ...formGroupStyles, flex: 1 }}>
+                  <label htmlFor="performanceDate" style={labelStyles}>
+                    <Calendar size={isMobile ? 14 : 16} color="#3498db" /> Дата выступления:
                   </label>
                   <div style={{ position: 'relative' }}>
-                    <input 
-                      type="text" 
-                      id="performanceDateDisplay" 
-                      value={formData.performanceDate ? formatDate(formData.performanceDate) : ''} 
-                      placeholder="ДД.ММ.ГГГГ"
-                      readOnly
-                      onClick={() => setShowCustomCalendar(!showCustomCalendar)}
-                      style={{
-                        ...inputStyles,
-                        cursor: 'pointer'
-                      }}
-                    />
-                    <Calendar 
-                      size={16} 
+                    {isMobile ? (
+                      // Для мобильных используем скрытое нативное поле date и отдельное поле для отображения
+                      <>
+                        <input
+                          type="date"
+                          id="performanceDate"
+                          name="performanceDate"
+                          value={formData.performanceDate}
+                          onChange={handleChange}
+                          style={{
+                            position: 'absolute',
+                            opacity: 0,
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            zIndex: 2
+                          }}
+                        />
+                        <input
+                          type="text"
+                          readOnly
+                          value={formData.performanceDate ? formatDate(formData.performanceDate) : ''}
+                          placeholder="ДД.ММ.ГГГГ"
+                          style={{
+                            ...inputStyles,
+                            cursor: 'pointer'
+                          }}
+                        />
+                      </>
+                    ) : (
+                      // Для десктопа используем текстовое поле с кастомным календарем
+                      <input
+                        type="text"
+                        id="performanceDateDisplay"
+                        value={formData.performanceDate ? formatDate(formData.performanceDate) : ''}
+                        placeholder="ДД.ММ.ГГГГ"
+                        readOnly
+                        onClick={() => setShowCustomCalendar(!showCustomCalendar)}
+                        style={{
+                          ...inputStyles,
+                          cursor: 'pointer'
+                        }}
+                      />
+                    )}
+                    <Calendar
+                      size={16}
                       style={{
                         position: 'absolute',
                         top: '50%',
@@ -502,9 +608,9 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                 </div>
 
                 {/* Телефон */}
-                <div style={formGroupStyles}>
+                <div style={{ ...formGroupStyles, flex: 1 }}>
                   <label htmlFor="phone" style={labelStyles}>
-                    <Phone size={16} color="#3498db" /> Телефон:
+                    <Phone size={isMobile ? 14 : 16} color="#3498db" /> Телефон:
                   </label>
                   <div style={phoneInputContainerStyles}>
                     <span style={phoneCodeStyles}>+7</span>
@@ -518,7 +624,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                       required 
                       style={{
                         ...inputStyles,
-                        paddingLeft: '2.5rem'
+                        paddingLeft: '2.2rem'
                       }}
                     />
                   </div>
@@ -528,7 +634,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
               {/* Время для звонка */}
               <div style={formGroupStyles}>
                 <label htmlFor="callTime" style={labelStyles}>
-                  <Clock size={16} color="#3498db" /> Удобное время для звонка:
+                  <Clock size={isMobile ? 14 : 16} color="#3498db" /> Удобное время для звонка:
                 </label>
                 <div style={{ position: 'relative' }}>
                   <select 
@@ -564,14 +670,27 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
               </div>
 
               {/* Чекбокс согласия с условиями */}
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'flex-start', 
+                gap: '0.5rem', 
+                marginTop: isMobile ? '0.3rem' : '0.5rem'
+              }}>
                 <input
                   type="checkbox"
                   id="agree"
                   required
-                  style={{ marginTop: '0.25rem' }}
+                  style={{ 
+                    marginTop: '0.25rem',
+                    width: isMobile ? '16px' : '18px',
+                    height: isMobile ? '16px' : '18px'
+                  }}
                 />
-                <label htmlFor="agree" style={{ fontSize: '0.9rem', color: '#bbb' }}>
+                <label htmlFor="agree" style={{ 
+                  fontSize: isMobile ? '0.8rem' : '0.9rem', 
+                  color: '#bbb', 
+                  lineHeight: '1.3'
+                }}>
                   Я ознакомлен/а с <a href="#" style={{ color: '#3498db', textDecoration: 'none' }}>условиями проката</a> и согласен/на с ними
                 </label>
               </div>
