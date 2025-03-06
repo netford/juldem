@@ -104,26 +104,88 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     return slots;
   };
 
-  // Функция для генерации дат на 30 дней вперед
+  // Функция для получения названия дня недели
+  const getDayOfWeekName = (dayIndex) => {
+    const dayNames = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+    return dayNames[dayIndex];
+  };
+
+  // Функция для генерации дат на 30 дней вперед, правильно группированных по неделям
   const generateAvailableDates = () => {
     const dates = [];
     const today = new Date();
+    const currentHour = today.getHours();
     
-    for (let i = 0; i < 30; i++) {
-      const date = new Date();
-      date.setDate(today.getDate() + i);
+    // Определяем первый день (сегодня) и последний день (сегодня + 29 дней)
+    const firstDate = new Date(today);
+    const lastDate = new Date(today);
+    lastDate.setDate(today.getDate() + 29);
+    
+    // Получаем полные недели (начиная с понедельника)
+    // Находим предыдущий понедельник или текущий день, если сегодня понедельник
+    const firstMonday = new Date(firstDate);
+    const dayOfWeek = firstMonday.getDay(); // 0 - воскресенье, 1 - понедельник, ...
+    const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    firstMonday.setDate(firstMonday.getDate() - daysToSubtract);
+    
+    // Находим следующее воскресенье после последнего дня
+    const lastSunday = new Date(lastDate);
+    const lastDayOfWeek = lastSunday.getDay();
+    const daysToAdd = lastDayOfWeek === 0 ? 0 : 7 - lastDayOfWeek;
+    lastSunday.setDate(lastSunday.getDate() + daysToAdd);
+    
+    // Создаем массив всех дат от первого понедельника до последнего воскресенья
+    const allDates = [];
+    const currentDate = new Date(firstMonday);
+    
+    while (currentDate <= lastSunday) {
+      // Проверяем, находится ли дата в диапазоне разрешенных дат (сегодня + 30 дней)
+      const isInRange = currentDate >= firstDate && currentDate <= lastDate;
       
-      dates.push({
-        date: date,
-        formatted: `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`,
-        value: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+      // Проверяем, является ли дата прошедшей
+      // Если сегодняшний день и уже поздно вечером
+      const isToday = currentDate.getDate() === today.getDate() && 
+                     currentDate.getMonth() === today.getMonth() && 
+                     currentDate.getFullYear() === today.getFullYear();
+      const isPast = isToday && currentHour >= 19;
+      
+      allDates.push({
+        date: new Date(currentDate),
+        dayOfWeek: currentDate.getDay(),
+        formatted: `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`,
+        value: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+        isPast: isPast,
+        isInRange: isInRange
       });
+      
+      currentDate.setDate(currentDate.getDate() + 1);
     }
     
-    return dates;
+    return allDates;
   };
 
-  const availableDates = generateAvailableDates();
+  const allDates = generateAvailableDates();
+  
+  // Группируем даты по неделям
+  const groupDatesByWeeks = (dates) => {
+    const weeks = [];
+    let currentWeek = [];
+    
+    dates.forEach((dateObj, index) => {
+      // Добавляем дату в текущую неделю
+      currentWeek.push(dateObj);
+      
+      // Если это воскресенье или последняя дата, начинаем новую неделю
+      if (dateObj.dayOfWeek === 0 || index === dates.length - 1) {
+        weeks.push([...currentWeek]);
+        currentWeek = [];
+      }
+    });
+    
+    return weeks;
+  };
+
+  const calendarWeeks = groupDatesByWeeks(allDates);
 
   // Обработчик изменения для полей формы
   const handleChange = (e) => {
@@ -498,30 +560,63 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     left: 0,
     zIndex: 10,
     width: '100%',
+    maxWidth: '260px',
     backgroundColor: '#1a1a1a',
     border: '1px solid #444',
     borderRadius: '8px',
-    padding: '10px',
+    padding: '12px',
     boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
     marginTop: '5px',
-    maxHeight: '300px',
+    maxHeight: '350px',
     overflowY: 'auto'
+  };
+
+  const calendarHeaderStyles = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: '0',
+    marginBottom: '6px',
+    borderBottom: '1px solid #333',
+    paddingBottom: '6px'
+  };
+
+  const dayHeaderStyles = {
+    padding: '4px',
+    textAlign: 'center',
+    fontSize: '0.8rem',
+    fontWeight: 'bold',
+    color: '#999'
   };
 
   const calendarGridStyles = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(5, 1fr)',
-    gap: '8px'
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: '0',
+    marginBottom: '2px'
   };
 
-  const dateItemStyles = (isSelected) => ({
-    padding: '8px',
+  const dateItemStyles = (isSelected, isDisabled) => ({
+    width: '28px',
+    height: '28px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '2px auto',
     textAlign: 'center',
-    backgroundColor: isSelected ? '#0066cc' : '#262626',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease'
+    backgroundColor: isSelected ? '#0066cc' : 'transparent',
+    borderRadius: '50%',
+    cursor: isDisabled ? 'default' : 'pointer',
+    transition: 'all 0.2s ease',
+    opacity: isDisabled ? 0.6 : 1,
+    fontSize: '0.85rem'
   });
+  
+  const emptyCellStyles = {
+    width: '36px',
+    height: '36px',
+    margin: '2px auto',
+    backgroundColor: 'transparent'
+  };
 
   // Создаем портал для рендеринга модального окна в конце body
   // Это помогает избежать проблем с z-index и позиционированием
@@ -627,26 +722,58 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                   
                   {showCustomCalendar && (
                     <div id="custom-calendar" style={calendarStyles}>
-                      <div style={calendarGridStyles}>
-                        {availableDates.map((dateObj) => (
-                          <div
-                            key={dateObj.value}
-                            onClick={() => {
-                              setFormData({...formData, performanceDate: dateObj.value});
-                              setShowCustomCalendar(false);
-                            }}
-                            style={dateItemStyles(formData.performanceDate === dateObj.value)}
-                            onMouseOver={(e) => {
-                              e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0077ee' : '#333';
-                            }}
-                            onMouseOut={(e) => {
-                              e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0066cc' : '#262626';
-                            }}
-                          >
-                            {dateObj.date.getDate()}
-                          </div>
-                        ))}
+                      {/* Заголовок календаря с днями недели */}
+                      <div style={calendarHeaderStyles}>
+                        <div style={dayHeaderStyles}>ПН</div>
+                        <div style={dayHeaderStyles}>ВТ</div>
+                        <div style={dayHeaderStyles}>СР</div>
+                        <div style={dayHeaderStyles}>ЧТ</div>
+                        <div style={dayHeaderStyles}>ПТ</div>
+                        <div style={dayHeaderStyles}>СБ</div>
+                        <div style={dayHeaderStyles}>ВС</div>
                       </div>
+                      
+                      {/* Отображение дат по неделям */}
+                      {calendarWeeks.map((week, weekIndex) => (
+                        <div key={`week-${weekIndex}`} style={calendarGridStyles}>
+                          {week.map((dateObj, dayIndex) => (
+                            dateObj ? (
+                              <div
+                                key={dateObj.date.getTime()}
+                                onClick={() => {
+                                  if (dateObj.isInRange && !dateObj.isPast) {
+                                    setFormData({...formData, performanceDate: dateObj.value});
+                                    setShowCustomCalendar(false);
+                                  }
+                                }}
+                                style={{
+                                  ...dateItemStyles(
+                                    formData.performanceDate === dateObj.value,
+                                    !dateObj.isInRange || dateObj.isPast
+                                  ),
+                                  color: !dateObj.isInRange ? 'rgba(255, 255, 255, 0.1)' : 
+                                         dateObj.isPast ? 'rgba(255, 255, 255, 0.3)' : '#fff'
+                                }}
+                                onMouseOver={(e) => {
+                                  if (dateObj.isInRange && !dateObj.isPast) {
+                                    e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0077ee' : '#333';
+                                    e.currentTarget.style.color = '#fff';
+                                  }
+                                }}
+                                onMouseOut={(e) => {
+                                  if (dateObj.isInRange && !dateObj.isPast) {
+                                    e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0066cc' : 'transparent';
+                                  }
+                                }}
+                              >
+                                {dateObj.date.getDate()}
+                              </div>
+                            ) : (
+                              <div key={`empty-${dayIndex}`} style={emptyCellStyles}></div>
+                            )
+                          ))}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
