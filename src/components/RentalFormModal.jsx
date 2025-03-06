@@ -204,17 +204,16 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     
     // Форматируем сообщение для Telegram
     const message = `
-📝 *НОВЫЙ ЗАКАЗ АРЕНДЫ* 📝
-
-🛍️ *Товар:* Купальник ${product.name}
-📏 *Рост:* ${product.height}
-💰 *Аренда:* ${product.price.toLocaleString('ru-RU')} ₽
-💳 *Залог:* ${product.deposit.toLocaleString('ru-RU')} ₽
-📅 *Дата выступления:* ${formatPerformanceDate(formData.performanceDate)}
-
-👤 *Клиент:* ${formData.name}
-📞 *Телефон:* ${formattedPhone}
-🕒 *Удобное время для звонка:* ${getReadableTime(formData.callTime)}
+    📝 *НОВЫЙ ЗАКАЗ (АРЕНДА)* 📝
+    
+    🛍️ *Купальник ${product.name}* (${product.height})
+    💰 *Аренда:* ${product.price.toLocaleString('ru-RU')} ₽
+    💳 *Залог:* ${product.deposit.toLocaleString('ru-RU')} ₽
+    📅 *Дата выступления:* ${formatPerformanceDate(formData.performanceDate)}
+    
+    👤 *Клиент:* ${formData.name}
+    📞 *Телефон:* ${formattedPhone}
+    🕒 *Созвон:* ${getReadableTime(formData.callTime).replace(' с ', ' (с ').replace(' до ', ' до ') + ')'}
     `.trim();
     
     const botToken = '7964652895:AAF2XFFz8stkwABk7Hdo2tOOVj0QhPglMYU';
