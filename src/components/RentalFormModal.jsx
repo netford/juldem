@@ -16,6 +16,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     message: ''
   });
   const [isMobile, setIsMobile] = useState(false);
+  const [showCustomCalendar, setShowCustomCalendar] = useState(false);
 
   // Определение мобильного устройства
   useEffect(() => {
@@ -28,6 +29,26 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Закрытие календаря при клике вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const calendar = document.getElementById('custom-calendar');
+      const dateInput = document.getElementById('performanceDateDisplay');
+      
+      if (calendar && !calendar.contains(event.target) && event.target !== dateInput) {
+        setShowCustomCalendar(false);
+      }
+    };
+
+    if (showCustomCalendar) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showCustomCalendar]);
 
   // Генерация временных слотов при открытии модального окна
   useEffect(() => {
@@ -51,7 +72,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     };
   }, [isOpen]);
 
-  // Функция генерации временных слотов
+  // Функция для генерации временных слотов
   const generateTimeSlots = () => {
     const slots = [];
     const now = new Date();
@@ -82,6 +103,27 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
 
     return slots;
   };
+
+  // Функция для генерации дат на 30 дней вперед
+  const generateAvailableDates = () => {
+    const dates = [];
+    const today = new Date();
+    
+    for (let i = 0; i < 30; i++) {
+      const date = new Date();
+      date.setDate(today.getDate() + i);
+      
+      dates.push({
+        date: date,
+        formatted: `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`,
+        value: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+      });
+    }
+    
+    return dates;
+  };
+
+  const availableDates = generateAvailableDates();
 
   // Обработчик изменения для полей формы
   const handleChange = (e) => {
@@ -434,25 +476,6 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     transition: 'all 0.3s ease',
     padding: isMobile ? '6px' : '8px'
   };
-  
-  // Получение минимально допустимой даты для выбора в календаре (сегодня)
-  const getMinDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-  
-  // Получение максимально допустимой даты для выбора в календаре (через 30 дней)
-  const getMaxDate = () => {
-    const today = new Date();
-    today.setDate(today.getDate() + 30); // 30 дней вперед вместо 60
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
 
   // Стили для адаптивной компоновки полей "Дата выступления" и "Телефон" в линию
   const twoColumnsContainerStyles = {
@@ -467,6 +490,38 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     flexDirection: 'column',
     gap: '5px',
   };
+
+  // Календарь
+  const calendarStyles = {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    zIndex: 10,
+    width: '100%',
+    backgroundColor: '#1a1a1a',
+    border: '1px solid #444',
+    borderRadius: '8px',
+    padding: '10px',
+    boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
+    marginTop: '5px',
+    maxHeight: '300px',
+    overflowY: 'auto'
+  };
+
+  const calendarGridStyles = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(5, 1fr)',
+    gap: '8px'
+  };
+
+  const dateItemStyles = (isSelected) => ({
+    padding: '8px',
+    textAlign: 'center',
+    backgroundColor: isSelected ? '#0066cc' : '#262626',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease'
+  });
 
   // Создаем портал для рендеринга модального окна в конце body
   // Это помогает избежать проблем с z-index и позиционированием
@@ -535,7 +590,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
             <div style={twoColumnsContainerStyles}>
               {/* Колонка для даты выступления */}
               <div style={columnStyles}>
-                <label htmlFor="performanceDate" style={labelStyles}>Дата выступления:</label>
+                <label htmlFor="performanceDateDisplay" style={labelStyles}>Дата выступления:</label>
                 <div style={{ position: 'relative' }}>
                   <input 
                     type="text" 
@@ -543,7 +598,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                     value={formData.performanceDate ? formatDate(formData.performanceDate) : ''} 
                     placeholder="ДД.ММ.ГГГГ"
                     readOnly
-                    onClick={() => document.getElementById('hiddenDatePicker').showPicker()}
+                    onClick={() => setShowCustomCalendar(!showCustomCalendar)}
                     style={{
                       ...inputStyles,
                       cursor: 'pointer',
@@ -551,33 +606,16 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                       boxSizing: 'border-box'
                     }}
                   />
-                  <input 
-                    type="date"
-                    id="hiddenDatePicker"
-                    name="performanceDate"
-                    value={formData.performanceDate}
-                    min={getMinDate()}
-                    max={getMaxDate()}
-                    required
-                    onChange={handleChange}
-                    style={{ 
-                      position: 'absolute',
-                      width: '1px',
-                      height: '1px',
-                      opacity: 0,
-                      pointerEvents: 'none'
-                    }}
-                  />
                   <div 
                     style={{
                       position: 'absolute',
-                      right: '5px', // Придвинуто ближе к полю ввода
+                      right: '5px',
                       top: '50%',
                       transform: 'translateY(-50%)',
                       cursor: 'pointer',
                       zIndex: 1
                     }}
-                    onClick={() => document.getElementById('hiddenDatePicker').showPicker()}
+                    onClick={() => setShowCustomCalendar(!showCustomCalendar)}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -586,6 +624,31 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                       <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
                   </div>
+                  
+                  {showCustomCalendar && (
+                    <div id="custom-calendar" style={calendarStyles}>
+                      <div style={calendarGridStyles}>
+                        {availableDates.map((dateObj) => (
+                          <div
+                            key={dateObj.value}
+                            onClick={() => {
+                              setFormData({...formData, performanceDate: dateObj.value});
+                              setShowCustomCalendar(false);
+                            }}
+                            style={dateItemStyles(formData.performanceDate === dateObj.value)}
+                            onMouseOver={(e) => {
+                              e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0077ee' : '#333';
+                            }}
+                            onMouseOut={(e) => {
+                              e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0066cc' : '#262626';
+                            }}
+                          >
+                            {dateObj.date.getDate()}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               
