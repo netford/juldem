@@ -7,7 +7,8 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    callTime: ''
+    callTime: '',
+    performanceDate: ''
   });
   const [timeSlots, setTimeSlots] = useState([]);
   const [error, setError] = useState({
@@ -36,7 +37,8 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
       setFormData({
         name: '',
         phone: '',
-        callTime: ''
+        callTime: '',
+        performanceDate: ''
       });
       
       // Блокируем прокрутку страницы при открытии модального окна
@@ -126,6 +128,13 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     }
   };
 
+  // Форматирование даты из yyyy-mm-dd в dd.mm.yyyy для отображения в поле
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const [year, month, day] = dateString.split('-');
+    return `${day}.${month}.${year}`;
+  };
+
   // Обработка отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -181,13 +190,27 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
       return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
     };
     
+    // Форматирование даты выступления для отправки сообщения
+    const formatPerformanceDate = (date) => {
+      if (!date) return 'Не указана';
+      
+      if (date.includes('.')) {
+        return date; // Дата уже в формате DD.MM.YYYY
+      } else {
+        const [year, month, day] = date.split('-');
+        return `${day}.${month}.${year}`;
+      }
+    };
+    
     // Форматируем сообщение для Telegram
     const message = `
 📝 *НОВЫЙ ЗАКАЗ АРЕНДЫ* 📝
 
-🛍️ *Товар:* ${product.name}
+🛍️ *Товар:* Купальник ${product.name}
 📏 *Рост:* ${product.height}
-💰 *Цена:* ${product.price.toLocaleString('ru-RU')} руб.
+💰 *Аренда:* ${product.price.toLocaleString('ru-RU')} ₽
+💳 *Залог:* ${product.deposit.toLocaleString('ru-RU')} ₽
+📅 *Дата выступления:* ${formatPerformanceDate(formData.performanceDate)}
 
 👤 *Клиент:* ${formData.name}
 📞 *Телефон:* ${formattedPhone}
@@ -412,6 +435,39 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     transition: 'all 0.3s ease',
     padding: isMobile ? '6px' : '8px'
   };
+  
+  // Получение минимально допустимой даты для выбора в календаре (сегодня)
+  const getMinDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+  
+  // Получение максимально допустимой даты для выбора в календаре (через 30 дней)
+  const getMaxDate = () => {
+    const today = new Date();
+    today.setDate(today.getDate() + 30); // 30 дней вперед вместо 60
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  // Стили для адаптивной компоновки полей "Дата выступления" и "Телефон" в линию
+  const twoColumnsContainerStyles = {
+    display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
+    gap: isMobile ? '12px' : '15px',
+  };
+  
+  const columnStyles = {
+    flex: '1',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '5px',
+  };
 
   // Создаем портал для рендеринга модального окна в конце body
   // Это помогает избежать проблем с z-index и позиционированием
@@ -447,11 +503,13 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
               </div>
             )}
             <div style={productDetailsStyles}>
-              <p style={productNameStyles}>{product.name}</p>
+              <p style={productNameStyles}>Купальник {product.name}</p>
               <p style={productParamsStyles}>
                 Рост: {product.height}
                 <br />
-                Цена: {product.price.toLocaleString('ru-RU')} руб./нед
+                Аренда: {product.price.toLocaleString('ru-RU')} ₽
+                <br />
+                Залог: {product.deposit.toLocaleString('ru-RU')} ₽
               </p>
             </div>
           </div>
@@ -473,32 +531,94 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                 style={inputStyles}
               />
             </div>
+            
+            {/* Две колонки для даты и телефона */}
+            <div style={twoColumnsContainerStyles}>
+              {/* Колонка для даты выступления */}
+              <div style={columnStyles}>
+                <label htmlFor="performanceDate" style={labelStyles}>Дата выступления:</label>
+                <div style={{ position: 'relative' }}>
+                  <input 
+                    type="text" 
+                    id="performanceDateDisplay" 
+                    value={formData.performanceDate ? formatDate(formData.performanceDate) : ''} 
+                    placeholder="ДД.ММ.ГГГГ"
+                    readOnly
+                    onClick={() => document.getElementById('hiddenDatePicker').showPicker()}
+                    style={{
+                      ...inputStyles,
+                      cursor: 'pointer',
+                      width: '100%',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                  <input 
+                    type="date"
+                    id="hiddenDatePicker"
+                    name="performanceDate"
+                    value={formData.performanceDate}
+                    min={getMinDate()}
+                    max={getMaxDate()}
+                    required
+                    onChange={handleChange}
+                    style={{ 
+                      position: 'absolute',
+                      width: '1px',
+                      height: '1px',
+                      opacity: 0,
+                      pointerEvents: 'none'
+                    }}
+                  />
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      right: '5px', // Придвинуто ближе к полю ввода
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      cursor: 'pointer',
+                      zIndex: 1
+                    }}
+                    onClick={() => document.getElementById('hiddenDatePicker').showPicker()}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
               
-            <div style={formGroupStyles}>
-              <label htmlFor="phone" style={labelStyles}>Телефон:</label>
-              <div style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center'
-              }}>
-                <span style={{
-                  position: 'absolute',
-                  left: '15px',
-                  color: '#fff'
-                }}>+7 </span>
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  name="phone" 
-                  value={formData.phone} 
-                  onChange={handleChange}
-                  placeholder="(___) ___-__-__"
-                  required 
-                  style={{
-                    ...inputStyles,
-                    paddingLeft: '40px'
-                  }}
-                />
+              {/* Колонка для телефона */}
+              <div style={columnStyles}>
+                <label htmlFor="phone" style={labelStyles}>Телефон:</label>
+                <div style={{
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: '15px',
+                    color: '#fff'
+                  }}>+7 </span>
+                  <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    value={formData.phone} 
+                    onChange={handleChange}
+                    placeholder="(___) ___-__-__"
+                    required 
+                    style={{
+                      ...inputStyles,
+                      paddingLeft: '40px',
+                      width: '100%',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
               </div>
             </div>
               

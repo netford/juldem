@@ -27,21 +27,26 @@
 │   └── react.svg
 ├── components
 │   ├── About.jsx
+│   ├── BuyModal.jsx
 │   ├── ContactsSection.jsx
 │   ├── DeliverySection.jsx
 │   ├── DeliverySection.module.css
+│   ├── ErrorAlert.jsx
 │   ├── Footer.jsx
 │   ├── Hero.jsx
 │   ├── HowToOrder.jsx
 │   ├── HowToOrder.module.css
 │   ├── Navbar.jsx
+│   ├── OrderModal.jsx
 │   ├── PricesSection.jsx
 │   ├── PricesSection.module.css
 │   ├── ProductImageSlider.jsx
 │   ├── ProductImageSlider.module.css
 │   ├── ReadySuits.jsx
 │   ├── ReadySuits.module.css
+│   ├── RentalFormModal.jsx
 │   ├── RentalModal.jsx
+│   ├── RentalPoliceModal.jsx
 │   ├── ReviewsCarousel.jsx
 │   ├── SuitCard.jsx
 │   └── VideoModal.jsx
@@ -54,13 +59,3 @@
 ├── Structure.txt
 └── styles
     └── main.css
-
-
-Данная структура включает в себя следующие основные компоненты:
-
-assets/: Содержит различные изображения, используемые в проекте.
-components/: Содержит JSX-компоненты, реализующие различные части пользовательского интерфейса.
-styles/: Содержит файлы CSS, используемые для стилизации компонентов.
-index.js и main.jsx: Основные точки входа в приложение.
-reportWebVitals.js и setupTests.js: Вспомогательные файлы, связанные с тестированием и аналитикой производительности.
-Structure.txt: Текстовый файл, содержащий описание структуры проекта.

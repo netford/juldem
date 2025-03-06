@@ -185,9 +185,9 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     const message = `
 📝 *НОВЫЙ ЗАКАЗ* 📝
 
-🛍️ *Товар:* ${product.name}
+🛍️ *Товар:* Купальник ${product.name}
 📏 *Рост:* ${product.height}
-💰 *Цена:* ${product.price.toLocaleString('ru-RU')} руб.
+💰 *Цена:* ${product.price.toLocaleString('ru-RU')} ₽
 
 👤 *Клиент:* ${formData.name}
 📞 *Телефон:* ${formattedPhone}
@@ -447,11 +447,11 @@ const OrderModal = ({ isOpen, onClose, product }) => {
               </div>
             )}
             <div style={productDetailsStyles}>
-              <p style={productNameStyles}>{product.name}</p>
+              <p style={productNameStyles}>Купальник {product.name}</p>
               <p style={productParamsStyles}>
                 Рост: {product.height}
                 <br />
-                Цена: {product.price.toLocaleString('ru-RU')} руб.
+                Цена: {product.price.toLocaleString('ru-RU')} ₽
               </p>
             </div>
           </div>
