@@ -314,8 +314,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     📝 *НОВЫЙ ЗАКАЗ (АРЕНДА)* 📝
     
     🛍️ *Купальник ${product.name}* (${product.height})
-    💰 *Аренда:* ${product.price.toLocaleString('ru-RU')} ₽
-    💳 *Залог:* ${product.deposit.toLocaleString('ru-RU')} ₽
+    💰 *Аренда / Залог:* ${product.price.toLocaleString('ru-RU')} / ${product.deposit.toLocaleString('ru-RU')} ₽
     📅 *Дата выступления:* ${formatPerformanceDate(formData.performanceDate)}
     
     👤 *Клиент:* ${formData.name}
@@ -645,7 +644,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
             <X size={isMobile ? 22 : 28} strokeWidth={2.5} />
           </button>
 
-          <h2 style={headingStyles}>Оформление аренды</h2>
+          <h2 style={headingStyles}>Забронировать</h2>
 
           {/* Информация о товаре */}
           <div style={productInfoStyles}>

@@ -183,15 +183,14 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     
     // Форматируем сообщение для Telegram
     const message = `
-📝 *НОВЫЙ ЗАКАЗ* 📝
+📝 *НОВЫЙ ЗАКАЗ (ПРОДАЖА)* 📝
 
-🛍️ *Товар:* Купальник ${product.name}
-📏 *Рост:* ${product.height}
+🛍️ *Купальник ${product.name}* (${product.height})
 💰 *Цена:* ${product.price.toLocaleString('ru-RU')} ₽
 
 👤 *Клиент:* ${formData.name}
 📞 *Телефон:* ${formattedPhone}
-🕒 *Удобное время для звонка:* ${getReadableTime(formData.callTime)}
+🕒 *Созвон:* ${getReadableTime(formData.callTime).replace(' с ', ' (с ').replace(' до ', ' до ') + ')'}
     `.trim();
     
     const botToken = '7964652895:AAF2XFFz8stkwABk7Hdo2tOOVj0QhPglMYU';
