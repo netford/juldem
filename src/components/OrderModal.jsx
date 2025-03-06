@@ -347,7 +347,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
   };
 
   const noteStyles = {
-    fontSize: isMobile ? '0.8rem' : '0.9rem',
+    fontSize: isMobile ? '0.95rem' : '1.05rem',
     color: '#ccc',
     marginBottom: isMobile ? '1rem' : '1.5rem'
   };
