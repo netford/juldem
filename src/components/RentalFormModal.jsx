@@ -142,11 +142,13 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
       // Проверяем, находится ли дата в диапазоне разрешенных дат (сегодня + 30 дней)
       const isInRange = currentDate >= firstDate && currentDate <= lastDate;
       
-      // Проверяем, является ли дата прошедшей
-      // Если сегодняшний день и уже поздно вечером
+      // Проверяем, является ли дата текущей
       const isToday = currentDate.getDate() === today.getDate() && 
                      currentDate.getMonth() === today.getMonth() && 
                      currentDate.getFullYear() === today.getFullYear();
+                     
+      // Проверяем, является ли дата прошедшей
+      // Если сегодняшний день и уже поздно вечером
       const isPast = isToday && currentHour >= 19;
       
       allDates.push({
@@ -155,7 +157,8 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
         formatted: `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`,
         value: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
         isPast: isPast,
-        isInRange: isInRange
+        isInRange: isInRange,
+        isToday: isToday
       });
       
       currentDate.setDate(currentDate.getDate() + 1);
@@ -595,7 +598,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     marginBottom: '2px'
   };
 
-  const dateItemStyles = (isSelected, isDisabled) => ({
+  const dateItemStyles = (isSelected, isDisabled, isToday) => ({
     width: '28px',
     height: '28px',
     display: 'flex',
@@ -749,20 +752,28 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
                                 style={{
                                   ...dateItemStyles(
                                     formData.performanceDate === dateObj.value,
-                                    !dateObj.isInRange || dateObj.isPast
+                                    !dateObj.isInRange || dateObj.isPast,
+                                    dateObj.isToday
                                   ),
-                                  color: !dateObj.isInRange ? 'rgba(255, 255, 255, 0.1)' : 
-                                         dateObj.isPast ? 'rgba(255, 255, 255, 0.3)' : '#fff'
+                                  fontWeight: dateObj.isToday ? 'bold' : 'normal',
+                                  color: dateObj.isToday ? '#0066cc' : 
+                                         (!dateObj.isInRange ? 'rgba(255, 255, 255, 0.1)' : 
+                                         dateObj.isPast ? 'rgba(255, 255, 255, 0.3)' : '#fff')
                                 }}
                                 onMouseOver={(e) => {
                                   if (dateObj.isInRange && !dateObj.isPast) {
                                     e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0077ee' : '#333';
-                                    e.currentTarget.style.color = '#fff';
+                                    if (!dateObj.isToday) {
+                                      e.currentTarget.style.color = '#fff';
+                                    }
                                   }
                                 }}
                                 onMouseOut={(e) => {
                                   if (dateObj.isInRange && !dateObj.isPast) {
                                     e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0066cc' : 'transparent';
+                                    if (!dateObj.isToday && formData.performanceDate !== dateObj.value) {
+                                      e.currentTarget.style.color = '#fff';
+                                    }
                                   }
                                 }}
                               >
