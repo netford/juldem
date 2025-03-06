@@ -11,6 +11,7 @@ import nonePhoto from '../assets/images/suits/none_photo.jpg';
 
 // Массив товаров
 const suits = [
+  /* КУПАЛЬНИКИ В НАЛИЧИИ (available: true) */
   {
     id: 1,
     name: "'Бабочка'",
@@ -113,8 +114,122 @@ const suits = [
             ],
     available: true
   },
+  
+  /* КУПАЛЬНИКИ ДЛЯ ПРОКАТА (category: "renta") */
   {
     id: 9,
+    name: "'Малинка'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/malinka_000.png',
+             'images/products/categories/renta/malinka_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 10,
+    name: "'Туника' (голубой)",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/pale_blue_000.png',
+             'images/products/categories/renta/pale_blue_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 11,
+    name: "'Туника' (сиреневый)",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/siren_000.png',
+             'images/products/categories/renta/siren_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 12,
+    name: "'Январь'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/pale_blue_0000.png',
+             'images/products/categories/renta/pale_blue_0001.png',
+             'images/products/categories/renta/pale_blue_0002.png'
+            ],
+    available: true
+  },
+  {
+    id: 13,
+    name: "'Бразильянка'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/brazil_000.png',
+             'images/products/categories/renta/brazil_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 14,
+    name: "'Всплеск'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/splash_000.png',
+             'images/products/categories/renta/splash_001.png',
+             'images/products/categories/renta/splash_002.png'
+            ],
+    available: true
+  },
+  {
+    id: 15,
+    name: "'Океан'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/ocean_000.png',
+             'images/products/categories/renta/ocean_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 16,
+    name: "'Эльза'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/elza_000.png',
+             'images/products/categories/renta/elza_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 17,
+    name: "'Закат'",
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [94, 110],
+    images: ['images/products/categories/renta/sunset_000.png',
+             'images/products/categories/renta/sunset_001.png'
+            ],
+    available: true
+  },
+  
+  /* ПРОДАННЫЕ КУПАЛЬНИКИ (available: false) */
+  {
+    id: 18,
     name: "'Рубин'",
     category: "figure-skating",
     price: 17000,
@@ -123,7 +238,7 @@ const suits = [
     available: false
   },
   {
-    id: 10,
+    id: 19,
     name: "'Сияние'",
     category: "acrobatics_gymnastics",
     price: 16000,
@@ -132,7 +247,7 @@ const suits = [
     available: false
   },
   {
-    id: 11,
+    id: 20,
     name: "'Сказка'",
     category: "figure-skating",
     price: 18500,
@@ -141,7 +256,7 @@ const suits = [
     available: false
   },
   {
-    id: 12,
+    id: 21,
     name: "'Лазурит'",
     category: "figure-skating",
     price: 16500,
@@ -152,7 +267,7 @@ const suits = [
     available: false
   },
   {
-    id: 13,
+    id: 22,
     name: "'Фуксия'",
     category: "figure-skating",
     price: 15500,
@@ -161,7 +276,7 @@ const suits = [
     available: false
   },
   {
-    id: 14,
+    id: 23,
     name: "'Персея'",
     category: "figure-skating",
     price: 17500,
@@ -170,7 +285,7 @@ const suits = [
     available: false
   },
   {
-    id: 15,
+    id: 24,
     name: "'Каскад'",
     category: "figure-skating",
     price: 16500,
@@ -179,7 +294,7 @@ const suits = [
     available: false
   },
   {
-    id: 16,
+    id: 25,
     name: "'Лаванда'",
     category: "acrobatics_gymnastics",
     price: 19000,
@@ -190,7 +305,7 @@ const suits = [
     available: false
   },
   {
-    id: 17,
+    id: 26,
     name: "'Феникс'",
     category: "acrobatics_gymnastics",
     price: 17000,
@@ -199,7 +314,7 @@ const suits = [
     available: false
   },
   {
-    id: 18,
+    id: 27,
     name: "'Тропикана'",
     category: "acrobatics_gymnastics",
     price: 16000,
@@ -211,7 +326,7 @@ const suits = [
     available: false
   },
   {
-    id: 19,
+    id: 28,
     name: "'Волна'",
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -220,7 +335,7 @@ const suits = [
     available: false
   },
   {
-    id: 20,
+    id: 29,
     name: "'Вулкан'",
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -229,7 +344,7 @@ const suits = [
     available: false
   },
   {
-    id: 21,
+    id: 30,
     name: "'Византия'",
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -240,7 +355,7 @@ const suits = [
     available: false
   },
   {
-    id: 22,
+    id: 31,
     name: "'Аметист'",
     category: "acrobatics_gymnastics",
     price: 35000,
@@ -253,7 +368,7 @@ const suits = [
     available: false
   },
   {
-    id: 23,
+    id: 32,
     name: "'Бабочка'",
     category: "acrobatics_gymnastics",
     price: 35000,
@@ -262,107 +377,6 @@ const suits = [
              'images/products/categories/acrobatics_gymnastics/photo_022.png'
             ],
     available: false
-  },
-  {
-    id: 24,
-    name: "'Малинка'",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/malinka_000.png',
-             'images/products/categories/renta/malinka_001.png'
-            ],
-    available: true
-  },
-  {
-    id: 25,
-    name: "'Туника' (нежно-голубой)",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/pale_blue_000.png',
-             'images/products/categories/renta/pale_blue_001.png'
-            ],
-    available: true
-  },
-  {
-    id: 26,
-    name: "'Туника' (сиреневый)",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/siren_000.png',
-             'images/products/categories/renta/siren_001.png'
-            ],
-    available: true
-  },
-  {
-    id: 27,
-    name: "'Нежно-голубой'",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/pale_blue_0000.png',
-             'images/products/categories/renta/pale_blue_0001.png',
-             'images/products/categories/renta/pale_blue_0002.png'
-            ],
-    available: true
-  },
-  {
-    id: 27,
-    name: "'Бразильянка'",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/brazil_000.png',
-             'images/products/categories/renta/brazil_001.png'
-            ],
-    available: true
-  },
-  {
-    id: 28,
-    name: "'Всплеск'",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/splash_000.png',
-             'images/products/categories/renta/splash_001.png',
-             'images/products/categories/renta/splash_002.png'
-            ],
-    available: true
-  },
-  {
-    id: 29,
-    name: "'Океан'",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/ocean_000.png',
-             'images/products/categories/renta/ocean_001.png'
-            ],
-    available: true
-  },
-  {
-    id: 30,
-    name: "'Эльза'",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/elza_000.png',
-             'images/products/categories/renta/elza_001.png'
-            ],
-    available: true
-  },
-  {
-    id: 31,
-    name: "'Закат'",
-    category: "renta",
-    price: 2500, // Цена за неделю проката
-    height: [94, 110],
-    images: ['images/products/categories/renta/sunset_000.png',
-             'images/products/categories/renta/sunset_001.png'
-            ],
-    available: true
   }
 ];
 

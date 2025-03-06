@@ -1,15 +1,14 @@
-// SuitCard.jsx
 import React, { useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
 import ProductImageSlider from './ProductImageSlider';
 import OrderModal from './OrderModal';
-import RentalFormModal from './RentalFormModal'; // Импортируем наше новое модальное окно
+import RentalFormModal from './RentalFormModal';
 import styles from './ReadySuits.module.css';
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 
 const SuitCard = React.memo(({ suit }) => {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-  const [isRentalFormModalOpen, setIsRentalFormModalOpen] = useState(false); // Добавляем новое состояние
+  const [isRentalFormModalOpen, setIsRentalFormModalOpen] = useState(false);
   
   // Определяем текст метки в зависимости от категории и доступности
   const getTagText = () => {
@@ -37,6 +36,7 @@ const SuitCard = React.memo(({ suit }) => {
     name: suit.name,
     height: formatHeight(suit.height),
     price: suit.price,
+    deposit: suit.deposit, // Добавляем залог для купальников категории "renta"
     image: suit.images && suit.images.length > 0 ? suit.images[0] : nonePhoto
   };
   
@@ -50,6 +50,13 @@ const SuitCard = React.memo(({ suit }) => {
       setIsOrderModalOpen(true);
     }
   };
+
+  // Стиль для цены проката (уменьшенный размер шрифта)
+  const priceStyle = suit.category === 'renta' ? {
+    fontSize: '0.95rem',
+    fontWeight: '600',
+    color: '#00aaff'
+  } : {};
 
   return (
     <>
@@ -87,9 +94,11 @@ const SuitCard = React.memo(({ suit }) => {
                 <span className={styles.suitSize}>Рост: {formatHeight(suit.height)}</span>
               )}
               {(suit.available || suit.category === 'renta') && (
-                <span className={styles.suitPrice}>
-                  {suit.price.toLocaleString('ru-RU')} ₽
-                  {suit.category === 'renta' && ' / нед'}
+                <span className={styles.suitPrice} style={priceStyle}>
+                  {suit.category === 'renta' 
+                    ? `${suit.price.toLocaleString('ru-RU')} / ${suit.deposit.toLocaleString('ru-RU')} ₽` 
+                    : `${suit.price.toLocaleString('ru-RU')} ₽`
+                  }
                 </span>
               )}
             </div>
@@ -120,7 +129,7 @@ const SuitCard = React.memo(({ suit }) => {
         product={productInfo}
       />
       
-      {/* Новое модальное окно для аренды */}
+      {/* Модальное окно для аренды */}
       <RentalFormModal 
         isOpen={isRentalFormModalOpen}
         onClose={() => setIsRentalFormModalOpen(false)}

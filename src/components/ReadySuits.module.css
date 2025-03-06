@@ -361,3 +361,8 @@
 .rentaBtn:hover {
   background: #0099ee;
 }
+
+.suitPriceRental {
+  composes: suitPrice;
+  font-size: 1rem; /* Уменьшенный размер шрифта (было 1.2rem для .suitPrice) */
+}
