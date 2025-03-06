@@ -1,12 +1,15 @@
+// SuitCard.jsx
 import React, { useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
 import ProductImageSlider from './ProductImageSlider';
 import OrderModal from './OrderModal';
+import RentalFormModal from './RentalFormModal'; // Импортируем наше новое модальное окно
 import styles from './ReadySuits.module.css';
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 
 const SuitCard = React.memo(({ suit }) => {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [isRentalFormModalOpen, setIsRentalFormModalOpen] = useState(false); // Добавляем новое состояние
   
   // Определяем текст метки в зависимости от категории и доступности
   const getTagText = () => {
@@ -37,10 +40,15 @@ const SuitCard = React.memo(({ suit }) => {
     image: suit.images && suit.images.length > 0 ? suit.images[0] : nonePhoto
   };
   
-  // Обработчик клика по кнопке купить/заказать
+  // Обработчик клика по кнопке купить/заказать/арендовать
   const handleOrderClick = (e) => {
     e.preventDefault();
-    setIsOrderModalOpen(true);
+    // Определяем, какое модальное окно открывать
+    if (suit.category === 'renta') {
+      setIsRentalFormModalOpen(true);
+    } else {
+      setIsOrderModalOpen(true);
+    }
   };
 
   return (
@@ -105,10 +113,17 @@ const SuitCard = React.memo(({ suit }) => {
         </div>
       </article>
       
-      {/* Модальное окно заказа */}
+      {/* Модальное окно заказа для обычных товаров */}
       <OrderModal 
         isOpen={isOrderModalOpen}
         onClose={() => setIsOrderModalOpen(false)}
+        product={productInfo}
+      />
+      
+      {/* Новое модальное окно для аренды */}
+      <RentalFormModal 
+        isOpen={isRentalFormModalOpen}
+        onClose={() => setIsRentalFormModalOpen(false)}
         product={productInfo}
       />
     </>
