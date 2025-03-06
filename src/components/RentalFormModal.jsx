@@ -230,12 +230,11 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
   };
 
   const imageContainerStyles = {
-    width: '100px',  // Увеличено с 80px
-    height: '100px', // Увеличено с 80px
+    width: '100px',
+    height: '100px',
     borderRadius: '8px',
     overflow: 'hidden',
     flexShrink: 0
-    // Удален border
   };
 
   const imageStyles = {
@@ -246,51 +245,54 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
 
   const productInfoStyles = {
     flex: 1,
-    paddingTop: '4px' // Добавляем небольшой отступ сверху для лучшего выравнивания
+    paddingTop: '4px'
   };
 
   const productNameStyles = {
     fontSize: '1.1rem',
     fontWeight: 'bold',
-    marginBottom: '0.8rem', // Увеличен отступ между названием и параметрами
+    marginBottom: '0.8rem',
     color: '#fff'
   };
 
   const tagContainerStyles = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.2rem' // Уменьшенный интервал между параметрами
+    gap: '0.2rem'
   };
 
   const sizeInfoStyles = {
     display: 'flex',
     alignItems: 'center',
-    color: '#0088ff',  // Голубой цвет как на оригинале
+    color: '#0088ff',
     fontSize: '0.95rem'
   };
 
   const priceInfoStyles = {
     display: 'flex',
     alignItems: 'center',
-    color: '#ffc107',  // Желтый цвет как на оригинале
+    color: '#ffc107',
     fontSize: '0.95rem'
   };
 
+  // Стили кнопки закрытия, аналогичные OrderModal
   const closeButtonStyles = {
     position: 'absolute',
-    top: '20px',
-    right: '20px',
-    width: '40px',
-    height: '40px',
+    top: isMobile ? '0.5rem' : '1rem',
+    right: isMobile ? '0.5rem' : '1rem',
+    background: 'rgba(0, 0, 0, 0.7)',
+    border: '2px solid rgba(255, 255, 255, 0.5)',
+    width: isMobile ? '36px' : '44px',
+    height: isMobile ? '36px' : '44px',
     borderRadius: '50%',
-    background: '#303030', // Более темный и контрастный фон
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    zIndex: 10,
-    transition: 'all 0.2s ease',
-    border: '1px solid rgba(255, 255, 255, 0.3)'
+    color: 'white',
+    zIndex: 2,
+    transition: 'all 0.3s ease',
+    padding: isMobile ? '6px' : '8px'
   };
 
   const noteStyles = {
@@ -367,32 +369,24 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     gap: '0.5rem'
   };
 
-  // Создаем SVG для крестика вместо компонента Lucide X
-  const xSvg = (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18"></line>
-      <line x1="6" y1="6" x2="18" y2="18"></line>
-    </svg>
-  );
-
   // Создаем элемент для модального окна и устанавливаем его инлайн-стили
   const modalContent = (
     <div style={overlayStyles} onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div style={modalStyles}>
-        {/* Кнопка закрытия с инлайн SVG вместо компонента */}
+        {/* Кнопка закрытия с тем же подходом, как в OrderModal */}
         <button
           onClick={onClose}
           style={closeButtonStyles}
           onMouseOver={(e) => {
-            e.currentTarget.style.background = '#404040';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            e.currentTarget.style.background = 'rgba(0, 0, 0, 0.9)';
+            e.currentTarget.style.borderColor = 'white';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.background = '#303030';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
           }}
         >
-          {xSvg}
+          <X size={isMobile ? 22 : 28} strokeWidth={2.5} />
         </button>
 
         {success ? (
