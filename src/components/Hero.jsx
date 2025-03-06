@@ -40,6 +40,36 @@ const Hero = () => {
     setIsRentalModalOpen(true);
   };
 
+  // Новая функция для перехода к секции "Наши работы" с фильтром "Все размеры"
+  const scrollToReadySuits = () => {
+    const readySuitsSection = document.getElementById('our-works');
+    if (readySuitsSection) {
+      // Прокручиваем к секции
+      readySuitsSection.scrollIntoView({ behavior: 'smooth' });
+      
+      // Находим селект фильтра и устанавливаем значение "available"
+      // Небольшая задержка, чтобы дать время на завершение прокрутки
+      setTimeout(() => {
+        const filterSelect = readySuitsSection.querySelector('.filterSelect');
+        if (filterSelect) {
+          filterSelect.value = 'available';
+          
+          // Вызываем событие change, чтобы компонент обновил фильтрацию
+          const changeEvent = new Event('change', { bubbles: true });
+          filterSelect.dispatchEvent(changeEvent);
+        }
+      }, 800);
+    }
+  };
+
+  // Для кнопки "Индивидуальный пошив"
+  const scrollToPrices = () => {
+    const pricesSection = document.getElementById('prices');
+    if (pricesSection) {
+      pricesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section ref={heroRef} id="main" className="hero">
       <style>{`
@@ -105,11 +135,15 @@ const Hero = () => {
           margin-bottom: 1rem;
           line-height: 1.2;
         }
-
+        
         .hero-subtitle {
-          font-size: clamp(1.2rem, 3vw, 2rem);
+          font-size: clamp(1rem, 2vw, 1.4rem);
+          color: rgba(255, 255, 255, 0.9);
           margin-bottom: 2.5rem;
-          opacity: 0.9;
+          max-width: 750px;
+          line-height: 1.4;
+          font-weight: 300;
+          letter-spacing: 0.5px;
         }
 
         .hero-buttons {
@@ -127,6 +161,13 @@ const Hero = () => {
           transition: var(--transition-base);
           position: relative;
           overflow: hidden;
+          cursor: pointer;
+          white-space: nowrap;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
         }
 
         .hero-button::before {
@@ -145,17 +186,37 @@ const Hero = () => {
         .hero-button:hover::before {
           transform: translate(-50%, -50%) scale(1);
         }
+        
+        .hero-button:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .hero-button:active {
+          transform: translateY(1px);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
 
         .hero-button.primary {
           background: var(--color-primary);
           color: var(--color-white);
           border: none;
         }
+        
+        .hero-button.primary:hover {
+          background: var(--color-accent, #0052a3);
+        }
 
         .hero-button.secondary {
-          background: transparent;
+          background: rgba(255, 255, 255, 0.1);
           color: var(--color-white);
-          border: 2px solid var(--color-white);
+          border: 2px solid rgba(255, 255, 255, 0.6);
+          backdrop-filter: blur(5px);
+        }
+        
+        .hero-button.secondary:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.9);
         }
 
         .scroll-indicator {
@@ -167,8 +228,7 @@ const Hero = () => {
           cursor: pointer;
           opacity: 0;
           transition: opacity 0.6s ease-out;
-          pointer-events: none; /* Добавлено это свойство */
-          user-select: none; /* И это свойство */
+          user-select: none;
         }
 
         .scroll-indicator.visible {
@@ -196,10 +256,16 @@ const Hero = () => {
           .hero-buttons {
             flex-direction: column;
             padding: 0 2rem;
+            gap: 1rem;
           }
 
           .hero-button {
             width: 100%;
+            padding: 1rem 1.5rem;
+          }
+          
+          .hero-subtitle {
+            margin-bottom: 2rem;
           }
         }
       `}</style>
@@ -212,10 +278,13 @@ const Hero = () => {
       
       <div className={`hero-content ${isVisible ? 'visible' : ''}`}>
         <h1 className="hero-title">СПОРТИВНЫЕ КУПАЛЬНИКИ НА ЗАКАЗ</h1>
-        <h2 className="hero-subtitle">ПОШИВ | ПРОДАЖА | ПРОКАТ</h2>
+        <h2 className="hero-subtitle">Для художественной гимнастики, фигурного катания и спортивной акробатики</h2>
         
         <div className="hero-buttons">
-          <button className="hero-button primary">
+          <button className="hero-button primary" onClick={scrollToPrices}>
+            Индивидуальный пошив
+          </button>
+          <button className="hero-button secondary" onClick={scrollToReadySuits}>
             Готовые модели
           </button>
           <button className="hero-button secondary" onClick={openRentalModal}>

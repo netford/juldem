@@ -13,7 +13,7 @@ import nonePhoto from '../assets/images/suits/none_photo.jpg';
 const suits = [
   {
     id: 1,
-    name: "Купальник 'Бабочка'",
+    name: "'Бабочка'",
     category: "acrobatics_gymnastics",
     price: 30000,
     height: [144],
@@ -24,7 +24,7 @@ const suits = [
   },
   {
     id: 2,
-    name: "Купальник 'Гранат'",
+    name: "'Гранат'",
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [164],
@@ -33,7 +33,7 @@ const suits = [
   },
   {
     id: 3,
-    name: "Купальник 'Полярная звезда'",
+    name: "'Полярная звезда'",
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [110, 128],
@@ -46,7 +46,7 @@ const suits = [
   },
   {
     id: 4,
-    name: "Купальник 'Морской бриз'",
+    name: "'Морской бриз'",
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [130, 144],
@@ -62,7 +62,7 @@ const suits = [
   },
   {
     id: 5,
-    name: "Купальник 'Лаванда'",
+    name: "'Лаванда'",
     category: "acrobatics_gymnastics",
     price: 25000,
     height: [110, 128],
@@ -75,7 +75,7 @@ const suits = [
   },
   {
     id: 6,
-    name: "Купальник 'Радужный'",
+    name: "'Радужный'",
     category: "acrobatics_gymnastics",
     price: 15000,
     height: [120,124],
@@ -89,7 +89,7 @@ const suits = [
   },
   {
     id: 7,
-    name: "Купальник 'Амазонка'",
+    name: "'Амазонка'",
     category: "acrobatics_gymnastics",
     price: 12000,
     height: [110, 128],
@@ -101,7 +101,7 @@ const suits = [
   },
   {
     id: 8,
-    name: "Купальник 'Нежный пион'",
+    name: "'Нежный пион'",
     category: "acrobatics_gymnastics",
     price: 10000,
     height: [89, 110],
@@ -115,7 +115,7 @@ const suits = [
   },
   {
     id: 9,
-    name: "Купальник 'Рубин'",
+    name: "'Рубин'",
     category: "figure-skating",
     price: 17000,
     height: [125, 129],
@@ -124,7 +124,7 @@ const suits = [
   },
   {
     id: 10,
-    name: "Купальник 'Сияние'",
+    name: "'Сияние'",
     category: "acrobatics_gymnastics",
     price: 16000,
     height: [122],
@@ -133,7 +133,7 @@ const suits = [
   },
   {
     id: 11,
-    name: "Купальник 'Сказка'",
+    name: "'Сказка'",
     category: "figure-skating",
     price: 18500,
     height: [140, 154],
@@ -142,7 +142,7 @@ const suits = [
   },
   {
     id: 12,
-    name: "Купальник 'Лазурит'",
+    name: "'Лазурит'",
     category: "figure-skating",
     price: 16500,
     height: [160],
@@ -153,7 +153,7 @@ const suits = [
   },
   {
     id: 13,
-    name: "Купальник 'Фуксия'",
+    name: "'Фуксия'",
     category: "figure-skating",
     price: 15500,
     height: [130, 139],
@@ -162,7 +162,7 @@ const suits = [
   },
   {
     id: 14,
-    name: "Купальник 'Персея'",
+    name: "'Персея'",
     category: "figure-skating",
     price: 17500,
     height: [125, 129],
@@ -171,7 +171,7 @@ const suits = [
   },
   {
     id: 15,
-    name: "Купальник 'Каскад'",
+    name: "'Каскад'",
     category: "figure-skating",
     price: 16500,
     height: [120],
@@ -180,7 +180,7 @@ const suits = [
   },
   {
     id: 16,
-    name: "Купальник 'Лаванда'",
+    name: "'Лаванда'",
     category: "acrobatics_gymnastics",
     price: 19000,
     height: [140, 154],
@@ -191,7 +191,7 @@ const suits = [
   },
   {
     id: 17,
-    name: "Купальник 'Феникс'",
+    name: "'Феникс'",
     category: "acrobatics_gymnastics",
     price: 17000,
     height: [158],
@@ -200,7 +200,7 @@ const suits = [
   },
   {
     id: 18,
-    name: "Купальник 'Тропикана'",
+    name: "'Тропикана'",
     category: "acrobatics_gymnastics",
     price: 16000,
     height: [130, 139],
@@ -212,7 +212,7 @@ const suits = [
   },
   {
     id: 19,
-    name: "Купальник 'Волна'",
+    name: "'Волна'",
     category: "acrobatics_gymnastics",
     price: 18000,
     height: [125, 129],
@@ -221,7 +221,7 @@ const suits = [
   },
   {
     id: 20,
-    name: "Купальник 'Вулкан'",
+    name: "'Вулкан'",
     category: "acrobatics_gymnastics",
     price: 18000,
     height: [125, 129],
@@ -230,7 +230,7 @@ const suits = [
   },
   {
     id: 21,
-    name: "Купальник 'Византия'",
+    name: "'Византия'",
     category: "acrobatics_gymnastics",
     price: 18000,
     height: [125, 129],
@@ -241,7 +241,7 @@ const suits = [
   },
   {
     id: 22,
-    name: "Купальник 'Аметист'",
+    name: "'Аметист'",
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [155, 165],
@@ -254,7 +254,7 @@ const suits = [
   },
   {
     id: 23,
-    name: "Купальник 'Бабочка'",
+    name: "'Бабочка'",
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [140, 154],
@@ -262,18 +262,108 @@ const suits = [
              'images/products/categories/acrobatics_gymnastics/photo_022.png'
             ],
     available: false
+  },
+  {
+    id: 24,
+    name: "'Малинка'",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/malinka_000.png',
+             'images/products/categories/renta/malinka_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 25,
+    name: "'Туника' (нежно-голубой)",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/pale_blue_000.png',
+             'images/products/categories/renta/pale_blue_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 26,
+    name: "'Туника' (сиреневый)",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/siren_000.png',
+             'images/products/categories/renta/siren_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 27,
+    name: "'Нежно-голубой'",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/pale_blue_0000.png',
+             'images/products/categories/renta/pale_blue_0001.png',
+             'images/products/categories/renta/pale_blue_0002.png'
+            ],
+    available: true
+  },
+  {
+    id: 27,
+    name: "'Бразильянка'",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/brazil_000.png',
+             'images/products/categories/renta/brazil_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 28,
+    name: "'Всплеск'",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/splash_000.png',
+             'images/products/categories/renta/splash_001.png',
+             'images/products/categories/renta/splash_002.png'
+            ],
+    available: true
+  },
+  {
+    id: 29,
+    name: "'Океан'",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/ocean_000.png',
+             'images/products/categories/renta/ocean_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 30,
+    name: "'Эльза'",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/elza_000.png',
+             'images/products/categories/renta/elza_001.png'
+            ],
+    available: true
+  },
+  {
+    id: 31,
+    name: "'Закат'",
+    category: "renta",
+    price: 2500, // Цена за неделю проката
+    height: [94, 110],
+    images: ['images/products/categories/renta/sunset_000.png',
+             'images/products/categories/renta/sunset_001.png'
+            ],
+    available: true
   }
-
-
-  // {
-  //   id: 24,
-  //   name: "Купальник 'Венера'",
-  //   category: "renta",
-  //   price: 2500, // Цена за неделю проката
-  //   height: [130, 139],
-  //   images: ['images/products/categories/acrobatics_gymnastics/photo_017.png'],
-  //   available: true
-  // }
 ];
 
 function ReadySuits() {
