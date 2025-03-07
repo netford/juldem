@@ -14,6 +14,9 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
   // Состояние для кастомного календаря
   const [showCustomCalendar, setShowCustomCalendar] = useState(false);
   
+  // Состояние для определения Firefox Mobile
+  const [isFirefoxMobile, setIsFirefoxMobile] = useState(false);
+  
   // Состояние для обработки UI
   const [timeSlots, setTimeSlots] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,7 +26,8 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     isOpen: false,
     message: ''
   });
-  // Добавляем состояние для отслеживания ошибок валидации
+  
+  // Состояние для отслеживания ошибок валидации
   const [validationErrors, setValidationErrors] = useState({
     name: false,
     phone: false,
@@ -32,154 +36,160 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     agree: false
   });
 
-  // Определение мобильного устройства
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+// Определение мобильного устройства и Firefox
+useEffect(() => {
+  const checkMobile = () => {
+    const mobile = window.innerWidth <= 768;
+    setIsMobile(mobile);
     
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    // Определяем Firefox Mobile
+    const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    setIsFirefoxMobile(isFirefox && mobile);
+  };
+  
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+  
+  return () => window.removeEventListener('resize', checkMobile);
+}, []);
 
-  // Закрытие календаря при клике вне его области
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const calendar = document.getElementById('custom-calendar');
-      const dateInput = document.getElementById('performanceDateDisplay');
-      
-      if (calendar && !calendar.contains(event.target) && event.target !== dateInput) {
-        setShowCustomCalendar(false);
+// Закрытие календаря при клике вне его области
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    const calendar = document.getElementById('custom-calendar');
+    const dateInput = document.getElementById('performanceDateDisplay');
+    
+    if (calendar && !calendar.contains(event.target) && event.target !== dateInput) {
+      setShowCustomCalendar(false);
+    }
+  };
+
+  if (showCustomCalendar) {
+    document.addEventListener('mousedown', handleClickOutside);
+  }
+  
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside);
+  };
+}, [showCustomCalendar]);
+
+// Генерация временных слотов при открытии модального окна
+useEffect(() => {
+  if (isOpen) {
+    setTimeSlots(generateTimeSlots());
+    // Сбрасываем форму при каждом открытии
+    setFormData({
+      name: '',
+      phone: '',
+      callTime: '',
+      performanceDate: ''
+    });
+    setSuccess(false);
+    // Сбрасываем ошибки валидации
+    setValidationErrors({
+      name: false,
+      phone: false,
+      callTime: false,
+      performanceDate: false,
+      agree: false
+    });
+    
+    // Блокируем прокрутку страницы при открытии модального окна
+    document.body.style.overflow = 'hidden';
+  }
+
+  return () => {
+    // Разрешаем прокрутку страницы при закрытии модального окна
+    document.body.style.overflow = 'auto';
+  };
+}, [isOpen]);
+
+// Добавляем индикатор скролла
+useEffect(() => {
+  if (isOpen && isMobile) {
+    // Добавляем стиль для анимации
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeInOut {
+        0%, 100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
+        50% { opacity: 0.8; transform: translateX(-50%) translateY(5px); }
       }
-    };
-
-    if (showCustomCalendar) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+    `;
+    document.head.appendChild(style);
+    
+    // Добавляем индикатор скролла после короткой задержки
+    const timer = setTimeout(() => {
+      const modalElement = document.querySelector('.rental-modal-content');
+      if (modalElement && modalElement.scrollHeight > modalElement.clientHeight) {
+        // Показываем индикатор прокрутки
+        const scrollIndicator = document.createElement('div');
+        scrollIndicator.className = 'scroll-indicator';
+        scrollIndicator.style.cssText = `
+          position: absolute;
+          bottom: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 40px;
+          height: 20px;
+          opacity: 0.7;
+          text-align: center;
+          animation: fadeInOut 1.5s infinite;
+        `;
+        
+        const arrowSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        arrowSvg.setAttribute('width', '20');
+        arrowSvg.setAttribute('height', '12');
+        arrowSvg.setAttribute('viewBox', '0 0 24 24');
+        arrowSvg.setAttribute('fill', 'none');
+        arrowSvg.setAttribute('stroke', 'white');
+        arrowSvg.setAttribute('stroke-width', '2');
+        arrowSvg.setAttribute('stroke-linecap', 'round');
+        arrowSvg.setAttribute('stroke-linejoin', 'round');
+        
+        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        polyline.setAttribute('points', '6 9 12 15 18 9');
+        arrowSvg.appendChild(polyline);
+        
+        scrollIndicator.appendChild(arrowSvg);
+        modalElement.appendChild(scrollIndicator);
+        
+        // Скрываем индикатор при скролле
+        const handleScroll = () => {
+          scrollIndicator.style.opacity = '0';
+          setTimeout(() => {
+            scrollIndicator.remove();
+          }, 300);
+          modalElement.removeEventListener('scroll', handleScroll);
+        };
+        
+        modalElement.addEventListener('scroll', handleScroll);
+      }
+    }, 1000);
     
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      clearTimeout(timer);
+      document.head.removeChild(style);
     };
-  }, [showCustomCalendar]);
+  }
+}, [isOpen, isMobile]);
 
-  // Генерация временных слотов при открытии модального окна
-  useEffect(() => {
-    if (isOpen) {
-      setTimeSlots(generateTimeSlots());
-      // Сбрасываем форму при каждом открытии
-      setFormData({
-        name: '',
-        phone: '',
-        callTime: '',
-        performanceDate: ''
-      });
-      setSuccess(false);
-      // Сбрасываем ошибки валидации
-      setValidationErrors({
-        name: false,
-        phone: false,
-        callTime: false,
-        performanceDate: false,
-        agree: false
-      });
-      
-      // Блокируем прокрутку страницы при открытии модального окна
-      document.body.style.overflow = 'hidden';
+// Обработка нажатия клавиши ESC для закрытия модального окна
+useEffect(() => {
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      onClose();
     }
+  };
 
-    return () => {
-      // Разрешаем прокрутку страницы при закрытии модального окна
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen]);
+  if (isOpen) {
+    document.addEventListener('keydown', handleEscape);
+  }
 
-  // Добавляем индикатор скролла
-  useEffect(() => {
-    if (isOpen && isMobile) {
-      // Добавляем стиль для анимации
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes fadeInOut {
-          0%, 100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
-          50% { opacity: 0.8; transform: translateX(-50%) translateY(5px); }
-        }
-      `;
-      document.head.appendChild(style);
-      
-      // Добавляем индикатор скролла после короткой задержки
-      const timer = setTimeout(() => {
-        const modalElement = document.querySelector('.rental-modal-content');
-        if (modalElement && modalElement.scrollHeight > modalElement.clientHeight) {
-          // Показываем индикатор прокрутки
-          const scrollIndicator = document.createElement('div');
-          scrollIndicator.className = 'scroll-indicator';
-          scrollIndicator.style.cssText = `
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 20px;
-            opacity: 0.7;
-            text-align: center;
-            animation: fadeInOut 1.5s infinite;
-          `;
-          
-          const arrowSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-          arrowSvg.setAttribute('width', '20');
-          arrowSvg.setAttribute('height', '12');
-          arrowSvg.setAttribute('viewBox', '0 0 24 24');
-          arrowSvg.setAttribute('fill', 'none');
-          arrowSvg.setAttribute('stroke', 'white');
-          arrowSvg.setAttribute('stroke-width', '2');
-          arrowSvg.setAttribute('stroke-linecap', 'round');
-          arrowSvg.setAttribute('stroke-linejoin', 'round');
-          
-          const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-          polyline.setAttribute('points', '6 9 12 15 18 9');
-          arrowSvg.appendChild(polyline);
-          
-          scrollIndicator.appendChild(arrowSvg);
-          modalElement.appendChild(scrollIndicator);
-          
-          // Скрываем индикатор при скролле
-          const handleScroll = () => {
-            scrollIndicator.style.opacity = '0';
-            setTimeout(() => {
-              scrollIndicator.remove();
-            }, 300);
-            modalElement.removeEventListener('scroll', handleScroll);
-          };
-          
-          modalElement.addEventListener('scroll', handleScroll);
-        }
-      }, 1000);
-      
-      return () => {
-        clearTimeout(timer);
-        document.head.removeChild(style);
-      };
-    }
-  }, [isOpen, isMobile]);
+  return () => {
+    document.removeEventListener('keydown', handleEscape);
+  };
+}, [isOpen, onClose]);
 
-  // Обработка нажатия клавиши ESC для закрытия модального окна
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, onClose]);
 // Функция для генерации временных слотов
 const generateTimeSlots = () => {
   const slots = [];
@@ -298,6 +308,16 @@ const groupDatesByWeeks = (dates) => {
 
 const calendarWeeks = groupDatesByWeeks(allDates);
 
+// Функция для скрытия сообщения об ошибке при фокусе любого поля
+const clearErrorOnFocus = () => {
+  if (error.isOpen) {
+    setError({
+      isOpen: false,
+      message: ''
+    });
+  }
+};
+
 // Обработчик изменения для полей формы
 const handleChange = (e) => {
   const { name, value } = e.target;
@@ -357,52 +377,34 @@ const formatDate = (dateString) => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   
-  // Определяем, является ли браузер Firefox на мобильном устройстве
-  const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-  const isMobileFirefox = isFirefox && isMobile;
+  // Проверка для всех браузеров
+  const isFormValid = () => {
+    return formData.name && 
+           formData.phone && 
+           formData.phone.replace(/\D/g, '').length >= 10 &&
+           formData.callTime && 
+           formData.performanceDate && 
+           e.target.agree.checked;
+  };
   
-  // Особая обработка для Firefox Mobile
-  if (isMobileFirefox) {
-    // Проверяем поля и устанавливаем фокус на первое незаполненное
-    if (!formData.name) {
-      document.getElementById('name').focus();
-      return;
-    }
-    
-    if (!formData.performanceDate) {
-      document.getElementById('performanceDateDisplay').focus();
-      return;
-    }
-    
-    if (!formData.phone) {
-      document.getElementById('phone').focus();
-      return;
-    }
-    
-    const cleanPhone = formData.phone.replace(/\D/g, '');
-    if (cleanPhone.length < 10) {
-      document.getElementById('phone').focus();
-      return;
-    }
-    
-    if (!formData.callTime) {
-      document.getElementById('callTime').focus();
-      return;
-    }
-    
-    if (!e.target.agree.checked) {
-      document.getElementById('agree').focus();
+  // Для Firefox Mobile используем упрощенную валидацию
+  if (isFirefoxMobile) {
+    if (!isFormValid()) {
+      setError({
+        isOpen: true,
+        message: 'Пожалуйста, заполните все обязательные поля'
+      });
       return;
     }
   } else {
-    // Для других браузеров оставляем обычную валидацию
+    // Для других браузеров используем подробную валидацию
     // Сбрасываем все ошибки валидации
     setValidationErrors({
-      name: false,
-      phone: false,
-      callTime: false,
-      performanceDate: false,
-      agree: false
+      name: !formData.name,
+      phone: !formData.phone,
+      callTime: !formData.callTime,
+      performanceDate: !formData.performanceDate,
+      agree: !e.target.agree.checked
     });
     
     // Проверяем заполнение всех полей
@@ -930,15 +932,16 @@ const modalContent = (
                 id="name" 
                 name="name" 
                 value={formData.name} 
-                onChange={handleChange} 
-                required 
+                onChange={handleChange}
+                onFocus={clearErrorOnFocus}
+                required={!isFirefoxMobile}
                 placeholder="Введите ваше имя"
                 style={{
                   ...inputStyles,
                   ...(validationErrors.name ? errorInputStyles : {})
                 }}
               />
-              {validationErrors.name && (
+              {validationErrors.name && !isFirefoxMobile && (
                 <div style={errorMessageStyles}>Пожалуйста, введите ваше имя</div>
               )}
             </div>
@@ -957,6 +960,8 @@ const modalContent = (
                     value={formData.performanceDate ? formatDate(formData.performanceDate) : ''} 
                     placeholder="ДД.ММ.ГГГГ"
                     readOnly
+                    onFocus={clearErrorOnFocus}
+                    required={!isFirefoxMobile}
                     onClick={() => setShowCustomCalendar(!showCustomCalendar)}
                     style={{
                       ...inputStyles,
@@ -983,7 +988,7 @@ const modalContent = (
                     </svg>
                   </div>
                   
-                  {validationErrors.performanceDate && (
+                  {validationErrors.performanceDate && !isFirefoxMobile && (
                     <div style={errorMessageStyles}>Пожалуйста, выберите дату выступления</div>
                   )}
                   
@@ -1012,6 +1017,7 @@ const modalContent = (
                                     setFormData({...formData, performanceDate: dateObj.value});
                                     setValidationErrors(prev => ({ ...prev, performanceDate: false }));
                                     setShowCustomCalendar(false);
+                                    clearErrorOnFocus();
                                   }
                                 }}
                                 style={{
@@ -1068,8 +1074,9 @@ const modalContent = (
                     name="phone" 
                     value={formData.phone} 
                     onChange={handleChange}
+                    onFocus={clearErrorOnFocus}
                     placeholder="(___) ___-__-__"
-                    required 
+                    required={!isFirefoxMobile}
                     style={{
                       ...inputStyles,
                       paddingLeft: '2.2rem',
@@ -1077,7 +1084,7 @@ const modalContent = (
                     }}
                   />
                 </div>
-                {validationErrors.phone && (
+                {validationErrors.phone && !isFirefoxMobile && (
                   <div style={errorMessageStyles}>Пожалуйста, введите корректный номер телефона</div>
                 )}
               </div>
@@ -1093,8 +1100,9 @@ const modalContent = (
                   id="callTime" 
                   name="callTime" 
                   value={formData.callTime} 
-                  onChange={handleChange} 
-                  required
+                  onChange={handleChange}
+                  onFocus={clearErrorOnFocus}
+                  required={!isFirefoxMobile}
                   style={{
                     ...inputStyles,
                     appearance: 'none',
@@ -1120,7 +1128,7 @@ const modalContent = (
                   </svg>
                 </div>
               </div>
-              {validationErrors.callTime && (
+              {validationErrors.callTime && !isFirefoxMobile && (
                 <div style={errorMessageStyles}>Пожалуйста, выберите удобное время для звонка</div>
               )}
             </div>
@@ -1136,7 +1144,8 @@ const modalContent = (
                 type="checkbox"
                 id="agree"
                 name="agree"
-                required
+                required={!isFirefoxMobile}
+                onFocus={clearErrorOnFocus}
                 style={{ 
                   marginTop: '0.25rem',
                   width: isMobile ? '16px' : '18px',
@@ -1147,7 +1156,7 @@ const modalContent = (
               />
               <label htmlFor="agree" style={{ 
                 fontSize: isMobile ? '0.8rem' : '0.9rem', 
-                color: validationErrors.agree ? '#ff4d4f' : '#bbb', 
+                color: validationErrors.agree && !isFirefoxMobile ? '#ff4d4f' : '#bbb', 
                 lineHeight: '1.3'
               }}>
                 Я ознакомлен/а с <a href="#" style={{ color: '#3498db', textDecoration: 'none' }}>условиями проката</a> и согласен/на с ними
@@ -1155,7 +1164,7 @@ const modalContent = (
             </div>
             
             {/* Общее сообщение об ошибке валидации */}
-            {Object.values(validationErrors).some(error => error) && !error.isOpen && (
+            {Object.values(validationErrors).some(error => error) && !error.isOpen && !isFirefoxMobile && (
               <div style={{
                 color: '#ff4d4f',
                 marginTop: '0.5rem',
@@ -1206,6 +1215,3 @@ return ReactDOM.createPortal(
 };
 
 export default RentalFormModal;
-
-
-
