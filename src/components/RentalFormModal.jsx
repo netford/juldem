@@ -357,52 +357,92 @@ const formatDate = (dateString) => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   
-  // Сбрасываем все ошибки валидации
-  setValidationErrors({
-    name: false,
-    phone: false,
-    callTime: false,
-    performanceDate: false,
-    agree: false
-  });
+  // Определяем, является ли браузер Firefox на мобильном устройстве
+  const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+  const isMobileFirefox = isFirefox && isMobile;
   
-  // Проверяем заполнение всех полей
-  let hasErrors = false;
-  const newValidationErrors = {
-    name: !formData.name,
-    phone: !formData.phone,
-    callTime: !formData.callTime,
-    performanceDate: !formData.performanceDate,
-    agree: !e.target.agree.checked
-  };
-  
-  if (Object.values(newValidationErrors).some(error => error)) {
-    setValidationErrors(newValidationErrors);
-    hasErrors = true;
-  }
-  
-  // Получаем только цифры из телефона
-  const cleanPhone = formData.phone.replace(/\D/g, '');
-  
-  // Проверка телефона на корректность
-  if (cleanPhone.length < 10) {
-    setValidationErrors(prev => ({ ...prev, phone: true }));
-    setError({
-      isOpen: true,
-      message: 'Пожалуйста, введите корректный номер телефона (не менее 10 цифр)'
+  // Особая обработка для Firefox Mobile
+  if (isMobileFirefox) {
+    // Проверяем поля и устанавливаем фокус на первое незаполненное
+    if (!formData.name) {
+      document.getElementById('name').focus();
+      return;
+    }
+    
+    if (!formData.performanceDate) {
+      document.getElementById('performanceDateDisplay').focus();
+      return;
+    }
+    
+    if (!formData.phone) {
+      document.getElementById('phone').focus();
+      return;
+    }
+    
+    const cleanPhone = formData.phone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) {
+      document.getElementById('phone').focus();
+      return;
+    }
+    
+    if (!formData.callTime) {
+      document.getElementById('callTime').focus();
+      return;
+    }
+    
+    if (!e.target.agree.checked) {
+      document.getElementById('agree').focus();
+      return;
+    }
+  } else {
+    // Для других браузеров оставляем обычную валидацию
+    // Сбрасываем все ошибки валидации
+    setValidationErrors({
+      name: false,
+      phone: false,
+      callTime: false,
+      performanceDate: false,
+      agree: false
     });
-    hasErrors = true;
-  }
-  
-  if (hasErrors) {
-    // Если есть ошибки, показываем сообщение и останавливаем отправку
-    if (!error.isOpen) { // Если еще нет сообщения об ошибке телефона
+    
+    // Проверяем заполнение всех полей
+    let hasErrors = false;
+    const newValidationErrors = {
+      name: !formData.name,
+      phone: !formData.phone,
+      callTime: !formData.callTime,
+      performanceDate: !formData.performanceDate,
+      agree: !e.target.agree.checked
+    };
+    
+    if (Object.values(newValidationErrors).some(error => error)) {
+      setValidationErrors(newValidationErrors);
+      hasErrors = true;
+    }
+    
+    // Получаем только цифры из телефона
+    const cleanPhone = formData.phone.replace(/\D/g, '');
+    
+    // Проверка телефона на корректность
+    if (cleanPhone.length < 10) {
+      setValidationErrors(prev => ({ ...prev, phone: true }));
       setError({
         isOpen: true,
-        message: 'Пожалуйста, заполните все обязательные поля'
+        message: 'Пожалуйста, введите корректный номер телефона (не менее 10 цифр)'
       });
+      hasErrors = true;
     }
-    return;
+    
+    if (hasErrors) {
+      // Если есть ошибки, показываем сообщение и останавливаем отправку
+      if (!error.isOpen) { // Если еще нет сообщения об ошибке телефона
+        setError({
+          isOpen: true,
+          message: 'Пожалуйста, заполните все обязательные поля'
+        });
+      }
+      return;
+    }
   }
   
   setIsSubmitting(true);
