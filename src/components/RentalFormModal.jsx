@@ -19,6 +19,10 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState({
+    isOpen: false,
+    message: ''
+  });
   
   // Определение мобильного устройства
   useEffect(() => {
@@ -32,10 +36,31 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Закрытие календаря при клике вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const calendar = document.getElementById('custom-calendar');
+      const dateInput = document.getElementById('performanceDateDisplay');
+      
+      if (calendar && !calendar.contains(event.target) && event.target !== dateInput) {
+        setShowCustomCalendar(false);
+      }
+    };
+
+    if (showCustomCalendar) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showCustomCalendar]);
+
   // Генерация временных слотов при открытии модального окна
   useEffect(() => {
     if (isOpen) {
       setTimeSlots(generateTimeSlots());
+      // Сбрасываем форму при каждом открытии
       setFormData({
         name: '',
         phone: '',
@@ -85,6 +110,92 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
 
     return slots;
   };
+
+  // Функция для получения названия дня недели
+  const getDayOfWeekName = (dayIndex) => {
+    const dayNames = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+    return dayNames[dayIndex];
+  };
+
+  // Функция для генерации дат на 30 дней вперед, правильно группированных по неделям
+  const generateAvailableDates = () => {
+    const dates = [];
+    const today = new Date();
+    const currentHour = today.getHours();
+    
+    // Определяем первый день (сегодня) и последний день (сегодня + 29 дней)
+    const firstDate = new Date(today);
+    const lastDate = new Date(today);
+    lastDate.setDate(today.getDate() + 29);
+    
+    // Получаем полные недели (начиная с понедельника)
+    // Находим предыдущий понедельник или текущий день, если сегодня понедельник
+    const firstMonday = new Date(firstDate);
+    const dayOfWeek = firstMonday.getDay(); // 0 - воскресенье, 1 - понедельник, ...
+    const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    firstMonday.setDate(firstMonday.getDate() - daysToSubtract);
+    
+    // Находим следующее воскресенье после последнего дня
+    const lastSunday = new Date(lastDate);
+    const lastDayOfWeek = lastSunday.getDay();
+    const daysToAdd = lastDayOfWeek === 0 ? 0 : 7 - lastDayOfWeek;
+    lastSunday.setDate(lastSunday.getDate() + daysToAdd);
+    
+    // Создаем массив всех дат от первого понедельника до последнего воскресенья
+    const allDates = [];
+    const currentDate = new Date(firstMonday);
+    
+    while (currentDate <= lastSunday) {
+      // Проверяем, находится ли дата в диапазоне разрешенных дат (сегодня + 30 дней)
+      const isInRange = currentDate >= firstDate && currentDate <= lastDate;
+      
+      // Проверяем, является ли дата текущей
+      const isToday = currentDate.getDate() === today.getDate() && 
+                     currentDate.getMonth() === today.getMonth() && 
+                     currentDate.getFullYear() === today.getFullYear();
+                     
+      // Проверяем, является ли дата прошедшей
+      // Если сегодняшний день и уже поздно вечером
+      const isPast = isToday && currentHour >= 19;
+      
+      allDates.push({
+        date: new Date(currentDate),
+        dayOfWeek: currentDate.getDay(),
+        formatted: `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`,
+        value: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+        isPast: isPast,
+        isInRange: isInRange,
+        isToday: isToday
+      });
+      
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    return allDates;
+  };
+
+  const allDates = generateAvailableDates();
+  
+  // Группируем даты по неделям
+  const groupDatesByWeeks = (dates) => {
+    const weeks = [];
+    let currentWeek = [];
+    
+    dates.forEach((dateObj, index) => {
+      // Добавляем дату в текущую неделю
+      currentWeek.push(dateObj);
+      
+      // Если это воскресенье или последняя дата, начинаем новую неделю
+      if (dateObj.dayOfWeek === 0 || index === dates.length - 1) {
+        weeks.push([...currentWeek]);
+        currentWeek = [];
+      }
+    });
+    
+    return weeks;
+  };
+
+  const calendarWeeks = groupDatesByWeeks(allDates);
 
   // Обработчик изменения для полей формы
   const handleChange = (e) => {
@@ -212,16 +323,116 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Имитация отправки на сервер
-    setTimeout(() => {
+    // Получаем только цифры из телефона
+    const cleanPhone = formData.phone.replace(/\D/g, '');
+    
+    // Простая валидация телефона
+    if (cleanPhone.length < 10) {
+      // Показываем кастомное сообщение об ошибке
+      setError({
+        isOpen: true,
+        message: 'Пожалуйста, введите корректный номер телефона (не менее 10 цифр)'
+      });
       setIsSubmitting(false);
-      setSuccess(true);
+      return;
+    }
+    
+    // Форматируем телефон для отправки
+    const formattedPhone = '+7 ' + formData.phone;
+    
+    // Получаем читаемый формат времени с конкретной датой
+    const getReadableTime = (callTimeValue) => {
+      if (!callTimeValue) return 'Не указано';
       
-      // Автоматическое закрытие через 3 секунды
+      const [day, hour] = callTimeValue.split('-');
+      const hourNum = parseInt(hour, 10);
+      
+      const today = new Date();
+      const targetDate = new Date();
+      
+      if (day === 'tomorrow') {
+        targetDate.setDate(today.getDate() + 1);
+      }
+      
+      // Форматируем дату в формате ММ.ДД.ГГГГ
+      const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+      const date = String(targetDate.getDate()).padStart(2, '0');
+      const year = targetDate.getFullYear();
+      
+      const formattedDate = `${month}.${date}.${year}`;
+      
+      return `${formattedDate} с ${hourNum}:00 до ${hourNum + 1}:00`;
+    };
+
+    // Получаем простое отображение дня (сегодня/завтра) для уведомления пользователю
+    const getSimpleDay = (callTimeValue) => {
+      if (!callTimeValue) return '';
+      
+      const [day, hour] = callTimeValue.split('-');
+      const hourNum = parseInt(hour, 10);
+      
+      const dayText = day === 'today' ? 'сегодня' : 'завтра';
+      return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
+    };
+    
+    // Форматирование даты выступления для отправки сообщения
+    const formatPerformanceDate = (date) => {
+      if (!date) return 'Не указана';
+      
+      if (date.includes('.')) {
+        return date; // Дата уже в формате DD.MM.YYYY
+      } else {
+        const [year, month, day] = date.split('-');
+        return `${day}.${month}.${year}`;
+      }
+    };
+    
+    // Форматируем сообщение для Telegram
+    const message = `
+📝 *НОВЫЙ ЗАКАЗ (АРЕНДА)* 📝
+
+🛍️ *Купальник ${product.name}* (${product.height})
+💰 *Аренда:* ${product.price.toLocaleString('ru-RU')} ₽
+💳 *Залог:* ${product.deposit.toLocaleString('ru-RU')} ₽
+📅 *Дата выступления:* ${formatPerformanceDate(formData.performanceDate)}
+
+👤 *Клиент:* ${formData.name}
+📞 *Телефон:* ${formattedPhone}
+🕒 *Созвон:* ${getReadableTime(formData.callTime).replace(' с ', ' (с ').replace(' до ', ' до ') + ')'}
+    `.trim();
+    
+    const botToken = '7964652895:AAF2XFFz8stkwABk7Hdo2tOOVj0QhPglMYU';
+    const chatId = '6249732484';
+    
+    try {
+      // Имитация отправки на сервер
       setTimeout(() => {
-        onClose();
-      }, 3000);
-    }, 1500);
+        setIsSubmitting(false);
+        setSuccess(true);
+        
+        // Автоматическое закрытие через 3 секунды
+        setTimeout(() => {
+          onClose();
+        }, 3000);
+      }, 1500);
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+      
+      // Показываем сообщение об ошибке
+      setError({
+        isOpen: true,
+        message: 'Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.'
+      });
+      setIsSubmitting(false);
+    }
+  };
+
+  // Закрытие окна с ошибкой
+  const closeErrorAlert = () => {
+    setError({
+      isOpen: false,
+      message: ''
+    });
   };
 
   // Обработка нажатия клавиши ESC для закрытия модального окна
@@ -442,6 +653,73 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     gap: '0.5rem'
   };
 
+  // Стили для календаря
+  const calendarStyles = {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    zIndex: 10,
+    width: '100%',
+    maxWidth: '260px',
+    backgroundColor: '#1a1a1a',
+    border: '1px solid #444',
+    borderRadius: '8px',
+    padding: '12px 12px 12px 6px', // Убираем левый отступ
+    boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
+    marginTop: '5px',
+    maxHeight: '350px',
+    overflowY: 'auto'
+  };
+
+  const calendarHeaderStyles = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: '0',
+    marginBottom: '6px',
+    borderBottom: '1px solid #333',
+    paddingBottom: '6px'
+  };
+  
+  const dayHeaderStyles = {
+    padding: '4px',
+    textAlign: 'center',
+    fontSize: '0.8rem',
+    fontWeight: 'bold',
+    color: '#999',
+    width: '28px', // Добавлена фиксированная ширина
+    margin: '0 auto' // Добавлено центрирование
+  };
+  
+  const calendarGridStyles = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: '0',
+    marginBottom: '2px'
+  };
+  
+  const dateItemStyles = (isSelected, isDisabled, isToday) => ({
+    width: '28px',
+    height: '28px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '2px auto',
+    textAlign: 'center',
+    backgroundColor: isSelected ? '#0066cc' : 'transparent',
+    borderRadius: '50%',
+    cursor: isDisabled ? 'default' : 'pointer',
+    transition: 'all 0.2s ease',
+    opacity: isDisabled ? 0.6 : 1,
+    fontSize: '0.85rem'
+  });
+  
+  const emptyCellStyles = {
+    width: '36px',
+    height: '36px',
+    margin: '2px auto',
+    backgroundColor: 'transparent'
+  };
+
   // Создаем элемент для модального окна и устанавливаем его инлайн-стили
   const modalContent = (
     <div style={overlayStyles} onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -544,66 +822,105 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
               <div style={twoColumnContainerStyles}>
                 {/* Дата выступления */}
                 <div style={{ ...formGroupStyles, flex: 1 }}>
-                  <label htmlFor="performanceDate" style={labelStyles}>
+                  <label htmlFor="performanceDateDisplay" style={labelStyles}>
                     <Calendar size={isMobile ? 14 : 16} color="#3498db" /> Дата выступления:
                   </label>
                   <div style={{ position: 'relative' }}>
-                    {isMobile ? (
-                      // Для мобильных используем скрытое нативное поле date и отдельное поле для отображения
-                      <>
-                        <input
-                          type="date"
-                          id="performanceDate"
-                          name="performanceDate"
-                          value={formData.performanceDate}
-                          onChange={handleChange}
-                          style={{
-                            position: 'absolute',
-                            opacity: 0,
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            zIndex: 2
-                          }}
-                        />
-                        <input
-                          type="text"
-                          readOnly
-                          value={formData.performanceDate ? formatDate(formData.performanceDate) : ''}
-                          placeholder="ДД.ММ.ГГГГ"
-                          style={{
-                            ...inputStyles,
-                            cursor: 'pointer'
-                          }}
-                        />
-                      </>
-                    ) : (
-                      // Для десктопа используем текстовое поле с кастомным календарем
-                      <input
-                        type="text"
-                        id="performanceDateDisplay"
-                        value={formData.performanceDate ? formatDate(formData.performanceDate) : ''}
-                        placeholder="ДД.ММ.ГГГГ"
-                        readOnly
-                        onClick={() => setShowCustomCalendar(!showCustomCalendar)}
-                        style={{
-                          ...inputStyles,
-                          cursor: 'pointer'
-                        }}
-                      />
-                    )}
-                    <Calendar
-                      size={16}
+                    <input 
+                      type="text" 
+                      id="performanceDateDisplay" 
+                      value={formData.performanceDate ? formatDate(formData.performanceDate) : ''} 
+                      placeholder="ДД.ММ.ГГГГ"
+                      readOnly
+                      onClick={() => setShowCustomCalendar(!showCustomCalendar)}
                       style={{
-                        position: 'absolute',
-                        top: '50%',
-                        right: '1rem',
-                        transform: 'translateY(-50%)',
-                        color: '#999',
-                        pointerEvents: 'none'
+                        ...inputStyles,
+                        cursor: 'pointer'
                       }}
                     />
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        right: '5px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                        zIndex: 1
+                      }}
+                      onClick={() => setShowCustomCalendar(!showCustomCalendar)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                    </div>
+                    
+                    {showCustomCalendar && (
+                      <div id="custom-calendar" style={calendarStyles}>
+                        {/* Заголовок календаря с днями недели */}
+                        <div style={calendarHeaderStyles}>
+                          <div style={dayHeaderStyles}>ПН</div>
+                          <div style={dayHeaderStyles}>ВТ</div>
+                          <div style={dayHeaderStyles}>СР</div>
+                          <div style={dayHeaderStyles}>ЧТ</div>
+                          <div style={dayHeaderStyles}>ПТ</div>
+                          <div style={dayHeaderStyles}>СБ</div>
+                          <div style={dayHeaderStyles}>ВС</div>
+                        </div>
+                        
+                        {/* Отображение дат по неделям */}
+                        {calendarWeeks.map((week, weekIndex) => (
+                          <div key={`week-${weekIndex}`} style={calendarGridStyles}>
+                            {week.map((dateObj, dayIndex) => (
+                              dateObj ? (
+                                <div
+                                  key={dateObj.date.getTime()}
+                                  onClick={() => {
+                                    if (dateObj.isInRange && !dateObj.isPast) {
+                                      setFormData({...formData, performanceDate: dateObj.value});
+                                      setShowCustomCalendar(false);
+                                    }
+                                  }}
+                                  style={{
+                                    ...dateItemStyles(
+                                      formData.performanceDate === dateObj.value,
+                                      !dateObj.isInRange || dateObj.isPast,
+                                      dateObj.isToday
+                                    ),
+                                    fontWeight: dateObj.isToday ? 'bold' : 'normal',
+                                    color: dateObj.isToday ? '#0066cc' : 
+                                           (!dateObj.isInRange ? 'rgba(255, 255, 255, 0.1)' : 
+                                           dateObj.isPast ? 'rgba(255, 255, 255, 0.3)' : '#fff')
+                                  }}
+                                  onMouseOver={(e) => {
+                                    if (dateObj.isInRange && !dateObj.isPast) {
+                                      e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0077ee' : '#333';
+                                      if (!dateObj.isToday) {
+                                        e.currentTarget.style.color = '#fff';
+                                      }
+                                    }
+                                  }}
+                                  onMouseOut={(e) => {
+                                    if (dateObj.isInRange && !dateObj.isPast) {
+                                      e.currentTarget.style.backgroundColor = formData.performanceDate === dateObj.value ? '#0066cc' : 'transparent';
+                                      if (!dateObj.isToday && formData.performanceDate !== dateObj.value) {
+                                        e.currentTarget.style.color = '#fff';
+                                      }
+                                    }
+                                  }}
+                                >
+                                  {dateObj.date.getDate()}
+                                </div>
+                              ) : (
+                                <div key={`empty-${dayIndex}`} style={emptyCellStyles}></div>
+                              )
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -726,7 +1043,10 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
   );
 
   // Используем ReactDOM.createPortal для рендеринга вне основного дерева компонентов
-  return ReactDOM.createPortal(modalContent, document.body);
+  return ReactDOM.createPortal(
+    modalContent, 
+    document.body
+  );
 };
 
 export default RentalFormModal;
