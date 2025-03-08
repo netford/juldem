@@ -30,6 +30,26 @@
   transition: all 0.2s ease;
  }
  
+ .inputError {
+  border: 1px solid #ff4d4f;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+ }
+
+ .errorMessage {
+  color: #ff4d4f;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+ }
+
+ .validationError {
+  color: #ff4d4f;
+  margin-top: 0.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(255, 77, 79, 0.1);
+  border-radius: 4px;
+ }
+ 
  /* Для решения проблемы с двойной стрелкой */
  select.input {
   -webkit-appearance: none;

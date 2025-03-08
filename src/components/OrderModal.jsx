@@ -3,21 +3,26 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { X } from 'lucide-react';
 import ErrorAlert from './ErrorAlert';
-import styles from './OrderModal.module.css'; // Создаем новый CSS-модуль
-import OrderForm from './OrderForm/OrderForm'; // Создаем компонент формы
-import OrderHeader from './OrderForm/OrderHeader'; // Создаем компонент заголовка
-import SuccessMessage from './RentalForm/SuccessMessage'; // Переиспользуем компонент успешного сообщения
-import useOrderForm from '../hooks/useOrderForm'; // Создаем новый хук
+import styles from './OrderModal.module.css';
+import OrderForm from './OrderForm/OrderForm';
+import OrderHeader from './OrderForm/OrderHeader';
+import SuccessMessage from './RentalForm/SuccessMessage';
+import useOrderForm from '../hooks/useOrderForm';
 
 const OrderModal = ({ isOpen, onClose, product }) => {
   const {
     formData,
+    validationErrors,
     error,
     success,
     isSubmitting,
     isMobile,
+    isFirefoxMobile,
     handleChange,
     handleSubmit,
+    handlePhoneKeyDown,
+    handlePhoneInput,
+    clearErrorOnFocus,
     closeErrorAlert,
   } = useOrderForm(onClose, product);
 
@@ -103,10 +108,15 @@ const OrderModal = ({ isOpen, onClose, product }) => {
             
             <OrderForm
               formData={formData}
+              validationErrors={validationErrors}
               isSubmitting={isSubmitting}
               isMobile={isMobile}
+              isFirefoxMobile={isFirefoxMobile}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
+              handlePhoneKeyDown={handlePhoneKeyDown}
+              handlePhoneInput={handlePhoneInput}
+              clearErrorOnFocus={clearErrorOnFocus}
             />
           </>
         )}

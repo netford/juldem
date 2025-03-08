@@ -1,14 +1,19 @@
-// OrderForm/OrderForm.jsx
+// components/OrderForm/OrderForm.jsx
 import React from 'react';
 import { User, Phone, Clock } from 'lucide-react';
 import styles from './OrderForm.module.css';
 
 const OrderForm = ({ 
   formData, 
+  validationErrors = {},
   isSubmitting, 
   isMobile,
+  isFirefoxMobile = false,
   handleChange, 
-  handleSubmit 
+  handleSubmit,
+  handlePhoneKeyDown,
+  handlePhoneInput,
+  clearErrorOnFocus
 }) => {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -22,10 +27,14 @@ const OrderForm = ({
           name="name" 
           value={formData.name} 
           onChange={handleChange} 
-          required 
-          className={styles.input}
+          onFocus={clearErrorOnFocus}
+          required={!isFirefoxMobile}
+          className={`${styles.input} ${validationErrors.name ? styles.inputError : ''}`}
           placeholder="Введите ваше имя"
         />
+        {validationErrors.name && !isFirefoxMobile && (
+          <div className={styles.errorMessage}>Пожалуйста, введите ваше имя</div>
+        )}
       </div>
         
       <div className={styles.formGroup}>
@@ -40,11 +49,17 @@ const OrderForm = ({
             name="phone" 
             value={formData.phone} 
             onChange={handleChange}
+            onInput={handlePhoneInput}
+            onKeyDown={handlePhoneKeyDown}
+            onFocus={clearErrorOnFocus}
             placeholder="(___) ___-__-__"
-            required 
-            className={`${styles.input} ${styles.phoneInput}`}
+            required={!isFirefoxMobile}
+            className={`${styles.input} ${styles.phoneInput} ${validationErrors.phone ? styles.inputError : ''}`}
           />
         </div>
+        {validationErrors.phone && !isFirefoxMobile && (
+          <div className={styles.errorMessage}>Пожалуйста, введите корректный номер телефона</div>
+        )}
       </div>
       
       <div className={styles.formGroup}>
@@ -56,9 +71,10 @@ const OrderForm = ({
             id="callTime" 
             name="callTime" 
             value={formData.callTime} 
-            onChange={handleChange} 
-            required
-            className={styles.input}
+            onChange={handleChange}
+            onFocus={clearErrorOnFocus}
+            required={!isFirefoxMobile}
+            className={`${styles.input} ${validationErrors.callTime ? styles.inputError : ''}`}
           >
             <option value="">Выберите время</option>
             {generateTimeSlots().map(slot => (
@@ -73,7 +89,17 @@ const OrderForm = ({
             </svg>
           </div>
         </div>
+        {validationErrors.callTime && !isFirefoxMobile && (
+          <div className={styles.errorMessage}>Пожалуйста, выберите удобное время для звонка</div>
+        )}
       </div>
+      
+      {/* Общее сообщение об ошибке валидации */}
+      {Object.values(validationErrors).some(error => error) && !isFirefoxMobile && (
+        <div className={styles.validationError}>
+          Пожалуйста, заполните все обязательные поля
+        </div>
+      )}
       
       <button 
         type="submit" 
