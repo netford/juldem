@@ -21,6 +21,17 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     closeErrorAlert,
   } = useOrderForm(onClose, product);
 
+  // Получаем простое отображение дня (сегодня/завтра) для уведомления пользователю
+  const getSimpleDay = (callTimeValue) => {
+    if (!callTimeValue) return 'в ближайшее время';
+    
+    const [day, hour] = callTimeValue.split('-');
+    const hourNum = parseInt(hour, 10);
+    
+    const dayText = day === 'today' ? 'сегодня' : 'завтра';
+    return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
+  };
+
   // Обработка нажатия клавиши ESC для закрытия модального окна
   useEffect(() => {
     const handleEscape = (e) => {
@@ -63,7 +74,11 @@ const OrderModal = ({ isOpen, onClose, product }) => {
         </button>
 
         {success ? (
-          <SuccessMessage />
+          <SuccessMessage 
+            name={formData.name} 
+            callTimeText={getSimpleDay(formData.callTime)}
+            onClose={onClose}
+          />
         ) : (
           <>
             <div className={styles.header}>

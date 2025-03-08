@@ -278,6 +278,17 @@ const useRentalForm = (onClose, product) => {
     // Форматируем телефон для отправки
     const formattedPhone = '+7 ' + formData.phone;
     
+    // Получаем простое отображение дня (сегодня/завтра) для уведомления пользователю
+    const getSimpleDay = (callTimeValue) => {
+      if (!callTimeValue) return '';
+      
+      const [day, hour] = callTimeValue.split('-');
+      const hourNum = parseInt(hour, 10);
+      
+      const dayText = day === 'today' ? 'сегодня' : 'завтра';
+      return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
+    };
+    
     // Имитация отправки на сервер
     try {
       // Формируем сообщение для Telegram (код отправки можно добавить здесь)
@@ -288,10 +299,10 @@ const useRentalForm = (onClose, product) => {
         setIsSubmitting(false);
         setSuccess(true);
         
-        // Автоматическое закрытие через 3 секунды
+        // Автоматическое закрытие через 15 секунд
         setTimeout(() => {
           onClose();
-        }, 3000);
+        }, 15000);
       }, 1500);
     } catch (error) {
       console.error('Ошибка отправки:', error);

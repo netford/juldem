@@ -20,11 +20,24 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     isMobile,
     handleChange,
     handleSubmit,
+    handlePhoneKeyDown,
+    handlePhoneInput,
     setShowCustomCalendar,
     clearErrorOnFocus,
     closeErrorAlert,
     formatDate,
   } = useRentalForm(onClose, product);
+
+  // Получаем простое отображение дня (сегодня/завтра) для уведомления пользователю
+  const getSimpleDay = (callTimeValue) => {
+    if (!callTimeValue) return 'в ближайшее время';
+    
+    const [day, hour] = callTimeValue.split('-');
+    const hourNum = parseInt(hour, 10);
+    
+    const dayText = day === 'today' ? 'сегодня' : 'завтра';
+    return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
+  };
 
   // Обработка нажатия клавиши ESC для закрытия модального окна
   useEffect(() => {
@@ -68,7 +81,11 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
         </button>
 
         {success ? (
-          <SuccessMessage />
+          <SuccessMessage 
+            name={formData.name} 
+            callTimeText={getSimpleDay(formData.callTime)}
+            onClose={onClose}
+          />
         ) : (
           <>
             <div className={styles.header}>
@@ -96,6 +113,8 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
               isMobile={isMobile}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
+              handlePhoneKeyDown={handlePhoneKeyDown}
+              handlePhoneInput={handlePhoneInput}
               clearErrorOnFocus={clearErrorOnFocus}
               formatDate={formatDate}
             />

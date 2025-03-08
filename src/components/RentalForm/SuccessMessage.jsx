@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './SuccessMessage.module.css';
 
-const SuccessMessage = () => {
+const SuccessMessage = ({ name, callTimeText, onClose }) => {
   return (
     <div className={styles.container}>
       <div className={styles.iconWrapper}>
@@ -11,14 +11,14 @@ const SuccessMessage = () => {
         </svg>
       </div>
       <h2 className={styles.title}>
-        Спасибо за заявку!
+        Спасибо за заявку, {name}!
       </h2>
       <p className={styles.message}>
-        Мы свяжемся с вами в ближайшее время для уточнения деталей аренды.
+        Мы свяжемся с вами {callTimeText}.
       </p>
-      <p className={styles.autoClose}>
-        Автоматическое закрытие через 3 секунды...
-      </p>
+      <button onClick={onClose} className={styles.okButton}>
+        ОК
+      </button>
     </div>
   );
 };

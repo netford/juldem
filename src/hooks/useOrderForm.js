@@ -174,10 +174,10 @@ const useOrderForm = (onClose, product) => {
           message: successMessage
         });
         
-        // Автоматическое закрытие через 3 секунды
+        // Автоматическое закрытие через 15 секунд
         setTimeout(() => {
           onClose();
-        }, 3000);
+        }, 15000);
       }, 1500);
     } catch (error) {
       console.error('Ошибка отправки:', error);

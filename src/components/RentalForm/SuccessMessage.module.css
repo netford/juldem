@@ -29,4 +29,23 @@
 .autoClose {
   font-size: 0.9rem;
   color: #999;
+  margin-top: 1rem;
+}
+
+.okButton {
+  margin-top: 1.5rem;
+  padding: 0.7rem 2rem;
+  background-color: #00b894;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.okButton:hover {
+  background-color: #00a382;
+  transform: translateY(-2px);
 }
