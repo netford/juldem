@@ -1,27 +1,11 @@
 ﻿# Игнорировать всё
 *
 
-# Но не эти файлы и папки
+# Но не игнорировать эти файлы и папки
 !src/
 !src/**
+!Structure.txt
 !index.html
 !package-lock.json
 !package.json
-!Structure.txt
-!vite.config.js
-
-# Всегда игнорировать эти папки
-.git_old/
-dist/
-node_modules/
-public/
-.gitignore
-exclude.txt
-README.md
-vite.config.js
-*.local
-.DS_Store
-*.mp4
-*.avi
-*.mov
-*.mkv
+!.gitignore
