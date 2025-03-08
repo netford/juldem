@@ -146,7 +146,7 @@ const useOrderForm = (onClose, product) => {
       return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
     };
     
-    // Имитация отправки на сервер
+    // Отправка на сервер
     try {
       // Форматируем сообщение для Telegram
       const message = `
@@ -160,25 +160,36 @@ const useOrderForm = (onClose, product) => {
 🕒 *Созвон:* ${getReadableTime(formData.callTime)}
       `.trim();
       
-      // Имитация успешной отправки
-      setTimeout(() => {
+      const botToken = '7964652895:AAF2XFFz8stkwABk7Hdo2tOOVj0QhPglMYU';
+      const chatId = '6249732484';
+      
+      // Отправляем сообщение через Telegram API
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'Markdown'
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.ok) {
         setIsSubmitting(false);
         setSuccess(true);
-        
-        // Формируем персонализированное сообщение успеха
-        const successMessage = `Спасибо за заказ, ${formData.name}! Мы свяжемся с вами ${getSimpleDay(formData.callTime)}.`;
-        
-        // Показываем сообщение успеха
-        setError({
-          isOpen: true,
-          message: successMessage
-        });
         
         // Автоматическое закрытие через 15 секунд
         setTimeout(() => {
           onClose();
         }, 15000);
-      }, 1500);
+      } else {
+        // Ошибка на стороне API Telegram
+        throw new Error(data.description || 'Telegram API error');
+      }
     } catch (error) {
       console.error('Ошибка отправки:', error);
       

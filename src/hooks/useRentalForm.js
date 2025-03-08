@@ -289,13 +289,50 @@ const useRentalForm = (onClose, product) => {
       return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
     };
     
-    // Имитация отправки на сервер
+    // Подготовка сообщения о выступлении
+    const getPerformanceDate = () => {
+      if (!formData.performanceDate) return 'Не указано';
+      
+      // Форматируем дату из формата YYYY-MM-DD в DD.MM.YYYY
+      const [year, month, day] = formData.performanceDate.split('-');
+      return `${day}.${month}.${year}`;
+    };
+    
+    // Отправка на сервер
     try {
-      // Формируем сообщение для Telegram (код отправки можно добавить здесь)
-      // ...
-        
-      // Имитация успешной отправки
-      setTimeout(() => {
+      // Формируем сообщение для Telegram
+      const message = `
+📝 *НОВЫЙ ЗАКАЗ (ПРОКАТ)* 📝
+
+🛍️ *${product.name}* (${product.height})
+💰 *Стоимость проката:* ${product.price.toLocaleString('ru-RU')} ₽
+💰 *Залог:* ${product.deposit.toLocaleString('ru-RU')} ₽
+
+👤 *Клиент:* ${formData.name}
+📞 *Телефон:* ${formattedPhone}
+🕒 *Созвон:* ${getSimpleDay(formData.callTime)}
+📅 *Дата выступления:* ${getPerformanceDate()}
+      `.trim();
+      
+      const botToken = '7964652895:AAF2XFFz8stkwABk7Hdo2tOOVj0QhPglMYU';
+      const chatId = '6249732484';
+      
+      // Отправляем сообщение через Telegram API
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'Markdown'
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.ok) {
         setIsSubmitting(false);
         setSuccess(true);
         
@@ -303,7 +340,10 @@ const useRentalForm = (onClose, product) => {
         setTimeout(() => {
           onClose();
         }, 15000);
-      }, 1500);
+      } else {
+        // Ошибка на стороне API Telegram
+        throw new Error(data.description || 'Telegram API error');
+      }
     } catch (error) {
       console.error('Ошибка отправки:', error);
       
