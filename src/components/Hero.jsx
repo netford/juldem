@@ -40,17 +40,17 @@ const Hero = () => {
     setIsRentalModalOpen(true);
   };
 
-  // Новая функция для перехода к секции "Наши работы" с фильтром "Все размеры"
+  // Обновленная функция для перехода к секции "Наши работы" с фильтром "Все размеры"
   const scrollToReadySuits = () => {
     const readySuitsSection = document.getElementById('our-works');
     if (readySuitsSection) {
       // Прокручиваем к секции
       readySuitsSection.scrollIntoView({ behavior: 'smooth' });
       
-      // Находим селект фильтра и устанавливаем значение "available"
       // Небольшая задержка, чтобы дать время на завершение прокрутки
       setTimeout(() => {
-        const filterSelect = readySuitsSection.querySelector('.filterSelect');
+        // Ищем select в секции - должен быть только один селект
+        const filterSelect = readySuitsSection.querySelector('select');
         if (filterSelect) {
           filterSelect.value = 'available';
           
