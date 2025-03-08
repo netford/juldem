@@ -1,11 +1,3 @@
-/* ReadySuits.module.css */
-:root {
-  --color-secondary: #121212;
-  --color-white: #ffffff;
-  --color-primary: #0066cc;
-  --color-accent: #0056b3;
-}
-
 .readySuitsSection {
   padding: 6rem 0;
   background: var(--color-secondary);
@@ -90,6 +82,8 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
   padding: 0 2rem;
+  min-height: 400px;
+  position: relative;
 }
 
 .suitCard {
@@ -312,13 +306,123 @@
   animation: scrollHint 1s ease-in-out;
 }
 
+.scrollContainer {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  min-height: 400px;
+  position: relative;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  background: #333;
+}
+
+/* Анимации для плавного появления/исчезновения */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Анимация группового появления (без каскада) */
+@keyframes groupFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Стили для контейнера с малым числом карточек */
+.smallBatchContainer {
+  opacity: 0;
+  animation: groupFadeIn 0.5s ease-in-out forwards;
+}
+
+/* Стиль для анимации в сетке с малым количеством элементов */
+.smallGridCardWrapper {
+  transform-origin: center;
+}
+
+/* Плавный переход между состояниями */
+.transitionContainer {
+  position: relative;
+  min-height: 400px; /* Гарантирует минимальную высоту при переходах */
+  transition: height 0.4s ease-out;
+}
+
+/* Положение элементов при анимации */
+.animationLayer {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.exitingLayer {
+  opacity: 0;
+  transform: translateY(-15px);
+  pointer-events: none;
+}
+
+.enteringLayer {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Оптимизация для малого количества карточек */
+.smallGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+/* Стили для категории "Прокат" */
+.tagRenta {
+  background: #00aaff; /* Голубой цвет для метки "Прокат" */
+  color: #1a1a1a;
+}
+
+.rentaBtn {
+  background: #00aaff; /* Голубой цвет для кнопки "Арендовать" */
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.rentaBtn:hover {
+  background: #0099ee;
+}
+
+.suitPriceRental {
+  composes: suitPrice;
+  font-size: 1rem; /* Уменьшенный размер шрифта (было 1.2rem для .suitPrice) */
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
   .readySuitsSection {
     padding: 4rem 0;
   }
 
-  .suitsGrid {
+  .suitsGrid, .smallGrid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     padding: 0 1rem;
     gap: 1.5rem;
@@ -344,25 +448,4 @@
     width: 100%;
     justify-content: center;
   }
-}
-
-/* Стили для категории "Прокат" */
-.tagRenta {
-  background: #00aaff; /* Голубой цвет для метки "Прокат" */
-  color: #1a1a1a;
-}
-
-.rentaBtn {
-  background: #00aaff; /* Голубой цвет для кнопки "Арендовать" */
-  color: #1a1a1a;
-  font-weight: 600;
-}
-
-.rentaBtn:hover {
-  background: #0099ee;
-}
-
-.suitPriceRental {
-  composes: suitPrice;
-  font-size: 1rem; /* Уменьшенный размер шрифта (было 1.2rem для .suitPrice) */
 }

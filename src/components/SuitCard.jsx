@@ -6,7 +6,7 @@ import RentalFormModal from './RentalFormModal';
 import styles from './ReadySuits.module.css';
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 
-const SuitCard = React.memo(({ suit }) => {
+const SuitCard = React.memo(({ suit, className, style }) => {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isRentalFormModalOpen, setIsRentalFormModalOpen] = useState(false);
   
@@ -60,7 +60,7 @@ const SuitCard = React.memo(({ suit }) => {
 
   return (
     <>
-      <article className={styles.suitCard}>
+      <article className={`${styles.suitCard} ${className || ''}`} style={style}>
         <div className={styles.suitImageContainer}>
           <div className={styles.tagsContainer}>
             {suit.tags && suit.tags.map((tag, index) => (
