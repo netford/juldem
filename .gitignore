@@ -9,18 +9,19 @@
 !package.json
 !Structure.txt
 !vite.config.js
-!.gitignore
 
 # Всегда игнорировать эти папки
-node_modules/
-dist/
+Неразобранное/
 .git_old/
-juldem-project/
-juldem-project.rar
+dist/
+node_modules/
+public/
+.gitignore
 exclude.txt
+README.md
+vite.config.js
 *.local
 .DS_Store
-!\ Неразобранное/
 *.mp4
 *.avi
 *.mov
