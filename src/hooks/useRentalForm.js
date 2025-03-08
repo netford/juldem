@@ -81,6 +81,87 @@ const useRentalForm = (onClose, product) => {
     }
   };
 
+  // Форматирование телефона на основе цифр
+  const formatPhoneNumber = (digits) => {
+    let formattedPhone = '';
+    
+    if (digits.length > 0) {
+      formattedPhone += '(' + digits.slice(0, 3);
+      
+      if (digits.length > 3) {
+        formattedPhone += ') ' + digits.slice(3, 6);
+        
+        if (digits.length > 6) {
+          formattedPhone += '-' + digits.slice(6, 8);
+          
+          if (digits.length > 8) {
+            formattedPhone += '-' + digits.slice(8, 10);
+          }
+        }
+      } else {
+        formattedPhone += ')';
+      }
+    }
+    
+    return formattedPhone;
+  };
+
+  // Обработчик для поля телефона с полным контролем ввода
+  const handlePhoneInput = (e) => {
+    // Получаем текущее значение поля и убираем все нецифровые символы
+    let digits = formData.phone.replace(/\D/g, '');
+    
+    // Если это удаление символа (Backspace или Delete)
+    if (e.nativeEvent.inputType === 'deleteContentBackward' || 
+        e.nativeEvent.inputType === 'deleteContentForward') {
+      // Удаляем последнюю цифру
+      digits = digits.slice(0, digits.length - 1);
+    } 
+    // Если это добавление символа
+    else if (e.nativeEvent.data && /\d/.test(e.nativeEvent.data)) {
+      // Добавляем новую цифру (не более 10)
+      digits = (digits + e.nativeEvent.data).slice(0, 10);
+    }
+    
+    // Форматируем телефон
+    const formattedPhone = formatPhoneNumber(digits);
+    
+    // Обновляем телефон в состоянии
+    setFormData(prev => ({ 
+      ...prev, 
+      phone: formattedPhone 
+    }));
+    
+    // Сбрасываем ошибку валидации
+    setValidationErrors(prev => ({ ...prev, phone: false }));
+  };
+
+  // Обработчик нажатия клавиш для поля телефона
+  const handlePhoneKeyDown = (e) => {
+    // Обрабатываем только нажатие Backspace
+    if (e.key === 'Backspace') {
+      // Получаем текущее значение поля и убираем все нецифровые символы
+      const digits = formData.phone.replace(/\D/g, '');
+      
+      if (digits.length > 0) {
+        // Удаляем последнюю цифру
+        const newDigits = digits.slice(0, digits.length - 1);
+        
+        // Форматируем телефон заново
+        const formattedPhone = formatPhoneNumber(newDigits);
+        
+        // Обновляем телефон в состоянии
+        setFormData(prev => ({ 
+          ...prev, 
+          phone: formattedPhone 
+        }));
+        
+        // Предотвращаем стандартную обработку
+        e.preventDefault();
+      }
+    }
+  };
+
   // Обработчик изменения для полей формы
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,25 +178,7 @@ const useRentalForm = (onClose, product) => {
       const limitedDigits = digits.slice(0, 10);
       
       // Форматируем телефон с скобками и дефисами
-      let formattedPhone = '';
-      
-      if (limitedDigits.length > 0) {
-        formattedPhone += '(' + limitedDigits.slice(0, 3);
-        
-        if (limitedDigits.length > 3) {
-          formattedPhone += ') ' + limitedDigits.slice(3, 6);
-          
-          if (limitedDigits.length > 6) {
-            formattedPhone += '-' + limitedDigits.slice(6, 8);
-            
-            if (limitedDigits.length > 8) {
-              formattedPhone += '-' + limitedDigits.slice(8, 10);
-            }
-          }
-        } else {
-          formattedPhone += ')';
-        }
-      }
+      const formattedPhone = formatPhoneNumber(limitedDigits);
       
       setFormData(prev => ({ 
         ...prev, 
@@ -261,6 +324,8 @@ const useRentalForm = (onClose, product) => {
     isFirefoxMobile,
     handleChange,
     handleSubmit,
+    handlePhoneKeyDown,
+    handlePhoneInput,
     setShowCustomCalendar,
     clearErrorOnFocus,
     closeErrorAlert,

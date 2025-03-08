@@ -9,6 +9,8 @@ const FormField = ({
   type = 'text', 
   value, 
   onChange,
+  onInput,
+  onKeyDown,
   onFocus,
   required = false,
   placeholder,
@@ -35,6 +37,8 @@ const FormField = ({
             name={name}
             value={value}
             onChange={onChange}
+            onInput={onInput}
+            onKeyDown={onKeyDown}
             onFocus={onFocus}
             required={!isFirefoxMobile && required}
             placeholder={placeholder}

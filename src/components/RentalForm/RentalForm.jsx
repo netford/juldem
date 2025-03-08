@@ -15,6 +15,8 @@ const RentalForm = ({
   setShowCustomCalendar,
   handleChange, 
   handleSubmit,
+  handlePhoneKeyDown,
+  handlePhoneInput,
   clearErrorOnFocus,
   formatDate,
 }) => {
@@ -116,6 +118,8 @@ const RentalForm = ({
             type="tel"
             value={formData.phone}
             onChange={handleChange}
+            onInput={handlePhoneInput}
+            onKeyDown={handlePhoneKeyDown}
             onFocus={clearErrorOnFocus}
             required={true}
             placeholder="(___) ___-__-__"
