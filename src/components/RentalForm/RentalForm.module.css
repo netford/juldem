@@ -26,6 +26,14 @@
   transition: all 0.2s ease;
 }
 
+/* Добавляем новый стиль для select */
+select.input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
 .inputError {
   border: 1px solid #ff4d4f;
   box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
