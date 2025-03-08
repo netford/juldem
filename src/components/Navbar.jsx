@@ -17,7 +17,9 @@ const Navbar = () => {
   const renderDesktopNav = () => (
     <div className="nav-container">
       <div className="nav-left">
-        <img src={logo} alt="JULDEM" className="logo" />
+        <a href="#main" className="logo-link">
+          <img src={logo} alt="JULDEM" className="logo" />
+        </a>
       </div>
 
       <div className="nav-center">
@@ -45,7 +47,9 @@ const Navbar = () => {
     <>
       <div className="nav-container mobile">
         <div className="nav-left">
-         <img src={logo} alt="JULDEM" className="logo" />
+          <a href="#main" className="logo-link">
+            <img src={logo} alt="JULDEM" className="logo" />
+          </a>
         </div>
 
         <div className="nav-center">
@@ -123,6 +127,26 @@ const Navbar = () => {
           .nav-center {
             justify-self: center;
             width: 100%;
+          }
+
+          .logo-link {
+            display: flex;
+            align-items: center;
+            outline: none;
+          }
+
+          .logo-link:hover {
+            opacity: 0.9;
+          }
+
+          .logo-link:focus {
+            outline: none;
+          }
+
+          .logo-link:focus-visible {
+            outline: 2px solid rgba(0, 102, 204, 0.3);
+            outline-offset: 3px;
+            border-radius: 4px;
           }
 
           .logo {
@@ -222,6 +246,10 @@ const Navbar = () => {
             .mobile .nav-left {
               justify-content: flex-start;
               padding-left: 0;
+            }
+
+            .mobile .logo-link {
+              padding: 5px;
             }
 
             .mobile .logo {
