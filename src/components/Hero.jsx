@@ -36,10 +36,6 @@ const Hero = () => {
     }
   };
 
-  const openRentalModal = () => {
-    setIsRentalModalOpen(true);
-  };
-
   // Обновленная функция для перехода к секции "Наши работы" с фильтром "Все размеры"
   const scrollToReadySuits = () => {
     const readySuitsSection = document.getElementById('our-works');
@@ -53,6 +49,28 @@ const Hero = () => {
         const filterSelect = readySuitsSection.querySelector('select');
         if (filterSelect) {
           filterSelect.value = 'available';
+          
+          // Вызываем событие change, чтобы компонент обновил фильтрацию
+          const changeEvent = new Event('change', { bubbles: true });
+          filterSelect.dispatchEvent(changeEvent);
+        }
+      }, 800);
+    }
+  };
+
+  // Новая функция для перехода к секции "Наши работы" с фильтром "Прокат"
+  const scrollToRentalSuits = () => {
+    const readySuitsSection = document.getElementById('our-works');
+    if (readySuitsSection) {
+      // Прокручиваем к секции
+      readySuitsSection.scrollIntoView({ behavior: 'smooth' });
+      
+      // Небольшая задержка, чтобы дать время на завершение прокрутки
+      setTimeout(() => {
+        // Ищем select в секции - должен быть только один селект
+        const filterSelect = readySuitsSection.querySelector('select');
+        if (filterSelect) {
+          filterSelect.value = 'renta';
           
           // Вызываем событие change, чтобы компонент обновил фильтрацию
           const changeEvent = new Event('change', { bubbles: true });
@@ -287,7 +305,7 @@ const Hero = () => {
           <button className="hero-button secondary" onClick={scrollToReadySuits}>
             Готовые модели
           </button>
-          <button className="hero-button secondary" onClick={openRentalModal}>
+          <button className="hero-button secondary" onClick={scrollToRentalSuits}>
             Прокат купальников
           </button>
         </div>
