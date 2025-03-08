@@ -1,7 +1,7 @@
 // hooks/useCalendar.js
 import { useState, useEffect } from 'react';
 
-const useCalendar = (formData, setShowCustomCalendar, clearErrorOnFocus) => {
+const useCalendar = (formData, setShowCustomCalendar, clearErrorOnFocus, handleChange) => {
   const [timeSlots, setTimeSlots] = useState([]);
   const [isFirefoxMobile, setIsFirefoxMobile] = useState(false);
 
@@ -140,6 +140,17 @@ const useCalendar = (formData, setShowCustomCalendar, clearErrorOnFocus) => {
     // Обновляем состояние формы
     setShowCustomCalendar(false);
     clearErrorOnFocus();
+    
+    // Создаем событие изменения формы для поля performanceDate
+    const event = {
+      target: {
+        name: 'performanceDate',
+        value: dateValue
+      }
+    };
+    
+    // Вызываем обработчик изменения формы
+    handleChange(event);
     
     return dateValue;
   };

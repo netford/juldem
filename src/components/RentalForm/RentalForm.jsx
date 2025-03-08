@@ -26,7 +26,7 @@ const RentalForm = ({
     timeSlots,
     handleDateSelect,
     isFirefoxMobile,
-  } = useCalendar(formData, setShowCustomCalendar, clearErrorOnFocus);
+  } = useCalendar(formData, setShowCustomCalendar, clearErrorOnFocus, handleChange);
 
   // Закрытие календаря при клике вне его области
   useEffect(() => {

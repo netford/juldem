@@ -44,18 +44,35 @@
 │   ├── ProductImageSlider.module.css
 │   ├── ReadySuits.jsx
 │   ├── ReadySuits.module.css
+│   ├── RentalForm
+│   │   ├── Calendar.jsx
+│   │   ├── Calendar.module.css
+│   │   ├── ErrorDisplay.jsx
+│   │   ├── ErrorDisplay.module.css
+│   │   ├── FormField.jsx
+│   │   ├── FormField.module.css
+│   │   ├── FormHeader.jsx
+│   │   ├── FormHeader.module.css
+│   │   ├── RentalForm.jsx
+│   │   ├── RentalForm.module.css
+│   │   ├── SuccessMessage.jsx
+│   │   └── SuccessMessage.module.css
+│   ├── RentalForm.module.css
 │   ├── RentalFormModal.jsx
+│   ├── RentalFormModal.module.css
 │   ├── RentalModal.jsx
 │   ├── RentalPoliceModal.jsx
 │   ├── ReviewsCarousel.jsx
 │   ├── SuitCard.jsx
 │   └── VideoModal.jsx
+├── hooks
+│   ├── useCalendar.js
+│   └── useRentalForm.js
 ├── index.css
 ├── index.js
 ├── logo.svg
 ├── main.jsx
 ├── reportWebVitals.js
 ├── setupTests.js
-├── Structure.txt
 └── styles
     └── main.css
