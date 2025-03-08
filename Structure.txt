@@ -366,3 +366,7 @@
 │       └── main.css
 ├── Structure.txt
 └── vite.config.js
+
+
+
+Проверка
