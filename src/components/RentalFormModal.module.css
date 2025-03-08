@@ -1,4 +1,24 @@
 /* RentalFormModal.module.css */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -13,6 +33,7 @@
   z-index: 9999;
   padding: 0.5rem;
   overflow: auto;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .modalContent {
@@ -27,6 +48,7 @@
   border: 1px solid #333;
   margin: 0 auto;
   overflow: visible;
+  animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .closeButton {

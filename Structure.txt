@@ -37,7 +37,13 @@
 │   ├── HowToOrder.jsx
 │   ├── HowToOrder.module.css
 │   ├── Navbar.jsx
+│   ├── OrderForm
+│   │   ├── OrderForm.jsx
+│   │   ├── OrderForm.module.css
+│   │   ├── OrderHeader.jsx
+│   │   └── OrderHeader.module.css
 │   ├── OrderModal.jsx
+│   ├── OrderModal.module.css
 │   ├── PricesSection.jsx
 │   ├── PricesSection.module.css
 │   ├── ProductImageSlider.jsx
@@ -67,6 +73,7 @@
 │   └── VideoModal.jsx
 ├── hooks
 │   ├── useCalendar.js
+│   ├── useOrderForm.js
 │   └── useRentalForm.js
 ├── index.css
 ├── index.js

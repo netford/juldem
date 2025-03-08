@@ -5,6 +5,18 @@ import { X } from 'lucide-react';
 const ErrorAlert = ({ isOpen, onClose, message }) => {
   if (!isOpen) return null;
   
+  // Определения для анимаций
+  const animations = `
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  `;
+  
   // Стили согласно дизайну сайта
   const overlayStyles = {
     position: 'fixed',
@@ -17,7 +29,8 @@ const ErrorAlert = ({ isOpen, onClose, message }) => {
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 10000,
-    padding: '2rem'
+    padding: '2rem',
+    animation: 'fadeIn 0.3s ease-out'
   };
 
   const alertStyles = {
@@ -28,7 +41,8 @@ const ErrorAlert = ({ isOpen, onClose, message }) => {
     padding: '1.5rem',
     boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
     position: 'relative',
-    color: '#fff'
+    color: '#fff',
+    animation: 'slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
   };
 
   const headerContainerStyles = {
@@ -72,6 +86,7 @@ const ErrorAlert = ({ isOpen, onClose, message }) => {
 
   return (
     <div style={overlayStyles}>
+      <style>{animations}</style>
       <div style={alertStyles}>
         <div style={headerContainerStyles}>
           <div style={logoStyles}>

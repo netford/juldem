@@ -70,7 +70,8 @@ const VideoModal = ({ isOpen, onClose, videoSource }) => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 9999
+    zIndex: 9999,
+    animation: 'fadeIn 0.3s ease-out'
   };
 
   const modalStyles = {
@@ -80,6 +81,7 @@ const VideoModal = ({ isOpen, onClose, videoSource }) => {
     backgroundColor: '#262626',
     borderRadius: isLandscape ? '0' : '16px',
     overflow: 'hidden',
+    animation: 'slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
     ...(isLandscape && {
       height: '90vh', // Ограничиваем высоту в ландшафтной ориентации
       display: 'flex',
@@ -131,8 +133,21 @@ const VideoModal = ({ isOpen, onClose, videoSource }) => {
     })
   };
 
+  // Определения для анимаций
+  const animations = `
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  `;
+
   return (
     <div style={overlayStyles} onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <style>{animations}</style>
       <div style={modalStyles}>
         <button
           onClick={onClose}
