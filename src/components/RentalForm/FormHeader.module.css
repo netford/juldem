@@ -10,9 +10,9 @@
 }
 
 .imageContainer {
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -55,6 +55,14 @@
   font-size: 0.95rem;
 }
 
+.depositInfo {
+  display: flex;
+  align-items: center;
+  color: #ffc107;
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+}
+
 .icon {
   margin-right: 8px;
 }
@@ -62,36 +70,36 @@
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .productCard {
-    gap: 0.8rem; /* Небольшое увеличение отступа */
+    gap: 0.8rem;
     margin-bottom: 1.2rem;
     padding: 0.9rem;
-    align-items: center; /* Выравниваем содержимое по центру */
+    align-items: center;
   }
 
   .imageContainer {
-    width: 70px; /* Немного увеличиваем размер изображения */
-    height: 70px;
+    width: 90px;
+    height: 90px;
     border-radius: 8px;
   }
 
   .productInfo {
-    padding-top: 0; /* Убираем верхний отступ */
+    padding-top: 0;
   }
 
   .productName {
-    font-size: 1.05rem; /* Увеличиваем размер шрифта */
+    font-size: 1.05rem;
     margin-bottom: 0.6rem;
     line-height: 1.2;
   }
 
-  .sizeInfo, .priceInfo {
-    font-size: 0.95rem; /* Увеличиваем размер шрифта */
-    line-height: 1.4; /* Добавляем межстрочный интервал */
-    margin-bottom: 0.1rem; /* Небольшой отступ между строками */
+  .sizeInfo, .priceInfo, .depositInfo {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 0.1rem;
   }
 
-  .sizeInfo .icon, .priceInfo .icon {
-    width: 18px; /* Увеличиваем размер иконок */
+  .sizeInfo .icon, .priceInfo .icon, .depositInfo .icon {
+    width: 18px;
     height: 18px;
   }
 }
@@ -99,17 +107,17 @@
 /* Стили для очень маленьких экранов */
 @media (max-width: 375px) {
   .productCard {
-    flex-direction: row; /* Сохраняем горизонтальное расположение даже на маленьких экранах */
+    flex-direction: row;
     align-items: center;
     padding: 0.8rem;
   }
 
   .imageContainer {
-    width: 65px; /* Немного уменьшаем для экономии места */
-    height: 65px;
+    width: 80px;
+    height: 80px;
   }
 
-  .sizeInfo, .priceInfo {
-    font-size: 0.9rem; /* Слегка уменьшаем шрифт */
+  .sizeInfo, .priceInfo, .depositInfo {
+    font-size: 0.9rem;
   }
 }

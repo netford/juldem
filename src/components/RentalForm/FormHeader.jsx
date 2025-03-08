@@ -22,7 +22,11 @@ const FormHeader = ({ product, isMobile }) => {
           </div>
           <div className={styles.priceInfo}>
             <CreditCard size={isMobile ? 14 : 16} color="#ffc107" className={styles.icon} />
-            Аренда / Залог: {product.price} / {product.deposit} ₽
+            Аренда: {product.price} ₽
+          </div>
+          <div className={styles.depositInfo}>
+            <Shield size={isMobile ? 14 : 16} color="#ffc107" className={styles.icon} />
+            Залог: {product.deposit} ₽
           </div>
         </div>
       </div>
