@@ -1,11 +1,27 @@
-﻿# Игнорировать временные файлы и папки
+﻿# Игнорировать всё
+*
+
+# Но не эти файлы и папки
+!src/
+!src/**
+!index.html
+!package-lock.json
+!package.json
+!Structure.txt
+!vite.config.js
+!.gitignore
+
+# Всегда игнорировать эти папки
 node_modules/
 dist/
 .git_old/
 juldem-project/
 juldem-project.rar
 exclude.txt
-
-# Локальные файлы разработки
 *.local
 .DS_Store
+!\ Неразобранное/
+*.mp4
+*.avi
+*.mov
+*.mkv
