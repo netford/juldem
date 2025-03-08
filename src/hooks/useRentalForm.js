@@ -91,7 +91,7 @@ const useRentalForm = (onClose, product) => {
     // Особая обработка для телефона
     if (name === 'phone') {
       // Получаем только цифры из ввода
-      const digits = value.replace(/\\D/g, '');
+      const digits = value.replace(/\D/g, '');
       
       // Ограничиваем до 10 цифр (без учета кода +7)
       const limitedDigits = digits.slice(0, 10);
@@ -144,7 +144,7 @@ const useRentalForm = (onClose, product) => {
     const isFormValid = () => {
       return formData.name && 
              formData.phone && 
-             formData.phone.replace(/\\D/g, '').length >= 10 &&
+             formData.phone.replace(/\D/g, '').length >= 10 &&
              formData.callTime && 
              formData.performanceDate && 
              e.target.agree.checked;
@@ -186,7 +186,7 @@ const useRentalForm = (onClose, product) => {
       }
       
       // Получаем только цифры из телефона
-      const cleanPhone = formData.phone.replace(/\\D/g, '');
+      const cleanPhone = formData.phone.replace(/\D/g, '');
       
       // Проверка телефона на корректность
       if (cleanPhone.length < 10) {
