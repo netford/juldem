@@ -1,51 +1,11 @@
-# Игнорировать всё
-/*
+﻿# Игнорировать временные файлы и папки
+node_modules/
+dist/
+.git_old/
+juldem-project/
+juldem-project.rar
+exclude.txt
 
-# Разрешить только эти файлы и папки в корне
-!/src/
-!/package.json
-!/package-lock.json
-!/README.md
-!/Structure.txt
-!/vite.config.js
-!/.gitignore
-!/index.html
-
-# Остальные стандартные правила
-# Dependencies
-/node_modules
-/.pnp
-.pnp.js
-# Testing
-/coverage
-# Production
-/build
-/dist
-/dist-ssr
-# Local development
+# Локальные файлы разработки
 *.local
-# Environment variables
-.env
-.env.*
-!.env.example
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-# Misc
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local

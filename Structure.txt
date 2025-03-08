@@ -1,78 +1,368 @@
-├── App.css
-├── App.js
-├── App.jsx
-├── App.test.js
-├── assets
+├── .git
+├── .gitignore
+├── dist
+│   ├── assets
+│   │   ├── half-block-DlV799U8.jpg
+│   │   ├── hero-bg-CtVVQu1B.jpg
+│   │   ├── index-D9tsgmhx.css
+│   │   ├── index-DHVZd-Ua.js
+│   │   ├── logo-BFAij51J.png
+│   │   ├── none_photo-_N0nuBkl.jpg
+│   │   ├── reviews_001-BhX6ZZOt.png
+│   │   ├── reviews_002-dkF1Q7oE.png
+│   │   ├── reviews_003-cqfCTqCr.png
+│   │   ├── reviews_004-D3gxOjkG.png
+│   │   ├── reviews_005-DT0BUjVn.png
+│   │   ├── reviews_006-7k_kCj_7.png
+│   │   ├── reviews_007-PY8Acjh0.png
+│   │   ├── reviews_008-DEMPZXfV.png
+│   │   └── reviews_009-DIPxWtee.png
+│   ├── favicon
+│   │   ├── apple-touch-icon.png
+│   │   ├── favicon-96x96.png
+│   │   ├── favicon.ico
+│   │   ├── favicon.svg
+│   │   ├── site.webmanifest
+│   │   ├── web-app-manifest-192x192.png
+│   │   └── web-app-manifest-512x512.png
 │   ├── images
-│   │   ├── half-block.jpg
-│   │   ├── hero-bg.jpg
-│   │   ├── index.js
-│   │   ├── logo.png
-│   │   ├── reviews
-│   │   │   ├── reviews_001.png
-│   │   │   ├── reviews_002.png
-│   │   │   ├── reviews_003.png
-│   │   │   ├── reviews_004.png
-│   │   │   ├── reviews_005.png
-│   │   │   ├── reviews_006.png
-│   │   │   ├── reviews_007.png
-│   │   │   ├── reviews_008.png
-│   │   │   └── reviews_009.png
+│   │   ├── products
+│   │   │   └── categories
+│   │   │       ├── acrobatics_gymnastics
+│   │   │       │   ├── 24_02_2025
+│   │   │       │   │   ├── acetone-2025217-204729-211.png
+│   │   │       │   │   ├── acetone-2025217-204954-869.png
+│   │   │       │   │   ├── acetone-2025217-205127-58.png
+│   │   │       │   │   ├── acetone-2025217-205337-551.png
+│   │   │       │   │   ├── acetone-2025217-20568-642.png
+│   │   │       │   │   ├── acetone-2025217-21014-559.png
+│   │   │       │   │   ├── acetone-2025217-21614-423.png
+│   │   │       │   │   ├── photo_011.png
+│   │   │       │   │   ├── photo_014.png
+│   │   │       │   │   ├── photo_022.webp
+│   │   │       │   │   ├── photo_023.webp
+│   │   │       │   │   ├── photo_024.webp
+│   │   │       │   │   ├── photo_025.png
+│   │   │       │   │   ├── photo_026.png
+│   │   │       │   │   ├── photo_027.webp
+│   │   │       │   │   ├── photo_028.png
+│   │   │       │   │   ├── photo_029.png
+│   │   │       │   │   └── photo_030.png
+│   │   │       │   ├── amazonka-000.png
+│   │   │       │   ├── amazonka-001.png
+│   │   │       │   ├── amazonka-002.png
+│   │   │       │   ├── babochka_000.png
+│   │   │       │   ├── babochka_001.png
+│   │   │       │   ├── briz-000.png
+│   │   │       │   ├── briz-001.png
+│   │   │       │   ├── briz-002.png
+│   │   │       │   ├── briz-003.png
+│   │   │       │   ├── briz-004.png
+│   │   │       │   ├── briz-005.png
+│   │   │       │   ├── briz-006.png
+│   │   │       │   ├── lavanda-000.png
+│   │   │       │   ├── lavanda-001.png
+│   │   │       │   ├── lavanda-002.png
+│   │   │       │   ├── lavanda-003.png
+│   │   │       │   ├── photo_0000 (2).png
+│   │   │       │   ├── photo_0000 (2).webp
+│   │   │       │   ├── photo_0000 (3).webp
+│   │   │       │   ├── photo_0000 (4).webp
+│   │   │       │   ├── photo_0000 (5).webp
+│   │   │       │   ├── photo_0000.png
+│   │   │       │   ├── photo_0000.webp
+│   │   │       │   ├── photo_001.png
+│   │   │       │   ├── photo_002.png
+│   │   │       │   ├── photo_003.png
+│   │   │       │   ├── photo_004.png
+│   │   │       │   ├── photo_005.png
+│   │   │       │   ├── photo_006.png
+│   │   │       │   ├── photo_007.png
+│   │   │       │   ├── photo_008.png
+│   │   │       │   ├── photo_009(2).png
+│   │   │       │   ├── photo_009.png
+│   │   │       │   ├── photo_010.png
+│   │   │       │   ├── photo_015.png
+│   │   │       │   ├── photo_016.png
+│   │   │       │   ├── photo_017.png
+│   │   │       │   ├── photo_018.png
+│   │   │       │   ├── photo_019.webp
+│   │   │       │   ├── photo_020.png
+│   │   │       │   ├── photo_021.webp
+│   │   │       │   ├── photo_022.png
+│   │   │       │   ├── photo_026.webp
+│   │   │       │   ├── pion-000.png
+│   │   │       │   ├── pion-001.png
+│   │   │       │   ├── pion-002.png
+│   │   │       │   ├── pion-003.png
+│   │   │       │   ├── pion-004.png
+│   │   │       │   ├── star-000.png
+│   │   │       │   ├── star-001.png
+│   │   │       │   ├── star-002.png
+│   │   │       │   └── star-003.png
+│   │   │       ├── figure-skating
+│   │   │       │   ├── 002.png
+│   │   │       │   ├── 003.png
+│   │   │       │   ├── 004.png
+│   │   │       │   ├── 005.png
+│   │   │       │   ├── 006.png
+│   │   │       │   ├── acetone-2025213-223747-822.png
+│   │   │       │   ├── photo_001.png
+│   │   │       │   ├── photo_002.png
+│   │   │       │   ├── photo_003.png
+│   │   │       │   ├── photo_004.png
+│   │   │       │   ├── photo_005.png
+│   │   │       │   ├── photo_006.png
+│   │   │       │   ├── photo_2023-11-01_13-01-39.jpg
+│   │   │       │   ├── photo_2023-11-01_13-01-40.jpg
+│   │   │       │   ├── photo_2023-11-01_13-02-20.jpg
+│   │   │       │   ├── photo_2023-11-01_13-02-21.jpg
+│   │   │       │   ├── photo_2023-11-01_13-02-22.jpg
+│   │   │       │   ├── photo_2023-11-20_17-32-37.jpg
+│   │   │       │   ├── photo_2024-04-11_11-00-49.jpg
+│   │   │       │   └── Без имени-1.png
+│   │   │       └── renta
+│   │   │           ├── brazil_000.png
+│   │   │           ├── brazil_001.png
+│   │   │           ├── elza_000.png
+│   │   │           ├── elza_001.png
+│   │   │           ├── malinka_000.png
+│   │   │           ├── malinka_001.png
+│   │   │           ├── ocean_000.png
+│   │   │           ├── ocean_001.png
+│   │   │           ├── pale_blue_000.png
+│   │   │           ├── pale_blue_0000.png
+│   │   │           ├── pale_blue_0001.png
+│   │   │           ├── pale_blue_0002.png
+│   │   │           ├── pale_blue_001.png
+│   │   │           ├── siren_000.png
+│   │   │           ├── siren_001.png
+│   │   │           ├── splash_000.png
+│   │   │           ├── splash_001.png
+│   │   │           ├── splash_002.png
+│   │   │           ├── sunset_000.png
+│   │   │           └── sunset_001.png
 │   │   └── suits
-│   │       ├── none_photo.jpg
-│   │       ├── snegurochka.jpg
-│   │       ├── snegurochka_01.png
-│   │       ├── snegurochka_02.png
-│   │       └── snegurochka_03.png
-│   └── react.svg
-├── components
-│   ├── About.jsx
-│   ├── BuyModal.jsx
-│   ├── ContactsSection.jsx
-│   ├── DeliverySection.jsx
-│   ├── DeliverySection.module.css
-│   ├── ErrorAlert.jsx
-│   ├── Footer.jsx
-│   ├── Hero.jsx
-│   ├── HowToOrder.jsx
-│   ├── HowToOrder.module.css
-│   ├── Navbar.jsx
-│   ├── OrderModal.jsx
-│   ├── PricesSection.jsx
-│   ├── PricesSection.module.css
-│   ├── ProductImageSlider.jsx
-│   ├── ProductImageSlider.module.css
-│   ├── ReadySuits.jsx
-│   ├── ReadySuits.module.css
-│   ├── RentalForm
-│   │   ├── Calendar.jsx
-│   │   ├── Calendar.module.css
-│   │   ├── ErrorDisplay.jsx
-│   │   ├── ErrorDisplay.module.css
-│   │   ├── FormField.jsx
-│   │   ├── FormField.module.css
-│   │   ├── FormHeader.jsx
-│   │   ├── FormHeader.module.css
-│   │   ├── RentalForm.jsx
+│   │       └── snow_maiden.jpg
+│   ├── index.html
+│   ├── robots.txt
+│   └── videos
+│       └── merki_min.webm
+├── index.html
+├── node_modules
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon
+│   │   ├── apple-touch-icon.png
+│   │   ├── favicon-96x96.png
+│   │   ├── favicon.ico
+│   │   ├── favicon.svg
+│   │   ├── site.webmanifest
+│   │   ├── web-app-manifest-192x192.png
+│   │   └── web-app-manifest-512x512.png
+│   ├── images
+│   │   ├── products
+│   │   │   └── categories
+│   │   │       ├── acrobatics_gymnastics
+│   │   │       │   ├── 24_02_2025
+│   │   │       │   │   ├── acetone-2025217-204729-211.png
+│   │   │       │   │   ├── acetone-2025217-204954-869.png
+│   │   │       │   │   ├── acetone-2025217-205127-58.png
+│   │   │       │   │   ├── acetone-2025217-205337-551.png
+│   │   │       │   │   ├── acetone-2025217-20568-642.png
+│   │   │       │   │   ├── acetone-2025217-21014-559.png
+│   │   │       │   │   ├── acetone-2025217-21614-423.png
+│   │   │       │   │   ├── photo_011.png
+│   │   │       │   │   ├── photo_014.png
+│   │   │       │   │   ├── photo_022.webp
+│   │   │       │   │   ├── photo_023.webp
+│   │   │       │   │   ├── photo_024.webp
+│   │   │       │   │   ├── photo_025.png
+│   │   │       │   │   ├── photo_026.png
+│   │   │       │   │   ├── photo_027.webp
+│   │   │       │   │   ├── photo_028.png
+│   │   │       │   │   ├── photo_029.png
+│   │   │       │   │   └── photo_030.png
+│   │   │       │   ├── amazonka-000.png
+│   │   │       │   ├── amazonka-001.png
+│   │   │       │   ├── amazonka-002.png
+│   │   │       │   ├── babochka_000.png
+│   │   │       │   ├── babochka_001.png
+│   │   │       │   ├── briz-000.png
+│   │   │       │   ├── briz-001.png
+│   │   │       │   ├── briz-002.png
+│   │   │       │   ├── briz-003.png
+│   │   │       │   ├── briz-004.png
+│   │   │       │   ├── briz-005.png
+│   │   │       │   ├── briz-006.png
+│   │   │       │   ├── lavanda-000.png
+│   │   │       │   ├── lavanda-001.png
+│   │   │       │   ├── lavanda-002.png
+│   │   │       │   ├── lavanda-003.png
+│   │   │       │   ├── photo_0000 (2).png
+│   │   │       │   ├── photo_0000 (2).webp
+│   │   │       │   ├── photo_0000 (3).webp
+│   │   │       │   ├── photo_0000 (4).webp
+│   │   │       │   ├── photo_0000 (5).webp
+│   │   │       │   ├── photo_0000.png
+│   │   │       │   ├── photo_0000.webp
+│   │   │       │   ├── photo_001.png
+│   │   │       │   ├── photo_002.png
+│   │   │       │   ├── photo_003.png
+│   │   │       │   ├── photo_004.png
+│   │   │       │   ├── photo_005.png
+│   │   │       │   ├── photo_006.png
+│   │   │       │   ├── photo_007.png
+│   │   │       │   ├── photo_008.png
+│   │   │       │   ├── photo_009(2).png
+│   │   │       │   ├── photo_009.png
+│   │   │       │   ├── photo_010.png
+│   │   │       │   ├── photo_015.png
+│   │   │       │   ├── photo_016.png
+│   │   │       │   ├── photo_017.png
+│   │   │       │   ├── photo_018.png
+│   │   │       │   ├── photo_019.webp
+│   │   │       │   ├── photo_020.png
+│   │   │       │   ├── photo_021.webp
+│   │   │       │   ├── photo_022.png
+│   │   │       │   ├── photo_026.webp
+│   │   │       │   ├── pion-000.png
+│   │   │       │   ├── pion-001.png
+│   │   │       │   ├── pion-002.png
+│   │   │       │   ├── pion-003.png
+│   │   │       │   ├── pion-004.png
+│   │   │       │   ├── star-000.png
+│   │   │       │   ├── star-001.png
+│   │   │       │   ├── star-002.png
+│   │   │       │   └── star-003.png
+│   │   │       ├── figure-skating
+│   │   │       │   ├── 002.png
+│   │   │       │   ├── 003.png
+│   │   │       │   ├── 004.png
+│   │   │       │   ├── 005.png
+│   │   │       │   ├── 006.png
+│   │   │       │   ├── acetone-2025213-223747-822.png
+│   │   │       │   ├── photo_001.png
+│   │   │       │   ├── photo_002.png
+│   │   │       │   ├── photo_003.png
+│   │   │       │   ├── photo_004.png
+│   │   │       │   ├── photo_005.png
+│   │   │       │   ├── photo_006.png
+│   │   │       │   ├── photo_2023-11-01_13-01-39.jpg
+│   │   │       │   ├── photo_2023-11-01_13-01-40.jpg
+│   │   │       │   ├── photo_2023-11-01_13-02-20.jpg
+│   │   │       │   ├── photo_2023-11-01_13-02-21.jpg
+│   │   │       │   ├── photo_2023-11-01_13-02-22.jpg
+│   │   │       │   ├── photo_2023-11-20_17-32-37.jpg
+│   │   │       │   ├── photo_2024-04-11_11-00-49.jpg
+│   │   │       │   └── Без имени-1.png
+│   │   │       └── renta
+│   │   │           ├── brazil_000.png
+│   │   │           ├── brazil_001.png
+│   │   │           ├── elza_000.png
+│   │   │           ├── elza_001.png
+│   │   │           ├── malinka_000.png
+│   │   │           ├── malinka_001.png
+│   │   │           ├── ocean_000.png
+│   │   │           ├── ocean_001.png
+│   │   │           ├── pale_blue_000.png
+│   │   │           ├── pale_blue_0000.png
+│   │   │           ├── pale_blue_0001.png
+│   │   │           ├── pale_blue_0002.png
+│   │   │           ├── pale_blue_001.png
+│   │   │           ├── siren_000.png
+│   │   │           ├── siren_001.png
+│   │   │           ├── splash_000.png
+│   │   │           ├── splash_001.png
+│   │   │           ├── splash_002.png
+│   │   │           ├── sunset_000.png
+│   │   │           └── sunset_001.png
+│   │   └── suits
+│   │       └── snow_maiden.jpg
+│   ├── index.html
+│   ├── robots.txt
+│   └── videos
+│       └── merki_min.webm
+├── README.md
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.jsx
+│   ├── App.test.js
+│   ├── assets
+│   │   ├── images
+│   │   │   ├── half-block.jpg
+│   │   │   ├── hero-bg.jpg
+│   │   │   ├── index.js
+│   │   │   ├── logo.png
+│   │   │   ├── reviews
+│   │   │   │   ├── reviews_001.png
+│   │   │   │   ├── reviews_002.png
+│   │   │   │   ├── reviews_003.png
+│   │   │   │   ├── reviews_004.png
+│   │   │   │   ├── reviews_005.png
+│   │   │   │   ├── reviews_006.png
+│   │   │   │   ├── reviews_007.png
+│   │   │   │   ├── reviews_008.png
+│   │   │   │   └── reviews_009.png
+│   │   │   └── suits
+│   │   │       ├── none_photo.jpg
+│   │   │       ├── snegurochka.jpg
+│   │   │       ├── snegurochka_01.png
+│   │   │       ├── snegurochka_02.png
+│   │   │       └── snegurochka_03.png
+│   │   └── react.svg
+│   ├── components
+│   │   ├── About.jsx
+│   │   ├── BuyModal.jsx
+│   │   ├── ContactsSection.jsx
+│   │   ├── DeliverySection.jsx
+│   │   ├── DeliverySection.module.css
+│   │   ├── ErrorAlert.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Hero.jsx
+│   │   ├── HowToOrder.jsx
+│   │   ├── HowToOrder.module.css
+│   │   ├── Navbar.jsx
+│   │   ├── OrderModal.jsx
+│   │   ├── PricesSection.jsx
+│   │   ├── PricesSection.module.css
+│   │   ├── ProductImageSlider.jsx
+│   │   ├── ProductImageSlider.module.css
+│   │   ├── ReadySuits.jsx
+│   │   ├── ReadySuits.module.css
+│   │   ├── RentalForm
+│   │   │   ├── Calendar.jsx
+│   │   │   ├── Calendar.module.css
+│   │   │   ├── ErrorDisplay.jsx
+│   │   │   ├── ErrorDisplay.module.css
+│   │   │   ├── FormField.jsx
+│   │   │   ├── FormField.module.css
+│   │   │   ├── FormHeader.jsx
+│   │   │   ├── FormHeader.module.css
+│   │   │   ├── RentalForm.jsx
+│   │   │   ├── RentalForm.module.css
+│   │   │   ├── SuccessMessage.jsx
+│   │   │   └── SuccessMessage.module.css
 │   │   ├── RentalForm.module.css
-│   │   ├── SuccessMessage.jsx
-│   │   └── SuccessMessage.module.css
-│   ├── RentalForm.module.css
-│   ├── RentalFormModal.jsx
-│   ├── RentalFormModal.module.css
-│   ├── RentalModal.jsx
-│   ├── RentalPoliceModal.jsx
-│   ├── ReviewsCarousel.jsx
-│   ├── SuitCard.jsx
-│   └── VideoModal.jsx
-├── hooks
-│   ├── useCalendar.js
-│   └── useRentalForm.js
-├── index.css
-├── index.js
-├── logo.svg
-├── main.jsx
-├── reportWebVitals.js
-├── setupTests.js
-└── styles
-    └── main.css
+│   │   ├── RentalFormModal.jsx
+│   │   ├── RentalFormModal.module.css
+│   │   ├── RentalModal.jsx
+│   │   ├── RentalPoliceModal.jsx
+│   │   ├── ReviewsCarousel.jsx
+│   │   ├── SuitCard.jsx
+│   │   └── VideoModal.jsx
+│   ├── hooks
+│   │   ├── useCalendar.js
+│   │   └── useRentalForm.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── main.jsx
+│   ├── reportWebVitals.js
+│   ├── setupTests.js
+│   └── styles
+│       └── main.css
+├── Structure.txt
+└── vite.config.js
