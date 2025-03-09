@@ -25,11 +25,12 @@ const Navbar = () => {
       <div className="nav-center">
         <div className="nav-links">
           <a href="#main" className="nav-link">Главная</a>
-          <a href="#about" className="nav-link">О нас</a>
           <a href="#our-works" className="nav-link">Наши работы</a>
           <a href="#prices" className="nav-link">Цены</a>
           <a href="#how-to-order" className="nav-link">Как мы работаем</a>
           <a href="#delivery" className="nav-link">Доставка</a>
+          <a href="#about" className="nav-link">О нас</a>
+          <a href="#reviews" className="nav-link">Отзывы</a>
           <a href="#contacts" className="nav-link">Контакты</a>
         </div>
       </div>
@@ -71,11 +72,12 @@ const Navbar = () => {
 
       <div className={`nav-links mobile ${isOpen ? 'active' : ''}`}>
         <a href="#main" className="nav-link" onClick={() => setIsOpen(false)}>Главная</a>
-        <a href="#about" className="nav-link" onClick={() => setIsOpen(false)}>О нас</a>
         <a href="#our-works" className="nav-link" onClick={() => setIsOpen(false)}>Наши работы</a>
         <a href="#prices" className="nav-link" onClick={() => setIsOpen(false)}>Цены</a>
         <a href="#how-to-order" className="nav-link" onClick={() => setIsOpen(false)}>Как мы работаем</a>
         <a href="#delivery" className="nav-link" onClick={() => setIsOpen(false)}>Доставка</a>
+        <a href="#about" className="nav-link" onClick={() => setIsOpen(false)}>О нас</a>
+        <a href="#reviews" className="nav-link" onClick={() => setIsOpen(false)}>Отзывы</a>
         <a href="#contacts" className="nav-link" onClick={() => setIsOpen(false)}>Контакты</a>
       </div>
     </>
