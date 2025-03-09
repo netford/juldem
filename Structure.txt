@@ -33,6 +33,7 @@
 │   ├── CustomOrderModal.module.css
 │   ├── DeliverySection.jsx
 │   ├── DeliverySection.module.css
+│   ├── EmptyState.jsx
 │   ├── ErrorAlert.jsx
 │   ├── Footer.jsx
 │   ├── Hero.jsx
@@ -75,12 +76,17 @@
 │   ├── ReviewsCarousel.jsx
 │   ├── ScrollToTopButton.jsx
 │   ├── SuitCard.jsx
+│   ├── SuitFilter.jsx
+│   ├── SuitGrid.jsx
 │   └── VideoModal.jsx
+├── data
+│   └── suitsData.js
 ├── hooks
 │   ├── useCalendar.js
 │   ├── useCustomOrderForm.js
 │   ├── useOrderForm.js
-│   └── useRentalForm.js
+│   ├── useRentalForm.js
+│   └── useSuitFilter.js
 ├── index.css
 ├── index.js
 ├── logo.svg

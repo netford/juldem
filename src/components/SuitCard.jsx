@@ -55,13 +55,6 @@ const SuitCard = React.memo(({ suit, className, style }) => {
     }
   };
 
-  // Стиль для цены проката (уменьшенный размер шрифта)
-  const priceStyle = suit.category === 'renta' ? {
-    fontSize: '0.95rem',
-    fontWeight: '600',
-    color: '#00aaff'
-  } : {};
-
   return (
     <>
       <article className={`${styles.suitCard} ${className || ''}`} style={style}>
@@ -98,7 +91,7 @@ const SuitCard = React.memo(({ suit, className, style }) => {
                 <span className={styles.suitSize}>Рост: {formatHeight(suit.height)}</span>
               )}
               {(suit.available || suit.category === 'renta') && (
-                <span className={styles.suitPrice} style={priceStyle}>
+                <span className={styles.suitPrice}>
                   {suit.category === 'renta' 
                     ? `${suit.price.toLocaleString('ru-RU')} / ${suit.deposit.toLocaleString('ru-RU')} ₽` 
                     : `${suit.price.toLocaleString('ru-RU')} ₽`
