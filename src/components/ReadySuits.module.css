@@ -501,16 +501,23 @@
 }
 
 .scrollContainer::-webkit-scrollbar {
-  height: 8px;
+  height: 12px; /* Увеличиваем высоту скроллбара */
 }
 
 .scrollContainer::-webkit-scrollbar-thumb {
-  background: #666;
-  border-radius: 4px;
+  background: #0066cc; /* Используем фирменный синий цвет */
+  border-radius: 6px;
+  border: 2px solid #333; /* Добавляем обводку для большей заметности */
+  box-shadow: 0 0 5px rgba(0, 102, 204, 0.5); /* Добавляем свечение */
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background: #0088ee; /* Цвет при наведении */
 }
 
 .scrollContainer::-webkit-scrollbar-track {
   background: #333;
+  border-radius: 6px;
 }
 
 /* Анимации для плавного появления/исчезновения */
