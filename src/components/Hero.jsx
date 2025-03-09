@@ -139,14 +139,16 @@ const Hero = () => {
           font-weight: var(--font-weight-bold);
           margin-bottom: 1rem;
           line-height: 1.2;
+          color: var(--color-white);
+          text-shadow: var(--text-shadow-header);
         }
         
         .hero-subtitle {
           font-size: clamp(1rem, 2vw, 1.4rem);
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--color-white);
           margin-bottom: 2.5rem;
           max-width: 750px;
-          line-height: 1.4;
+          line-height: var(--line-height-base);
           font-weight: 300;
           letter-spacing: 0.5px;
         }

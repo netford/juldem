@@ -83,33 +83,43 @@
     color: #fff;
   }
   
-  .heightRange {
-    font-size: 1.25rem;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    margin-bottom: 1rem;
-  }
-  
-  .priceValue {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
+.heightRange {
+  font-size: var(--font-size-lg, 18px); /* Минимум 18px для названий категорий */
+  color: var(--color-white);
+  text-align: center;
+  white-space: nowrap;
+  margin-bottom: 1rem;
+}
+
+.priceValue {
+  font-size: var(--font-size-xl, 24px); /* Минимум 24px для цен */
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+  text-align: center;
+  white-space: nowrap;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.additionalTitle {
+  font-size: var(--font-size-lg, 18px);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  margin-bottom: 1rem;
+}
+
+.additionalList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--color-white);
+  font-size: var(--font-size-sm, 14px); /* Минимум 14px для описаний */
+  line-height: var(--line-height-base);
+}
   
   .additionalInfo {
     margin-bottom: auto;
-  }
-  
-  .additionalTitle {
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 1rem;
   }
   
   .additionalList {

@@ -73,6 +73,7 @@
 │   ├── RentalModal.jsx
 │   ├── RentalPoliceModal.jsx
 │   ├── ReviewsCarousel.jsx
+│   ├── ScrollToTopButton.jsx
 │   ├── SuitCard.jsx
 │   └── VideoModal.jsx
 ├── hooks

@@ -152,6 +152,9 @@
 }
 
 .suitCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background: #1a1a1a;
   border-radius: 16px;
   overflow: hidden;
@@ -206,27 +209,35 @@
   padding: 1.5rem;
   background: #1a1a1a;
   color: #fff;
-  height: 180px;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .suitInfo {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .suitTitle {
-  font-size: 1.25rem;
-  color: #fff;
+  font-size: var(--font-size-lg, 18px);
+  color: var(--color-white);
   margin-bottom: 1rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   text-align: center;
+  text-shadow: var(--text-shadow-header);
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .suitDetails {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
   margin-bottom: 1.5rem;
 }
 
@@ -236,14 +247,16 @@
 }
 
 .suitSize {
-  color: #ccc;
-  font-size: 0.9rem;
+  color: var(--color-white);
+  font-size: 14px; /* Уменьшаем с 16px до 14px */
+  letter-spacing: -0.2px; /* Добавляем небольшой отрицательный кернинг */
 }
 
 .suitPrice {
-  color: #fff;
-  font-weight: 600;
-  font-size: 1.2rem;
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+  font-size: 22px; /* Уменьшаем с 24px */
+  letter-spacing: -0.3px; /* Добавляем небольшой отрицательный кернинг */
 }
 
 /* Базовые стили для всех кнопок действий */
@@ -591,7 +604,12 @@
   }
 
   .suitContent {
-    padding: 1rem;
+    padding: 1.2rem;
+  }
+  
+  .suitTitle {
+    font-size: 1.1rem;
+    min-height: 2.4em;
   }
 
   .emptyState {
