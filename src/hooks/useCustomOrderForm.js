@@ -1,7 +1,7 @@
 // hooks/useCustomOrderForm.js
 import { useState, useEffect, useRef } from 'react';
 
-const useCustomOrderForm = (onClose, product) => {
+const useCustomOrderForm = (onClose, product, isOpen = true) => {
   // Состояния формы
   const [formData, setFormData] = useState({
     name: '',
@@ -40,6 +40,9 @@ const useCustomOrderForm = (onClose, product) => {
     dueDate: false
   });
 
+  // Предотвращаем многократную отправку формы
+  const isSubmittingRef = useRef(false);
+
   // Определение мобильного устройства и Firefox
   useEffect(() => {
     const checkMobile = () => {
@@ -77,28 +80,32 @@ const useCustomOrderForm = (onClose, product) => {
 
   // Сброс формы при открытии модального окна
   useEffect(() => {
-    // Сбрасываем форму
-    setFormData({
-      name: '',
-      city: '',
-      phone: '',
-      callTime: '',
-      sportType: '',
-      height: '',
-      dueDate: ''
-    });
-    setSuccess(false);
-    // Сбрасываем ошибки валидации
-    setValidationErrors({
-      name: false,
-      city: false,
-      phone: false,
-      callTime: false,
-      sportType: false,
-      height: false,
-      dueDate: false
-    });
-  }, []);
+    if (isOpen) {
+      // Сбрасываем форму
+      setFormData({
+        name: '',
+        city: '',
+        phone: '',
+        callTime: '',
+        sportType: '',
+        height: '',
+        dueDate: ''
+      });
+      setSuccess(false);
+      // Сбрасываем ошибки валидации
+      setValidationErrors({
+        name: false,
+        city: false,
+        phone: false,
+        callTime: false,
+        sportType: false,
+        height: false,
+        dueDate: false
+      });
+      // Сбрасываем состояние блокировки отправки
+      isSubmittingRef.current = false;
+    }
+  }, [isOpen]);
 
   // Функция для скрытия сообщения об ошибке при фокусе любого поля
   const clearErrorOnFocus = () => {
@@ -345,10 +352,8 @@ const useCustomOrderForm = (onClose, product) => {
     return groupDatesByWeeks(allDates);
   };
 
-  // Обработка отправки формы
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+  // Проверка формы на валидность
+  const validateForm = () => {
     // Определяем, какие поля являются обязательными
     const requiredFields = {
       name: true,
@@ -360,71 +365,54 @@ const useCustomOrderForm = (onClose, product) => {
       dueDate: false // необязательное поле
     };
     
-    // Проверка для всех браузеров
-    const isFormValid = () => {
-      let valid = true;
-      
-      // Проверяем все обязательные поля
-      for (const field in requiredFields) {
-        if (requiredFields[field] && !formData[field]) {
-          valid = false;
-          break;
-        }
-      }
-      
-      // Дополнительная проверка для телефона
-      if (formData.phone && formData.phone.replace(/\D/g, '').length < 10) {
-        valid = false;
-      }
-      
-      return valid;
-    };
+    // Сбрасываем все ошибки валидации
+    const newValidationErrors = {};
+    let hasErrors = false;
     
-    // Для Firefox Mobile используем упрощенную валидацию
-    if (isFirefoxMobile) {
-      if (!isFormValid()) {
-        setError({
-          isOpen: true,
-          message: 'Пожалуйста, заполните все обязательные поля'
-        });
-        return;
+    // Проверяем заполнение всех обязательных полей
+    for (const field in requiredFields) {
+      if (requiredFields[field]) {
+        const isEmpty = !formData[field];
+        newValidationErrors[field] = isEmpty;
+        if (isEmpty) hasErrors = true;
       }
-    } else {
-      // Для других браузеров используем подробную валидацию
-      // Сбрасываем все ошибки валидации
-      const newValidationErrors = {};
-      
-      // Проверяем заполнение всех обязательных полей
-      for (const field in requiredFields) {
-        if (requiredFields[field]) {
-          newValidationErrors[field] = !formData[field];
-        }
-      }
-      
-      // Устанавливаем новые ошибки валидации
-      setValidationErrors(newValidationErrors);
-      
-      // Проверяем, есть ли ошибки
-      if (Object.values(newValidationErrors).some(error => error)) {
-        setError({
-          isOpen: true,
-          message: 'Пожалуйста, заполните все обязательные поля'
-        });
-        return;
-      }
-      
-      // Получаем только цифры из телефона
+    }
+    
+    // Дополнительная проверка телефона
+    if (formData.phone) {
       const cleanPhone = formData.phone.replace(/\D/g, '');
+      const isPhoneValid = cleanPhone.length >= 10;
+      newValidationErrors.phone = !isPhoneValid;
+      if (!isPhoneValid) hasErrors = true;
+    }
+    
+    // Устанавливаем новые ошибки валидации
+    setValidationErrors(newValidationErrors);
+    
+    return !hasErrors;
+  };
+
+  // Обработка отправки формы
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Предотвращаем многократную отправку
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
+    
+    // Проверяем валидность формы
+    const isFormValid = validateForm();
+    
+    if (!isFormValid) {
+      // Показываем сообщение об ошибке
+      setError({
+        isOpen: true,
+        message: 'Пожалуйста, заполните все обязательные поля'
+      });
       
-      // Проверка телефона на корректность
-      if (cleanPhone.length < 10) {
-        setValidationErrors(prev => ({ ...prev, phone: true }));
-        setError({
-          isOpen: true,
-          message: 'Пожалуйста, введите корректный номер телефона (не менее 10 цифр)'
-        });
-        return;
-      }
+      // Сбрасываем блокировку отправки
+      isSubmittingRef.current = false;
+      return;
     }
     
     setIsSubmitting(true);
@@ -529,6 +517,9 @@ const useCustomOrderForm = (onClose, product) => {
         message: 'Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.'
       });
       setIsSubmitting(false);
+    } finally {
+      // Сбрасываем блокировку отправки
+      isSubmittingRef.current = false;
     }
   };
 
@@ -538,6 +529,30 @@ const useCustomOrderForm = (onClose, product) => {
       isOpen: false,
       message: ''
     });
+  };
+
+  // Валидация отдельного поля для немедленной обратной связи
+  const validateField = (name, value) => {
+    // Проверяем обязательность поля
+    const requiredFields = {
+      name: true,
+      city: false, // необязательное поле
+      phone: true,
+      callTime: true,
+      sportType: true,
+      height: true,
+      dueDate: false // необязательное поле
+    };
+
+    if (!requiredFields[name]) return true; // Необязательное поле всегда валидно
+    if (!value) return false; // Обязательное поле не должно быть пустым
+
+    // Специфическая валидация для телефона
+    if (name === 'phone') {
+      return value.replace(/\D/g, '').length >= 10;
+    }
+
+    return true;
   };
 
   return {
@@ -558,7 +573,9 @@ const useCustomOrderForm = (onClose, product) => {
     clearErrorOnFocus,
     closeErrorAlert,
     formatDate,
-    generateCalendarWeeks
+    generateCalendarWeeks,
+    validateField,
+    validateForm
   };
 };
 

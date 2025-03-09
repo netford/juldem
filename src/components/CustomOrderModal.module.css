@@ -19,6 +19,30 @@
   }
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes progressAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -99,6 +123,7 @@
   display: flex;
   border-bottom: 1px solid #3a3a3a;
   background-color: #1a1a1a;
+  position: relative;
 }
 
 .tabButton {
@@ -111,6 +136,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   border-bottom: 3px solid transparent;
+  position: relative;
 }
 
 .tabButton:hover {
@@ -122,6 +148,50 @@
   color: #0088ee;
   border-bottom: 3px solid #0088ee;
   font-weight: 600;
+}
+
+/* Индикатор прогресса для вкладок */
+.progressBar {
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #0066cc, #00aaff, #0088ee);
+  background-size: 200% 100%;
+  animation: progressAnimation 2s ease infinite;
+  transition: width 0.3s ease;
+}
+
+/* Стили для вкладки с ошибками */
+.tabWithErrors {
+  color: #ff4d4f;
+  position: relative;
+}
+
+.tabWithErrors::after {
+  content: '!';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 18px;
+  height: 18px;
+  background-color: #ff4d4f;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  animation: pulse 1s infinite;
 }
 
 .form {
@@ -149,6 +219,7 @@
 
 .formGroup {
   margin-bottom: 1.2rem;
+  position: relative;
 }
 
 .formGroup:last-child {
@@ -166,6 +237,11 @@
 .icon {
   margin-right: 0.5rem;
   color: #0088ee;
+}
+
+.requiredMark {
+  color: #ff4d4f;
+  margin-left: 0.25rem;
 }
 
 .input {
@@ -253,6 +329,28 @@
   color: #999;
   cursor: pointer;
   z-index: 1;
+}
+
+/* Контейнер для инпута с индикатором валидации */
+.inputWithValidation {
+  position: relative;
+}
+
+/* Индикатор валидации */
+.validationIndicator {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.validIcon {
+  color: #52c41a;
+}
+
+.invalidIcon {
+  color: #ff4d4f;
 }
 
 .formNavigation {
@@ -350,6 +448,12 @@
   text-decoration: underline;
 }
 
+.optional {
+  font-style: italic;
+  font-size: 1em;
+  color: #999;
+}
+
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .overlay {
@@ -420,10 +524,16 @@
   .backButton {
     margin-top: 0.5rem;
   }
-}
 
-.optional {
-  font-style: italic;
-  font-size: 1em;
-  color: #999;
+  .validationIndicator {
+    right: 0.8rem;
+  }
+  
+  .tabWithErrors::after {
+    top: 0.3rem;
+    right: 0.3rem;
+    width: 16px;
+    height: 16px;
+    font-size: 0.7rem;
+  }
 }

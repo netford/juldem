@@ -1,7 +1,7 @@
 // CustomOrderModal.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { X, User, MapPin, Phone, Calendar, Clock, ChevronDown } from 'lucide-react';
+import { X, User, MapPin, Phone, Calendar, Clock, ChevronDown, Check, AlertCircle } from 'lucide-react';
 import styles from './CustomOrderModal.module.css';
 import CalendarComponent from './OrderForm/Calendar';
 import SuccessMessage from './RentalForm/SuccessMessage';
@@ -30,11 +30,26 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
     generateCalendarWeeks
   } = useCustomOrderForm(onClose, product);
   
-  const [activeTab, setActiveTab] = useState('contact'); // Новое состояние для вкладок
+  const [activeTab, setActiveTab] = useState('contact');
   const [timeSlots, setTimeSlots] = useState([]);
   const [heightOptions, setHeightOptions] = useState([]);
+  const [formProgress, setFormProgress] = useState({
+    contact: 0,
+    product: 0
+  });
+  const [tabValidationErrors, setTabValidationErrors] = useState({
+    contact: false,
+    product: false
+  });
+  
+  // Refs для прокрутки к первому полю с ошибкой
+  const nameRef = useRef(null);
+  const phoneRef = useRef(null);
+  const callTimeRef = useRef(null);
+  const sportTypeRef = useRef(null);
+  const heightRef = useRef(null);
 
-  // Получаем простое отображение дня (сегодня/завтра) для уведомления пользователю
+  // Получаем отображение времени звонка
   const getSimpleDay = (callTimeValue) => {
     if (!callTimeValue) return 'в ближайшее время';
     
@@ -45,7 +60,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
     return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
   };
 
-  // Обработка нажатия клавиши ESC для закрытия модального окна
+  // Обработка ESC для закрытия модального окна
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
@@ -65,7 +80,6 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
   // Закрытие календаря при клике вне его области
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Проверяем, что клик произошел не по календарю и не по полю ввода даты
       if (calendarRef.current && 
           !calendarRef.current.contains(event.target) && 
           event.target.id !== 'dueDateDisplay' &&
@@ -74,7 +88,6 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
       }
     };
 
-    // Добавляем обработчик только когда календарь открыт
     if (showCustomCalendar) {
       document.addEventListener('mousedown', handleClickOutside);
     }
@@ -100,6 +113,28 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
       setHeightOptions(heightOpts);
     }
   }, [isOpen]);
+
+  // Обновление индикатора прогресса заполнения формы
+  useEffect(() => {
+    // Расчет прогресса заполнения для первой вкладки (контактные данные)
+    const contactFields = ['name', 'phone', 'callTime'];
+    const requiredContactFields = contactFields.filter(field => field !== 'city');
+    const contactComplete = requiredContactFields.reduce((count, field) => 
+      formData[field] ? count + 1 : count, 0);
+    const contactProgress = Math.round((contactComplete / requiredContactFields.length) * 100);
+    
+    // Расчет прогресса заполнения для второй вкладки (данные о купальнике)
+    const productFields = ['sportType', 'height', 'dueDate'];
+    const requiredProductFields = productFields.filter(field => field !== 'dueDate');
+    const productComplete = requiredProductFields.reduce((count, field) => 
+      formData[field] ? count + 1 : count, 0);
+    const productProgress = Math.round((productComplete / requiredProductFields.length) * 100);
+    
+    setFormProgress({
+      contact: contactProgress,
+      product: productProgress
+    });
+  }, [formData]);
 
   // Функция для генерации временных слотов
   const generateTimeSlots = () => {
@@ -131,6 +166,118 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
     }
 
     return slots;
+  };
+
+  // Валидация полей при переключении вкладок
+  const validateTabBeforeSwitch = (nextTab) => {
+    if (nextTab === 'product' && activeTab === 'contact') {
+      // Проверяем обязательные поля на первой вкладке перед переходом ко второй
+      const hasNameError = !formData.name;
+      const hasPhoneError = !formData.phone || formData.phone.replace(/\D/g, '').length < 10;
+      const hasCallTimeError = !formData.callTime;
+      
+      const hasErrors = hasNameError || hasPhoneError || hasCallTimeError;
+      
+      if (hasErrors) {
+        // Устанавливаем ошибки валидации для полей
+        const newValidationErrors = {
+          ...validationErrors,
+          name: hasNameError,
+          phone: hasPhoneError,
+          callTime: hasCallTimeError
+        };
+        
+        // Показываем ошибку на уровне вкладки
+        setTabValidationErrors(prev => ({
+          ...prev,
+          contact: true
+        }));
+        
+        // Скроллим к первому полю с ошибкой
+        if (hasNameError && nameRef.current) {
+          nameRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          nameRef.current.focus();
+        } else if (hasPhoneError && phoneRef.current) {
+          phoneRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          phoneRef.current.focus();
+        } else if (hasCallTimeError && callTimeRef.current) {
+          callTimeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          callTimeRef.current.focus();
+        }
+        
+        // Показываем сообщение об ошибке
+        closeErrorAlert();
+        setTimeout(() => {
+          setError({
+            isOpen: true,
+            message: 'Пожалуйста, заполните все обязательные поля на этой вкладке перед переходом к следующей'
+          });
+        }, 100);
+        
+        return false;
+      }
+      
+      // Если ошибок нет, сбрасываем состояние ошибки для вкладки
+      setTabValidationErrors(prev => ({
+        ...prev,
+        contact: false
+      }));
+      return true;
+    }
+    
+    return true;
+  };
+
+  // Обработчик переключения вкладок с валидацией
+  const handleTabSwitch = (nextTab) => {
+    if (validateTabBeforeSwitch(nextTab)) {
+      setActiveTab(nextTab);
+      // Сбрасываем состояние ошибки
+      closeErrorAlert();
+    }
+  };
+
+  // Функция для проверки заполненности поля (для визуальной индикации)
+  const isFieldValid = (fieldName) => {
+    if (!formData[fieldName]) return null; // поле не заполнено
+    
+    // Для телефона делаем дополнительную проверку
+    if (fieldName === 'phone') {
+      return formData.phone.replace(/\D/g, '').length >= 10 ? true : false;
+    }
+    
+    return true; // поле заполнено
+  };
+
+  // Обработка нажатия Tab для перехода между полями
+  const handleTabKey = (e, fieldName, nextFieldRef) => {
+    if (e.key === 'Tab' && !e.shiftKey && nextFieldRef && nextFieldRef.current) {
+      e.preventDefault();
+      nextFieldRef.current.focus();
+    }
+  };
+
+  // Обработка потери фокуса для проверки валидности поля
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    
+    // Проверяем только обязательные поля
+    if (['name', 'phone', 'callTime', 'sportType', 'height'].includes(name)) {
+      let isValid = !!value;
+      
+      // Дополнительная проверка для телефона
+      if (name === 'phone' && value) {
+        isValid = value.replace(/\D/g, '').length >= 10;
+      }
+      
+      if (!isValid) {
+        // Устанавливаем ошибку валидации для поля
+        setValidationErrors(prev => ({
+          ...prev,
+          [name]: true
+        }));
+      }
+    }
   };
 
   // Блокируем/разблокируем прокрутку страницы
@@ -179,19 +326,31 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
               <ErrorDisplay message={error.message} />
             )}
             
-            {/* Вкладки */}
+            {/* Вкладки с индикаторами прогресса */}
             <div className={styles.tabs}>
               <button 
-                className={`${styles.tabButton} ${activeTab === 'contact' ? styles.activeTab : ''}`}
+                className={`${styles.tabButton} ${activeTab === 'contact' ? styles.activeTab : ''} ${tabValidationErrors.contact ? styles.tabWithErrors : ''}`}
                 onClick={() => setActiveTab('contact')}
               >
                 Контактная информация
+                <div className={styles.progressBar}>
+                  <div 
+                    className={styles.progressFill} 
+                    style={{width: `${formProgress.contact}%`}}
+                  ></div>
+                </div>
               </button>
               <button 
-                className={`${styles.tabButton} ${activeTab === 'product' ? styles.activeTab : ''}`}
-                onClick={() => setActiveTab('product')}
+                className={`${styles.tabButton} ${activeTab === 'product' ? styles.activeTab : ''} ${tabValidationErrors.product ? styles.tabWithErrors : ''}`}
+                onClick={() => handleTabSwitch('product')}
               >
                 Информация о купальнике
+                <div className={styles.progressBar}>
+                  <div 
+                    className={styles.progressFill} 
+                    style={{width: `${formProgress.product}%`}}
+                  ></div>
+                </div>
               </button>
             </div>
             
@@ -204,17 +363,30 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                       <label className={styles.label}>
                         <User size={14} className={styles.icon} />
                         Ваше имя
+                        <span className={styles.requiredMark}>*</span>
                       </label>
-                      <input 
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        onFocus={clearErrorOnFocus}
-                        required={!isFirefoxMobile}
-                        className={`${styles.input} ${validationErrors.name ? styles.inputError : ''}`}
-                        placeholder="Введите ваше имя"
-                      />
+                      <div className={styles.inputWithValidation}>
+                        <input 
+                          ref={nameRef}
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          onFocus={clearErrorOnFocus}
+                          onBlur={handleBlur}
+                          onKeyDown={(e) => handleTabKey(e, 'name', phoneRef)}
+                          required={!isFirefoxMobile}
+                          className={`${styles.input} ${validationErrors.name ? styles.inputError : ''}`}
+                          placeholder="Введите ваше имя"
+                        />
+                        {isFieldValid('name') !== null && (
+                          <span className={styles.validationIndicator}>
+                            {isFieldValid('name') 
+                              ? <Check size={16} className={styles.validIcon} /> 
+                              : <AlertCircle size={16} className={styles.invalidIcon} />}
+                          </span>
+                        )}
+                      </div>
                       {validationErrors.name && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, укажите ваше имя</div>
                       )}
@@ -226,15 +398,22 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                         <MapPin size={14} className={styles.icon} />
                         <span>Город <span className={styles.optional}>(необязательно)</span></span>
                       </label>
-                      <input 
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        onFocus={clearErrorOnFocus}
-                        className={`${styles.input} ${validationErrors.city ? styles.inputError : ''}`}
-                        placeholder="Введите ваш город"
-                      />
+                      <div className={styles.inputWithValidation}>
+                        <input 
+                          type="text"
+                          name="city"
+                          value={formData.city}
+                          onChange={handleChange}
+                          onFocus={clearErrorOnFocus}
+                          className={styles.input}
+                          placeholder="Введите ваш город"
+                        />
+                        {isFieldValid('city') && (
+                          <span className={styles.validationIndicator}>
+                            <Check size={16} className={styles.validIcon} />
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -245,22 +424,35 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                       <label className={styles.label}>
                         <Phone size={14} className={styles.icon} />
                         Телефон
+                        <span className={styles.requiredMark}>*</span>
                       </label>
                       <div className={styles.phoneInputContainer}>
                         <span className={styles.phoneCode}>+7</span>
                         <input 
+                          ref={phoneRef}
                           type="tel"
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
                           onInput={handlePhoneInput}
-                          onKeyDown={handlePhoneKeyDown}
+                          onKeyDown={(e) => {
+                            handlePhoneKeyDown(e);
+                            handleTabKey(e, 'phone', callTimeRef);
+                          }}
                           onFocus={clearErrorOnFocus}
+                          onBlur={handleBlur}
                           required={!isFirefoxMobile}
                           className={`${styles.input} ${styles.phoneInput} ${validationErrors.phone ? styles.inputError : ''}`}
                           placeholder="(___) ___-__-__"
                           style={isMobile ? {paddingLeft: "2.4rem"} : {}}
                         />
+                        {isFieldValid('phone') !== null && (
+                          <span className={styles.validationIndicator}>
+                            {isFieldValid('phone') 
+                              ? <Check size={16} className={styles.validIcon} /> 
+                              : <AlertCircle size={16} className={styles.invalidIcon} />}
+                          </span>
+                        )}
                       </div>
                       {validationErrors.phone && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, введите корректный номер телефона</div>
@@ -272,13 +464,16 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                       <label className={styles.label}>
                         <Clock size={14} className={styles.icon} />
                         Удобное время для звонка
+                        <span className={styles.requiredMark}>*</span>
                       </label>
                       <div className={styles.selectContainer}>
                         <select
+                          ref={callTimeRef}
                           name="callTime"
                           value={formData.callTime}
                           onChange={handleChange}
                           onFocus={clearErrorOnFocus}
+                          onBlur={handleBlur}
                           required={!isFirefoxMobile}
                           className={`${styles.input} ${styles.selectInput} ${validationErrors.callTime ? styles.inputError : ''}`}
                         >
@@ -292,6 +487,13 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                         <div className={styles.selectArrow}>
                           <ChevronDown size={18} />
                         </div>
+                        {isFieldValid('callTime') !== null && (
+                          <span className={styles.validationIndicator}>
+                            {isFieldValid('callTime') 
+                              ? <Check size={16} className={styles.validIcon} /> 
+                              : <AlertCircle size={16} className={styles.invalidIcon} />}
+                          </span>
+                        )}
                       </div>
                       {validationErrors.callTime && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, выберите удобное время для звонка</div>
@@ -304,7 +506,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                   <button 
                     type="button" 
                     className={styles.nextButton}
-                    onClick={() => setActiveTab('product')}
+                    onClick={() => handleTabSwitch('product')}
                   >
                     Далее
                   </button>
@@ -321,13 +523,17 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           <path d="M9 18l6-6-6-6"/>
                         </svg>
                         Вид спорта
+                        <span className={styles.requiredMark}>*</span>
                       </label>
                       <div className={styles.selectContainer}>
                         <select
+                          ref={sportTypeRef}
                           name="sportType"
                           value={formData.sportType}
                           onChange={handleChange}
                           onFocus={clearErrorOnFocus}
+                          onBlur={handleBlur}
+                          onKeyDown={(e) => handleTabKey(e, 'sportType', heightRef)}
                           required={!isFirefoxMobile}
                           className={`${styles.input} ${styles.selectInput} ${validationErrors.sportType ? styles.inputError : ''}`}
                         >
@@ -340,6 +546,13 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                         <div className={styles.selectArrow}>
                           <ChevronDown size={18} />
                         </div>
+                        {isFieldValid('sportType') !== null && (
+                          <span className={styles.validationIndicator}>
+                            {isFieldValid('sportType') 
+                              ? <Check size={16} className={styles.validIcon} /> 
+                              : <AlertCircle size={16} className={styles.invalidIcon} />}
+                          </span>
+                        )}
                       </div>
                       {validationErrors.sportType && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, выберите вид спорта</div>
@@ -353,13 +566,16 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"/>
                         </svg>
                         Рост
+                        <span className={styles.requiredMark}>*</span>
                       </label>
                       <div className={styles.selectContainer}>
                         <select
+                          ref={heightRef}
                           name="height"
                           value={formData.height}
                           onChange={handleChange}
                           onFocus={clearErrorOnFocus}
+                          onBlur={handleBlur}
                           required={!isFirefoxMobile}
                           className={`${styles.input} ${styles.selectInput} ${validationErrors.height ? styles.inputError : ''}`}
                         >
@@ -373,6 +589,13 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                         <div className={styles.selectArrow}>
                           <ChevronDown size={18} />
                         </div>
+                        {isFieldValid('height') !== null && (
+                          <span className={styles.validationIndicator}>
+                            {isFieldValid('height') 
+                              ? <Check size={16} className={styles.validIcon} /> 
+                              : <AlertCircle size={16} className={styles.invalidIcon} />}
+                          </span>
+                        )}
                       </div>
                       {validationErrors.height && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, укажите рост</div>
@@ -405,6 +628,11 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                         >
                           <Calendar size={18} />
                         </div>
+                        {isFieldValid('dueDate') && (
+                          <span className={styles.validationIndicator}>
+                            <Check size={16} className={styles.validIcon} />
+                          </span>
+                        )}
                         
                         <div className="calendar-container">
                           <CalendarComponent 
@@ -417,7 +645,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                               handleChange(event);
                               setShowCustomCalendar(false);
                             }}
-                            minimumDays={7} // Добавляем минимальное количество дней
+                            minimumDays={7}
                           />
                         </div>
                       </div>
