@@ -4,10 +4,9 @@ import styles from './Calendar.module.css';
 
 const Calendar = ({ 
   visible, 
-  calendarWeeks, 
+  calendarWeeks = [],
   selectedDate, 
-  onDateSelect,
-  onOutsideClick 
+  onDateSelect 
 }) => {
   if (!visible) return null;
 
@@ -27,30 +26,31 @@ const Calendar = ({
       {/* Отображение дат по неделям */}
       {calendarWeeks.map((week, weekIndex) => (
         <div key={`week-${weekIndex}`} className={styles.grid}>
-          {week.map((dateObj, dayIndex) => (
-            dateObj ? (
-              <div
-                key={dateObj.date.getTime()}
-                onClick={() => {
-                  if (dateObj.isInRange && !dateObj.isPast) {
-                    onDateSelect(dateObj.value);
-                  }
-                }}
-                className={`
-                  ${styles.dateItem}
-                  ${selectedDate === dateObj.value ? styles.selected : ''}
-                  ${!dateObj.isInRange || dateObj.isPast ? styles.disabled : ''}
-                  ${dateObj.isToday ? styles.today : ''}
-                `}
-              >
-                {dateObj.date.getDate()}
-              </div>
-            ) : (
-              <div key={`empty-${dayIndex}`} className={styles.emptyCell}></div>
-            )
+          {week.map((dateObj) => (
+            <div
+              key={dateObj.value}
+              onClick={() => {
+                if (dateObj.isInRange && !dateObj.isPast) {
+                  onDateSelect(dateObj.value);
+                }
+              }}
+              className={`
+                ${styles.dateItem}
+                ${selectedDate === dateObj.value ? styles.selected : ''}
+                ${!dateObj.isInRange || dateObj.isPast ? styles.disabled : ''}
+                ${dateObj.isToday ? styles.today : ''}
+              `}
+              title={dateObj.isInRange ? '' : "Доступны даты не ранее, чем через 7 дней от текущей даты"}
+            >
+              {dateObj.date.getDate()}
+            </div>
           ))}
         </div>
       ))}
+      
+      <div className={styles.calendarInfo}>
+        Доступны даты не ранее, чем через 7 дней от текущей даты
+      </div>
     </div>
   );
 };

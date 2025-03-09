@@ -18,6 +18,8 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     isSubmitting,
     showCustomCalendar,
     isMobile,
+    isFirefoxMobile,
+    calendarRef,
     handleChange,
     handleSubmit,
     handlePhoneKeyDown,
@@ -26,6 +28,7 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
     clearErrorOnFocus,
     closeErrorAlert,
     formatDate,
+    validateField
   } = useRentalForm(onClose, product);
 
   // Получаем простое отображение дня (сегодня/завтра) для уведомления пользователю
@@ -111,6 +114,8 @@ const RentalFormModal = ({ isOpen, onClose, product }) => {
               showCustomCalendar={showCustomCalendar}
               setShowCustomCalendar={setShowCustomCalendar}
               isMobile={isMobile}
+              isFirefoxMobile={isFirefoxMobile}
+              calendarRef={calendarRef}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
               handlePhoneKeyDown={handlePhoneKeyDown}

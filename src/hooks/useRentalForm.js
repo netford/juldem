@@ -1,5 +1,5 @@
-// hooks/useRentalForm.js
-import { useState, useEffect } from 'react';
+// hooks/useRentalForm.js - обновленный код
+import { useState, useEffect, useRef } from 'react';
 
 const useRentalForm = (onClose, product) => {
   // Состояния формы
@@ -12,6 +12,7 @@ const useRentalForm = (onClose, product) => {
   
   // Состояние для кастомного календаря
   const [showCustomCalendar, setShowCustomCalendar] = useState(false);
+  const calendarRef = useRef(null);
   
   // Состояние для определения Firefox Mobile
   const [isFirefoxMobile, setIsFirefoxMobile] = useState(false);
@@ -33,6 +34,9 @@ const useRentalForm = (onClose, product) => {
     performanceDate: false,
     agree: false
   });
+
+  // Предотвращаем многократную отправку формы
+  const isSubmittingRef = useRef(false);
 
   // Определение мобильного устройства и Firefox
   useEffect(() => {
@@ -69,6 +73,8 @@ const useRentalForm = (onClose, product) => {
       performanceDate: false,
       agree: false
     });
+    // Сбрасываем состояние блокировки отправки
+    isSubmittingRef.current = false;
   }, []);
 
   // Функция для скрытия сообщения об ошибке при фокусе любого поля
@@ -199,78 +205,74 @@ const useRentalForm = (onClose, product) => {
     return `${day}.${month}.${year}`;
   };
 
+  // Функция для проверки валидности формы
+  const validateForm = () => {
+    // Определяем обязательные поля
+    const requiredFields = {
+      name: true,
+      phone: true,
+      callTime: true,
+      performanceDate: true
+    };
+    
+    // Сбрасываем все ошибки валидации
+    const newValidationErrors = {
+      name: false,
+      phone: false,
+      callTime: false,
+      performanceDate: false,
+      agree: false
+    };
+    
+    let hasErrors = false;
+    
+    // Проверяем заполнение всех обязательных полей
+    for (const field in requiredFields) {
+      if (requiredFields[field]) {
+        const isEmpty = !formData[field];
+        newValidationErrors[field] = isEmpty;
+        if (isEmpty) hasErrors = true;
+      }
+    }
+    
+    // Дополнительная проверка телефона
+    if (formData.phone) {
+      const cleanPhone = formData.phone.replace(/\D/g, '');
+      const isPhoneValid = cleanPhone.length >= 10;
+      newValidationErrors.phone = !isPhoneValid;
+      if (!isPhoneValid) hasErrors = true;
+    }
+    
+    // Проверка согласия с условиями
+    const agreeCheckbox = document.getElementById('agree');
+    if (agreeCheckbox && !agreeCheckbox.checked) {
+      newValidationErrors.agree = true;
+      hasErrors = true;
+    }
+    
+    // Устанавливаем новые ошибки валидации
+    setValidationErrors(newValidationErrors);
+    
+    return !hasErrors;
+  };
+
   // Обработка отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Проверка для всех браузеров
-    const isFormValid = () => {
-      return formData.name && 
-             formData.phone && 
-             formData.phone.replace(/\D/g, '').length >= 10 &&
-             formData.callTime && 
-             formData.performanceDate && 
-             e.target.agree.checked;
-    };
+    // Предотвращаем многократную отправку
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
     
-    // Для Firefox Mobile используем упрощенную валидацию
-    if (isFirefoxMobile) {
-      if (!isFormValid()) {
-        setError({
-          isOpen: true,
-          message: 'Пожалуйста, заполните все обязательные поля'
-        });
-        return;
-      }
-    } else {
-      // Для других браузеров используем подробную валидацию
-      // Сбрасываем все ошибки валидации
-      setValidationErrors({
-        name: !formData.name,
-        phone: !formData.phone,
-        callTime: !formData.callTime,
-        performanceDate: !formData.performanceDate,
-        agree: !e.target.agree.checked
+    const isFormValid = validateForm();
+    
+    if (!isFormValid) {
+      setError({
+        isOpen: true,
+        message: 'Пожалуйста, заполните все обязательные поля'
       });
-      
-      // Проверяем заполнение всех полей
-      let hasErrors = false;
-      const newValidationErrors = {
-        name: !formData.name,
-        phone: !formData.phone,
-        callTime: !formData.callTime,
-        performanceDate: !formData.performanceDate,
-        agree: !e.target.agree.checked
-      };
-      
-      if (Object.values(newValidationErrors).some(error => error)) {
-        setValidationErrors(newValidationErrors);
-        hasErrors = true;
-      }
-      
-      // Получаем только цифры из телефона
-      const cleanPhone = formData.phone.replace(/\D/g, '');
-      
-      // Проверка телефона на корректность
-      if (cleanPhone.length < 10) {
-        setValidationErrors(prev => ({ ...prev, phone: true }));
-        setError({
-          isOpen: true,
-          message: 'Пожалуйста, введите корректный номер телефона (не менее 10 цифр)'
-        });
-        hasErrors = true;
-      }
-      
-      if (hasErrors) {
-        // Если есть ошибки, показываем сообщение и останавливаем отправку
-        if (!error.isOpen) { // Если еще нет сообщения об ошибке телефона
-          setError({
-            isOpen: true,
-            message: 'Пожалуйста, заполните все обязательные поля'
-          });
-        }
-        return;
-      }
+      isSubmittingRef.current = false;
+      return;
     }
     
     setIsSubmitting(true);
@@ -353,6 +355,9 @@ const useRentalForm = (onClose, product) => {
         message: 'Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.'
       });
       setIsSubmitting(false);
+    } finally {
+      // Сбрасываем блокировку отправки
+      isSubmittingRef.current = false;
     }
   };
 
@@ -364,6 +369,14 @@ const useRentalForm = (onClose, product) => {
     });
   };
 
+  // Валидация отдельного поля для немедленной обратной связи
+  const validateField = (name, value) => {
+    if (name === 'phone') {
+      return value.replace(/\D/g, '').length >= 10;
+    }
+    return !!value;
+  };
+
   return {
     formData,
     validationErrors,
@@ -373,6 +386,7 @@ const useRentalForm = (onClose, product) => {
     showCustomCalendar,
     isMobile,
     isFirefoxMobile,
+    calendarRef,
     handleChange,
     handleSubmit,
     handlePhoneKeyDown,
@@ -380,7 +394,8 @@ const useRentalForm = (onClose, product) => {
     setShowCustomCalendar,
     clearErrorOnFocus,
     closeErrorAlert,
-    formatDate
+    formatDate,
+    validateField
   };
 };
 

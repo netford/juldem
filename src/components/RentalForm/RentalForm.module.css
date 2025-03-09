@@ -1,4 +1,4 @@
-/* Исправленный RentalForm/RentalForm.module.css */
+/* RentalForm.module.css - добавим новые стили для валидации */
 .form {
   display: flex;
   flex-direction: column;
@@ -15,6 +15,21 @@
   flex: 1;
 }
 
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -26,17 +41,43 @@
   transition: all 0.2s ease;
 }
 
-/* Добавляем новый стиль для select */
-select.input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: none;
+.input:focus {
+  border-color: #0088ee;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 136, 238, 0.2);
 }
 
 .inputError {
   border: 1px solid #ff4d4f;
   box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Контейнер для инпута с индикатором валидации */
+.inputWithValidation {
+  position: relative;
+}
+
+/* Индикатор валидации */
+.validationIndicator {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.validIcon {
+  color: #52c41a;
+}
+
+.invalidIcon {
+  color: #ff4d4f;
 }
 
 .datePickerContainer {
@@ -153,6 +194,24 @@ select.input {
   100% { transform: rotate(360deg); }
 }
 
+.phoneInputContainer {
+  position: relative;
+}
+
+.phoneCode {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.phoneInput {
+  padding-left: 2.2rem;
+}
+
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .twoColumnContainer {
@@ -197,6 +256,19 @@ select.input {
     width: 20px;
     height: 20px;
   }
+  
+  .validationIndicator {
+    right: 0.8rem;
+  }
+  
+  .phoneCode {
+    font-size: 1.1rem;
+    left: 1rem;
+  }
+  
+  .phoneInput {
+    padding-left: 2.4rem;
+  }
 }
 
 /* Дополнительные правила для очень маленьких экранов */
@@ -204,4 +276,25 @@ select.input {
   .form {
     gap: 0.8rem;
   }
+}
+
+.selectInput {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
+/* Firefox hack для скрытия стрелки */
+.selectInput::-moz-focus-inner {
+  border: 0;
+}
+
+.selectInput::-ms-expand {
+  display: none;
+}
+
+.requiredMark {
+  color: #ff4d4f;
+  margin-left: 0.25rem;
 }

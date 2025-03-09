@@ -1,9 +1,8 @@
 // RentalForm/RentalForm.jsx
 import React, { useEffect, useRef } from 'react';
-import { User, Phone, Calendar, Clock } from 'lucide-react';
+import { User, Phone, Calendar, Clock, Check, AlertCircle } from 'lucide-react';
 import FormField from './FormField';
 import CalendarComponent from './Calendar';
-import useCalendar from '../../hooks/useCalendar';
 import styles from './RentalForm.module.css';
 
 const RentalForm = ({ 
@@ -19,16 +18,42 @@ const RentalForm = ({
   handlePhoneInput,
   clearErrorOnFocus,
   formatDate,
+  isFirefoxMobile
 }) => {
   const calendarRef = useRef(null);
   const dateFieldRef = useRef(null);
   
-  const {
-    calendarWeeks,
-    timeSlots,
-    handleDateSelect,
-    isFirefoxMobile,
-  } = useCalendar(formData, setShowCustomCalendar, clearErrorOnFocus, handleChange);
+  // Функция для генерации временных слотов
+  const generateTimeSlots = () => {
+    const slots = [];
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    // Генерация слотов на сегодня
+    for (let hour = 10; hour < 19; hour++) {
+      // Пропускаем прошедшие часы
+      if (hour < currentHour) continue;
+      
+      // Пропускаем текущий час, если до его окончания осталось менее 15 минут
+      if (hour === currentHour && currentMinutes > 45) continue;
+
+      slots.push({
+        value: `today-${hour}`,
+        label: `Сегодня с ${hour}:00 до ${hour + 1}:00`
+      });
+    }
+
+    // Генерация слотов на завтра
+    for (let hour = 10; hour < 19; hour++) {
+      slots.push({
+        value: `tomorrow-${hour}`,
+        label: `Завтра с ${hour}:00 до ${hour + 1}:00`
+      });
+    }
+
+    return slots;
+  };
 
   // Закрытие календаря при клике вне его области
   useEffect(() => {
@@ -48,32 +73,153 @@ const RentalForm = ({
     };
   }, [showCustomCalendar, setShowCustomCalendar]);
 
+  // Функция для проверки заполненности поля
+  const isFieldValid = (fieldName) => {
+    if (!formData[fieldName]) return null; // поле не заполнено
+    
+    // Для телефона делаем дополнительную проверку
+    if (fieldName === 'phone') {
+      return formData.phone.replace(/\D/g, '').length >= 10 ? true : false;
+    }
+    
+    return true; // поле заполнено
+  };
+  
+  // Функция генерации календарных недель
+  const generateCalendarWeeks = () => {
+    const today = new Date();
+    
+    // Минимальная дата - сегодня + 7 дней
+    const minDate = new Date(today);
+    minDate.setDate(today.getDate() + 7);
+    
+    // Генерация дат на 30 дней вперед, начиная с минимальной даты
+    const generateAvailableDates = () => {
+      const dates = [];
+      const lastDate = new Date(minDate);
+      lastDate.setDate(minDate.getDate() + 30); // 30 дней вперед
+      
+      // Определяем первый день недели (понедельник)
+      const firstMonday = new Date(minDate);
+      const dayOfWeek = firstMonday.getDay(); // 0 - воскресенье, 1 - понедельник, ...
+      const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+      firstMonday.setDate(firstMonday.getDate() - daysToSubtract);
+      
+      // Находим следующее воскресенье после последнего дня
+      const lastSunday = new Date(lastDate);
+      const lastDayOfWeek = lastSunday.getDay();
+      const daysToAdd = lastDayOfWeek === 0 ? 0 : 7 - lastDayOfWeek;
+      lastSunday.setDate(lastSunday.getDate() + daysToAdd);
+      
+      // Создаем массив всех дат от первого понедельника до последнего воскресенья
+      const allDates = [];
+      const currentDate = new Date(firstMonday);
+      
+      while (currentDate <= lastSunday) {
+        // Проверяем, находится ли дата в диапазоне разрешенных дат
+        const isInRange = currentDate >= minDate && currentDate <= lastDate;
+        
+        // Проверяем, является ли дата текущей
+        const isToday = currentDate.getDate() === today.getDate() && 
+                      currentDate.getMonth() === today.getMonth() && 
+                      currentDate.getFullYear() === today.getFullYear();
+        
+        allDates.push({
+          date: new Date(currentDate),
+          dayOfWeek: currentDate.getDay(),
+          formatted: `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`,
+          value: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+          isPast: false, // Не может быть в прошлом, т.к. минимальная дата в будущем
+          isInRange: isInRange,
+          isToday: isToday
+        });
+        
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      
+      return allDates;
+    };
+    
+    const allDates = generateAvailableDates();
+    
+    // Группируем даты по неделям
+    const groupDatesByWeeks = (dates) => {
+      const weeks = [];
+      let currentWeek = [];
+      
+      dates.forEach((dateObj, index) => {
+        // Добавляем дату в текущую неделю
+        currentWeek.push(dateObj);
+        
+        // Если это воскресенье или последняя дата, начинаем новую неделю
+        if (dateObj.dayOfWeek === 0 || index === dates.length - 1) {
+          weeks.push([...currentWeek]);
+          currentWeek = [];
+        }
+      });
+      
+      return weeks;
+    };
+    
+    return groupDatesByWeeks(allDates);
+  };
+
+  const calendarWeeks = generateCalendarWeeks();
+  const timeSlots = generateTimeSlots();
+
+  // Обработчик выбора даты
+  const handleDateSelect = (dateValue) => {
+    setShowCustomCalendar(false);
+    clearErrorOnFocus();
+    
+    // Создаем событие изменения для поля даты выступления
+    const event = {
+      target: {
+        name: 'performanceDate',
+        value: dateValue
+      }
+    };
+    
+    handleChange(event);
+  };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       {/* Имя */}
-      <FormField
-        label="Ваше имя"
-        icon={User}
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        onFocus={clearErrorOnFocus}
-        required={true}
-        placeholder="Введите ваше имя"
-        error={validationErrors.name ? "Пожалуйста, введите ваше имя" : null}
-        isFirefoxMobile={isFirefoxMobile}
-      />
+      <div className={styles.formGroup}>
+        <label htmlFor="name" className={styles.label}>
+          <User size={14} color="#3498db" /> Ваше имя<span className={styles.requiredMark}>*</span>        </label>
+        <div className={styles.inputWithValidation}>
+          <input 
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            onFocus={clearErrorOnFocus}
+            required={!isFirefoxMobile}
+            placeholder="Введите ваше имя"
+            className={`${styles.input} ${validationErrors.name ? styles.inputError : ''}`}
+          />
+          {isFieldValid('name') !== null && (
+            <span className={styles.validationIndicator}>
+              {isFieldValid('name') 
+                ? <Check size={16} className={styles.validIcon} /> 
+                : <AlertCircle size={16} className={styles.invalidIcon} />}
+            </span>
+          )}
+        </div>
+        {validationErrors.name && !isFirefoxMobile && (
+          <div className={styles.errorMessage}>Пожалуйста, введите ваше имя</div>
+        )}
+      </div>
       
       <div className={styles.twoColumnContainer}>
         {/* Дата выступления */}
         <div className={styles.columnItem}>
-          <FormField
-            label="Дата выступления"
-            icon={Calendar}
-            name="performanceDate"
-            error={validationErrors.performanceDate ? "Пожалуйста, выберите дату выступления" : null}
-            isFirefoxMobile={isFirefoxMobile}
-          >
+          <div className={styles.formGroup}>
+            <label htmlFor="performanceDate" className={styles.label}>
+              <Calendar size={14} color="#3498db" /> Дата выступления<span className={styles.requiredMark}>*</span>            </label>
             <div className={styles.datePickerContainer} ref={calendarRef}>
               <input 
                 type="text" 
@@ -91,13 +237,15 @@ const RentalForm = ({
                 className={styles.calendarIcon}
                 onClick={() => setShowCustomCalendar(!showCustomCalendar)}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
+                <Calendar size={18} />
               </div>
+              {isFieldValid('performanceDate') !== null && (
+                <span className={styles.validationIndicator}>
+                  {isFieldValid('performanceDate') 
+                    ? <Check size={16} className={styles.validIcon} /> 
+                    : <AlertCircle size={16} className={styles.invalidIcon} />}
+                </span>
+              )}
               
               <CalendarComponent 
                 visible={showCustomCalendar}
@@ -106,37 +254,51 @@ const RentalForm = ({
                 onDateSelect={handleDateSelect}
               />
             </div>
-          </FormField>
+            {validationErrors.performanceDate && !isFirefoxMobile && (
+              <div className={styles.errorMessage}>Пожалуйста, выберите дату выступления</div>
+            )}
+          </div>
         </div>
 
         {/* Телефон */}
         <div className={styles.columnItem}>
-          <FormField
-            label="Телефон"
-            icon={Phone}
-            name="phone"
-            type="tel"
-            value={formData.phone}
-            onChange={handleChange}
-            onInput={handlePhoneInput}
-            onKeyDown={handlePhoneKeyDown}
-            onFocus={clearErrorOnFocus}
-            required={true}
-            placeholder="(___) ___-__-__"
-            error={validationErrors.phone ? "Пожалуйста, введите корректный номер телефона" : null}
-            isFirefoxMobile={isFirefoxMobile}
-          />
+          <div className={styles.formGroup}>
+            <label htmlFor="phone" className={styles.label}>
+             <Phone size={14} color="#3498db" /> Телефон<span className={styles.requiredMark}>*</span>            </label>
+            <div className={styles.phoneInputContainer}>
+              <span className={styles.phoneCode}>+7</span>
+              <input 
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                onInput={handlePhoneInput}
+                onKeyDown={handlePhoneKeyDown}
+                onFocus={clearErrorOnFocus}
+                required={!isFirefoxMobile}
+                placeholder="(___) ___-__-__"
+                className={`${styles.input} ${styles.phoneInput} ${validationErrors.phone ? styles.inputError : ''}`}
+              />
+              {isFieldValid('phone') !== null && (
+                <span className={styles.validationIndicator}>
+                  {isFieldValid('phone') 
+                    ? <Check size={16} className={styles.validIcon} /> 
+                    : <AlertCircle size={16} className={styles.invalidIcon} />}
+                </span>
+              )}
+            </div>
+            {validationErrors.phone && !isFirefoxMobile && (
+              <div className={styles.errorMessage}>Пожалуйста, введите корректный номер телефона</div>
+            )}
+          </div>
         </div>
       </div>
         
       {/* Время для звонка */}
-      <FormField
-        label="Удобное время для звонка"
-        icon={Clock}
-        name="callTime"
-        error={validationErrors.callTime ? "Пожалуйста, выберите удобное время для звонка" : null}
-        isFirefoxMobile={isFirefoxMobile}
-      >
+      <div className={styles.formGroup}>
+        <label htmlFor="callTime" className={styles.label}>
+          <Clock size={14} color="#3498db" /> Удобное время для звонка<span className={styles.requiredMark}>*</span>        </label>
         <div className={styles.selectContainer}>
           <select 
             id="callTime" 
@@ -145,7 +307,7 @@ const RentalForm = ({
             onChange={handleChange}
             onFocus={clearErrorOnFocus}
             required={!isFirefoxMobile}
-            className={`${styles.input} ${validationErrors.callTime ? styles.inputError : ''}`}
+            className={`${styles.input} ${styles.selectInput} ${validationErrors.callTime ? styles.inputError : ''}`}
           >
             <option value="">Выберите время</option>
             {timeSlots.map(slot => (
@@ -159,8 +321,18 @@ const RentalForm = ({
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
+          {isFieldValid('callTime') !== null && (
+            <span className={styles.validationIndicator}>
+              {isFieldValid('callTime') 
+                ? <Check size={16} className={styles.validIcon} /> 
+                : <AlertCircle size={16} className={styles.invalidIcon} />}
+            </span>
+          )}
         </div>
-      </FormField>
+        {validationErrors.callTime && !isFirefoxMobile && (
+          <div className={styles.errorMessage}>Пожалуйста, выберите удобное время для звонка</div>
+        )}
+      </div>
 
       {/* Чекбокс согласия с условиями */}
       <div className={styles.checkboxContainer}>
@@ -171,13 +343,6 @@ const RentalForm = ({
           required={!isFirefoxMobile}
           onFocus={clearErrorOnFocus}
           className={`${styles.checkbox} ${validationErrors.agree ? styles.checkboxError : ''}`}
-          onChange={() => {
-            // Сбрасываем ошибку валидации для чекбокса
-            if (validationErrors.agree) {
-              const event = { target: { name: 'agree', value: true } };
-              handleChange(event);
-            }
-          }}
         />
         <label htmlFor="agree" className={validationErrors.agree ? styles.labelError : styles.checkboxLabel}>
           Я ознакомлен/а с <a href="#" className={styles.link}>условиями проката</a> и согласен/на с ними
@@ -185,7 +350,7 @@ const RentalForm = ({
       </div>
       
       {/* Общее сообщение об ошибке валидации */}
-      {Object.values(validationErrors).some(error => error) && (
+      {Object.values(validationErrors).some(error => error) && !isFirefoxMobile && (
         <div className={styles.validationError}>
           Пожалуйста, заполните все обязательные поля
         </div>
