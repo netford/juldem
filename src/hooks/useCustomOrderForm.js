@@ -352,11 +352,12 @@ const useCustomOrderForm = (onClose, product) => {
     // Определяем, какие поля являются обязательными
     const requiredFields = {
       name: true,
+      city: false, // необязательное поле
       phone: true,
       callTime: true,
       sportType: true,
       height: true,
-      dueDate: true
+      dueDate: false // необязательное поле
     };
     
     // Проверка для всех браузеров
@@ -431,20 +432,28 @@ const useCustomOrderForm = (onClose, product) => {
     // Форматируем телефон для отправки
     const formattedPhone = '+7 ' + formData.phone;
     
-    // Получаем читаемый формат времени звонка
-    const getCallTimeText = (callTimeValue) => {
+    // Получаем читаемый формат времени с конкретной датой
+    const getReadableTime = (callTimeValue) => {
       if (!callTimeValue) return 'Не указано';
       
-      switch (callTimeValue) {
-        case 'morning':
-          return 'С 9:00 до 12:00';
-        case 'afternoon':
-          return 'С 12:00 до 16:00';
-        case 'evening':
-          return 'С 16:00 до 20:00';
-        default:
-          return callTimeValue;
+      const [day, hour] = callTimeValue.split('-');
+      const hourNum = parseInt(hour, 10);
+      
+      const today = new Date();
+      const targetDate = new Date();
+      
+      if (day === 'tomorrow') {
+        targetDate.setDate(today.getDate() + 1);
       }
+      
+      // Форматируем дату в формате ДД.ММ.ГГГГ
+      const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+      const date = String(targetDate.getDate()).padStart(2, '0');
+      const year = targetDate.getFullYear();
+      
+      const formattedDate = `${date}.${month}.${year}`;
+      
+      return `${formattedDate} с ${hourNum}:00 до ${hourNum + 1}:00`;
     };
     
     // Формируем спортивное направление
@@ -474,11 +483,11 @@ const useCustomOrderForm = (onClose, product) => {
 👤 *Клиент:* ${formData.name}
 🏙️ *Город:* ${formData.city || 'Не указан'}
 📞 *Телефон:* ${formattedPhone}
-🕒 *Удобное время для звонка:* ${getCallTimeText(formData.callTime)}
+🕒 *Созвон:* ${getReadableTime(formData.callTime)}
 
 🏆 *Вид спорта:* ${getSportTypeText(formData.sportType)}
 📏 *Рост:* ${formData.height} см
-📅 *Нужен к дате:* ${formatDate(formData.dueDate)}
+📅 *Нужен к дате:* ${formData.dueDate ? formatDate(formData.dueDate) : 'Не указано'}
       `.trim();
       
       const botToken = '7964652895:AAF2XFFz8stkwABk7Hdo2tOOVj0QhPglMYU';
