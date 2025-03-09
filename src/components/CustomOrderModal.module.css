@@ -28,7 +28,7 @@
   background-color: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   z-index: 9999;
   padding: 0.5rem;
@@ -39,7 +39,7 @@
 .modalContent {
   background-color: #262626;
   border-radius: 16px;
-  max-width: 500px;
+  max-width: 600px; /* Увеличиваем ширину */
   width: 100%;
   position: relative;
   padding: 0;
@@ -77,7 +77,7 @@
 
 .header {
   background: linear-gradient(to right, #0066cc, #0088ee);
-  padding: 1.5rem 2rem;
+  padding: 1.2rem 2rem;
   border-radius: 16px 16px 0 0;
 }
 
@@ -94,29 +94,65 @@
   margin: 0;
 }
 
-.form {
-  padding: 1.5rem 2rem 2rem;
+/* Стили для вкладок */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #3a3a3a;
+  background-color: #1a1a1a;
 }
 
-.formSection {
-  margin-bottom: 1.5rem;
+.tabButton {
+  flex: 1;
+  padding: 1rem;
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
 }
 
-.sectionTitle {
-  font-size: 1.2rem;
-  font-weight: 600;
+.tabButton:hover {
   color: #fff;
-  margin: 0 0 1.2rem 0;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
-.divider {
-  height: 1px;
-  background: #3a3a3a;
-  margin: 1.5rem 0;
+.activeTab {
+  color: #0088ee;
+  border-bottom: 3px solid #0088ee;
+  font-weight: 600;
+}
+
+.form {
+  padding: 0;
+}
+
+.tabContent {
+  display: none;
+  padding: 1.5rem 2rem;
+}
+
+.activeTabContent {
+  display: block;
+}
+
+.formRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.formColumn {
+  flex: 1;
 }
 
 .formGroup {
   margin-bottom: 1.2rem;
+}
+
+.formGroup:last-child {
+  margin-bottom: 0;
 }
 
 .label {
@@ -205,18 +241,48 @@
   z-index: 1;
 }
 
-.validationError {
-  color: #ff4d4f;
-  margin: 1rem 0;
-  text-align: center;
-  padding: 0.5rem;
-  background: rgba(255, 77, 79, 0.1);
+.formNavigation {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: space-between;
+}
+
+.nextButton, 
+.backButton {
+  padding: 0.8rem 1.5rem;
   border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nextButton {
+  background-color: #0066cc;
+  color: #fff;
+  border: none;
+  margin-left: auto;
+}
+
+.nextButton:hover {
+  background-color: #0077ee;
+}
+
+.backButton {
+  background-color: transparent;
+  color: #ddd;
+  border: 1px solid #444;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-color: #666;
 }
 
 .submitButton {
-  width: 100%;
-  padding: 0.9rem;
+  width: auto;
+  padding: 0.9rem 2rem;
   background-color: #0066cc;
   color: #fff;
   border: none;
@@ -225,7 +291,6 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -259,6 +324,7 @@
   font-size: 0.8rem;
   color: #999;
   text-align: center;
+  padding: 0 2rem 1.5rem;
 }
 
 .termsLink {
@@ -274,6 +340,7 @@
 @media (max-width: 768px) {
   .overlay {
     padding: 0.5rem;
+    align-items: flex-start;
   }
 
   .modalContent {
@@ -284,7 +351,7 @@
   }
 
   .header {
-    padding: 1.2rem 1.5rem;
+    padding: 1rem 1.5rem;
   }
 
   .title {
@@ -295,8 +362,8 @@
     font-size: 0.9rem;
   }
 
-  .form {
-    padding: 1.2rem 1.5rem 1.5rem;
+  .tabContent {
+    padding: 1.2rem 1.5rem;
   }
 
   .closeButton {
@@ -305,12 +372,16 @@
     width: 38px;
     height: 38px;
   }
-
-  .sectionTitle {
-    font-size: 1.1rem;
+  
+  .formRow {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .formGroup {
     margin-bottom: 1rem;
   }
-
+  
   .label {
     font-size: 0.85rem;
   }
@@ -320,7 +391,19 @@
     font-size: 0.95rem;
   }
   
-  .submitButton {
+  .submitButton,
+  .nextButton,
+  .backButton {
     padding: 0.8rem;
+    width: 100%;
+  }
+  
+  .formNavigation {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+  
+  .backButton {
+    margin-top: 0.5rem;
   }
 }
