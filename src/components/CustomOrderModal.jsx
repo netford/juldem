@@ -30,6 +30,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
   
   const [activeTab, setActiveTab] = useState('contact'); // Новое состояние для вкладок
   const [timeSlots, setTimeSlots] = useState([]);
+  const [heightOptions, setHeightOptions] = useState([]);
 
   // Получаем простое отображение дня для уведомления пользователю
   const getSimpleDay = (date) => {
@@ -56,10 +57,20 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
     };
   }, [isOpen, onClose]);
 
-  // Генерация временных слотов при открытии модального окна
+  // Генерация временных слотов и опций для роста при открытии модального окна
   useEffect(() => {
     if (isOpen) {
       setTimeSlots(generateTimeSlots());
+      
+      // Генерация опций роста от 90 до 190 см с шагом 1 см
+      const heightOpts = [];
+      for (let height = 90; height <= 190; height++) {
+        heightOpts.push({
+          value: height.toString(),
+          label: `${height} см`
+        });
+      }
+      setHeightOptions(heightOpts);
     }
   }, [isOpen]);
 
@@ -311,16 +322,26 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                         </svg>
                         Рост
                       </label>
-                      <input
-                        type="text"
-                        name="height"
-                        value={formData.height}
-                        onChange={handleChange}
-                        onFocus={clearErrorOnFocus}
-                        required={!isFirefoxMobile}
-                        className={`${styles.input} ${validationErrors.height ? styles.inputError : ''}`}
-                        placeholder="Укажите рост в см"
-                      />
+                      <div className={styles.selectContainer}>
+                        <select
+                          name="height"
+                          value={formData.height}
+                          onChange={handleChange}
+                          onFocus={clearErrorOnFocus}
+                          required={!isFirefoxMobile}
+                          className={`${styles.input} ${styles.selectInput} ${validationErrors.height ? styles.inputError : ''}`}
+                        >
+                          <option value="">Выберите рост</option>
+                          {heightOptions.map(option => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                        <div className={styles.selectArrow}>
+                          <ChevronDown size={18} />
+                        </div>
+                      </div>
                       {validationErrors.height && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, укажите рост</div>
                       )}
