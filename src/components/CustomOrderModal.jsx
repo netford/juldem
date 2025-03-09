@@ -197,14 +197,16 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           onChange={handleChange}
                           onFocus={clearErrorOnFocus}
                           required={!isFirefoxMobile}
-                          className={`${styles.input} ${validationErrors.callTime ? styles.inputError : ''}`}
+                          className={`${styles.input} ${styles.selectInput} ${validationErrors.callTime ? styles.inputError : ''}`}
                         >
                           <option value="">Выберите время</option>
                           <option value="morning">С 9:00 до 12:00</option>
                           <option value="afternoon">С 12:00 до 16:00</option>
                           <option value="evening">С 16:00 до 20:00</option>
                         </select>
-                        <ChevronDown size={18} className={styles.selectArrow} />
+                        <div className={styles.selectArrow}>
+                          <ChevronDown size={18} />
+                        </div>
                       </div>
                       {validationErrors.callTime && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, выберите удобное время для звонка</div>
@@ -242,7 +244,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           onChange={handleChange}
                           onFocus={clearErrorOnFocus}
                           required={!isFirefoxMobile}
-                          className={`${styles.input} ${validationErrors.sportType ? styles.inputError : ''}`}
+                          className={`${styles.input} ${styles.selectInput} ${validationErrors.sportType ? styles.inputError : ''}`}
                         >
                           <option value="">Выберите вид спорта</option>
                           <option value="gymnastics">Художественная гимнастика</option>
@@ -250,7 +252,9 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           <option value="acrobatics">Акробатика</option>
                           <option value="other">Другое</option>
                         </select>
-                        <ChevronDown size={18} className={styles.selectArrow} />
+                        <div className={styles.selectArrow}>
+                          <ChevronDown size={18} />
+                        </div>
                       </div>
                       {validationErrors.sportType && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, выберите вид спорта</div>

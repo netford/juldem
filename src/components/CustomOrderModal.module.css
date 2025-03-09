@@ -218,6 +218,20 @@
   position: relative;
 }
 
+/* Исправление для двойных стрелок */
+.selectInput {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 2.5rem; /* Добавить дополнительный отступ справа для стрелки */
+  background-image: none; /* Убрать стандартную стрелку браузера */
+}
+
+/* Для Firefox, который может игнорировать appearance: none */
+.selectInput::-ms-expand {
+  display: none;
+}
+
 .selectArrow {
   position: absolute;
   right: 1rem;
