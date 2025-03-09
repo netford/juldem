@@ -76,13 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (timeElapsed < duration) {
               requestAnimationFrame(animation);
             } else {
-              // Удаляем класс 'active' у всех пунктов меню
-              navLinks.forEach(lnk => {
-                lnk.classList.remove('active');
-              });
-              
-              // Добавляем класс 'active' к текущему пункту
-              this.classList.add('active');
+              // После завершения анимации явно вызываем функцию подсветки активного элемента
+              setTimeout(highlightActiveSection, 50);
             }
           }
           
