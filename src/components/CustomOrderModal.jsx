@@ -34,12 +34,15 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
   const [timeSlots, setTimeSlots] = useState([]);
   const [heightOptions, setHeightOptions] = useState([]);
 
-  // Получаем простое отображение дня для уведомления пользователю
-  const getSimpleDay = (date) => {
-    if (!date) return 'в ближайшее время';
+  // Получаем простое отображение дня (сегодня/завтра) для уведомления пользователю
+  const getSimpleDay = (callTimeValue) => {
+    if (!callTimeValue) return 'в ближайшее время';
     
-    const formattedDate = formatDate(date);
-    return `к ${formattedDate}`;
+    const [day, hour] = callTimeValue.split('-');
+    const hourNum = parseInt(hour, 10);
+    
+    const dayText = day === 'today' ? 'сегодня' : 'завтра';
+    return `${dayText} с ${hourNum}:00 до ${hourNum + 1}:00`;
   };
 
   // Обработка нажатия клавиши ESC для закрытия модального окна
@@ -135,7 +138,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
         {success ? (
           <SuccessMessage 
             name={formData.name} 
-            callTimeText={getSimpleDay(formData.dueDate)}
+            callTimeText={getSimpleDay(formData.callTime)}
             onClose={onClose}
           />
         ) : (
@@ -195,7 +198,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                     <div className={styles.formGroup}>
                       <label className={styles.label}>
                         <MapPin size={14} className={styles.icon} />
-                        <span className={styles.optional}> Город (необязательно)</span>
+                        Город <span className={styles.optional}>(необязательно)</span>
                       </label>
                       <input 
                         type="text"
@@ -356,7 +359,8 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                     <div className={styles.formGroup}>
                       <label className={styles.label}>
                         <Calendar size={14} className={styles.icon} />
-                        <span className={styles.optional}>К какой дате нужен купальник (необязательно)</span>                      </label>
+                        К какой дате нужен купальник <span className={styles.optional}>(необязательно)</span>
+                      </label>
                       <div className={styles.datePickerContainer}>
                         <input 
                           type="text" 
