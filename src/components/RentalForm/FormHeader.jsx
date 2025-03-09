@@ -14,7 +14,7 @@ const FormHeader = ({ product, isMobile }) => {
         />
       </div>
       <div className={styles.productInfo}>
-        <h3 className={styles.productName}>Купальник "{product.name}"</h3>
+        <h3 className={styles.productName}>Купальник {product.name}</h3>
         <div className={styles.tagContainer}>
           <div className={styles.sizeInfo}>
             <Shield size={isMobile ? 14 : 16} color="#0088ff" className={styles.icon} />
