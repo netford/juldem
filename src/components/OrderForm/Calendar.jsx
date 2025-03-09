@@ -1,12 +1,11 @@
-// Calendar.jsx - модифицированный компонент для индивидуального пошива
 import React, { useEffect, useState } from 'react';
-import styles from './Calendar.module.css';
+import styles from './Calendar.module.css'; // Импортируем CSS рядом
 
 const Calendar = ({ 
   visible, 
   selectedDate, 
   onDateSelect,
-  minimumDays = 7  // Новый параметр, указывающий минимальное количество дней от текущей даты
+  minimumDays = 7
 }) => {
   const [calendarWeeks, setCalendarWeeks] = useState([]);
   
@@ -18,7 +17,6 @@ const Calendar = ({
   
   if (!visible) return null;
   
-  // Функция для генерации календарных недель с учетом ограничения минимального количества дней
   function generateCalendarWeeks() {
     const today = new Date();
     

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { X, User, MapPin, Phone, Calendar, Clock, ChevronDown } from 'lucide-react';
 import styles from './CustomOrderModal.module.css';
-import CalendarComponent from './RentalForm/Calendar';
+import CalendarComponent from './OrderForm/Calendar';
 import SuccessMessage from './RentalForm/SuccessMessage';
 import ErrorDisplay from './RentalForm/ErrorDisplay';
 import useCustomOrderForm from '../hooks/useCustomOrderForm';
@@ -18,6 +18,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
     showCustomCalendar,
     isMobile,
     isFirefoxMobile,
+    calendarRef,
     handleChange,
     handleSubmit,
     handlePhoneKeyDown,
@@ -26,6 +27,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
     clearErrorOnFocus,
     closeErrorAlert,
     formatDate,
+    generateCalendarWeeks
   } = useCustomOrderForm(onClose, product);
   
   const [activeTab, setActiveTab] = useState('contact'); // Новое состояние для вкладок
@@ -377,7 +379,6 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                         
                         <CalendarComponent 
                           visible={showCustomCalendar}
-                          calendarWeeks={[]}  // Will be calculated in the hook
                           selectedDate={formData.dueDate}
                           onDateSelect={(date) => {
                             const event = { 
@@ -386,7 +387,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                             handleChange(event);
                             setShowCustomCalendar(false);
                           }}
-                          minimumDays={7} // Add minimum days constraint
+                          minimumDays={7} // Добавляем минимальное количество дней
                         />
                       </div>
                       {validationErrors.dueDate && !isFirefoxMobile && (
