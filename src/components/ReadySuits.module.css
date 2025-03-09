@@ -23,14 +23,30 @@
   position: relative;
 }
 
+.filterWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #333333;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.filterIcon {
+  color: var(--color-primary);
+  margin-right: 0.8rem;
+  flex-shrink: 0;
+}
+
 .filterSelect {
   width: 100%;
   padding: 1rem;
-  font-size: 1rem;
+  font-size: 16px;
   color: #fff;
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 12px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
   -webkit-appearance: none;
