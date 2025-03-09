@@ -662,3 +662,9 @@
     color: #1a1a1a !important;
   }
 }
+
+.noWrapName {
+  white-space: nowrap;
+  display: inline-block;
+  padding-left: 7px;
+}

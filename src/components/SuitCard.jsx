@@ -84,7 +84,9 @@ const SuitCard = React.memo(({ suit, className, style }) => {
         </div>
         <div className={styles.suitContent}>
           <div className={styles.suitInfo}>
-            <h3 className={styles.suitTitle}>{suit.name}</h3>
+          <h3 className={styles.suitTitle}>
+            Купальник <span className={styles.noWrapName}>{suit.name}</span>
+          </h3>
             <div className={`${styles.suitDetails} ${!suit.available ? styles.suitDetailsSold : ''}`}>
               {/* Отображаем рост только для доступных товаров и товаров из проката */}
               {(suit.available || suit.category === 'renta') && (

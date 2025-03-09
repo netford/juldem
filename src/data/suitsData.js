@@ -5,7 +5,7 @@ export const suits = [
   /* КУПАЛЬНИКИ В НАЛИЧИИ (available: true) */
   {
     id: 1,
-    name: "'Бабочка'",
+    name: '"Бабочка"',
     category: "acrobatics_gymnastics",
     price: 30000,
     height: [144],
@@ -16,7 +16,7 @@ export const suits = [
   },
   {
     id: 2,
-    name: "'Гранат'",
+    name: '"Гранат"',
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [164],
@@ -25,7 +25,7 @@ export const suits = [
   },
   {
     id: 3,
-    name: "'Полярная звезда'",
+    name: '"Полярная звезда"',
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [110, 128],
@@ -38,7 +38,7 @@ export const suits = [
   },
   {
     id: 4,
-    name: "'Морской бриз'",
+    name: '"Морской бриз"',
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [130, 144],
@@ -54,7 +54,7 @@ export const suits = [
   },
   {
     id: 5,
-    name: "'Лаванда'",
+    name: '"Лаванда"',
     category: "acrobatics_gymnastics",
     price: 25000,
     height: [110, 128],
@@ -67,7 +67,7 @@ export const suits = [
   },
   {
     id: 6,
-    name: "'Радужный'",
+    name: '"Радужный"',
     category: "acrobatics_gymnastics",
     price: 15000,
     height: [120,124],
@@ -81,7 +81,7 @@ export const suits = [
   },
   {
     id: 7,
-    name: "'Амазонка'",
+    name: '"Амазонка"',
     category: "acrobatics_gymnastics",
     price: 12000,
     height: [110, 128],
@@ -93,7 +93,7 @@ export const suits = [
   },
   {
     id: 8,
-    name: "'Нежный пион'",
+    name: '"Нежный пион"',
     category: "acrobatics_gymnastics",
     price: 10000,
     height: [89, 110],
@@ -109,7 +109,7 @@ export const suits = [
   /* КУПАЛЬНИКИ ДЛЯ ПРОКАТА (category: "renta") */
   {
     id: 17,
-    name: "'Закат'",
+    name: '"Закат"',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 7000, // Залог
@@ -121,7 +121,7 @@ export const suits = [
   },
   {
     id: 9,
-    name: "'Малинка'",
+    name: '"Малинка"',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 7000, // Залог
@@ -133,7 +133,7 @@ export const suits = [
   },
   {
     id: 10,
-    name: "'Туника' (голубой)",
+    name: '"Туника" (голубой)',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 7000, // Залог
@@ -145,7 +145,7 @@ export const suits = [
   },
   {
     id: 11,
-    name: "'Туника' (сиреневый)",
+    name: '"Туника" (сиреневый)',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 7000, // Залог
@@ -157,7 +157,7 @@ export const suits = [
   },
   {
     id: 12,
-    name: "'Январь'",
+    name: '"Январь"',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 7000, // Залог
@@ -170,7 +170,7 @@ export const suits = [
   },
   {
     id: 15,
-    name: "'Океан'",
+    name: '"Океан"',
     category: "renta",
     price: 5000, // Цена за неделю проката
     deposit: 7000, // Залог
@@ -182,7 +182,7 @@ export const suits = [
   },
   {
     id: 16,
-    name: "'Эльза'",
+    name: '"Эльза"',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 7000, // Залог
@@ -194,7 +194,7 @@ export const suits = [
   },
   {
     id: 14,
-    name: "'Всплеск'",
+    name: '"Всплеск"',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 5000, // Залог
@@ -207,7 +207,7 @@ export const suits = [
   },
   {
     id: 114,
-    name: "'Всплеск'",
+    name: '"Всплеск"',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 5000, // Залог
@@ -220,7 +220,7 @@ export const suits = [
   },
   {
     id: 13,
-    name: "'Бразильянка'",
+    name: '"Бразильянка"',
     category: "renta",
     price: 2000, // Цена за неделю проката
     deposit: 5000, // Залог
@@ -234,7 +234,7 @@ export const suits = [
   /* ПРОДАННЫЕ КУПАЛЬНИКИ (available: false) */
   {
     id: 18,
-    name: "'Рубин'",
+    name: '"Рубин"',
     category: "figure-skating",
     price: 17000,
     height: [125, 129],
@@ -243,7 +243,7 @@ export const suits = [
   },
   {
     id: 19,
-    name: "'Сияние'",
+    name: '"Сияние"',
     category: "acrobatics_gymnastics",
     price: 16000,
     height: [122],
@@ -252,7 +252,7 @@ export const suits = [
   },
   {
     id: 20,
-    name: "'Сказка'",
+    name: '"Сказка"',
     category: "figure-skating",
     price: 18500,
     height: [140, 154],
@@ -261,7 +261,7 @@ export const suits = [
   },
   {
     id: 21,
-    name: "'Лазурит'",
+    name: '"Лазурит"',
     category: "figure-skating",
     price: 16500,
     height: [160],
@@ -272,7 +272,7 @@ export const suits = [
   },
   {
     id: 22,
-    name: "'Фуксия'",
+    name: '"Фуксия"',
     category: "figure-skating",
     price: 15500,
     height: [130, 139],
@@ -281,7 +281,7 @@ export const suits = [
   },
   {
     id: 23,
-    name: "'Персея'",
+    name: '"Персея"',
     category: "figure-skating",
     price: 17500,
     height: [125, 129],
@@ -290,7 +290,7 @@ export const suits = [
   },
   {
     id: 24,
-    name: "'Каскад'",
+    name: '"Каскад"',
     category: "figure-skating",
     price: 16500,
     height: [120],
@@ -299,7 +299,7 @@ export const suits = [
   },
   {
     id: 25,
-    name: "'Лаванда'",
+    name: '"Лаванда"',
     category: "acrobatics_gymnastics",
     price: 19000,
     height: [140, 154],
@@ -310,7 +310,7 @@ export const suits = [
   },
   {
     id: 26,
-    name: "'Феникс'",
+    name: '"Феникс"',
     category: "acrobatics_gymnastics",
     price: 17000,
     height: [158],
@@ -319,7 +319,7 @@ export const suits = [
   },
   {
     id: 27,
-    name: "'Тропикана'",
+    name: '"Тропикана"',
     category: "acrobatics_gymnastics",
     price: 16000,
     height: [130, 139],
@@ -331,7 +331,7 @@ export const suits = [
   },
   {
     id: 28,
-    name: "'Волна'",
+    name: '"Волна"',
     category: "acrobatics_gymnastics",
     price: 18000,
     height: [125, 129],
@@ -340,7 +340,7 @@ export const suits = [
   },
   {
     id: 29,
-    name: "'Вулкан'",
+    name: '"Вулкан"',
     category: "acrobatics_gymnastics",
     price: 18000,
     height: [125, 129],
@@ -349,7 +349,7 @@ export const suits = [
   },
   {
     id: 30,
-    name: "'Византия'",
+    name: '"Византия"',
     category: "acrobatics_gymnastics",
     price: 18000,
     height: [125, 129],
@@ -360,7 +360,7 @@ export const suits = [
   },
   {
     id: 31,
-    name: "'Аметист'",
+    name: '"Аметист"',
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [155, 165],
@@ -373,7 +373,7 @@ export const suits = [
   },
   {
     id: 32,
-    name: "'Бабочка'",
+    name: '"Бабочка"',
     category: "acrobatics_gymnastics",
     price: 35000,
     height: [140, 154],
