@@ -161,7 +161,7 @@
   position: relative;
   border: 1px solid #333;
   height: auto;
-  max-height: 520px;
+  max-height: 720px;
 }
 
 .suitCard:hover {
@@ -248,14 +248,16 @@
 .suitSize {
   color: var(--color-white);
   font-size: 14px; /* Уменьшаем с 16px до 14px */
-  letter-spacing: -0.2px; /* Добавляем небольшой отрицательный кернинг */
+  letter-spacing: -0.5px; /* Добавляем небольшой отрицательный кернинг */
+  white-space: nowrap;
 }
 
 .suitPrice {
   color: var(--color-white);
   font-weight: var(--font-weight-bold);
   font-size: 22px; /* Уменьшаем с 24px */
-  letter-spacing: -0.3px; /* Добавляем небольшой отрицательный кернинг */
+  letter-spacing: -0.5px; /* Добавляем небольшой отрицательный кернинг */
+  white-space: nowrap;
 }
 
 /* Базовые стили для всех кнопок действий */
@@ -585,9 +587,11 @@
   color: #1a1a1a;
 }
 
+/* Специальный стиль для цены в карточках проката */
 .suitPriceRental {
-  composes: suitPrice;
-  font-size: 1rem; /* Уменьшенный размер шрифта (было 1.2rem для .suitPrice) */
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 /* Media Queries */
