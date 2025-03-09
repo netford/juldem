@@ -195,7 +195,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                     <div className={styles.formGroup}>
                       <label className={styles.label}>
                         <MapPin size={14} className={styles.icon} />
-                        Город
+                        <span className={styles.optional}> Город (необязательно)</span>
                       </label>
                       <input 
                         type="text"
@@ -356,8 +356,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                     <div className={styles.formGroup}>
                       <label className={styles.label}>
                         <Calendar size={14} className={styles.icon} />
-                        К какой дате нужен купальник
-                      </label>
+                        <span className={styles.optional}>К какой дате нужен купальник (необязательно)</span>                      </label>
                       <div className={styles.datePickerContainer}>
                         <input 
                           type="text" 
@@ -366,7 +365,6 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           placeholder="ДД.ММ.ГГГГ"
                           readOnly
                           onFocus={clearErrorOnFocus}
-                          required={!isFirefoxMobile}
                           onClick={() => setShowCustomCalendar(!showCustomCalendar)}
                           className={`${styles.input} ${validationErrors.dueDate ? styles.inputError : ''}`}
                         />
