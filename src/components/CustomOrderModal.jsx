@@ -167,7 +167,11 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
           <>
             <div className={styles.header}>
               <h2 className={styles.title}>Индивидуальный пошив</h2>
-              <p className={styles.subtitle}>Заполните форму, и мы свяжемся с вами для обсуждения деталей</p>
+              <p className={styles.subtitle}>
+                {isMobile 
+                  ? "Мы свяжемся с вами для уточнения деталей заказа" 
+                  : "Заполните форму, и мы свяжемся с вами в указанное время по указанному номеру телефона для уточнения деталей заказа."}
+              </p>
             </div>
 
             {/* Отображение общей ошибки валидации */}
@@ -220,7 +224,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                     <div className={styles.formGroup}>
                       <label className={styles.label}>
                         <MapPin size={14} className={styles.icon} />
-                        Город <span className={styles.optional}>(необязательно)</span>
+                        <span>Город <span className={styles.optional}>(необязательно)</span></span>
                       </label>
                       <input 
                         type="text"
@@ -255,6 +259,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           required={!isFirefoxMobile}
                           className={`${styles.input} ${styles.phoneInput} ${validationErrors.phone ? styles.inputError : ''}`}
                           placeholder="(___) ___-__-__"
+                          style={isMobile ? {paddingLeft: "2.4rem"} : {}}
                         />
                       </div>
                       {validationErrors.phone && !isFirefoxMobile && (
@@ -381,7 +386,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                     <div className={styles.formGroup}>
                       <label className={styles.label}>
                         <Calendar size={14} className={styles.icon} />
-                        К какой дате нужен купальник <span className={styles.optional}>(необязательно)</span>
+                        <span>К какой дате нужен купальник <span className={styles.optional}>(необязательно)</span></span>
                       </label>
                       <div className={styles.datePickerContainer} ref={calendarRef}>
                         <input 
