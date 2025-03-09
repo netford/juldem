@@ -1,5 +1,5 @@
 // CustomOrderModal.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { X, User, MapPin, Phone, Calendar, Clock, ChevronDown } from 'lucide-react';
 import styles from './CustomOrderModal.module.css';
@@ -61,6 +61,28 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
       document.removeEventListener('keydown', handleEscape);
     };
   }, [isOpen, onClose]);
+
+  // Закрытие календаря при клике вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Проверяем, что клик произошел не по календарю и не по полю ввода даты
+      if (calendarRef.current && 
+          !calendarRef.current.contains(event.target) && 
+          event.target.id !== 'dueDateDisplay' &&
+          !event.target.closest('.calendar-container')) {
+        setShowCustomCalendar(false);
+      }
+    };
+
+    // Добавляем обработчик только когда календарь открыт
+    if (showCustomCalendar) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showCustomCalendar, setShowCustomCalendar]);
 
   // Генерация временных слотов и опций для роста при открытии модального окна
   useEffect(() => {
@@ -361,7 +383,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                         <Calendar size={14} className={styles.icon} />
                         К какой дате нужен купальник <span className={styles.optional}>(необязательно)</span>
                       </label>
-                      <div className={styles.datePickerContainer}>
+                      <div className={styles.datePickerContainer} ref={calendarRef}>
                         <input 
                           type="text" 
                           id="dueDateDisplay" 
@@ -379,18 +401,20 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           <Calendar size={18} />
                         </div>
                         
-                        <CalendarComponent 
-                          visible={showCustomCalendar}
-                          selectedDate={formData.dueDate}
-                          onDateSelect={(date) => {
-                            const event = { 
-                              target: { name: 'dueDate', value: date }
-                            };
-                            handleChange(event);
-                            setShowCustomCalendar(false);
-                          }}
-                          minimumDays={7} // Добавляем минимальное количество дней
-                        />
+                        <div className="calendar-container">
+                          <CalendarComponent 
+                            visible={showCustomCalendar}
+                            selectedDate={formData.dueDate}
+                            onDateSelect={(date) => {
+                              const event = { 
+                                target: { name: 'dueDate', value: date }
+                              };
+                              handleChange(event);
+                              setShowCustomCalendar(false);
+                            }}
+                            minimumDays={7} // Добавляем минимальное количество дней
+                          />
+                        </div>
                       </div>
                       {validationErrors.dueDate && !isFirefoxMobile && (
                         <div className={styles.errorMessage}>Пожалуйста, выберите дату</div>
