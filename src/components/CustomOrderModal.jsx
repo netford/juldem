@@ -29,6 +29,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
   } = useCustomOrderForm(onClose, product);
   
   const [activeTab, setActiveTab] = useState('contact'); // Новое состояние для вкладок
+  const [timeSlots, setTimeSlots] = useState([]);
 
   // Получаем простое отображение дня для уведомления пользователю
   const getSimpleDay = (date) => {
@@ -54,6 +55,45 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
       document.removeEventListener('keydown', handleEscape);
     };
   }, [isOpen, onClose]);
+
+  // Генерация временных слотов при открытии модального окна
+  useEffect(() => {
+    if (isOpen) {
+      setTimeSlots(generateTimeSlots());
+    }
+  }, [isOpen]);
+
+  // Функция для генерации временных слотов
+  const generateTimeSlots = () => {
+    const slots = [];
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    // Генерация слотов на сегодня
+    for (let hour = 10; hour < 19; hour++) {
+      // Пропускаем прошедшие часы
+      if (hour < currentHour) continue;
+      
+      // Пропускаем текущий час, если до его окончания осталось менее 15 минут
+      if (hour === currentHour && currentMinutes > 45) continue;
+
+      slots.push({
+        value: `today-${hour}`,
+        label: `Сегодня с ${hour}:00 до ${hour + 1}:00`
+      });
+    }
+
+    // Генерация слотов на завтра
+    for (let hour = 10; hour < 19; hour++) {
+      slots.push({
+        value: `tomorrow-${hour}`,
+        label: `Завтра с ${hour}:00 до ${hour + 1}:00`
+      });
+    }
+
+    return slots;
+  };
 
   // Блокируем/разблокируем прокрутку страницы
   useEffect(() => {
@@ -200,9 +240,11 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           className={`${styles.input} ${styles.selectInput} ${validationErrors.callTime ? styles.inputError : ''}`}
                         >
                           <option value="">Выберите время</option>
-                          <option value="morning">С 9:00 до 12:00</option>
-                          <option value="afternoon">С 12:00 до 16:00</option>
-                          <option value="evening">С 16:00 до 20:00</option>
+                          {timeSlots.map(slot => (
+                            <option key={slot.value} value={slot.value}>
+                              {slot.label}
+                            </option>
+                          ))}
                         </select>
                         <div className={styles.selectArrow}>
                           <ChevronDown size={18} />
