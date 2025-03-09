@@ -18,7 +18,7 @@ const Navbar = () => {
     <div className="nav-container">
       <div className="nav-left">
         <a href="#main" className="logo-link">
-          <img src={logo} alt="JULDEM" className="logo" />
+          <img src={logo} alt="JULDEM" className={`logo ${isScrolled ? 'logo-small' : ''}`} />
         </a>
       </div>
 
@@ -37,7 +37,7 @@ const Navbar = () => {
 
       <div className="nav-right">
         <a href="tel:+79196853312" className="phone-link">
-          <Phone size={18} />
+          <Phone size={isScrolled ? 16 : 18} />
           +7 (919) 685-33-12
         </a>
       </div>
@@ -49,7 +49,7 @@ const Navbar = () => {
       <div className="nav-container mobile">
         <div className="nav-left">
           <a href="#main" className="logo-link">
-            <img src={logo} alt="JULDEM" className="logo" />
+            <img src={logo} alt="JULDEM" className={`logo ${isScrolled ? 'logo-small' : ''}`} />
           </a>
         </div>
 
@@ -96,10 +96,12 @@ const Navbar = () => {
             backdrop-filter: blur(10px);
             z-index: 1000;
             transition: all 0.3s ease;
+            height: 80px;
           }
 
           .navbar.scrolled {
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            height: 60px;
           }
 
           .navbar-container {
@@ -107,10 +109,11 @@ const Navbar = () => {
             margin: 0 auto;
             width: 100%;
             padding: 0 1rem;
+            height: 100%;
           }
 
           .nav-container {
-            height: 80px;
+            height: 100%;
             display: grid;
             grid-template-columns: 200px 1fr auto;
             align-items: center;
@@ -154,6 +157,11 @@ const Navbar = () => {
           .logo {
             height: 50px;
             width: auto;
+            transition: all 0.3s ease;
+          }
+          
+          .logo.logo-small {
+            height: 40px;
           }
 
           .nav-links {
@@ -169,8 +177,38 @@ const Navbar = () => {
             color: white !important;
             text-decoration: none;
             font-size: 1rem;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             position: relative;
+          }
+          
+          /* Убираем outline при клике мышью */
+          .nav-link:focus {
+            outline: none;
+          }
+          
+          /* Сохраняем outline при навигации с клавиатуры */
+          .nav-link:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+          }
+          
+          /* Убираем outline и для phone-link */
+          .phone-link:focus {
+            outline: none;
+          }
+          
+          .phone-link:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+          }
+          
+          /* Убираем outline для мобильного меню */
+          .nav-links.mobile a:focus {
+            outline: none;
+          }
+          
+          .scrolled .nav-link {
+            font-size: 0.95rem;
           }
 
           .nav-link:after {
@@ -202,13 +240,21 @@ const Navbar = () => {
             color: #00e2fc !important;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
           }
 
           .phone-link.mobile {
             text-align: left;
             padding-left: 0;
             font-size: 1.3rem;
+          }
+          
+          .scrolled .phone-link {
+            font-size: 0.95rem;
+          }
+          
+          .scrolled .phone-link.mobile {
+            font-size: 1.1rem;
           }
 
           .phone-link:hover {
@@ -223,6 +269,16 @@ const Navbar = () => {
             cursor: pointer;
             padding: 0.5rem;
             transition: all 0.3s ease;
+          }
+          
+          /* Убираем outline для кнопки бургер-меню */
+          .burger:focus {
+            outline: none;
+          }
+          
+          .burger:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
           }
 
           .burger:hover {
@@ -258,6 +314,10 @@ const Navbar = () => {
               height: 40px;
               margin-left: 0;
             }
+            
+            .mobile .logo.logo-small {
+              height: 35px;
+            }
 
             .mobile .nav-right {
               justify-content: flex-end;
@@ -280,10 +340,18 @@ const Navbar = () => {
               .mobile .phone-link {
                 font-size: 1.1rem;
               }
+              
+              .scrolled .mobile .phone-link {
+                font-size: 1rem;
+              }
             }
 
             .navbar-container {
               padding-left: 0;
+            }
+            
+            .navbar.scrolled {
+              height: 55px;
             }
 
             .nav-links.mobile {
@@ -300,6 +368,10 @@ const Navbar = () => {
               opacity: 0;
               visibility: hidden;
               width: 100%;
+            }
+            
+            .navbar.scrolled .nav-links.mobile {
+              top: 55px;
             }
 
             .nav-links.mobile.active {
