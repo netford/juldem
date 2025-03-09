@@ -1,3 +1,4 @@
+// App.jsx 
 import { useState } from 'react'
 import './styles/main.css'
 import Navbar from './components/Navbar'
@@ -11,6 +12,7 @@ import DeliverySection from './components/DeliverySection'
 import ContactsSection from './components/ContactsSection'
 import Footer from './components/Footer'
 import OrderModal from './components/OrderModal'
+import ScrollToTopButton from './components/ScrollToTopButton' // Импортируем новый компонент
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
       <ReviewsCarousel />
       <ContactsSection />
       <Footer />
+      <ScrollToTopButton /> {/* Добавляем новый компонент */}
    </>
  )
 }
