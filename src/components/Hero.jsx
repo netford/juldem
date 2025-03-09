@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { heroBg } from '../assets/images';
 import RentalModal from './RentalModal';
+import CustomOrderModal from './CustomOrderModal'; // Новый импорт
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
+  const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false); // Новое состояние
   const heroRef = useRef(null);
   const backgroundRef = useRef(null);
 
@@ -36,21 +38,14 @@ const Hero = () => {
     }
   };
 
-  // Обновленная функция для перехода к секции "Наши работы" с фильтром "Все размеры"
   const scrollToReadySuits = () => {
     const readySuitsSection = document.getElementById('our-works');
     if (readySuitsSection) {
-      // Прокручиваем к секции
       readySuitsSection.scrollIntoView({ behavior: 'smooth' });
-      
-      // Небольшая задержка, чтобы дать время на завершение прокрутки
       setTimeout(() => {
-        // Ищем select в секции - должен быть только один селект
         const filterSelect = readySuitsSection.querySelector('select');
         if (filterSelect) {
           filterSelect.value = 'available';
-          
-          // Вызываем событие change, чтобы компонент обновил фильтрацию
           const changeEvent = new Event('change', { bubbles: true });
           filterSelect.dispatchEvent(changeEvent);
         }
@@ -58,21 +53,14 @@ const Hero = () => {
     }
   };
 
-  // Новая функция для перехода к секции "Наши работы" с фильтром "Прокат"
   const scrollToRentalSuits = () => {
     const readySuitsSection = document.getElementById('our-works');
     if (readySuitsSection) {
-      // Прокручиваем к секции
       readySuitsSection.scrollIntoView({ behavior: 'smooth' });
-      
-      // Небольшая задержка, чтобы дать время на завершение прокрутки
       setTimeout(() => {
-        // Ищем select в секции - должен быть только один селект
         const filterSelect = readySuitsSection.querySelector('select');
         if (filterSelect) {
           filterSelect.value = 'renta';
-          
-          // Вызываем событие change, чтобы компонент обновил фильтрацию
           const changeEvent = new Event('change', { bubbles: true });
           filterSelect.dispatchEvent(changeEvent);
         }
@@ -80,7 +68,6 @@ const Hero = () => {
     }
   };
 
-  // Для кнопки "Индивидуальный пошив"
   const scrollToPrices = () => {
     const pricesSection = document.getElementById('prices');
     if (pricesSection) {
@@ -299,7 +286,7 @@ const Hero = () => {
         <h2 className="hero-subtitle">Для художественной гимнастики, фигурного катания и спортивной акробатики</h2>
         
         <div className="hero-buttons">
-          <button className="hero-button primary" onClick={scrollToPrices}>
+          <button className="hero-button primary" onClick={() => setIsCustomOrderModalOpen(true)}>
             Индивидуальный пошив
           </button>
           <button className="hero-button secondary" onClick={scrollToReadySuits}>
@@ -329,6 +316,11 @@ const Hero = () => {
       <RentalModal
         isOpen={isRentalModalOpen}
         onClose={() => setIsRentalModalOpen(false)}
+      />
+      
+      <CustomOrderModal
+        isOpen={isCustomOrderModalOpen}
+        onClose={() => setIsCustomOrderModalOpen(false)}
       />
     </section>
   );
