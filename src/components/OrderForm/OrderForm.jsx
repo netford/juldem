@@ -1,6 +1,6 @@
 // components/OrderForm/OrderForm.jsx
 import React from 'react';
-import { User, Phone, Clock } from 'lucide-react';
+import { User, Phone, Clock, Check, AlertCircle } from 'lucide-react';
 import styles from './OrderForm.module.css';
 
 const OrderForm = ({ 
@@ -15,23 +15,44 @@ const OrderForm = ({
   handlePhoneInput,
   clearErrorOnFocus
 }) => {
+  // Функция для проверки заполненности поля (для визуальной индикации)
+  const isFieldValid = (fieldName) => {
+    if (!formData[fieldName]) return null; // поле не заполнено
+    
+    // Для телефона делаем дополнительную проверку
+    if (fieldName === 'phone') {
+      return formData.phone.replace(/\D/g, '').length >= 10 ? true : false;
+    }
+    
+    return true; // поле заполнено
+  };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.formGroup}>
         <label htmlFor="name" className={styles.label}>
-          <User size={14} color="#3498db" /> Ваше имя:
+          <User size={14} color="#3498db" /> Ваше имя <span className={styles.requiredMark}>*</span>
         </label>
-        <input 
-          type="text" 
-          id="name" 
-          name="name" 
-          value={formData.name} 
-          onChange={handleChange} 
-          onFocus={clearErrorOnFocus}
-          required={!isFirefoxMobile}
-          className={`${styles.input} ${validationErrors.name ? styles.inputError : ''}`}
-          placeholder="Введите ваше имя"
-        />
+        <div className={styles.inputWithValidation}>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            value={formData.name} 
+            onChange={handleChange} 
+            onFocus={clearErrorOnFocus}
+            required={!isFirefoxMobile}
+            className={`${styles.input} ${validationErrors.name ? styles.inputError : ''}`}
+            placeholder="Введите ваше имя"
+          />
+          {isFieldValid('name') !== null && (
+            <span className={styles.validationIndicator}>
+              {isFieldValid('name') 
+                ? <Check size={16} className={styles.validIcon} /> 
+                : <AlertCircle size={16} className={styles.invalidIcon} />}
+            </span>
+          )}
+        </div>
         {validationErrors.name && !isFirefoxMobile && (
           <div className={styles.errorMessage}>Пожалуйста, введите ваше имя</div>
         )}
@@ -39,7 +60,7 @@ const OrderForm = ({
         
       <div className={styles.formGroup}>
         <label htmlFor="phone" className={styles.label}>
-          <Phone size={14} color="#3498db" /> Телефон:
+          <Phone size={14} color="#3498db" /> Телефон <span className={styles.requiredMark}>*</span>
         </label>
         <div className={styles.phoneInputContainer}>
           <span className={styles.phoneCode}>+7</span>
@@ -56,6 +77,13 @@ const OrderForm = ({
             required={!isFirefoxMobile}
             className={`${styles.input} ${styles.phoneInput} ${validationErrors.phone ? styles.inputError : ''}`}
           />
+          {isFieldValid('phone') !== null && (
+            <span className={styles.validationIndicator}>
+              {isFieldValid('phone') 
+                ? <Check size={16} className={styles.validIcon} /> 
+                : <AlertCircle size={16} className={styles.invalidIcon} />}
+            </span>
+          )}
         </div>
         {validationErrors.phone && !isFirefoxMobile && (
           <div className={styles.errorMessage}>Пожалуйста, введите корректный номер телефона</div>
@@ -64,7 +92,7 @@ const OrderForm = ({
       
       <div className={styles.formGroup}>
         <label htmlFor="callTime" className={styles.label}>
-          <Clock size={14} color="#3498db" /> Удобное время для звонка:
+          <Clock size={14} color="#3498db" /> Удобное время для звонка <span className={styles.requiredMark}>*</span>
         </label>
         <div className={styles.selectContainer}>
           <select 
@@ -88,6 +116,13 @@ const OrderForm = ({
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
+          {isFieldValid('callTime') !== null && (
+            <span className={styles.validationIndicator}>
+              {isFieldValid('callTime') 
+                ? <Check size={16} className={styles.validIcon} /> 
+                : <AlertCircle size={16} className={styles.invalidIcon} />}
+            </span>
+          )}
         </div>
         {validationErrors.callTime && !isFirefoxMobile && (
           <div className={styles.errorMessage}>Пожалуйста, выберите удобное время для звонка</div>

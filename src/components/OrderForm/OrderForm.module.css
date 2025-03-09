@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: relative;
  }
  
  .label {
@@ -28,6 +29,12 @@
   color: #fff;
   font-size: 1rem;
   transition: all 0.2s ease;
+ }
+ 
+ .input:focus {
+  border-color: #0088ee;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 136, 238, 0.2);
  }
  
  .inputError {
@@ -87,6 +94,36 @@
   transform: translateY(-50%);
   pointer-events: none;
  }
+
+ /* Контейнер для инпута с индикатором валидации */
+.inputWithValidation {
+  position: relative;
+}
+
+/* Индикатор валидации */
+.validationIndicator {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.validIcon {
+  color: #52c41a;
+}
+
+.invalidIcon {
+  color: #ff4d4f;
+}
+
+.requiredMark {
+  color: #ff4d4f;
+  margin-left: 3px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
  
  .submitButton {
   width: 100%;
@@ -159,5 +196,9 @@
   .selectArrow svg {
     width: 20px;
     height: 20px;
+  }
+
+  .validationIndicator {
+    right: 0.8rem;
   }
  }

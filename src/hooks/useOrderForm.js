@@ -1,7 +1,7 @@
-// hooks/useCustomOrderForm.js
+// hooks/useOrderForm.js
 import { useState, useEffect, useRef } from 'react';
 
-const useCustomOrderForm = (onClose, product) => {
+const useOrderForm = (onClose, product) => {
   // Состояния формы
   const [formData, setFormData] = useState({
     name: '',
@@ -13,16 +13,10 @@ const useCustomOrderForm = (onClose, product) => {
     dueDate: ''
   });
   
-  // Состояние для кастомного календаря
-  const [showCustomCalendar, setShowCustomCalendar] = useState(false);
-  const calendarRef = useRef(null);
-  
-  // Состояние для определения Firefox Mobile
-  const [isFirefoxMobile, setIsFirefoxMobile] = useState(false);
-  
   // Состояние для обработки UI
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isFirefoxMobile, setIsFirefoxMobile] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState({
     isOpen: false,
@@ -32,13 +26,12 @@ const useCustomOrderForm = (onClose, product) => {
   // Состояние для отслеживания ошибок валидации
   const [validationErrors, setValidationErrors] = useState({
     name: false,
-    city: false,
     phone: false,
-    callTime: false,
-    sportType: false,
-    height: false,
-    dueDate: false
+    callTime: false
   });
+
+  // Предотвращаем многократную отправку формы
+  const isSubmittingRef = useRef(false);
 
   // Определение мобильного устройства и Firefox
   useEffect(() => {
@@ -57,47 +50,23 @@ const useCustomOrderForm = (onClose, product) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Закрытие календаря при клике вне его области
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (calendarRef.current && !calendarRef.current.contains(event.target) && 
-          event.target.id !== 'dueDateDisplay') {
-        setShowCustomCalendar(false);
-      }
-    };
-
-    if (showCustomCalendar) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showCustomCalendar]);
-
   // Сброс формы при открытии модального окна
   useEffect(() => {
     // Сбрасываем форму
     setFormData({
       name: '',
-      city: '',
       phone: '',
-      callTime: '',
-      sportType: '',
-      height: '',
-      dueDate: ''
+      callTime: ''
     });
     setSuccess(false);
     // Сбрасываем ошибки валидации
     setValidationErrors({
       name: false,
-      city: false,
       phone: false,
-      callTime: false,
-      sportType: false,
-      height: false,
-      dueDate: false
+      callTime: false
     });
+    // Сбрасываем состояние блокировки отправки
+    isSubmittingRef.current = false;
   }, []);
 
   // Функция для скрытия сообщения об ошибке при фокусе любого поля
@@ -108,38 +77,6 @@ const useCustomOrderForm = (onClose, product) => {
         message: ''
       });
     }
-  };
-
-  // Функция для генерации временных слотов
-  const generateTimeSlots = () => {
-    const slots = [];
-    const now = new Date();
-    const currentHour = now.getHours();
-    const currentMinutes = now.getMinutes();
-
-    // Генерация слотов на сегодня
-    for (let hour = 10; hour < 19; hour++) {
-      // Пропускаем прошедшие часы
-      if (hour < currentHour) continue;
-      
-      // Пропускаем текущий час, если до его окончания осталось менее 15 минут
-      if (hour === currentHour && currentMinutes > 45) continue;
-
-      slots.push({
-        value: `today-${hour}`,
-        label: `Сегодня с ${hour}:00 до ${hour + 1}:00`
-      });
-    }
-
-    // Генерация слотов на завтра
-    for (let hour = 10; hour < 19; hour++) {
-      slots.push({
-        value: `tomorrow-${hour}`,
-        label: `Завтра с ${hour}:00 до ${hour + 1}:00`
-      });
-    }
-
-    return slots;
   };
 
   // Форматирование телефона на основе цифр
@@ -253,178 +190,67 @@ const useCustomOrderForm = (onClose, product) => {
     }
   };
 
-  // Форматирование даты из yyyy-mm-dd в dd.mm.yyyy для отображения в поле
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    const [year, month, day] = dateString.split('-');
-    return `${day}.${month}.${year}`;
-  };
-
-  // Генерация календарных недель с учетом ограничения в 7 дней
-  const generateCalendarWeeks = () => {
-    const today = new Date();
-    
-    // Минимальная дата - сегодня + 7 дней
-    const minDate = new Date(today);
-    minDate.setDate(today.getDate() + 7);
-    
-    // Функция для получения названия дня недели
-    const getDayOfWeekName = (dayIndex) => {
-      const dayNames = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
-      return dayNames[dayIndex];
+  // Функция для проверки валидности формы
+  const validateForm = () => {
+    // Определяем обязательные поля
+    const requiredFields = {
+      name: true,
+      phone: true,
+      callTime: true
     };
     
-    // Генерация дат на 30 дней вперед, начиная с минимальной даты
-    const generateAvailableDates = () => {
-      const dates = [];
-      const lastDate = new Date(minDate);
-      lastDate.setDate(minDate.getDate() + 30); // 30 дней вперед
-      
-      // Определяем первый день недели (понедельник)
-      const firstMonday = new Date(minDate);
-      const dayOfWeek = firstMonday.getDay(); // 0 - воскресенье, 1 - понедельник, ...
-      const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-      firstMonday.setDate(firstMonday.getDate() - daysToSubtract);
-      
-      // Находим следующее воскресенье после последнего дня
-      const lastSunday = new Date(lastDate);
-      const lastDayOfWeek = lastSunday.getDay();
-      const daysToAdd = lastDayOfWeek === 0 ? 0 : 7 - lastDayOfWeek;
-      lastSunday.setDate(lastSunday.getDate() + daysToAdd);
-      
-      // Создаем массив всех дат от первого понедельника до последнего воскресенья
-      const allDates = [];
-      const currentDate = new Date(firstMonday);
-      
-      while (currentDate <= lastSunday) {
-        // Проверяем, находится ли дата в диапазоне разрешенных дат
-        const isInRange = currentDate >= minDate && currentDate <= lastDate;
-        
-        // Проверяем, является ли дата текущей
-        const isToday = currentDate.getDate() === today.getDate() && 
-                      currentDate.getMonth() === today.getMonth() && 
-                      currentDate.getFullYear() === today.getFullYear();
-        
-        allDates.push({
-          date: new Date(currentDate),
-          dayOfWeek: currentDate.getDay(),
-          formatted: `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`,
-          value: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
-          isPast: false, // Не может быть в прошлом, т.к. минимальная дата в будущем
-          isInRange: isInRange,
-          isToday: isToday
-        });
-        
-        currentDate.setDate(currentDate.getDate() + 1);
+    // Сбрасываем все ошибки валидации
+    const newValidationErrors = {
+      name: false,
+      phone: false,
+      callTime: false
+    };
+    
+    let hasErrors = false;
+    
+    // Проверяем заполнение всех обязательных полей
+    for (const field in requiredFields) {
+      if (requiredFields[field]) {
+        const isEmpty = !formData[field];
+        newValidationErrors[field] = isEmpty;
+        if (isEmpty) hasErrors = true;
       }
-      
-      return allDates;
-    };
+    }
     
-    const allDates = generateAvailableDates();
+    // Дополнительная проверка телефона
+    if (formData.phone) {
+      const cleanPhone = formData.phone.replace(/\D/g, '');
+      const isPhoneValid = cleanPhone.length >= 10;
+      newValidationErrors.phone = !isPhoneValid;
+      if (!isPhoneValid) hasErrors = true;
+    }
     
-    // Группируем даты по неделям
-    const groupDatesByWeeks = (dates) => {
-      const weeks = [];
-      let currentWeek = [];
-      
-      dates.forEach((dateObj, index) => {
-        // Добавляем дату в текущую неделю
-        currentWeek.push(dateObj);
-        
-        // Если это воскресенье или последняя дата, начинаем новую неделю
-        if (dateObj.dayOfWeek === 0 || index === dates.length - 1) {
-          weeks.push([...currentWeek]);
-          currentWeek = [];
-        }
-      });
-      
-      return weeks;
-    };
+    // Устанавливаем новые ошибки валидации
+    setValidationErrors(newValidationErrors);
     
-    return groupDatesByWeeks(allDates);
+    return !hasErrors;
   };
 
   // Обработка отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Определяем, какие поля являются обязательными
-    const requiredFields = {
-      name: true,
-      city: false, // необязательное поле
-      phone: true,
-      callTime: true,
-      sportType: true,
-      height: true,
-      dueDate: false // необязательное поле
-    };
+    // Предотвращаем многократную отправку
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
     
-    // Проверка для всех браузеров
-    const isFormValid = () => {
-      let valid = true;
-      
-      // Проверяем все обязательные поля
-      for (const field in requiredFields) {
-        if (requiredFields[field] && !formData[field]) {
-          valid = false;
-          break;
-        }
-      }
-      
-      // Дополнительная проверка для телефона
-      if (formData.phone && formData.phone.replace(/\D/g, '').length < 10) {
-        valid = false;
-      }
-      
-      return valid;
-    };
+    const isFormValid = validateForm();
     
-    // Для Firefox Mobile используем упрощенную валидацию
-    if (isFirefoxMobile) {
-      if (!isFormValid()) {
-        setError({
-          isOpen: true,
-          message: 'Пожалуйста, заполните все обязательные поля'
-        });
-        return;
-      }
-    } else {
-      // Для других браузеров используем подробную валидацию
-      // Сбрасываем все ошибки валидации
-      const newValidationErrors = {};
+    if (!isFormValid) {
+      // Показываем сообщение об ошибке
+      setError({
+        isOpen: true,
+        message: 'Пожалуйста, заполните все обязательные поля'
+      });
       
-      // Проверяем заполнение всех обязательных полей
-      for (const field in requiredFields) {
-        if (requiredFields[field]) {
-          newValidationErrors[field] = !formData[field];
-        }
-      }
-      
-      // Устанавливаем новые ошибки валидации
-      setValidationErrors(newValidationErrors);
-      
-      // Проверяем, есть ли ошибки
-      if (Object.values(newValidationErrors).some(error => error)) {
-        setError({
-          isOpen: true,
-          message: 'Пожалуйста, заполните все обязательные поля'
-        });
-        return;
-      }
-      
-      // Получаем только цифры из телефона
-      const cleanPhone = formData.phone.replace(/\D/g, '');
-      
-      // Проверка телефона на корректность
-      if (cleanPhone.length < 10) {
-        setValidationErrors(prev => ({ ...prev, phone: true }));
-        setError({
-          isOpen: true,
-          message: 'Пожалуйста, введите корректный номер телефона (не менее 10 цифр)'
-        });
-        return;
-      }
+      // Сбрасываем блокировку отправки
+      isSubmittingRef.current = false;
+      return;
     }
     
     setIsSubmitting(true);
@@ -432,54 +258,43 @@ const useCustomOrderForm = (onClose, product) => {
     // Форматируем телефон для отправки
     const formattedPhone = '+7 ' + formData.phone;
     
-    // Получаем читаемый формат времени звонка
-    const getCallTimeText = (callTimeValue) => {
+    // Получаем читаемый формат времени с конкретной датой
+    const getReadableTime = (callTimeValue) => {
       if (!callTimeValue) return 'Не указано';
       
-      switch (callTimeValue) {
-        case 'morning':
-          return 'С 9:00 до 12:00';
-        case 'afternoon':
-          return 'С 12:00 до 16:00';
-        case 'evening':
-          return 'С 16:00 до 20:00';
-        default:
-          return callTimeValue;
-      }
-    };
-    
-    // Формируем спортивное направление
-    const getSportTypeText = (sportTypeValue) => {
-      if (!sportTypeValue) return 'Не указано';
+      const [day, hour] = callTimeValue.split('-');
+      const hourNum = parseInt(hour, 10);
       
-      switch (sportTypeValue) {
-        case 'gymnastics':
-          return 'Художественная гимнастика';
-        case 'figure-skating':
-          return 'Фигурное катание';
-        case 'acrobatics':
-          return 'Акробатика';
-        case 'other':
-          return 'Другое';
-        default:
-          return sportTypeValue;
+      const today = new Date();
+      const targetDate = new Date();
+      
+      if (day === 'tomorrow') {
+        targetDate.setDate(today.getDate() + 1);
       }
+      
+      // Форматируем дату в формате ДД.ММ.ГГГГ
+      const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+      const date = String(targetDate.getDate()).padStart(2, '0');
+      const year = targetDate.getFullYear();
+      
+      const formattedDate = `${date}.${month}.${year}`;
+      
+      return `${formattedDate} с ${hourNum}:00 до ${hourNum + 1}:00`;
     };
     
     // Отправка на сервер
     try {
       // Формируем сообщение для Telegram
       const message = `
-📝 *НОВЫЙ ЗАКАЗ (ИНДИВИДУАЛЬНЫЙ ПОШИВ)* 📝
+📝 *НОВЫЙ ЗАКАЗ* 📝
+
+🛍️ *Товар:* ${product.name}
+📏 *Рост:* ${product.height}
+💰 *Цена:* ${product.price.toLocaleString('ru-RU')} руб.
 
 👤 *Клиент:* ${formData.name}
-🏙️ *Город:* ${formData.city || 'Не указан'}
 📞 *Телефон:* ${formattedPhone}
-🕒 *Удобное время для звонка:* ${getCallTimeText(formData.callTime)}
-
-🏆 *Вид спорта:* ${getSportTypeText(formData.sportType)}
-📏 *Рост:* ${formData.height} см
-📅 *Нужен к дате:* ${formData.dueDate ? formatDate(formData.dueDate) : 'Не указано'}
+🕒 *Удобное время для звонка:* ${getReadableTime(formData.callTime)}
       `.trim();
       
       const botToken = '7964652895:AAF2XFFz8stkwABk7Hdo2tOOVj0QhPglMYU';
@@ -521,6 +336,9 @@ const useCustomOrderForm = (onClose, product) => {
         message: 'Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.'
       });
       setIsSubmitting(false);
+    } finally {
+      // Сбрасываем блокировку отправки
+      isSubmittingRef.current = false;
     }
   };
 
@@ -532,26 +350,30 @@ const useCustomOrderForm = (onClose, product) => {
     });
   };
 
+  // Валидация отдельного поля для немедленной обратной связи
+  const validateField = (name, value) => {
+    if (name === 'phone') {
+      return value.replace(/\D/g, '').length >= 10;
+    }
+    return !!value;
+  };
+
   return {
     formData,
     validationErrors,
     error,
     success,
     isSubmitting,
-    showCustomCalendar,
     isMobile,
     isFirefoxMobile,
-    calendarRef,
     handleChange,
     handleSubmit,
     handlePhoneKeyDown,
     handlePhoneInput,
-    setShowCustomCalendar,
     clearErrorOnFocus,
     closeErrorAlert,
-    formatDate,
-    generateCalendarWeeks
+    validateField
   };
 };
 
-export default useCustomOrderForm;
+export default useOrderForm;
