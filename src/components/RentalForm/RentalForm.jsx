@@ -188,7 +188,8 @@ const RentalForm = ({
       {/* Имя */}
       <div className={styles.formGroup}>
         <label htmlFor="name" className={styles.label}>
-          <User size={14} color="#3498db" /> Ваше имя<span className={styles.requiredMark}>*</span>        </label>
+          <User size={14} color="#3498db" /> Ваше имя <span className={styles.requiredMark}>*</span>
+        </label>
         <div className={styles.inputWithValidation}>
           <input 
             type="text"
@@ -219,7 +220,8 @@ const RentalForm = ({
         <div className={styles.columnItem}>
           <div className={styles.formGroup}>
             <label htmlFor="performanceDate" className={styles.label}>
-              <Calendar size={14} color="#3498db" /> Дата выступления<span className={styles.requiredMark}>*</span>            </label>
+              <Calendar size={14} color="#3498db" /> Дата выступления <span className={styles.requiredMark}>*</span>
+            </label>
             <div className={styles.datePickerContainer} ref={calendarRef}>
               <input 
                 type="text" 
@@ -264,7 +266,8 @@ const RentalForm = ({
         <div className={styles.columnItem}>
           <div className={styles.formGroup}>
             <label htmlFor="phone" className={styles.label}>
-             <Phone size={14} color="#3498db" /> Телефон<span className={styles.requiredMark}>*</span>            </label>
+             <Phone size={14} color="#3498db" /> Телефон<span className={styles.requiredMark}>*</span>
+            </label>
             <div className={styles.phoneInputContainer}>
               <span className={styles.phoneCode}>+7</span>
               <input 
@@ -298,7 +301,8 @@ const RentalForm = ({
       {/* Время для звонка */}
       <div className={styles.formGroup}>
         <label htmlFor="callTime" className={styles.label}>
-          <Clock size={14} color="#3498db" /> Удобное время для звонка<span className={styles.requiredMark}>*</span>        </label>
+          <Clock size={14} color="#3498db" /> Удобное время для звонка <span className={styles.requiredMark}>*</span>
+        </label>
         <div className={styles.selectContainer}>
           <select 
             id="callTime" 

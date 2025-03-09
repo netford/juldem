@@ -296,5 +296,8 @@
 
 .requiredMark {
   color: #ff4d4f;
-  margin-left: 0.25rem;
+  margin-left: 0;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
