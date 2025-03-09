@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Ruler, Crown } from 'lucide-react';
 import styles from './PricesSection.module.css';
+import CustomOrderModal from './CustomOrderModal';
 
 const PricesSection = () => {
   const [showScrollHint, setShowScrollHint] = useState(false);
+  const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
+  const [selectedPriceCard, setSelectedPriceCard] = useState(null);
   const sectionRef = useRef(null);
 
   const cards = [
@@ -49,6 +52,24 @@ const PricesSection = () => {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  // Обработчик клика по кнопке "Заказать"
+  const handleOrderClick = (card) => {
+    setSelectedPriceCard(card);
+    setIsCustomOrderModalOpen(true);
+  };
+
+  // Подготавливаем данные о продукте для модального окна
+  const getProductInfo = () => {
+    if (!selectedPriceCard) return {};
+    
+    return {
+      name: `Купальник (${selectedPriceCard.height})`,
+      height: selectedPriceCard.height,
+      price: parseInt(selectedPriceCard.price.replace(/\s/g, '')),
+      image: '/favicon/favicon-96x96.png' // Используем фавикон как заглушку, можно заменить на соответствующее изображение
+    };
+  };
 
   return (
     <section ref={sectionRef} id="prices" className={styles.pricesSection}>
@@ -98,7 +119,10 @@ const PricesSection = () => {
                       </ul>
                     </div>
 
-                    <button className={styles.priceButton}>
+                    <button 
+                      className={styles.priceButton} 
+                      onClick={() => handleOrderClick(card)}
+                    >
                       Заказать
                     </button>
                   </div>
@@ -135,7 +159,10 @@ const PricesSection = () => {
                     </ul>
                   </div>
 
-                  <button className={styles.priceButton}>
+                  <button 
+                    className={styles.priceButton} 
+                    onClick={() => handleOrderClick(card)}
+                  >
                     Заказать
                   </button>
                 </div>
@@ -144,6 +171,13 @@ const PricesSection = () => {
           </div>
         )}
       </div>
+
+      {/* Модальное окно для индивидуального пошива */}
+      <CustomOrderModal
+        isOpen={isCustomOrderModalOpen}
+        onClose={() => setIsCustomOrderModalOpen(false)}
+        product={getProductInfo()}
+      />
     </section>
   );
 };

@@ -3,12 +3,14 @@ import { ShoppingBag } from 'lucide-react';
 import ProductImageSlider from './ProductImageSlider';
 import OrderModal from './OrderModal';
 import RentalFormModal from './RentalFormModal';
+import CustomOrderModal from './CustomOrderModal';
 import styles from './ReadySuits.module.css';
 import nonePhoto from '../assets/images/suits/none_photo.jpg';
 
 const SuitCard = React.memo(({ suit, className, style }) => {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isRentalFormModalOpen, setIsRentalFormModalOpen] = useState(false);
+  const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
   
   // Определяем текст метки в зависимости от категории и доступности
   const getTagText = () => {
@@ -46,8 +48,10 @@ const SuitCard = React.memo(({ suit, className, style }) => {
     // Определяем, какое модальное окно открывать
     if (suit.category === 'renta') {
       setIsRentalFormModalOpen(true);
+    } else if (suit.available) {
+      setIsOrderModalOpen(true); // Если товар в наличии - открываем стандартное окно заказа
     } else {
-      setIsOrderModalOpen(true);
+      setIsCustomOrderModalOpen(true); // Если товар продан - открываем окно индивидуального пошива
     }
   };
 
@@ -133,6 +137,13 @@ const SuitCard = React.memo(({ suit, className, style }) => {
       <RentalFormModal 
         isOpen={isRentalFormModalOpen}
         onClose={() => setIsRentalFormModalOpen(false)}
+        product={productInfo}
+      />
+
+      {/* Модальное окно для индивидуального пошива */}
+      <CustomOrderModal
+        isOpen={isCustomOrderModalOpen}
+        onClose={() => setIsCustomOrderModalOpen(false)}
         product={productInfo}
       />
     </>
