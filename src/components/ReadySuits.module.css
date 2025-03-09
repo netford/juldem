@@ -181,43 +181,150 @@
   font-size: 1.2rem;
 }
 
+/* Базовые стили для всех кнопок действий */
 .suitActionBtn {
   width: 100%;
-  padding: 0.8rem;
+  padding: 0;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  line-height: 1;
+  box-sizing: border-box;
 }
 
+/* Общие стили для всех трех типов кнопок */
+.buyBtn, .orderBtn, .rentaBtn {
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  box-sizing: border-box !important;
+  padding: 0 0.8rem !important;
+}
+
+/* Стили для всех иконок внутри кнопок */
+.suitActionBtn svg {
+  transition: transform 0.3s ease;
+}
+
+/* Эффект ряби при клике для всех кнопок */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.suitActionBtn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: scale(0) translate(-50%, -50%);
+  transform-origin: top left;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.suitActionBtn:active::after {
+  animation: ripple 0.6s linear;
+}
+
+/* Фокусное состояние для доступности */
+.suitActionBtn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Стили для кнопки "Купить" */
 .buyBtn {
   composes: suitActionBtn;
   background: var(--color-primary);
-  color: #fff;
+  color: #fff !important;
 }
 
 .buyBtn:hover {
   background: var(--color-accent);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  color: #fff !important;
 }
 
+.buyBtn:hover svg {
+  transform: translateX(-2px) scale(1.1);
+}
+
+.buyBtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  color: #fff !important;
+}
+
+/* Стили для кнопки "Заказать" */
 .orderBtn {
   composes: suitActionBtn;
   background: #00e6ff;
   color: #1a1a1a;
-  font-weight: 600;
 }
 
 .orderBtn:hover {
   background: #00ccff;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  color: #1a1a1a;
+}
+
+.orderBtn:hover svg {
+  transform: translateX(-2px) scale(1.1);
+}
+
+.orderBtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  color: #1a1a1a;
 }
 
 .orderBtn svg {
+  color: #1a1a1a;
+}
+
+/* Стили для кнопки "Забронировать" (рента) */
+.rentaBtn {
+  composes: suitActionBtn;
+  background: #00aaff;
+  color: #1a1a1a;
+}
+
+.rentaBtn:hover {
+  background: #0099ee;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  color: #1a1a1a;
+}
+
+.rentaBtn:hover svg {
+  transform: translateX(-2px) scale(1.1);
+}
+
+.rentaBtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   color: #1a1a1a;
 }
 
@@ -401,16 +508,6 @@
   color: #1a1a1a;
 }
 
-.rentaBtn {
-  background: #00aaff; /* Голубой цвет для кнопки "Арендовать" */
-  color: #1a1a1a;
-  font-weight: 600;
-}
-
-.rentaBtn:hover {
-  background: #0099ee;
-}
-
 .suitPriceRental {
   composes: suitPrice;
   font-size: 1rem; /* Уменьшенный размер шрифта (было 1.2rem для .suitPrice) */
@@ -447,5 +544,35 @@
   .heroButton {
     width: 100%;
     justify-content: center;
+  }
+  
+  /* Для мобильных устройств сохраняем единообразие высоты */
+  .buyBtn, .orderBtn, .rentaBtn {
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+  }
+  
+  /* Уменьшаем анимацию для мобильных устройств, чтобы она выглядела более нативной */
+  .buyBtn:hover, 
+  .orderBtn:hover, 
+  .rentaBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Адаптируем эффект нажатия для сенсорных устройств */
+  .suitActionBtn:active {
+    transform: scale(0.98);
+  }
+  
+  /* Гарантируем сохранение контрастного цвета текста для мобильных устройств */
+  .buyBtn, .buyBtn:hover, .buyBtn:active {
+    color: #fff !important;
+  }
+  
+  .orderBtn, .orderBtn:hover, .orderBtn:active,
+  .rentaBtn, .rentaBtn:hover, .rentaBtn:active {
+    color: #1a1a1a !important;
   }
 }
