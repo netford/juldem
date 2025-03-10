@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import useSuitFilter from '../hooks/useSuitFilter';
 import SuitFilter from './SuitFilter';
 import SuitGrid from './SuitGrid';
+import SuitCard from './SuitCard';
 import styles from './ReadySuits.module.css';
 import { ChevronLeft, ChevronRight } from 'lucide-react'; // импортируем иконки стрелок
 
@@ -308,17 +309,22 @@ function ReadySuits() {
        {window.innerWidth <= 768 ? (
          <div className={styles.scrollContainer}>
            <div 
-             className={`${styles.stepsRow} ${showScrollHint ? styles.scrollHint : ''}`}
+             className={`${styles.deliveryRow} ${showScrollHint ? styles.scrollHint : ''}`}
              style={{
                display: 'flex',
-               width: `${filteredSuits.length * (280 + 16)}px`,
+               width: `${(isTransitioning ? prevVisibleSuits : filteredSuits).length * (280 + 16)}px`,
                gap: '16px',
              }}
            >
-             <SuitGrid 
-               suits={isTransitioning ? prevVisibleSuits : filteredSuits}
-               isTransitioning={isTransitioning}
-             />
+             {/* Напрямую отображаем карточки вместо использования SuitGrid */}
+             {(isTransitioning ? prevVisibleSuits : filteredSuits).map((suit) => (
+               <div
+                 key={suit.id}
+                 style={{ width: '280px' }}
+               >
+                 <SuitCard suit={suit} />
+               </div>
+             ))}
            </div>
          </div>
        ) : (
