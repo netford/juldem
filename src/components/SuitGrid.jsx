@@ -15,6 +15,23 @@ const SuitGrid = ({ suits, isTransitioning }) => {
   const isSmallSet = suits.length <= 5;
   const isMediumSet = suits.length > 5 && suits.length <= 10;
   
+  // Для десктопа с кнопками навигации вместо виртуализированного списка используем обычный рендеринг
+  if (!isMobile) {
+    return (
+      <div 
+        className={`${styles.desktopGrid} ${!isTransitioning ? styles.fadeIn : ''}`}
+        style={{
+          opacity: isTransitioning ? 0 : 1,
+          transition: `opacity ${isTransitioning ? '0.2s' : '0.5s'} ease-out`
+        }}
+      >
+        {suits.map((suit) => (
+          <SuitCard key={suit.id} suit={suit} className={styles.cardItem} />
+        ))}
+      </div>
+    );
+  }
+  
   // Для небольших наборов используем обычную сетку
   if (isSmallSet) {
     return (

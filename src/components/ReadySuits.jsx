@@ -4,117 +4,263 @@ import useSuitFilter from '../hooks/useSuitFilter';
 import SuitFilter from './SuitFilter';
 import SuitGrid from './SuitGrid';
 import styles from './ReadySuits.module.css';
+import { ChevronLeft, ChevronRight } from 'lucide-react'; // импортируем иконки стрелок
 
 function ReadySuits() {
-  // Состояния для UI и анимаций
-  const [showScrollHint, setShowScrollHint] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [containerHeight, setContainerHeight] = useState('auto');
-  const [prevVisibleSuits, setPrevVisibleSuits] = useState([]);
-  
-  // Ссылки для измерения и интерактивности
-  const sectionRef = useRef(null);
-  const contentRef = useRef(null);
-  
-  // Получаем функции из хука фильтрации
-  const { activeFilter, setActiveFilter, filteredSuits, getCountForFilter } = useSuitFilter();
+ // Состояния для UI и анимаций
+ const [showScrollHint, setShowScrollHint] = useState(false);
+ const [isTransitioning, setIsTransitioning] = useState(false);
+ const [containerHeight, setContainerHeight] = useState('auto');
+ const [prevVisibleSuits, setPrevVisibleSuits] = useState([]);
+ 
+ // Новые состояния и рефы для навигации
+ const [scrollPosition, setScrollPosition] = useState(0);
+ const [showNavigation, setShowNavigation] = useState(false);
+ const [navButtonStates, setNavButtonStates] = useState({ left: false, right: true });
+ const gridRef = useRef(null);
+ 
+ // Ссылки для измерения и интерактивности
+ const sectionRef = useRef(null);
+ const contentRef = useRef(null);
+ 
+ // Получаем функции из хука фильтрации
+ const { activeFilter, setActiveFilter, filteredSuits, getCountForFilter } = useSuitFilter();
 
-  // Отслеживаем видимость секции
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+ // Отслеживаем видимость секции
+ useEffect(() => {
+   const observer = new IntersectionObserver(
+     ([entry]) => {
+       if (entry.isIntersecting) {
+         observer.unobserve(entry.target);
+       }
+     },
+     { threshold: 0.1 }
+   );
+   if (sectionRef.current) observer.observe(sectionRef.current);
+   return () => observer.disconnect();
+ }, []);
 
-  // Показываем намёк на скролл для мобильных устройств
-  useEffect(() => {
-    if (window.innerWidth <= 768) {
-      setShowScrollHint(true);
-      const timer = setTimeout(() => {
-        setShowScrollHint(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
+ // Проверяем наличие прокрутки и отображаем навигацию только на десктопе
+ useEffect(() => {
+   const checkScrollability = () => {
+     if (gridRef.current && window.innerWidth > 768) {
+       const { scrollWidth, clientWidth } = gridRef.current;
+       setShowNavigation(scrollWidth > clientWidth);
+       
+       // Обновляем состояние кнопок
+       const isAtEnd = Math.ceil(gridRef.current.scrollLeft + gridRef.current.clientWidth) >= gridRef.current.scrollWidth - 2;
+       const isAtStart = gridRef.current.scrollLeft <= 2;
+       
+       setNavButtonStates({
+         left: !isAtStart,
+         right: !isAtEnd && scrollWidth > clientWidth
+       });
+     } else {
+       setShowNavigation(false);
+     }
+   };
 
-  // Оптимизированный обработчик изменения фильтра с плавной анимацией
-  const handleFilterChange = (e) => {
-    if (isTransitioning) return; // Предотвращаем повторные клики во время анимации
+   checkScrollability();
+   window.addEventListener('resize', checkScrollability);
+   return () => window.removeEventListener('resize', checkScrollability);
+ }, [filteredSuits]);
 
-    const newFilter = e.target.value;
-    if (newFilter === activeFilter) return;
+ // Отслеживаем скролл для обновления состояния кнопок
+ useEffect(() => {
+   const grid = gridRef.current;
+   if (!grid) return;
 
-    // Запоминаем текущую высоту и видимые элементы
-    if (contentRef.current) {
-      setContainerHeight(`${contentRef.current.offsetHeight}px`);
-    }
+   const handleGridScroll = () => {
+     setScrollPosition(grid.scrollLeft);
 
-    // Сохраняем текущие элементы как предыдущие
-    setPrevVisibleSuits(filteredSuits);
+     // Более точное определение конца прокрутки
+     const isAtEnd = Math.ceil(grid.scrollLeft + grid.clientWidth) >= grid.scrollWidth - 2;
+     const isAtStart = grid.scrollLeft <= 2;
 
-    // Начинаем анимацию
-    setIsTransitioning(true);
+     // Обновляем состояние кнопок
+     setNavButtonStates({
+       left: !isAtStart,
+       right: !isAtEnd
+     });
+   };
 
-    // Настраиваем длительность анимации
-    const animationDuration = Math.min(400, Math.max(200, 100 + filteredSuits.length * 10));
+   grid.addEventListener('scroll', handleGridScroll);
+   
+   // Инициализация состояния кнопок
+   handleGridScroll();
 
-    // Анимация исчезновения текущих элементов
-    setTimeout(() => {
-      // Устанавливаем новый фильтр
-      setActiveFilter(newFilter);
-      
-      // Адаптируем высоту контейнера к новому контенту
-      setTimeout(() => {
-        if (contentRef.current) {
-          setContainerHeight(`${contentRef.current.offsetHeight}px`);
-        }
-        
-        // Завершаем анимацию
-        setTimeout(() => {
-          setIsTransitioning(false);
-          setContainerHeight('auto');
-        }, animationDuration);
-      }, 50);
-    }, animationDuration - 50);
-  };
+   return () => {
+     grid.removeEventListener('scroll', handleGridScroll);
+   };
+ }, [filteredSuits]);
 
-  return (
-    <section ref={sectionRef} id="our-works" className={styles.readySuitsSection}>
-      <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>Наши работы</h2>
-      </div>
+ // Показываем намёк на скролл для мобильных устройств
+ useEffect(() => {
+   if (window.innerWidth <= 768) {
+     setShowScrollHint(true);
+     const timer = setTimeout(() => {
+       setShowScrollHint(false);
+     }, 3000);
+     return () => clearTimeout(timer);
+   }
+ }, []);
 
-      {/* Фильтрация товаров */}
-      <SuitFilter 
-        activeFilter={activeFilter}
-        onFilterChange={handleFilterChange}
-        getCountForFilter={getCountForFilter}
-        isTransitioning={isTransitioning}
-      />
+ // Оптимизированный обработчик изменения фильтра с плавной анимацией
+ const handleFilterChange = (e) => {
+   if (isTransitioning) return; // Предотвращаем повторные клики во время анимации
 
-      {/* Контейнер для анимации перехода */}
-      <div 
-        className={styles.transitionContainer}
-        style={{
-          height: containerHeight
-        }}
-        ref={contentRef}
-      >
-        {/* Отображение сетки товаров */}
-        <SuitGrid 
-          suits={isTransitioning ? prevVisibleSuits : filteredSuits}
-          isTransitioning={isTransitioning}
-        />
-      </div>
-    </section>
-  );
+   const newFilter = e.target.value;
+   if (newFilter === activeFilter) return;
+
+   // Запоминаем текущую высоту и видимые элементы
+   if (contentRef.current) {
+     setContainerHeight(`${contentRef.current.offsetHeight}px`);
+   }
+
+   // Сохраняем текущие элементы как предыдущие
+   setPrevVisibleSuits(filteredSuits);
+
+   // Начинаем анимацию
+   setIsTransitioning(true);
+
+   // Настраиваем длительность анимации
+   const animationDuration = Math.min(400, Math.max(200, 100 + filteredSuits.length * 10));
+
+   // Анимация исчезновения текущих элементов
+   setTimeout(() => {
+     // Устанавливаем новый фильтр
+     setActiveFilter(newFilter);
+     
+     // Адаптируем высоту контейнера к новому контенту
+     setTimeout(() => {
+       if (contentRef.current) {
+         setContainerHeight(`${contentRef.current.offsetHeight}px`);
+       }
+       
+       // Завершаем анимацию
+       setTimeout(() => {
+         setIsTransitioning(false);
+         setContainerHeight('auto');
+         setScrollPosition(0); // Сбрасываем позицию скролла при смене фильтра
+         if (gridRef.current) {
+           gridRef.current.scrollLeft = 0;
+         }
+       }, animationDuration);
+     }, 50);
+   }, animationDuration - 50);
+ };
+
+ // Обработчики для навигационных кнопок
+ const handleScrollLeft = () => {
+   if (!gridRef.current) return;
+   
+   const scrollAmount = gridRef.current.clientWidth * 0.8; // Прокручиваем на 80% ширины
+   const newPosition = Math.max(0, gridRef.current.scrollLeft - scrollAmount);
+   
+   gridRef.current.scrollTo({
+     left: newPosition,
+     behavior: 'smooth'
+   });
+   
+   setScrollPosition(newPosition);
+ };
+
+ const handleScrollRight = () => {
+   if (!gridRef.current) return;
+   
+   const scrollAmount = gridRef.current.clientWidth * 0.8; // Прокручиваем на 80% ширины
+   const newPosition = Math.min(
+     gridRef.current.scrollWidth - gridRef.current.clientWidth,
+     gridRef.current.scrollLeft + scrollAmount
+   );
+   
+   gridRef.current.scrollTo({
+     left: newPosition,
+     behavior: 'smooth'
+   });
+   
+   setScrollPosition(newPosition);
+ };
+
+ return (
+   <section ref={sectionRef} id="our-works" className={styles.readySuitsSection}>
+     <div className={styles.sectionHeader}>
+       <h2 className={styles.sectionTitle}>Наши работы</h2>
+     </div>
+
+     {/* Фильтрация товаров */}
+     <SuitFilter 
+       activeFilter={activeFilter}
+       onFilterChange={handleFilterChange}
+       getCountForFilter={getCountForFilter}
+       isTransitioning={isTransitioning}
+     />
+
+     {/* Контейнер для анимации перехода */}
+     <div 
+       className={styles.transitionContainer}
+       style={{
+         height: containerHeight,
+         position: 'relative'
+       }}
+       ref={contentRef}
+     >
+       {/* Навигационные стрелки для десктопа */}
+       {showNavigation && window.innerWidth > 768 && (
+         <>
+           <button 
+             className={`${styles.navButton} ${styles.navButtonLeft} ${!navButtonStates.left ? styles.navButtonDisabled : ''}`}
+             onClick={handleScrollLeft}
+             disabled={!navButtonStates.left}
+             aria-label="Предыдущие товары"
+           >
+             <ChevronLeft size={32} />
+           </button>
+           <button 
+             className={`${styles.navButton} ${styles.navButtonRight} ${!navButtonStates.right ? styles.navButtonDisabled : ''}`}
+             onClick={handleScrollRight}
+             disabled={!navButtonStates.right}
+             aria-label="Следующие товары"
+           >
+             <ChevronRight size={32} />
+           </button>
+         </>
+       )}
+       
+       {/* Для мобильных - стандартная прокрутка */}
+       {window.innerWidth <= 768 ? (
+         <div className={styles.scrollContainer}>
+           <div 
+             className={`${styles.stepsRow} ${showScrollHint ? styles.scrollHint : ''}`}
+             style={{
+               display: 'flex',
+               width: `${filteredSuits.length * (280 + 16)}px`,
+               gap: '16px',
+             }}
+           >
+             <SuitGrid 
+               suits={isTransitioning ? prevVisibleSuits : filteredSuits}
+               isTransitioning={isTransitioning}
+             />
+           </div>
+         </div>
+       ) : (
+         /* Для десктопа - прокрутка с кнопками */
+         <div 
+           className={styles.gridScrollContainer}
+           ref={gridRef}
+         >
+           <div className={styles.gridInnerContainer}>
+             <SuitGrid 
+               suits={isTransitioning ? prevVisibleSuits : filteredSuits}
+               isTransitioning={isTransitioning}
+             />
+           </div>
+         </div>
+       )}
+     </div>
+   </section>
+ );
 }
 
 export default ReadySuits;
