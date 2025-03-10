@@ -43,6 +43,7 @@
 │   ├── OrderModal.module.css
 │   ├── PricesSection.jsx
 │   ├── PricesSection.module.css
+│   ├── PricingFAQ.jsx
 │   ├── ProductImageSlider.jsx
 │   ├── ProductImageSlider.module.css
 │   ├── ReadySuits.jsx

@@ -1,526 +1,551 @@
+/* PricesSection.module.css */
 .pricesSection {
-    padding: 6rem 0;
-    background: #1a1a1a;
-    min-height: 100vh;
-  }
-  
-  .container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .sectionHeader {
-    text-align: center;
-    margin-bottom: 4rem;
-  }
-  
-  .sectionTitle {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    color: #fff;
-    margin-bottom: 1rem;
-  }
-  
-  .sectionSubtitle {
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    color: #ccc;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .priceCard {
-    min-width: 280px;
-    width: 100%;
-    background: #262626;
-    border: 1px solid #333;
-    border-radius: 16px;
-    padding: 2rem;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-  
-  .priceCard.highlighted {
-    background: linear-gradient(135deg, #0066cc, #0052a3);
-    border-color: #0077ef;
-  }
-  
-  .priceCard {
-    transition: all 0.3s ease; /* Добавьте эту строку */
-    transform: translateY(0);   /* Базовое состояние */
+  padding: 6rem 0;
+  background: #1a1a1a;
+  min-height: 100vh;
 }
 
-  .priceCard:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      border-color: #444;
-  }
-  
-  .iconWrapper {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-  }
-  
-  .priceCard:hover .iconWrapper {
-    transform: scale(1.1) rotate(5deg);
-  }
-  
-  .iconWrapper svg {
-    width: 40px;
-    height: 40px;
-    color: #fff;
-  }
-  
-.heightRange {
-  font-size: var(--font-size-lg, 18px); /* Минимум 18px для названий категорий */
-  color: var(--color-white);
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionHeader {
   text-align: center;
-  white-space: nowrap;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  color: #fff;
   margin-bottom: 1rem;
+}
+
+.sectionSubtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #ccc;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.priceCard {
+  min-width: 280px;
+  width: 100%;
+  background: #262626;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 2rem;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.priceCard.highlighted {
+  background: linear-gradient(135deg, #0066cc, #0052a3);
+  border-color: #0077ef;
+}
+
+.priceCard {
+  transition: all 0.3s ease; /* Добавьте эту строку */
+  transform: translateY(0);   /* Базовое состояние */
+}
+
+.priceCard:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: #444;
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.priceCard:hover .iconWrapper {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.iconWrapper svg {
+  width: 40px;
+  height: 40px;
+  color: #fff;
+}
+
+.heightRange {
+font-size: var(--font-size-lg, 18px); /* Минимум 18px для названий категорий */
+color: var(--color-white);
+text-align: center;
+white-space: nowrap;
+margin-bottom: 1rem;
 }
 
 .priceValue {
-  font-size: var(--font-size-xl, 24px); /* Минимум 24px для цен */
-  font-weight: var(--font-weight-bold);
-  color: var(--color-white);
-  text-align: center;
-  white-space: nowrap;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+font-size: var(--font-size-xl, 24px); /* Минимум 24px для цен */
+font-weight: var(--font-weight-bold);
+color: var(--color-white);
+text-align: center;
+white-space: nowrap;
+margin-bottom: 1.5rem;
+padding-bottom: 1.5rem;
+border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .additionalTitle {
-  font-size: var(--font-size-lg, 18px);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-white);
-  margin-bottom: 1rem;
+font-size: var(--font-size-lg, 18px);
+font-weight: var(--font-weight-semibold);
+color: var(--color-white);
+margin-bottom: 1rem;
+}
+
+.additionalList {
+list-style: none;
+padding: 0;
+margin: 0;
+color: var(--color-white);
+font-size: var(--font-size-sm, 14px); /* Минимум 14px для описаний */
+line-height: var(--line-height-base);
+}
+
+.additionalInfo {
+  margin-bottom: auto;
 }
 
 .additionalList {
   list-style: none;
   padding: 0;
   margin: 0;
-  color: var(--color-white);
-  font-size: var(--font-size-sm, 14px); /* Минимум 14px для описаний */
-  line-height: var(--line-height-base);
+  color: #ccc;
 }
-  
-  .additionalInfo {
-    margin-bottom: auto;
+
+.additionalList li {
+  margin-bottom: 0.75rem;
+}
+
+.priceButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+}
+
+.priceCard:not(.highlighted) .priceButton {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.priceCard:not(.highlighted) .priceButton:hover {
+  background: var(--color-accent);
+}
+
+.priceCard.highlighted .priceButton {
+  background: #fff;
+  color: var(--color-primary);
+}
+
+@keyframes scrollHint {
+  0% {
+    transform: translateX(0);
   }
-  
-  .additionalList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    color: #ccc;
+  50% {
+    transform: translateX(-10px);
   }
-  
-  .additionalList li {
-    margin-bottom: 0.75rem;
+  100% {
+    transform: translateX(0);
   }
-  
-  .priceButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 1.5rem;
-  }
-  
-  .priceCard:not(.highlighted) .priceButton {
-    background: var(--color-primary);
-    color: #fff;
-  }
-  
-  .priceCard:not(.highlighted) .priceButton:hover {
-    background: var(--color-accent);
-  }
-  
-  .priceCard.highlighted .priceButton {
-    background: #fff;
-    color: var(--color-primary);
-  }
-  
-  @keyframes scrollHint {
-    0% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(-10px);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
-  
-  .scrollHint {
-    animation: scrollHint 1s ease-in-out;
-  }
-  
-  .scrollContainer {
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 1rem;
-  }
-  
-  .scrollContainer::-webkit-scrollbar {
-    height: 8px;
-  }
-  
-  .scrollContainer::-webkit-scrollbar-thumb {
-    background: #666;
-    border-radius: 4px;
-  }
-  
-  .scrollContainer::-webkit-scrollbar-track {
-    background: #333;
-  }
-  
+}
+
+.scrollHint {
+  animation: scrollHint 1s ease-in-out;
+}
+
+.scrollContainer {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  background: #333;
+}
+
+.pricesGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 2rem;
+  justify-content: center;
+}
+
+@media (max-width: 1400px) {
   .pricesGrid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1.5rem;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1400px;
-    padding: 0 2rem;
-    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1000px;
   }
-  
-  @media (max-width: 1400px) {
-    .pricesGrid {
-      grid-template-columns: repeat(3, 1fr);
-      max-width: 1000px;
-    }
+}
+
+@media (max-width: 992px) {
+  .pricesGrid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 700px;
   }
-  
-  @media (max-width: 992px) {
-    .pricesGrid {
-      grid-template-columns: repeat(2, 1fr);
-      max-width: 700px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .pricesSection {
-      padding: 4rem 0;
-    }
-  
-    .pricesGrid {
-      grid-template-columns: 1fr;
-      padding: 0 1rem;
-      max-width: 450px;
-    }
-  
-    .priceCard {
-      max-width: 400px;
-      margin: 0 auto;
-      width: 100%;
-      height: auto;
-      min-height: 500px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .priceCard {
-      padding: 1.5rem;
-    }
+}
+
+@media (max-width: 768px) {
+  .pricesSection {
+    padding: 4rem 0;
   }
 
-  /* Добавить в PricesSection.module.css */
+  .pricesGrid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    max-width: 450px;
+  }
+
+  .priceCard {
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .priceCard {
+    padding: 1.5rem;
+  }
+}
 
 /* Основные стили FAQ */
 .faqContainer {
-  max-width: 800px;
-  margin: 3rem auto 0;
-  padding: 0 2rem;
-  animation: fadeIn 0.8s ease-out;
+max-width: 1200px;
+margin: 3rem auto 0;
+padding: 0 2rem;
+animation: fadeIn 0.8s ease-out;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
 }
 
 .faqTitle {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #fff;
-  margin-bottom: 2rem;
-  position: relative;
-  padding-bottom: 0.75rem;
+text-align: center;
+font-size: 1.5rem;
+color: #fff;
+margin-bottom: 2rem;
+position: relative;
+padding-bottom: 0.75rem;
 }
 
 .faqTitle::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: var(--color-primary);
-  border-radius: 3px;
+content: '';
+position: absolute;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 60px;
+height: 3px;
+background: var(--color-primary);
+border-radius: 3px;
+}
+
+.faqList {
+display: flex;
+flex-direction: column;
+gap: 1.5rem;
+}
+
+/* Новые стили для многоколоночного отображения FAQ */
+@media (min-width: 992px) {
+.faqList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.faqContainer {
+  max-width: 1200px;
+}
+}
+
+/* Для очень широких экранов можно использовать 3 колонки */
+@media (min-width: 1400px) {
+.faqList {
+  grid-template-columns: repeat(3, 1fr);
+}
+}
+
+.faqItem {
+background: #262626;
+border: 1px solid #333;
+border-radius: 12px;
+overflow: hidden;
+transition: all 0.3s ease;
+position: relative;
+height: 100%; /* Чтобы все элементы были одинаковой высоты в сетке */
+}
+
+.faqItemOpen {
+background: #2a2a2a;
+border-color: #444;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.faqItemPulse {
+animation: pulseFaq 0.5s ease;
+}
+
+@keyframes pulseFaq {
+0%, 100% {
+  transform: scale(1);
+}
+50% {
+  transform: scale(1.02);
+}
+}
+
+.faqQuestion {
+padding: 1.25rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+cursor: pointer;
+font-weight: 500;
+color: #fff;
+transition: background-color 0.3s ease;
+position: relative;
+overflow: hidden;
+}
+
+.faqQuestion:hover {
+background-color: rgba(255, 255, 255, 0.05);
+}
+
+.faqQuestionContent {
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+
+.faqIcon {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 32px;
+height: 32px;
+border-radius: 50%;
+background: rgba(0, 102, 204, 0.1);
+color: var(--color-primary);
+transition: all 0.3s ease;
+}
+
+.faqItemOpen .faqIcon {
+background: var(--color-primary);
+color: white;
+transform: scale(1.1);
+}
+
+.faqToggle {
+background: transparent;
+border: none;
+color: var(--color-primary);
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0.25rem;
+transition: transform 0.3s ease, background-color 0.3s ease;
+border-radius: 50%;
+width: 32px;
+height: 32px;
+}
+
+.faqToggle:hover {
+background-color: rgba(0, 102, 204, 0.1);
+}
+
+.faqToggleOpen {
+transform: rotate(-180deg);
+}
+
+.faqAnswer {
+overflow: hidden;
+transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
+}
+
+.faqAnswer p {
+margin: 0;
+color: #ccc;
+line-height: 1.6;
+}
+
+/* Эффект волны при клике */
+.rippleEffect {
+position: absolute;
+border-radius: 50%;
+background-color: rgba(255, 255, 255, 0.3);
+transform: scale(0);
+animation: ripple 0.6s linear;
+pointer-events: none;
+z-index: 0;
+}
+
+@keyframes ripple {
+to {
+  transform: scale(4);
+  opacity: 0;
+}
+}
+
+/* Кнопка "Задать свой вопрос" */
+.faqAskQuestionContainer {
+margin-top: 2.5rem;
+text-align: center;
+}
+
+.faqAskQuestionButton {
+display: inline-flex;
+align-items: center;
+gap: 0.75rem;
+padding: 0.75rem 1.5rem;
+border-radius: 50px;
+background: linear-gradient(135deg, var(--color-primary), #0088ee);
+color: white;
+font-weight: 500;
+border: none;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.faqAskQuestionButton:hover {
+transform: translateY(-3px);
+box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.faqAskQuestionButton:active {
+transform: translateY(1px);
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+.faqContainer {
+  padding: 0 1rem;
+  margin-top: 2rem;
+}
+
+.faqTitle {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.faqCategoryTitle {
+  font-size: 1rem;
+}
+
+.faqQuestion {
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+
+.faqQuestionContent {
+  gap: 0.75rem;
+}
+
+.faqIcon {
+  width: 28px;
+  height: 28px;
+}
+
+.faqAnswer {
+  padding: 0 1rem !important;
+  font-size: 0.9rem;
+}
+
+.faqItemOpen .faqAnswer {
+  padding-bottom: 1rem !important;
+  padding-left: 3rem !important;
+}
+
+.faqToggle {
+  width: 28px;
+  height: 28px;
+}
+
+.faqAskQuestionButton {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
 }
 
 .faqList {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
 }
-
-.faqItem {
-  background: #262626;
-  border: 1px solid #333;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.faqItemOpen {
-  background: #2a2a2a;
-  border-color: #444;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.faqItemPulse {
-  animation: pulseFaq 0.5s ease;
-}
-
-@keyframes pulseFaq {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-}
-
-.faqQuestion {
-  padding: 1.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  font-weight: 500;
-  color: #fff;
-  transition: background-color 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.faqQuestion:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.faqQuestionContent {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.faqIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(0, 102, 204, 0.1);
-  color: var(--color-primary);
-  transition: all 0.3s ease;
-}
-
-.faqItemOpen .faqIcon {
-  background: var(--color-primary);
-  color: white;
-  transform: scale(1.1);
-}
-
-.faqToggle {
-  background: transparent;
-  border: none;
-  color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-}
-
-.faqToggle:hover {
-  background-color: rgba(0, 102, 204, 0.1);
-}
-
-.faqToggleOpen {
-  transform: rotate(-180deg);
-}
-
-.faqAnswer {
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
-}
-
-.faqAnswer p {
-  margin: 0;
-  color: #ccc;
-  line-height: 1.6;
-}
-
-/* Эффект волны при клике */
-.rippleEffect {
-  position: absolute;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(0);
-  animation: ripple 0.6s linear;
-  pointer-events: none;
-  z-index: 0;
-}
-
-@keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-/* Кнопка "Задать свой вопрос" */
-.faqAskQuestionContainer {
-  margin-top: 2.5rem;
-  text-align: center;
-}
-
-.faqAskQuestionButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  background: linear-gradient(135deg, var(--color-primary), #0088ee);
-  color: white;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.faqAskQuestionButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-}
-
-.faqAskQuestionButton:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-  .faqContainer {
-    padding: 0 1rem;
-    margin-top: 2rem;
-  }
-  
-  .faqTitle {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .faqCategoryTitle {
-    font-size: 1rem;
-  }
-  
-  .faqQuestion {
-    padding: 1rem;
-    font-size: 0.95rem;
-  }
-  
-  .faqQuestionContent {
-    gap: 0.75rem;
-  }
-  
-  .faqIcon {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .faqAnswer {
-    padding: 0 1rem !important;
-    font-size: 0.9rem;
-  }
-  
-  .faqItemOpen .faqAnswer {
-    padding-bottom: 1rem !important;
-    padding-left: 3rem !important;
-  }
-  
-  .faqToggle {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .faqAskQuestionButton {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    font-size: 0.95rem;
-  }
 }
 
 /* Стили для маленьких экранов */
 @media (max-width: 480px) {
-  .faqIcon {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .faqQuestion {
-    padding: 0.8rem;
-    font-size: 0.9rem;
-  }
-  
-  .faqToggle {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .faqAnswer p {
-    font-size: 0.85rem;
-  }
-  
-  .faqCategoryTitle {
-    font-size: 0.95rem;
-  }
+.faqIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.faqQuestion {
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.faqToggle {
+  width: 24px;
+  height: 24px;
+}
+
+.faqAnswer p {
+  font-size: 0.85rem;
+}
+
+.faqCategoryTitle {
+  font-size: 0.95rem;
+}
 }
