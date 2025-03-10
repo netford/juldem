@@ -676,28 +676,36 @@
   padding-left: 7px;
 }
 
-/* Добавляем в ReadySuits.module.css */
-
 /* Контейнер с горизонтальной прокруткой для десктопа */
 .gridScrollContainer {
   width: 100%;
   overflow-x: auto;
   padding: 0 2rem;
   position: relative;
-  scrollbar-width: thin;
+  scrollbar-width: auto; /* Изменено с thin на auto для Firefox */
+  scrollbar-color: #0066cc #333; /* Добавлено для Firefox */
   -ms-overflow-style: none;
   cursor: grab;
 }
 
+/* Дополнительные стили для Firefox */
+@-moz-document url-prefix() {
+  .gridScrollContainer {
+    scrollbar-width: thin; /* thin более подходит для Firefox, если с заданным цветом */
+    scrollbar-color: #0088ee #333;
+    padding-bottom: 12px; /* Дополнительный отступ снизу в Firefox */
+  }
+}
+
 .gridScrollContainer::-webkit-scrollbar {
-  height: 8px;
+  height: 12px; /* Увеличена высота скроллбара для лучшей видимости */
 }
 
 .gridScrollContainer::-webkit-scrollbar-thumb {
   background: #0066cc;
   border-radius: 6px;
-  border: 2px solid #333;
-  box-shadow: 0 0 5px rgba(0, 102, 204, 0.5);
+  border: 2px solid #333; /* Добавлена граница для лучшей видимости */
+  box-shadow: 0 0 5px rgba(0, 102, 204, 0.5); /* Добавляем свечение */
 }
 
 .gridScrollContainer::-webkit-scrollbar-thumb:hover {
@@ -707,6 +715,7 @@
 .gridScrollContainer::-webkit-scrollbar-track {
   background: #333;
   border-radius: 6px;
+  margin: 0 10px; /* Добавлен отступ от краев контейнера */
 }
 
 .gridInnerContainer {
