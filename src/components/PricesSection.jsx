@@ -1,7 +1,9 @@
+// components/PricesSection.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { Ruler, Crown } from 'lucide-react';
 import styles from './PricesSection.module.css';
 import CustomOrderModal from './CustomOrderModal';
+import PricingFAQ from './PricingFAQ'; // Импортируем новый компонент
 
 const PricesSection = () => {
   const [showScrollHint, setShowScrollHint] = useState(false);
@@ -84,7 +86,7 @@ const PricesSection = () => {
         {window.innerWidth <= 768 ? (
           <div className={styles.scrollContainer}>
             <div
-              className={showScrollHint ? styles.scrollHint : ''}
+              className={`${styles.deliveryRow} ${showScrollHint ? styles.scrollHint : ''}`}
               style={{
                 display: 'flex',
                 width: `${cards.length * (280 + 16)}px`,
@@ -100,7 +102,7 @@ const PricesSection = () => {
                     style={{ width: '280px' }}
                   >
                     <div className={styles.iconWrapper}>
-                      <Icon />
+                      <Icon size={32} color="#fff" />
                     </div>
                     
                     <div className={styles.heightRange}>
@@ -140,7 +142,7 @@ const PricesSection = () => {
                   className={`${styles.priceCard} ${card.isHighlighted ? styles.highlighted : ''}`}
                 >
                   <div className={styles.iconWrapper}>
-                    <Icon />
+                    <Icon size={32} color="#fff" />
                   </div>
                   
                   <div className={styles.heightRange}>
@@ -170,6 +172,9 @@ const PricesSection = () => {
             })}
           </div>
         )}
+        
+        {/* Добавляем компонент FAQ */}
+        <PricingFAQ />
       </div>
 
       {/* Модальное окно для индивидуального пошива */}
