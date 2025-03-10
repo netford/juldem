@@ -309,18 +309,20 @@ function ReadySuits() {
        {window.innerWidth <= 768 ? (
          <div className={styles.scrollContainer}>
            <div 
-             className={`${styles.deliveryRow} ${showScrollHint ? styles.scrollHint : ''}`}
+             className={`${styles.mobileCardContainer} ${styles.deliveryRow} ${showScrollHint ? styles.scrollHint : ''} ${isTransitioning ? styles.mobileCardTransitioning : ''}`}
              style={{
-               display: 'flex',
                width: `${(isTransitioning ? prevVisibleSuits : filteredSuits).length * (280 + 16)}px`,
-               gap: '16px',
              }}
            >
              {/* Напрямую отображаем карточки вместо использования SuitGrid */}
-             {(isTransitioning ? prevVisibleSuits : filteredSuits).map((suit) => (
+             {(isTransitioning ? prevVisibleSuits : filteredSuits).map((suit, index) => (
                <div
                  key={suit.id}
-                 style={{ width: '280px' }}
+                 className={styles.mobileCardItem}
+                 style={{
+                   animationDelay: `${index * 0.05}s`,
+                   animationPlayState: isTransitioning ? 'paused' : 'running'
+                 }}
                >
                  <SuitCard suit={suit} />
                </div>
