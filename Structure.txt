@@ -1,30 +1,22 @@
-├── App.css
-├── App.js
 ├── App.jsx
-├── App.test.js
 ├── assets
-│   ├── images
-│   │   ├── half-block.jpg
-│   │   ├── hero-bg.jpg
-│   │   ├── index.js
-│   │   ├── logo.png
-│   │   ├── reviews
-│   │   │   ├── reviews_001.png
-│   │   │   ├── reviews_002.png
-│   │   │   ├── reviews_003.png
-│   │   │   ├── reviews_004.png
-│   │   │   ├── reviews_005.png
-│   │   │   ├── reviews_006.png
-│   │   │   ├── reviews_007.png
-│   │   │   ├── reviews_008.png
-│   │   │   └── reviews_009.png
-│   │   └── suits
-│   │       ├── none_photo.jpg
-│   │       ├── snegurochka.jpg
-│   │       ├── snegurochka_01.png
-│   │       ├── snegurochka_02.png
-│   │       └── snegurochka_03.png
-│   └── react.svg
+│   └── images
+│       ├── half-block.jpg
+│       ├── hero-bg.jpg
+│       ├── index.js
+│       ├── logo.png
+│       ├── reviews
+│       │   ├── reviews_001.png
+│       │   ├── reviews_002.png
+│       │   ├── reviews_003.png
+│       │   ├── reviews_004.png
+│       │   ├── reviews_005.png
+│       │   ├── reviews_006.png
+│       │   ├── reviews_007.png
+│       │   ├── reviews_008.png
+│       │   └── reviews_009.png
+│       └── suits
+│           └── none_photo.jpg
 ├── components
 │   ├── About.jsx
 │   ├── BuyModal.jsx
@@ -72,7 +64,6 @@
 │   ├── RentalFormModal.jsx
 │   ├── RentalFormModal.module.css
 │   ├── RentalModal.jsx
-│   ├── RentalPoliceModal.jsx
 │   ├── ReviewsCarousel.jsx
 │   ├── ScrollToTopButton.jsx
 │   ├── SuitCard.jsx
@@ -88,11 +79,7 @@
 │   ├── useRentalForm.js
 │   └── useSuitFilter.js
 ├── index.css
-├── index.js
-├── logo.svg
 ├── main.jsx
 ├── navigation.js
-├── reportWebVitals.js
-├── setupTests.js
 └── styles
     └── main.css

@@ -45,18 +45,23 @@ function ReadySuits() {
    const checkScrollability = () => {
      if (gridRef.current && window.innerWidth > 768) {
        const { scrollWidth, clientWidth } = gridRef.current;
-       setShowNavigation(scrollWidth > clientWidth);
+       const canScroll = scrollWidth > clientWidth;
+       setShowNavigation(canScroll);
        
-       // Обновляем состояние кнопок
-       const isAtEnd = Math.ceil(gridRef.current.scrollLeft + gridRef.current.clientWidth) >= gridRef.current.scrollWidth - 2;
-       const isAtStart = gridRef.current.scrollLeft <= 2;
+       // Получение текущей позиции скролла
+       const currentScrollLeft = gridRef.current.scrollLeft;
+       
+       // Обновляем состояние кнопок с учетом текущей позиции
+       const isAtEnd = Math.ceil(currentScrollLeft + clientWidth) >= scrollWidth - 2;
+       const isAtStart = currentScrollLeft <= 2;
        
        setNavButtonStates({
-         left: !isAtStart,
-         right: !isAtEnd && scrollWidth > clientWidth
+         left: !isAtStart && canScroll,
+         right: !isAtEnd && canScroll
        });
      } else {
        setShowNavigation(false);
+       setNavButtonStates({ left: false, right: false });
      }
    };
 
@@ -93,6 +98,42 @@ function ReadySuits() {
      grid.removeEventListener('scroll', handleGridScroll);
    };
  }, [filteredSuits]);
+
+ // Обновление состояния кнопок при завершении анимации перехода
+ useEffect(() => {
+   if (!isTransitioning && gridRef.current) {
+     const { scrollWidth, clientWidth } = gridRef.current;
+     const canScroll = scrollWidth > clientWidth;
+     
+     // Явно проверяем и обновляем видимость навигации
+     setShowNavigation(canScroll && window.innerWidth > 768);
+     
+     setNavButtonStates({
+       left: false, // В начальной позиции левая кнопка неактивна
+       right: canScroll // Правая активна, если есть что скроллить
+     });
+   }
+ }, [isTransitioning]);
+
+ // Отслеживаем изменение количества отфильтрованных элементов
+ useEffect(() => {
+   // Добавляем небольшую задержку, чтобы DOM успел обновиться
+   const timer = setTimeout(() => {
+     if (gridRef.current && !isTransitioning) {
+       const { scrollWidth, clientWidth } = gridRef.current;
+       const canScroll = scrollWidth > clientWidth;
+       
+       setShowNavigation(canScroll && window.innerWidth > 768);
+       
+       setNavButtonStates({
+         left: gridRef.current.scrollLeft > 2,
+         right: canScroll && Math.ceil(gridRef.current.scrollLeft + clientWidth) < scrollWidth - 2
+       });
+     }
+   }, 150);
+   
+   return () => clearTimeout(timer);
+ }, [filteredSuits.length, isTransitioning]); // Реагируем на изменение количества элементов
 
  // Показываем намёк на скролл для мобильных устройств
  useEffect(() => {
@@ -142,8 +183,26 @@ function ReadySuits() {
          setIsTransitioning(false);
          setContainerHeight('auto');
          setScrollPosition(0); // Сбрасываем позицию скролла при смене фильтра
+         
          if (gridRef.current) {
            gridRef.current.scrollLeft = 0;
+           
+           // Добавляем проверку на возможность прокрутки и видимость кнопок после полного обновления DOM
+           setTimeout(() => {
+             if (gridRef.current) {
+               // Явно перепроверяем возможность скролла
+               const { scrollWidth, clientWidth } = gridRef.current;
+               const canScroll = scrollWidth > clientWidth;
+               
+               // Обновляем видимость навигации и состояние кнопок
+               setShowNavigation(canScroll && window.innerWidth > 768);
+               
+               setNavButtonStates({
+                 left: false, // После сброса скролла левая кнопка всегда неактивна
+                 right: canScroll // Правая активна только если есть что скроллить
+               });
+             }
+           }, 100); // Увеличиваем задержку для надежности обновления DOM
          }
        }, animationDuration);
      }, 50);
@@ -162,7 +221,16 @@ function ReadySuits() {
      behavior: 'smooth'
    });
    
-   setScrollPosition(newPosition);
+   // Обновляем кнопки после завершения анимации
+   setTimeout(() => {
+     if (gridRef.current) {
+       const isAtStart = gridRef.current.scrollLeft <= 2;
+       setNavButtonStates(prev => ({
+         ...prev,
+         left: !isAtStart
+       }));
+     }
+   }, 500);
  };
 
  const handleScrollRight = () => {
@@ -179,7 +247,16 @@ function ReadySuits() {
      behavior: 'smooth'
    });
    
-   setScrollPosition(newPosition);
+   // Обновляем кнопки после завершения анимации
+   setTimeout(() => {
+     if (gridRef.current) {
+       const isAtEnd = Math.ceil(gridRef.current.scrollLeft + gridRef.current.clientWidth) >= gridRef.current.scrollWidth - 2;
+       setNavButtonStates(prev => ({
+         ...prev,
+         right: !isAtEnd
+       }));
+     }
+   }, 500);
  };
 
  return (
