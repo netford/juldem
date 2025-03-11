@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import { logo } from '../assets/images'
 import styles from './Navbar.module.css'
+import smoothscroll from 'smoothscroll-polyfill'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
+    // Инициализация полифила для плавного скроллинга
+    smoothscroll.polyfill()
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
@@ -24,7 +28,6 @@ const Navbar = () => {
       if (targetElement) {
         targetElement.scrollIntoView({ behavior: 'smooth' })
       }
-      // Закрываем мобильное меню, если оно открыто
       if (isOpen) {
         setIsOpen(false)
       }
