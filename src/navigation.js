@@ -1,4 +1,4 @@
-// Функция для установки активного пункта меню и обработки якорных ссылок
+// src/navigation.js
 document.addEventListener('DOMContentLoaded', () => {
   // Получаем все разделы и пункты меню
   const sections = document.querySelectorAll('section[id]');
