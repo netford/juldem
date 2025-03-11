@@ -15,10 +15,50 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Функция для плавного скроллинга и закрытия мобильного меню
+  const handleNavClick = (e) => {
+    const href = e.currentTarget.getAttribute('href')
+    if (href && href.startsWith('#')) {
+      e.preventDefault()
+      const targetElement = document.querySelector(href)
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' })
+      }
+      // Закрываем мобильное меню, если оно открыто
+      if (isOpen) {
+        setIsOpen(false)
+      }
+    }
+  }
+
+  // IntersectionObserver для выделения активного пункта меню
+  useEffect(() => {
+    const sections = document.querySelectorAll('section[id]')
+    const observerOptions = {
+      threshold: 0.5
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id')
+        const navLink = document.querySelector(`.nav-link[href="#${id}"]`)
+        if (navLink) {
+          if (entry.isIntersecting) {
+            navLink.classList.add('active')
+          } else {
+            navLink.classList.remove('active')
+          }
+        }
+      })
+    }, observerOptions)
+
+    sections.forEach(section => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
   const renderDesktopNav = () => (
     <div className={styles.navContainer}>
       <div className={styles.navLeft}>
-        <a href="#main" className={styles.logoLink}>
+        <a href="#main" className={styles.logoLink} onClick={handleNavClick}>
           <img 
             src={logo} 
             alt="JULDEM" 
@@ -29,14 +69,14 @@ const Navbar = () => {
 
       <div className={styles.navCenter}>
         <div className={styles.navLinks}>
-          <a href="#main" className={`${styles.navLink} nav-link`}>Главная</a>
-          <a href="#our-works" className={`${styles.navLink} nav-link`}>Наши работы</a>
-          <a href="#prices" className={`${styles.navLink} nav-link`}>Цены</a>
-          <a href="#how-to-order" className={`${styles.navLink} nav-link`}>Как мы работаем</a>
-          <a href="#delivery" className={`${styles.navLink} nav-link`}>Доставка</a>
-          <a href="#about" className={`${styles.navLink} nav-link`}>О нас</a>
-          <a href="#reviews" className={`${styles.navLink} nav-link`}>Отзывы</a>
-          <a href="#contacts" className={`${styles.navLink} nav-link`}>Контакты</a>
+          <a href="#main" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Главная</a>
+          <a href="#our-works" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Наши работы</a>
+          <a href="#prices" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Цены</a>
+          <a href="#how-to-order" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Как мы работаем</a>
+          <a href="#delivery" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Доставка</a>
+          <a href="#about" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>О нас</a>
+          <a href="#reviews" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Отзывы</a>
+          <a href="#contacts" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Контакты</a>
         </div>
       </div>
 
@@ -53,7 +93,7 @@ const Navbar = () => {
     <>
       <div className={`${styles.navContainer} ${styles.mobile}`}>
         <div className={styles.navLeft}>
-          <a href="#main" className={styles.logoLink}>
+          <a href="#main" className={styles.logoLink} onClick={handleNavClick}>
             <img 
               src={logo} 
               alt="JULDEM" 
@@ -80,14 +120,14 @@ const Navbar = () => {
       </div>
 
       <div className={`${styles.navLinks} ${styles.mobile} ${isOpen ? styles.active : ''}`}>
-        <a href="#main" className={`${styles.navLink} nav-link`} onClick={() => setIsOpen(false)}>Главная</a>
-        <a href="#our-works" className={`${styles.navLink} nav-link`} onClick={() => setIsOpen(false)}>Наши работы</a>
-        <a href="#prices" className={`${styles.navLink} nav-link`} onClick={() => setIsOpen(false)}>Цены</a>
-        <a href="#how-to-order" className={`${styles.navLink} nav-link`} onClick={() => setIsOpen(false)}>Как мы работаем</a>
-        <a href="#delivery" className={`${styles.navLink} nav-link`} onClick={() => setIsOpen(false)}>Доставка</a>
-        <a href="#about" className={`${styles.navLink} nav-link`} onClick={() => setIsOpen(false)}>О нас</a>
-        <a href="#reviews" className={`${styles.navLink} nav-link`} onClick={() => setIsOpen(false)}>Отзывы</a>
-        <a href="#contacts" className={`${styles.navLink} nav-link`} onClick={() => setIsOpen(false)}>Контакты</a>
+        <a href="#main" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Главная</a>
+        <a href="#our-works" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Наши работы</a>
+        <a href="#prices" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Цены</a>
+        <a href="#how-to-order" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Как мы работаем</a>
+        <a href="#delivery" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Доставка</a>
+        <a href="#about" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>О нас</a>
+        <a href="#reviews" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Отзывы</a>
+        <a href="#contacts" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Контакты</a>
       </div>
     </>
   )
