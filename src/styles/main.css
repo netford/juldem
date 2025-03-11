@@ -70,6 +70,10 @@ section h3,
   text-shadow: var(--text-shadow-header);
 }
 
+h2, h3 {
+  color: #00e2fc !important; 
+}
+
 /* Обеспечение хорошего контраста для текста на темном фоне */
 .dark-bg, 
 section, 
