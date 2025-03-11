@@ -29,6 +29,7 @@
 │   ├── ErrorAlert.jsx
 │   ├── Footer.jsx
 │   ├── Hero.jsx
+│   ├── Hero.module.css
 │   ├── HowToOrder.jsx
 │   ├── HowToOrder.module.css
 │   ├── Navbar.jsx

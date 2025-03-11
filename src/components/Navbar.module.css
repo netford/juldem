@@ -278,5 +278,5 @@
 
 /* Добавленный стиль для активного пункта меню */
 :global(.nav-link.active) {
-  color: var(--color-primary) !important;
+  color: #00e2fc !important;
 }

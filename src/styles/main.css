@@ -763,7 +763,7 @@ section:after {
 }
 
 .nav-link.active {
- color: #0066CC !important; /* Акцентный цвет для активного пункта */
+ color: #00e2fc !important; /* Акцентный цвет для активного пункта */
 }
 
 .nav-link.active:after {
@@ -773,7 +773,7 @@ section:after {
  height: 2px;
  bottom: -4px;
  left: 0;
- background-color: #0066CC;
+ background-color: #00e2fc;
  transform: scaleX(1);
  transform-origin: left;
  transition: transform 0.3s ease;
@@ -786,7 +786,7 @@ section:after {
  height: 2px;
  bottom: -4px;
  left: 0;
- background-color: #0066CC;
+ background-color: #00e2fc;
  transform: scaleX(0);
  transform-origin: right;
  transition: transform 0.3s ease;
