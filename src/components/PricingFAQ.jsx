@@ -103,7 +103,7 @@ const PricingFAQ = () => {
 
   return (
     <div className={styles.faqContainer}>
-      <h3 className={styles.faqTitle}>Часто задаваемые вопросы о ценах</h3>
+      <h3 className={styles.faqTitle}>Часто задаваемые вопросы</h3>
       
       <div className={styles.faqList}>
         {faqItems.map((item, index) => {
@@ -158,14 +158,15 @@ const PricingFAQ = () => {
       </div>
       
       <div className={styles.faqAskQuestionContainer}>
-        <button 
+        <a 
+          href="#chatopen" 
           className={styles.faqAskQuestionButton}
-          onClick={() => setIsQuestionModalOpen(true)}
         >
           <MessageSquare size={20} />
-          <span>Задать свой вопрос о стоимости</span>
-        </button>
+          <span>Задать свой вопрос</span>
+        </a>
       </div>
+
       
       {/* Модальное окно для вопроса (используем существующий компонент CustomOrderModal) */}
       <CustomOrderModal

@@ -115,7 +115,7 @@ list-style: none;
 padding: 0;
 margin: 0;
 color: var(--color-white);
-font-size: var(--font-size-sm, 14px); /* Минимум 14px для описаний */
+font-size: 16px; 
 line-height: var(--line-height-base);
 }
 
@@ -441,6 +441,10 @@ to {
 margin-top: 2.5rem;
 text-align: center;
 }
+
+.faqAskQuestionContainer a:hover {
+  color: #000;
+  }
 
 .faqAskQuestionButton {
 display: inline-flex;

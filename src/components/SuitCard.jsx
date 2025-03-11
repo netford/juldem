@@ -95,8 +95,8 @@ const SuitCard = React.memo(({ suit, className, style }) => {
               {(suit.available || suit.category === 'renta') && (
                 <span className={suit.category === 'renta' ? styles.suitPriceRental : styles.suitPrice}>
                   {suit.category === 'renta' 
-                    ? `${suit.price.toLocaleString('ru-RU')} / ${suit.deposit.toLocaleString('ru-RU')} ₽` 
-                    : `${suit.price.toLocaleString('ru-RU')} ₽`
+                    ? `${suit.price.toLocaleString('ru-RU')} / ${suit.deposit.toLocaleString('ru-RU')}₽` 
+                    : `${suit.price.toLocaleString('ru-RU')}₽`
                   }
                 </span>
               )}
