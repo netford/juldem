@@ -86,27 +86,37 @@ const Hero = () => {
       <div className={styles.heroOverlay} />
       
       <div className={`${styles.heroContent} ${isVisible ? styles.visible : ''}`}>
-        <h1 className={styles.heroTitle}>СПОРТИВНЫЕ КУПАЛЬНИКИ НА ЗАКАЗ</h1>
-        <h2 className={styles.heroSubtitle}>Для художественной гимнастики, фигурного катания и спортивной акробатики</h2>
+        <h1 className={styles.heroTitle}>
+          <span className={styles.desktopTitle}>
+            СПОРТИВНЫЕ&nbsp;КУПАЛЬНИКИ 
+          </span>
+          <span className={styles.mobileTitle}>
+            СПОРТИВНЫЕ КУПАЛЬНИКИ 
+          </span>
+          <span className={styles.nowrap}>НА&nbsp;ЗАКАЗ</span>
+        </h1>
+        <h2 className={styles.heroSubtitle}>
+          Для художественной гимнастики, фигурного катания и&nbsp;спортивной акробатики
+        </h2>
         
         <div className={styles.heroButtons}>
           <button 
             className={`${styles.heroButton} ${styles.primary}`} 
             onClick={() => setIsCustomOrderModalOpen(true)}
           >
-            Индивидуальный пошив
+            ИНДИВИДУАЛЬНЫЙ ПОШИВ
           </button>
           <button 
             className={`${styles.heroButton} ${styles.secondary}`} 
             onClick={scrollToReadySuits}
           >
-            Готовые модели
+            В НАЛИЧИИ
           </button>
           <button 
             className={`${styles.heroButton} ${styles.secondary}`} 
             onClick={scrollToRentalSuits}
           >
-            Прокат купальников
+            ПРОКАТ
           </button>
         </div>
       </div>
