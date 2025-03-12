@@ -1,9 +1,8 @@
-// components/PricesSection.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { Ruler, Crown } from 'lucide-react';
 import styles from './PricesSection.module.css';
 import CustomOrderModal from './CustomOrderModal';
-import PricingFAQ from './PricingFAQ'; // Импортируем новый компонент
+import PricingFAQ from './PricingFAQ';
 
 const PricesSection = () => {
   const [showScrollHint, setShowScrollHint] = useState(false);
@@ -44,7 +43,6 @@ const PricesSection = () => {
     }
   ];
 
-  // Если мобильное устройство, показываем намёк на скролл на 3 секунды
   useEffect(() => {
     if (window.innerWidth <= 768) {
       setShowScrollHint(true);
@@ -55,21 +53,18 @@ const PricesSection = () => {
     }
   }, []);
 
-  // Обработчик клика по кнопке "Заказать"
   const handleOrderClick = (card) => {
     setSelectedPriceCard(card);
     setIsCustomOrderModalOpen(true);
   };
 
-  // Подготавливаем данные о продукте для модального окна
   const getProductInfo = () => {
     if (!selectedPriceCard) return {};
-    
     return {
       name: `Купальник (${selectedPriceCard.height})`,
       height: selectedPriceCard.height,
       price: parseInt(selectedPriceCard.price.replace(/\s/g, '')),
-      image: '/favicon/favicon-96x96.png' // Используем фавикон как заглушку, можно заменить на соответствующее изображение
+      image: '/favicon/favicon-96x96.png'
     };
   };
 
@@ -79,7 +74,7 @@ const PricesSection = () => {
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Цены</h2>
           <p className={styles.sectionSubtitle}>
-            Стоимость изготовления купальника на заказ
+            Стоимость изготовления купальника
           </p>
         </div>
 
@@ -102,7 +97,7 @@ const PricesSection = () => {
                     style={{ width: '280px' }}
                   >
                     <div className={styles.iconWrapper}>
-                      <Icon size={32} color="#fff" />
+                      <Icon size={18} />
                     </div>
                     
                     <div className={styles.heightRange}>
@@ -142,7 +137,7 @@ const PricesSection = () => {
                   className={`${styles.priceCard} ${card.isHighlighted ? styles.highlighted : ''}`}
                 >
                   <div className={styles.iconWrapper}>
-                    <Icon size={32} color="#fff" />
+                    <Icon size={18} />
                   </div>
                   
                   <div className={styles.heightRange}>
@@ -173,11 +168,9 @@ const PricesSection = () => {
           </div>
         )}
         
-        {/* Добавляем компонент FAQ */}
         <PricingFAQ />
       </div>
 
-      {/* Модальное окно для индивидуального пошива */}
       <CustomOrderModal
         isOpen={isCustomOrderModalOpen}
         onClose={() => setIsCustomOrderModalOpen(false)}

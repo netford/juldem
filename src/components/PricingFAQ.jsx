@@ -1,13 +1,12 @@
-// components/PricingFAQ.jsx
 import React, { useState, useRef } from 'react';
-import { 
-  ChevronDown, 
-  ChevronUp, 
-  DollarSign, 
-  CreditCard, 
-  Clock, 
-  Truck, 
-  Users, 
+import {
+  ChevronDown,
+  ChevronUp,
+  DollarSign,
+  CreditCard,
+  Clock,
+  Truck,
+  Users,
   HelpCircle,
   MessageSquare
 } from 'lucide-react';
@@ -15,46 +14,37 @@ import styles from './PricesSection.module.css';
 import CustomOrderModal from './CustomOrderModal';
 
 const PricingFAQ = () => {
-  // Состояние для модального окна с формой вопроса
   const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
-  
-  // Состояние для отслеживания открытых вопросов
   const [openItems, setOpenItems] = useState({});
-  
-  // Состояние для эффекта пульсации
   const [pulsingItem, setPulsingItem] = useState(null);
-  
-  // Ref для контейнера с эффектом волны
   const rippleRefs = useRef([]);
 
-  // Функция для обработки ключевых фраз и выделения их
   const formatAnswer = (text) => {
-    // Массив ключевых фраз для выделения с их соответствующими заменами
     const highlights = [
       { phrase: 'от 2 000 до 5 000 руб', replacement: '<span class="highlight">от 2 000 до 5 000 руб</span>' },
       { phrase: 'требуется предоплата', replacement: '<span class="highlight">требуется предоплата</span>' },
+      { phrase: 'срочное изготовление', replacement: '<span class="highlight">срочное изготовление</span>' },
       { phrase: 'Предоплата не возвращается', replacement: '<span class="highlight">Предоплата не возвращается</span>' },
       { phrase: 'за день до соревнований', replacement: '<span class="highlight">за день до соревнований</span>' },
       { phrase: 'на следующий день после выступления', replacement: '<span class="highlight">на следующий день после выступления</span>' },
       { phrase: 'накидку или олимпийку', replacement: '<span class="highlight">накидку или олимпийку</span>' },
       { phrase: 'скидка 5%', replacement: '<span class="highlight">скидка 5%</span>' },
       { phrase: 'скидка 10%', replacement: '<span class="highlight">скидка 10%</span>' },
-      { phrase: 'на 15-20%', replacement: '<span class="highlight">на 15-20%</span>' },
+      { phrase: 'увеличивает стоимость на 15-20%', replacement: '<span class="highlight">увеличивает стоимость на 15-20%</span>' },
       { phrase: 'бесплатны', replacement: '<span class="highlight">бесплатны</span>' },
+      { phrase: 'стоимость доставки рассчитывается отдельно', replacement: '<span class="highlight">стоимость доставки рассчитывается отдельно</span>' },
       { phrase: 'от 1 000 до 5 000 рублей', replacement: '<span class="highlight">от 1 000 до 5 000 рублей</span>' },
       { phrase: 'скидки при групповых заказах не предоставляются', replacement: '<span class="highlight">скидки при групповых заказах не предоставляются</span>' }
     ];
-    
-    // Применяем замены для каждой ключевой фразы
+
     let formattedText = text;
     highlights.forEach(({ phrase, replacement }) => {
       formattedText = formattedText.replace(new RegExp(phrase, 'g'), replacement);
     });
-    
+
     return formattedText;
   };
 
-  // Массив с вопросами и ответами, включая иконки
   const faqItems = [
     {
       id: 1,
@@ -65,7 +55,7 @@ const PricingFAQ = () => {
     {
       id: 2,
       question: "Нужно ли вносить предоплату?",
-      answer: "Да, для начала работы над индивидуальным заказом требуется предоплата в размере от 2 000 до 5 000 руб. Оставшуюся сумму необходимо оплатить перед отправкой готового изделия.",
+      answer: "Да, для начала работы над индивидуальным заказом требуется предоплата в размере от 2 000 до 5 000 руб.",
       icon: CreditCard
     },
     {
@@ -88,7 +78,7 @@ const PricingFAQ = () => {
     },
     {
       id: 6,
-      question: "Возможна ли скидка при заказе нескольких купальников?",
+      question: "Возможна ли скидка при групповых заказах?",
       answer: "Нет, скидки при групповых заказах не предоставляются. Изготовление нескольких идентичных купальников технологически более сложно, чем пошив индивидуальных. Мы сохраняем стандартную цену для каждого изделия, не повышая её за дополнительную сложность работы.",
       icon: Users
     },
@@ -100,35 +90,26 @@ const PricingFAQ = () => {
     }
   ];
 
-  // Функция для переключения состояния вопроса с эффектом пульсации
   const toggleItem = (id) => {
     setOpenItems(prev => ({
       ...prev,
       [id]: !prev[id]
     }));
-    
-    // Добавляем эффект пульсации
     setPulsingItem(id);
     setTimeout(() => setPulsingItem(null), 500);
   };
-  
-  // Функция для создания эффекта волны при клике
+
   const createRippleEffect = (e, index) => {
     const button = rippleRefs.current[index];
-    
     if (!button) return;
-    
     const rect = button.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
     const ripple = document.createElement('span');
     ripple.classList.add(styles.rippleEffect);
     ripple.style.left = `${x}px`;
     ripple.style.top = `${y}px`;
-    
     button.appendChild(ripple);
-    
     setTimeout(() => {
       ripple.remove();
     }, 600);
@@ -149,7 +130,6 @@ const PricingFAQ = () => {
       <div className={styles.faqList}>
         {faqItems.map((item, index) => {
           const Icon = item.icon;
-          
           return (
             <div 
               key={item.id} 
@@ -158,9 +138,7 @@ const PricingFAQ = () => {
                 ${openItems[item.id] ? styles.faqItemOpen : ''} 
                 ${pulsingItem === item.id ? styles.faqItemPulse : ''}
               `}
-              ref={el => {
-                rippleRefs.current[index] = el;
-              }}
+              ref={el => { rippleRefs.current[index] = el; }}
             >
               <div 
                 className={styles.faqQuestion}
@@ -170,7 +148,7 @@ const PricingFAQ = () => {
                 }}
               >
                 <div className={styles.faqQuestionContent}>
-                  <span className={styles.faqIcon}>
+                  <span className={`${styles.commonFaqIcon} ${openItems[item.id] ? styles.commonFaqIconActive : ''}`}>
                     <Icon size={18} />
                   </span>
                   <span>{item.question}</span>
@@ -210,7 +188,6 @@ const PricingFAQ = () => {
         </a>
       </div>
       
-      {/* Модальное окно для вопроса (используем существующий компонент CustomOrderModal) */}
       <CustomOrderModal
         isOpen={isQuestionModalOpen}
         onClose={() => setIsQuestionModalOpen(false)}
