@@ -60,9 +60,7 @@ const HowToOrder = () => {
           }
         });
       },
-      {
-        threshold: 0.1
-      }
+      { threshold: 0.1 }
     );
 
     itemsRef.current.forEach((item) => {
@@ -72,7 +70,6 @@ const HowToOrder = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Если мобильное устройство, показываем намёк на скролл на 3 секунды
   useEffect(() => {
     if (window.innerWidth <= 768) {
       setShowScrollHint(true);
@@ -110,7 +107,9 @@ const HowToOrder = () => {
                     className={styles.stepItem}
                     style={{ width: '280px' }}
                   >
-                    <div className={styles.stepBackground}>{step.id}</div>
+                    <div className={styles.stepBackground}>
+                      <Icon size={24} className={styles.stepBackgroundIcon} />
+                    </div>
                     <div className={styles.stepIconContainer}>
                       <div className={styles.stepIcon}>
                         <Icon size={24} />
@@ -145,7 +144,9 @@ const HowToOrder = () => {
                   ref={el => itemsRef.current[index] = el}
                   className={styles.stepItem}
                 >
-                  <div className={styles.stepBackground}>{step.id}</div>
+                  <div className={styles.stepBackground}>
+                    <Icon size={24} className={styles.stepBackgroundIcon} />
+                  </div>
                   <div className={styles.stepIconContainer}>
                     <div className={styles.stepIcon}>
                       <Icon size={24} />
@@ -178,7 +179,7 @@ const HowToOrder = () => {
           </div>
           <div className={styles.infoLinks}>
             <a 
-              href="#" 
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 setIsVideoModalOpen(true);
@@ -188,7 +189,7 @@ const HowToOrder = () => {
               Как снять мерки
             </a>
             <a 
-              href="#" 
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 setIsRentalModalOpen(true);

@@ -76,9 +76,9 @@
 
 .stepBackground {
   position: absolute;
-  bottom: -20px;
+  bottom: 20px;
   right: 10px;
-  font-size: 10rem;
+  /* font-size: 10rem; */
   font-weight: 800;
   color: rgba(0, 226, 252, 0.07);
   line-height: 0.8;
@@ -530,4 +530,14 @@
     bottom: -10px;
     right: 0;
   }
+}
+
+/* Новый стиль для иконки в правом нижнем углу без кружочка */
+.stepBackgroundIcon {
+  font-size: initial;
+  width: 120px;
+  height: 120px;
+  background: none;
+  border: none;
+  color: inherit;
 }
