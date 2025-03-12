@@ -1,88 +1,55 @@
-├── App.jsx
-├── assets
-│   └── images
-│       ├── half-block.jpg
-│       ├── hero-bg.jpg
-│       ├── index.js
-│       ├── logo.png
-│       ├── reviews
-│       │   ├── reviews_001.png
-│       │   ├── reviews_002.png
-│       │   ├── reviews_003.png
-│       │   ├── reviews_004.png
-│       │   ├── reviews_005.png
-│       │   ├── reviews_006.png
-│       │   ├── reviews_007.png
-│       │   ├── reviews_008.png
-│       │   └── reviews_009.png
-│       └── suits
-│           └── none_photo.jpg
-├── components
-│   ├── About.jsx
-│   ├── BuyModal.jsx
-│   ├── ContactsSection.jsx
-│   ├── CustomOrderModal.jsx
-│   ├── CustomOrderModal.module.css
-│   ├── DeliverySection.jsx
-│   ├── DeliverySection.module.css
-│   ├── EmptyState.jsx
-│   ├── ErrorAlert.jsx
-│   ├── Footer.jsx
-│   ├── Hero.jsx
-│   ├── Hero.module.css
-│   ├── HowToOrder.jsx
-│   ├── HowToOrder.module.css
-│   ├── Navbar.jsx
-│   ├── Navbar.module.css
-│   ├── OrderForm
-│   │   ├── Calendar.jsx
-│   │   ├── Calendar.module.css
-│   │   ├── OrderForm.jsx
-│   │   ├── OrderForm.module.css
-│   │   ├── OrderHeader.jsx
-│   │   └── OrderHeader.module.css
-│   ├── OrderModal.jsx
-│   ├── OrderModal.module.css
-│   ├── PricesSection.jsx
-│   ├── PricesSection.module.css
-│   ├── PricingFAQ.jsx
-│   ├── ProductImageSlider.jsx
-│   ├── ProductImageSlider.module.css
-│   ├── ReadySuits.jsx
-│   ├── ReadySuits.module.css
-│   ├── RentalForm
-│   │   ├── Calendar.jsx
-│   │   ├── Calendar.module.css
-│   │   ├── ErrorDisplay.jsx
-│   │   ├── ErrorDisplay.module.css
-│   │   ├── FormField.jsx
-│   │   ├── FormField.module.css
-│   │   ├── FormHeader.jsx
-│   │   ├── FormHeader.module.css
-│   │   ├── RentalForm.jsx
-│   │   ├── RentalForm.module.css
-│   │   ├── SuccessMessage.jsx
-│   │   └── SuccessMessage.module.css
+├── About.jsx
+├── BuyModal.jsx
+├── ContactsSection.jsx
+├── CustomOrderModal.jsx
+├── CustomOrderModal.module.css
+├── DeliverySection.jsx
+├── DeliverySection.module.css
+├── EmptyState.jsx
+├── ErrorAlert.jsx
+├── Footer.jsx
+├── Hero.jsx
+├── Hero.module.css
+├── HowToOrder.jsx
+├── HowToOrder.module.css
+├── Navbar.jsx
+├── Navbar.module.css
+├── OrderForm
+│   ├── Calendar.jsx
+│   ├── Calendar.module.css
+│   ├── OrderForm.jsx
+│   ├── OrderForm.module.css
+│   ├── OrderHeader.jsx
+│   └── OrderHeader.module.css
+├── OrderModal.jsx
+├── OrderModal.module.css
+├── PricesSection.jsx
+├── PricesSection.module.css
+├── PricingFAQ.jsx
+├── ProductImageSlider.jsx
+├── ProductImageSlider.module.css
+├── ReadySuits.jsx
+├── ReadySuits.module.css
+├── RentalForm
+│   ├── Calendar.jsx
+│   ├── Calendar.module.css
+│   ├── ErrorDisplay.jsx
+│   ├── ErrorDisplay.module.css
+│   ├── FormField.jsx
+│   ├── FormField.module.css
+│   ├── FormHeader.jsx
+│   ├── FormHeader.module.css
+│   ├── RentalForm.jsx
 │   ├── RentalForm.module.css
-│   ├── RentalFormModal.jsx
-│   ├── RentalFormModal.module.css
-│   ├── RentalModal.jsx
-│   ├── ReviewsCarousel.jsx
-│   ├── ScrollToTopButton.jsx
-│   ├── SuitCard.jsx
-│   ├── SuitFilter.jsx
-│   ├── SuitGrid.jsx
-│   └── VideoModal.jsx
-├── data
-│   └── suitsData.js
-├── hooks
-│   ├── useCalendar.js
-│   ├── useCustomOrderForm.js
-│   ├── useOrderForm.js
-│   ├── useRentalForm.js
-│   └── useSuitFilter.js
-├── index.css
-├── main.jsx
-├── navigation.js
-└── styles
-    └── main.css
+│   ├── SuccessMessage.jsx
+│   └── SuccessMessage.module.css
+├── RentalForm.module.css
+├── RentalFormModal.jsx
+├── RentalFormModal.module.css
+├── RentalModal.jsx
+├── ReviewsCarousel.jsx
+├── ScrollToTopButton.jsx
+├── SuitCard.jsx
+├── SuitFilter.jsx
+├── SuitGrid.jsx
+└── VideoModal.jsx
