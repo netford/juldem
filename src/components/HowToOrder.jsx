@@ -1,6 +1,6 @@
 // src/components/HowToOrder.jsx
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Palette, Scissors, Package, ArrowRight, Info } from 'lucide-react';
+import { MessageSquare, Palette, Scissors, Package, ArrowRight, Video } from 'lucide-react';
 import VideoModal from './VideoModal';
 import RentalModal from './RentalModal';
 import styles from './HowToOrder.module.css';
@@ -112,11 +112,10 @@ const HowToOrder = () => {
                     </div>
                     <div className={styles.stepIconContainer}>
                       <div className={styles.stepIcon}>
-                        <Icon size={24} />
+                       {step.id}
                       </div>
                     </div>
                     <div className={styles.stepHeader}>
-                      <div className={styles.stepNumber}>{step.id}</div>
                       <h3 className={styles.stepTitle}>{step.title}</h3>
                     </div>
                     <ul className={styles.stepList}>
@@ -149,11 +148,10 @@ const HowToOrder = () => {
                   </div>
                   <div className={styles.stepIconContainer}>
                     <div className={styles.stepIcon}>
-                      <Icon size={24} />
+                      {step.id}
                     </div>
                   </div>
                   <div className={styles.stepHeader}>
-                    <div className={styles.stepNumber}>{step.id}</div>
                     <h3 className={styles.stepTitle}>{step.title}</h3>
                   </div>
                   <ul className={styles.stepList}>
@@ -173,21 +171,18 @@ const HowToOrder = () => {
         )}
 
         <div className={styles.infoContainer}>
-          <div className={styles.infoBanner}>
-            <Info size={20} className={styles.infoIcon} />
-            <span>Полезная информация для заказа</span>
+          <div 
+            className={styles.infoBanner}
+            onClick={() => setIsVideoModalOpen(true)}
+            style={{ cursor: 'pointer' }}
+          >
+            <Video
+              size={20}
+              className={styles.infoIcon}
+            />
+            <span>Как снять мерки самостоятельно (Видеоинструкция)</span>
           </div>
           <div className={styles.infoLinks}>
-            <a 
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsVideoModalOpen(true);
-              }}
-              className={styles.infoLink}
-            >
-              Как снять мерки
-            </a>
             <a 
               href="#"
               onClick={(e) => {

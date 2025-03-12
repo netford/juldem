@@ -114,6 +114,9 @@
   box-shadow: 0 4px 10px rgba(0, 102, 204, 0.3);
   position: relative;
   z-index: 1;
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
 }
 
 .stepItem:hover .stepIcon {
@@ -150,7 +153,8 @@
   font-size: 1.4rem;
   font-weight: 600;
   color: #fff;
-  flex-grow: 1;
+  text-align: center; /* Добавьте эту строку */
+  width: 100%; /* Добавьте эту строку */
   margin: 0;
   transition: color 0.3s ease;
 }
@@ -462,6 +466,8 @@
   .stepTitle {
     font-size: 1.1rem;
     margin: 0 0.5rem;
+    text-align: center; /* Добавьте эту строку */
+    width: 100%; /* Добавьте эту строку */
   }
 
   .stepHeader {
@@ -523,6 +529,8 @@
   
   .stepTitle {
     font-size: 1rem;
+    text-align: center; /* Добавьте эту строку */
+    width: 100%; /* Добавьте эту строку */
   }
   
   .stepBackground {
@@ -540,4 +548,9 @@
   background: none;
   border: none;
   color: inherit;
+}
+
+.infoIcon {
+  animation: pulse 2s infinite;
+  cursor: pointer; /* Добавьте эту строчку */
 }
