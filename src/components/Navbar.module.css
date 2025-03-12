@@ -92,7 +92,7 @@
 }
 
 .navLink {
-  color: white !important;
+  color: rgba(255,255,255,0.6) !important;
   text-decoration: none;
   font-size: 1rem;
   transition: all 0.3s ease;

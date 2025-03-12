@@ -143,11 +143,16 @@
 
 .priceCard:not(.highlighted) .priceButton:hover {
   background: var(--color-accent);
+  color: #1a1a1a !important;
 }
 
 .priceCard.highlighted .priceButton {
   background: #fff;
   color: var(--color-primary);
+}
+
+.priceCard.highlighted .priceButton:hover {
+  color: #1a1a1a !important;
 }
 
 @keyframes scrollHint {

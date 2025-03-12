@@ -244,6 +244,13 @@
   border: 1px solid rgba(0, 226, 252, 0.3);
   color: #00e2fc;
   font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.infoBanner:hover {
+  background: linear-gradient(90deg, rgba(0,102,204,0.3), rgba(0,226,252,0.2));
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,226,252,0.2);
 }
 
 .infoIcon {
