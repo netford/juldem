@@ -84,8 +84,8 @@ const HowToOrder = () => {
     <section ref={sectionRef} id="how-to-order" className={styles.howToOrderSection}>
       <div className={styles.container}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Как мы работаем</h2>
-          <p className={styles.sectionSubtitle}>Полный цикл от идеи до готового изделия</p>
+          <h2 className={styles.sectionTitle}>Этапы работ</h2>
+          <p className={styles.sectionSubtitle}>Полный цикл от идеи до&nbsp;готового&nbsp;изделия</p>
         </div>
 
         {window.innerWidth <= 768 ? (

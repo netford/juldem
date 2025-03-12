@@ -11,7 +11,7 @@ import {
   MessageSquare
 } from 'lucide-react';
 import styles from './PricesSection.module.css';
-import CustomOrderModal from './CustomOrderModal';
+import QuestionModal from './QuestionModal';
 
 const PricingFAQ = () => {
   const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
@@ -24,7 +24,7 @@ const PricingFAQ = () => {
       { phrase: 'от 2 000 до 5 000 руб', replacement: '<span class="highlight">от 2 000 до 5 000 руб</span>' },
       { phrase: 'требуется предоплата', replacement: '<span class="highlight">требуется предоплата</span>' },
       { phrase: 'срочное изготовление', replacement: '<span class="highlight">срочное изготовление</span>' },
-      { phrase: 'Предоплата не возвращается', replacement: '<span class="highlight">Предоплата не возвращается</span>' },
+      { phrase: 'предоплата не возвращается', replacement: '<span class="highlight">предоплата не возвращается</span>' },
       { phrase: 'за день до соревнований', replacement: '<span class="highlight">за день до соревнований</span>' },
       { phrase: 'на следующий день после выступления', replacement: '<span class="highlight">на следующий день после выступления</span>' },
       { phrase: 'накидку или олимпийку', replacement: '<span class="highlight">накидку или олимпийку</span>' },
@@ -61,7 +61,7 @@ const PricingFAQ = () => {
     {
       id: 3,
       question: "Возвращается ли предоплата при отказе от заказа?",
-      answer: "Предоплата не возвращается, т.к. после раскроя материалов по вашим меркам они уже не могут использоваться для других заказов.",
+      answer: "Нет, предоплата не возвращается, т.к. после раскроя материалов по вашим меркам они уже не могут использоваться для других заказов.",
       icon: CreditCard
     },
     {
@@ -179,24 +179,18 @@ const PricingFAQ = () => {
       </div>
       
       <div className={styles.faqAskQuestionContainer}>
-        <a 
-          href="#chatopen" 
+        <button 
+          onClick={() => setIsQuestionModalOpen(true)}
           className={styles.faqAskQuestionButton}
         >
           <MessageSquare size={20} />
           <span>Задать свой вопрос</span>
-        </a>
+        </button>
       </div>
       
-      <CustomOrderModal
-        isOpen={isQuestionModalOpen}
-        onClose={() => setIsQuestionModalOpen(false)}
-        product={{
-          name: "Вопрос о ценах",
-          height: "",
-          price: 0,
-          image: "/favicon/favicon-96x96.png"
-        }}
+      <QuestionModal 
+        isOpen={isQuestionModalOpen} 
+        onClose={() => setIsQuestionModalOpen(false)} 
       />
     </div>
   );

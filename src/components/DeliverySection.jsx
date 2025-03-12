@@ -31,7 +31,7 @@ const DeliverySection = () => {
       title: 'Самовывоз',
       icon: CreditCard,
       description: 'Бесплатно из нашей мастерской',
-      workingHours: 'с 8:00 до 20:00'
+      workingHours: 'с 10:00 до 19:00'
     }
   ];
 

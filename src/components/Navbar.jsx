@@ -75,7 +75,7 @@ const Navbar = () => {
           <a href="#main" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Главная</a>
           <a href="#our-works" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Наши работы</a>
           <a href="#prices" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Цены</a>
-          <a href="#how-to-order" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Как мы работаем</a>
+          <a href="#how-to-order" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Этапы работ</a>
           <a href="#delivery" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Доставка</a>
           <a href="#about" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>О нас</a>
           <a href="#reviews" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Отзывы</a>
@@ -126,7 +126,7 @@ const Navbar = () => {
         <a href="#main" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Главная</a>
         <a href="#our-works" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Наши работы</a>
         <a href="#prices" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Цены</a>
-        <a href="#how-to-order" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Как мы работаем</a>
+        <a href="#how-to-order" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Этапы работ</a>
         <a href="#delivery" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Доставка</a>
         <a href="#about" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>О нас</a>
         <a href="#reviews" className={`${styles.navLink} nav-link`} onClick={handleNavClick}>Отзывы</a>
