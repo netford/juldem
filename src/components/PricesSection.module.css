@@ -155,41 +155,6 @@
   color: #1a1a1a !important;
 }
 
-@keyframes scrollHint {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-10px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.scrollHint {
-  animation: scrollHint 1s ease-in-out;
-}
-
-.scrollContainer {
-  width: 100%;
-  overflow-x: auto;
-  padding-bottom: 1rem;
-}
-
-.scrollContainer::-webkit-scrollbar {
-  height: 8px;
-}
-
-.scrollContainer::-webkit-scrollbar-thumb {
-  background: #666;
-  border-radius: 4px;
-}
-
-.scrollContainer::-webkit-scrollbar-track {
-  background: #333;
-}
-
 .pricesGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -219,23 +184,80 @@
   .pricesSection {
     padding: 4rem 0;
   }
+  
+  /* Ключевое изменение: в мобильной версии карточки отображаются друг под другом */
   .pricesGrid {
     grid-template-columns: 1fr;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
     max-width: 450px;
+    gap: 2rem; /* Увеличиваем расстояние между карточками для лучшей читаемости */
   }
+  
   .priceCard {
-    max-width: 400px;
+    max-width: 100%; /* Растягиваем карточку на всю ширину контейнера */
     margin: 0 auto;
-    width: 100%;
-    height: auto;
-    min-height: 500px;
+    height: auto; /* Автоматическая высота в зависимости от контента */
+    min-height: 450px; /* Минимальная высота для сохранения пропорций */
+    padding: 1.75rem; /* Немного уменьшаем внутренние отступы */
+  }
+  
+  .heightRange {
+    font-size: 1.1rem; /* Уменьшаем размер текста */
+  }
+  
+  .priceValue {
+    font-size: 1.8rem; /* Уменьшаем размер цены */
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+  
+  .additionalTitle {
+    font-size: 1.1rem;
+  }
+  
+  .additionalList {
+    font-size: 0.95rem;
+  }
+  
+  .priceButton {
+    padding: 0.9rem; /* Немного уменьшаем высоту кнопки */
+  }
+  
+  /* Анимация при появлении карточек */
+  .priceCard {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s forwards;
+    animation-delay: calc(var(--card-index, 0) * 0.1s); /* Задержка для последовательного появления */
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
 @media (max-width: 480px) {
   .priceCard {
     padding: 1.5rem;
+    min-height: 420px; /* Еще немного уменьшаем минимальную высоту */
+  }
+  
+  .iconWrapper {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1.25rem;
+  }
+  
+  .iconWrapper svg {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .pricesGrid {
+    padding: 0 1rem; /* Уменьшаем боковые отступы для очень маленьких экранов */
   }
 }
 

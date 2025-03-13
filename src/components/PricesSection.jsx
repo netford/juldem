@@ -5,7 +5,6 @@ import CustomOrderModal from './CustomOrderModal';
 import PricingFAQ from './PricingFAQ';
 
 const PricesSection = () => {
-  const [showScrollHint, setShowScrollHint] = useState(false);
   const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
   const [selectedPriceCard, setSelectedPriceCard] = useState(null);
   const sectionRef = useRef(null);
@@ -43,16 +42,6 @@ const PricesSection = () => {
     }
   ];
 
-  useEffect(() => {
-    if (window.innerWidth <= 768) {
-      setShowScrollHint(true);
-      const timer = setTimeout(() => {
-        setShowScrollHint(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
   const handleOrderClick = (card) => {
     setSelectedPriceCard(card);
     setIsCustomOrderModalOpen(true);
@@ -78,95 +67,46 @@ const PricesSection = () => {
           </p>
         </div>
 
-        {window.innerWidth <= 768 ? (
-          <div className={styles.scrollContainer}>
-            <div
-              className={`${styles.deliveryRow} ${showScrollHint ? styles.scrollHint : ''}`}
-              style={{
-                display: 'flex',
-                width: `${cards.length * (280 + 16)}px`,
-                gap: '16px',
-              }}
-            >
-              {cards.map((card, index) => {
-                const Icon = card.icon;
-                return (
-                  <div
-                    key={index}
-                    className={`${styles.priceCard} ${card.isHighlighted ? styles.highlighted : ''}`}
-                    style={{ width: '280px' }}
-                  >
-                    <div className={styles.iconWrapper}>
-                      <Icon size={18} />
-                    </div>
-                    
-                    <div className={styles.heightRange}>
-                      Рост {card.height} см
-                    </div>
-                    
-                    <div className={styles.priceValue}>
-                      от {card.price}₽
-                    </div>
-
-                    <div className={styles.additionalInfo}>
-                      <div className={styles.additionalTitle}>Дополнительно</div>
-                      <ul className={styles.additionalList}>
-                        <li><strong>Рукав</strong> — 2 500 ₽ (1 шт)</li>
-                        <li><strong>Юбка</strong> — 4 000 ₽</li>
-                      </ul>
-                    </div>
-
-                    <button 
-                      className={styles.priceButton} 
-                      onClick={() => handleOrderClick(card)}
-                    >
-                      Заказать
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ) : (
-          <div className={styles.pricesGrid}>
-            {cards.map((card, index) => {
-              const Icon = card.icon;
-              return (
-                <div
-                  key={index}
-                  className={`${styles.priceCard} ${card.isHighlighted ? styles.highlighted : ''}`}
-                >
-                  <div className={styles.iconWrapper}>
-                    <Icon size={18} />
-                  </div>
-                  
-                  <div className={styles.heightRange}>
-                    Рост {card.height} см
-                  </div>
-                  
-                  <div className={styles.priceValue}>
-                    от {card.price}₽
-                  </div>
-
-                  <div className={styles.additionalInfo}>
-                    <div className={styles.additionalTitle}>Дополнительно</div>
-                    <ul className={styles.additionalList}>
-                      <li><strong>Рукав</strong> — 2 500 ₽ (1 шт)</li>
-                      <li><strong>Юбка</strong> — 4 000 ₽</li>
-                    </ul>
-                  </div>
-
-                  <button 
-                    className={styles.priceButton} 
-                    onClick={() => handleOrderClick(card)}
-                  >
-                    Заказать
-                  </button>
+        {/* Вместо условного рендеринга, всегда используем одну и ту же структуру,
+            которая будет адаптироваться через CSS */}
+        <div className={styles.pricesGrid}>
+          {cards.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <div
+                key={index}
+                className={`${styles.priceCard} ${card.isHighlighted ? styles.highlighted : ''}`}
+              >
+                <div className={styles.iconWrapper}>
+                  <Icon size={18} />
                 </div>
-              );
-            })}
-          </div>
-        )}
+                
+                <div className={styles.heightRange}>
+                  Рост {card.height} см
+                </div>
+                
+                <div className={styles.priceValue}>
+                  от {card.price}₽
+                </div>
+
+                <div className={styles.additionalInfo}>
+                  <div className={styles.additionalTitle}>Дополнительно</div>
+                  <ul className={styles.additionalList}>
+                    <li><strong>Рукав</strong> — 2 500 ₽ (1 шт)</li>
+                    <li><strong>Юбка</strong> — 4 000 ₽</li>
+                  </ul>
+                </div>
+
+                <button 
+                  className={styles.priceButton} 
+                  onClick={() => handleOrderClick(card)}
+                >
+                  Заказать
+                </button>
+              </div>
+            );
+          })}
+        </div>
         
         <PricingFAQ />
       </div>
