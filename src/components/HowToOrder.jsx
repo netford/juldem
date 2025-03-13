@@ -9,37 +9,45 @@ const steps = [
   {
     id: 1,
     title: 'Заявка',
+    timeframe: '1-2 дня',
     icon: MessageSquare,
     items: [
-      'Обсуждаем ваши требования и пожелания',
-      'Согласовываем основные параметры заказа'
+      'Обсуждаем ваши требования и пожелания к дизайну и функциональности',
+      'Согласовываем сроки, бюджет и предварительный эскиз',
+      'Возможность уточнения деталей на любом этапе работы'
     ]
   },
   {
     id: 2,
     title: 'Дизайн',
+    timeframe: '3-5 дней',
     icon: Palette,
     items: [
-      'Создаём эскиз с учетом требований соревнований',
-      'Подбираем материалы и декоративные элементы'
+      'Создаём детальный эскиз с учетом требований соревнований и ваших пожеланий',
+      'Подбираем материалы, цветовую гамму и декоративные элементы',
+      'Возможность внесения правок в дизайн до начала производства'
     ]
   },
   {
     id: 3,
     title: 'Производство',
+    timeframe: '7-14 дней',
     icon: Scissors,
     items: [
-      'Изготавливаем купальник по вашим меркам',
-      'Выполняем декорирование и отделку'
+      'Изготавливаем купальник, идеально сидящий по вашим индивидуальным меркам',
+      'Выполняем декорирование и отделку с вниманием к каждой детали',
+      'Проводим примерку и финальные корректировки при необходимости'
     ]
   },
   {
     id: 4,
     title: 'Доставка',
+    timeframe: '1-7 дней',
     icon: Package,
     items: [
-      'Отправляем заказ удобным для вас способом',
-      'Предоставляем трек-номер для отслеживания'
+      'Отправляем заказ удобным для вас способом (СДЭК, Boxberry, DPD)',
+      'Предоставляем трек-номер для отслеживания статуса доставки',
+      'Поддерживаем связь до получения вами заказа'
     ]
   }
 ];
@@ -80,6 +88,29 @@ const HowToOrder = () => {
     }
   }, []);
 
+  // Выделение ключевых слов в тексте
+  const highlightKeywords = (text) => {
+    const keywords = [
+      'уточнения деталей',
+      'внесения правок',
+      'идеально сидящий',
+      'финальные корректировки',
+      'статуса доставки'
+    ];
+    
+    let highlightedText = text;
+    keywords.forEach(keyword => {
+      if (text.includes(keyword)) {
+        highlightedText = highlightedText.replace(
+          keyword, 
+          `<span class="${styles.highlight}">${keyword}</span>`
+        );
+      }
+    });
+    
+    return highlightedText;
+  };
+
   return (
     <section ref={sectionRef} id="how-to-order" className={styles.howToOrderSection}>
       <div className={styles.container}>
@@ -116,11 +147,13 @@ const HowToOrder = () => {
                       </div>
                     </div>
                     <div className={styles.stepHeader}>
-                      <h3 className={styles.stepTitle}>{step.title}</h3>
+                      <h3 className={styles.stepTitle}>
+                        {step.title} <span className={styles.timeframe}>({step.timeframe})</span>
+                      </h3>
                     </div>
                     <ul className={styles.stepList}>
                       {step.items.map((item, i) => (
-                        <li key={i}>{item}</li>
+                        <li key={i} dangerouslySetInnerHTML={{ __html: highlightKeywords(item) }}></li>
                       ))}
                     </ul>
                     {index < steps.length - 1 && (
@@ -152,11 +185,13 @@ const HowToOrder = () => {
                     </div>
                   </div>
                   <div className={styles.stepHeader}>
-                    <h3 className={styles.stepTitle}>{step.title}</h3>
+                    <h3 className={styles.stepTitle}>
+                      {step.title} <span className={styles.timeframe}>({step.timeframe})</span>
+                    </h3>
                   </div>
                   <ul className={styles.stepList}>
                     {step.items.map((item, i) => (
-                      <li key={i}>{item}</li>
+                      <li key={i} dangerouslySetInnerHTML={{ __html: highlightKeywords(item) }}></li>
                     ))}
                   </ul>
                   {index < steps.length - 1 && (
@@ -195,6 +230,13 @@ const HowToOrder = () => {
             </a>
             <a href="#" className={styles.infoLink}>Договор</a>
           </div>
+        </div>
+        
+        {/* Добавляем кнопку для оформления заказа */}
+        <div className={styles.callToAction}>
+          <a href="#prices" className={styles.orderButton}>
+            Оформить заказ
+          </a>
         </div>
       </div>
 
