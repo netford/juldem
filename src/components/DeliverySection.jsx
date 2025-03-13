@@ -3,7 +3,6 @@ import { Truck, Clock, CreditCard, MapPin } from 'lucide-react';
 import styles from './DeliverySection.module.css';
 
 const DeliverySection = () => {
-  const [showScrollHint, setShowScrollHint] = useState(false);
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
 
@@ -54,17 +53,6 @@ const DeliverySection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Если мобильное устройство, показываем намёк на скролл на 3 секунды
-  useEffect(() => {
-    if (window.innerWidth <= 768) {
-      setShowScrollHint(true);
-      const timer = setTimeout(() => {
-        setShowScrollHint(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
   return (
     <section ref={sectionRef} id="delivery" className={styles.deliverySection}>
       <div className={styles.container}>
@@ -72,89 +60,41 @@ const DeliverySection = () => {
           <h2 className={styles.sectionTitle}>Доставка</h2>
         </div>
 
-        {window.innerWidth <= 768 ? (
-          <div className={styles.scrollContainer}>
-            <div
-              className={`${styles.deliveryRow} ${showScrollHint ? styles.scrollHint : ''}`}
-              style={{
-                display: 'flex',
-                width: `${deliveryMethods.length * (280 + 16)}px`,
-                gap: '16px',
-              }}
-            >
-              {deliveryMethods.map((method, index) => {
-                const Icon = method.icon;
-                return (
-                  <div
-                    key={method.id}
-                    ref={el => cardsRef.current[index] = el}
-                    className={styles.deliveryCard}
-                    style={{
-                      width: '280px',
-                      transitionDelay: `${index * 100}ms`
-                    }}
-                  >
-                    <div className={styles.iconWrapper}>
-                      <Icon size={32} color="#fff" />
-                    </div>
-                    
-                    <h3 className={styles.deliveryTitle}>{method.title}</h3>
-                    <p className={styles.deliveryDescription}>{method.description}</p>
-                    
-                    {method.title !== 'Самовывоз' ? (
-                      <button className={styles.calcButton}>
-                        Калькулятор доставки
-                      </button>
-                    ) : (
-                      <div className={styles.deliveryInfo}>
-                        <div className={styles.infoItem}>
-                          <div className={styles.infoLabel}>Часы работы</div>
-                          <div className={styles.infoValue}>{method.workingHours}</div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ) : (
-          <div className={styles.deliveryGrid}>
-            {deliveryMethods.map((method, index) => {
-              const Icon = method.icon;
-              return (
-                <div
-                  key={method.id}
-                  ref={el => cardsRef.current[index] = el}
-                  className={styles.deliveryCard}
-                  style={{
-                    transitionDelay: `${index * 100}ms`
-                  }}
-                >
-                  <div className={styles.iconWrapper}>
-                    <Icon size={32} color="#fff" />
-                  </div>
-                  
-                  <h3 className={styles.deliveryTitle}>{method.title}</h3>
-                  <p className={styles.deliveryDescription}>{method.description}</p>
-                  
-                  {method.title !== 'Самовывоз' ? (
-                    <button className={styles.calcButton}>
-                      Калькулятор доставки
-                    </button>
-                  ) : (
-                    <div className={styles.deliveryInfo}>
-                      <div className={styles.infoItem}>
-                        <div className={styles.infoLabel}>Часы работы</div>
-                        <div className={styles.infoValue}>{method.workingHours}</div>
-                      </div>
-                    </div>
-                  )}
+        <div className={styles.deliveryGrid}>
+          {deliveryMethods.map((method, index) => {
+            const Icon = method.icon;
+            return (
+              <div
+                key={method.id}
+                ref={el => cardsRef.current[index] = el}
+                className={styles.deliveryCard}
+                style={{
+                  transitionDelay: `${index * 100}ms`
+                }}
+              >
+                <div className={styles.iconWrapper}>
+                  <Icon size={32} color="#fff" />
                 </div>
-              );
-            })}
-          </div>
-        )}
+                
+                <h3 className={styles.deliveryTitle}>{method.title}</h3>
+                <p className={styles.deliveryDescription}>{method.description}</p>
+                
+                {method.title !== 'Самовывоз' ? (
+                  <button className={styles.calcButton}>
+                    Калькулятор доставки
+                  </button>
+                ) : (
+                  <div className={styles.deliveryInfo}>
+                    <div className={styles.infoItem}>
+                      <div className={styles.infoLabel}>Часы работы</div>
+                      <div className={styles.infoValue}>{method.workingHours}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

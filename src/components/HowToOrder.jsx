@@ -55,7 +55,6 @@ const steps = [
 const HowToOrder = () => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
-  const [showScrollHint, setShowScrollHint] = useState(false);
   const sectionRef = useRef(null);
   const itemsRef = useRef([]);
 
@@ -76,16 +75,6 @@ const HowToOrder = () => {
     });
 
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (window.innerWidth <= 768) {
-      setShowScrollHint(true);
-      const timer = setTimeout(() => {
-        setShowScrollHint(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
   }, []);
 
   // Выделение ключевых слов в тексте
@@ -119,91 +108,42 @@ const HowToOrder = () => {
           <p className={styles.sectionSubtitle}>Полный цикл от идеи до&nbsp;готового&nbsp;изделия</p>
         </div>
 
-        {window.innerWidth <= 768 ? (
-          <div className={styles.scrollContainer}>
-            <div 
-              className={`${styles.stepsRow} ${showScrollHint ? styles.scrollHint : ''}`}
-              style={{
-                display: 'flex',
-                width: `${steps.length * (280 + 16)}px`,
-                gap: '16px',
-              }}
-            >
-              {steps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <div
-                    key={step.id}
-                    ref={el => itemsRef.current[index] = el}
-                    className={styles.stepItem}
-                    style={{ width: '280px' }}
-                  >
-                    <div className={styles.stepBackground}>
-                      <Icon size={24} className={styles.stepBackgroundIcon} />
-                    </div>
-                    <div className={styles.stepIconContainer}>
-                      <div className={styles.stepIcon}>
-                       {step.id}
-                      </div>
-                    </div>
-                    <div className={styles.stepHeader}>
-                      <h3 className={styles.stepTitle}>
-                        {step.title} <span className={styles.timeframe}>({step.timeframe})</span>
-                      </h3>
-                    </div>
-                    <ul className={styles.stepList}>
-                      {step.items.map((item, i) => (
-                        <li key={i} dangerouslySetInnerHTML={{ __html: highlightKeywords(item) }}></li>
-                      ))}
-                    </ul>
-                    {index < steps.length - 1 && (
-                      <div className={styles.stepArrow}>
-                        <ArrowRight size={24} />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ) : (
-          <div className={styles.stepsContainer}>
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={step.id}
-                  ref={el => itemsRef.current[index] = el}
-                  className={styles.stepItem}
-                >
-                  <div className={styles.stepBackground}>
-                    <Icon size={24} className={styles.stepBackgroundIcon} />
-                  </div>
-                  <div className={styles.stepIconContainer}>
-                    <div className={styles.stepIcon}>
-                      {step.id}
-                    </div>
-                  </div>
-                  <div className={styles.stepHeader}>
-                    <h3 className={styles.stepTitle}>
-                      {step.title} <span className={styles.timeframe}>({step.timeframe})</span>
-                    </h3>
-                  </div>
-                  <ul className={styles.stepList}>
-                    {step.items.map((item, i) => (
-                      <li key={i} dangerouslySetInnerHTML={{ __html: highlightKeywords(item) }}></li>
-                    ))}
-                  </ul>
-                  {index < steps.length - 1 && (
-                    <div className={styles.stepArrow}>
-                      <ArrowRight size={24} />
-                    </div>
-                  )}
+        <div className={styles.stepsContainer}>
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={step.id}
+                ref={el => itemsRef.current[index] = el}
+                className={styles.stepItem}
+              >
+                <div className={styles.stepBackground}>
+                  <Icon size={24} className={styles.stepBackgroundIcon} />
                 </div>
-              );
-            })}
-          </div>
-        )}
+                <div className={styles.stepIconContainer}>
+                  <div className={styles.stepIcon}>
+                   {step.id}
+                  </div>
+                </div>
+                <div className={styles.stepHeader}>
+                  <h3 className={styles.stepTitle}>
+                    {step.title} <span className={styles.timeframe}>({step.timeframe})</span>
+                  </h3>
+                </div>
+                <ul className={styles.stepList}>
+                  {step.items.map((item, i) => (
+                    <li key={i} dangerouslySetInnerHTML={{ __html: highlightKeywords(item) }}></li>
+                  ))}
+                </ul>
+                {index < steps.length - 1 && (
+                  <div className={styles.stepArrow}>
+                    <ArrowRight size={24} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
 
         <div className={styles.infoContainer}>
           <div 
@@ -232,7 +172,6 @@ const HowToOrder = () => {
           </div>
         </div>
         
-        {/* Добавляем кнопку для оформления заказа */}
         <div className={styles.callToAction}>
           <a href="#prices" className={styles.orderButton}>
             Оформить заказ
