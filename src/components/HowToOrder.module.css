@@ -536,14 +536,15 @@
   }
   
   .stepTitle {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     margin: 0 0.5rem;
     text-align: center;
     width: 100%;
+    font-weight: 600; /* Добавил немного жирности */
   }
   
   .timeframe {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
   
   .stepHeader {
@@ -551,7 +552,7 @@
   }
   
   .stepList li {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
   
   .stepBackground {
@@ -612,13 +613,13 @@
   }
   
   .stepTitle {
-    font-size: 1rem;
+    font-size: 1.4rem;
     text-align: center;
     width: 100%;
   }
   
   .timeframe {
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
   
   .stepBackground {
