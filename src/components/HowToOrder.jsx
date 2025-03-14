@@ -149,32 +149,24 @@ const HowToOrder = () => {
           })}
         </div>
 
+        {/* ОБНОВЛЕННЫЙ БЛОК ИНФОРМАЦИОННЫХ КНОПОК */}
         <div className={styles.infoContainer}>
-          <div 
-            className={styles.infoBanner}
+          <button 
+            className={styles.videoButton}
             onClick={() => setIsVideoModalOpen(true)}
-            style={{ cursor: 'pointer' }}
           >
-            <Video
-              size={20}
-              className={styles.infoIcon}
-            />
-            <span>Как снять мерки самостоятельно (Видеоинструкция)</span>
-          </div>
-          <div className={styles.infoLinks}>
-            <a 
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsRentalModalOpen(true);
-              }}
-              className={styles.infoLink}
-            >
-              Прокат купальников
-            </a>
-            <a href="#" className={styles.infoLink}>Договор</a>
-          </div>
+            <Video size={20} className={styles.buttonIcon} />
+            <span>Как снять мерки самостоятельно</span>
+          </button>
+          
+          <button 
+            className={styles.rentalButton}
+            onClick={() => setIsRentalModalOpen(true)}
+          >
+            <span>Прокат купальников</span>
+          </button>
         </div>
+        {/* КОНЕЦ ОБНОВЛЕННОГО БЛОКА */}
         
         <div className={styles.callToAction}>
           <a href="#prices" className={styles.orderButton}>
