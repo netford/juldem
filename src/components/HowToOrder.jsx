@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Palette, Scissors, Package, ArrowRight, Video } from 'lucide-react';
 import VideoModal from './VideoModal';
 import RentalModal from './RentalModal';
+import CustomOrderModal from './CustomOrderModal';
 import styles from './HowToOrder.module.css';
 
 const steps = [
@@ -54,6 +55,7 @@ const steps = [
 const HowToOrder = () => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
+  const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
   const sectionRef = useRef(null);
   const itemsRef = useRef([]);
 
@@ -86,7 +88,6 @@ const HowToOrder = () => {
       'Согласовываем предварительный эскиз',
       'после получения предоплаты',
       'детальный эскиз',
-      'до начала производства',
       'трек-номер',
       'Поддерживаем связь'
     ];
@@ -144,12 +145,17 @@ const HowToOrder = () => {
                     <ArrowRight size={24} />
                   </div>
                 )}
+                <button 
+                  className={styles.stepOrderButton}
+                  onClick={() => setIsCustomOrderModalOpen(true)}
+                >
+                  Оформить заказ
+                </button>
               </div>
             );
           })}
         </div>
 
-        {/* ОБНОВЛЕННЫЙ БЛОК ИНФОРМАЦИОННЫХ КНОПОК */}
         <div className={styles.infoContainer}>
           <button 
             className={styles.videoButton}
@@ -166,13 +172,6 @@ const HowToOrder = () => {
             <span>Прокат купальников</span>
           </button>
         </div>
-        {/* КОНЕЦ ОБНОВЛЕННОГО БЛОКА */}
-        
-        <div className={styles.callToAction}>
-          <a href="#prices" className={styles.orderButton}>
-            Оформить заказ
-          </a>
-        </div>
       </div>
 
       <VideoModal
@@ -184,6 +183,11 @@ const HowToOrder = () => {
       <RentalModal
         isOpen={isRentalModalOpen}
         onClose={() => setIsRentalModalOpen(false)}
+      />
+      
+      <CustomOrderModal
+        isOpen={isCustomOrderModalOpen}
+        onClose={() => setIsCustomOrderModalOpen(false)}
       />
     </section>
   );

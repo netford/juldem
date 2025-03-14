@@ -178,6 +178,7 @@
   width: 100%;
   position: relative;
   z-index: 1;
+  margin-bottom: 1.5rem; /* Добавлен отступ снизу для списка */
 }
 
 .stepList li {
@@ -235,7 +236,33 @@
   }
 }
 
-/* ОБНОВЛЕННАЯ СЕКЦИЯ КНОПОК */
+/* Новая кнопка для каждой карточки */
+.stepOrderButton {
+  margin-top: auto; /* Прижимает кнопку к низу карточки */
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: rgba(0, 102, 204, 0.2);
+  color: #fff;
+  border: 1px solid rgba(0, 102, 204, 0.4);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+  text-align: center;
+}
+
+.stepOrderButton:hover {
+  background: rgba(0, 102, 204, 0.3);
+  transform: translateY(-2px);
+  border-color: rgba(0, 102, 204, 0.6);
+}
+
+.stepOrderButton:active {
+  transform: translateY(0);
+}
+
 .infoContainer {
   width: 100%;
   max-width: 800px;
@@ -279,61 +306,15 @@
   transform: translateY(0);
 }
 
-/* КОНЕЦ ОБНОВЛЕННОЙ СЕКЦИИ КНОПОК */
-
-.callToAction {
-  margin-top: 2.5rem;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.orderButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #00ccff, #0066cc);
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  text-decoration: none;
+/* Стили для выделения ключевых слов */
+.highlight {
+  color: #00e2fc;
+  font-weight: 500;
   transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
-  position: relative;
-  overflow: hidden;
 }
 
-.orderButton::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.orderButton:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 102, 204, 0.5);
-}
-
-.orderButton:hover::before {
-  opacity: 1;
-  animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+.stepItem:hover .highlight {
+  text-shadow: 0 0 8px rgba(0, 226, 252, 0.5);
 }
 
 /* Анимация для подсказки скролла */
@@ -394,17 +375,6 @@
 
 .visible {
   animation: fadeInUp 0.8s forwards;
-}
-
-/* Стили для выделения ключевых слов */
-.highlight {
-  color: #00e2fc;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.stepItem:hover .highlight {
-  text-shadow: 0 0 8px rgba(0, 226, 252, 0.5);
 }
 
 @media (max-width: 1200px) {
@@ -528,13 +498,12 @@
     width: 100%;
     justify-content: center;
   }
-  /* КОНЕЦ ОБНОВЛЕННЫХ СТИЛЕЙ */
   
-  .orderButton {
-    width: 100%;
-    padding: 0.9rem 1.5rem;
-    font-size: 1rem;
+  .stepOrderButton {
+    padding: 0.75rem;
+    font-size: 0.95rem;
   }
+  /* КОНЕЦ ОБНОВЛЕННЫХ СТИЛЕЙ */
 }
 
 @media (max-width: 480px) {
