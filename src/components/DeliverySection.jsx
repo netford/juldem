@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Truck, Clock, CreditCard, MapPin } from 'lucide-react';
 import styles from './DeliverySection.module.css';
-import Button from './ui/Button'; // Добавляем импорт компонента Button
 
 const DeliverySection = () => {
   const sectionRef = useRef(null);
@@ -79,12 +78,12 @@ const DeliverySection = () => {
                 <p className={styles.deliveryDescription}>{method.description}</p>
                 
                 {method.title !== 'Самовывоз' ? (
-                  <Button 
-                    variant="secondary"
+                  <button 
+                    className="btn btn-secondary delivery-secondary-btn"
                     onClick={() => {}}
                   >
                     Калькулятор доставки
-                  </Button>
+                  </button>
                 ) : (
                   <div className={styles.deliveryInfo}>
                     <div className={styles.infoItem}>
