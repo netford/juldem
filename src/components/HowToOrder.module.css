@@ -236,14 +236,14 @@
   }
 }
 
-/* Новая кнопка для каждой карточки */
+/* Обновленный hover-эффект для кнопок в карточках этапов */
 .stepOrderButton {
-  margin-top: auto; /* Прижимает кнопку к низу карточки */
+  margin-top: auto; 
   width: 100%;
   padding: 0.8rem 1rem;
-  background: rgba(0, 102, 204, 0.2);
+  background: rgba(0, 102, 204, 0.4); /* Увеличена непрозрачность с 0.2 до 0.4 */
   color: #fff;
-  border: 1px solid rgba(0, 102, 204, 0.4);
+  border: 1px solid rgba(0, 102, 204, 0.6); /* Увеличена непрозрачность с 0.4 до 0.6 */
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
@@ -251,16 +251,38 @@
   transition: all 0.3s ease;
   z-index: 1;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Эффект свечения при наведении */
+.stepOrderButton:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(0, 226, 252, 0.3), transparent); /* Увеличена непрозрачность с 0.2 до 0.3 */
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
 }
 
 .stepOrderButton:hover {
-  background: rgba(0, 102, 204, 0.3);
-  transform: translateY(-2px);
-  border-color: rgba(0, 102, 204, 0.6);
+  background: rgba(0, 102, 204, 0.5); /* Увеличена непрозрачность с 0.3 до 0.5 */
+  transform: translateY(-3px);
+  border-color: #00e2fc;
+  box-shadow: 0 5px 15px rgba(0, 102, 204, 0.4); /* Увеличена непрозрачность с 0.25 до 0.4 */
+  color: #00e2fc;
+}
+
+.stepOrderButton:hover:before {
+  transform: translateX(100%);
 }
 
 .stepOrderButton:active {
   transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 102, 204, 0.15);
 }
 
 .infoContainer {
@@ -273,19 +295,21 @@
   margin-bottom: 2rem;
 }
 
-/* Обновленные стили для кнопок */
+/* Стили для информационных кнопок (видео и прокат) */
 .videoButton, .rentalButton {
   display: inline-flex;
   align-items: center;
   padding: 0.8rem 1.5rem;
-  background: rgba(0, 102, 204, 0.2);
+  background: rgba(0, 102, 204, 0.4); /* Увеличена непрозрачность с 0.2 до 0.4 */
   color: #fff;
-  border: 1px solid rgba(0, 102, 204, 0.4);
+  border: 1px solid rgba(0, 102, 204, 0.6); /* Увеличена непрозрачность с 0.4 до 0.6 */
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
 }
 
 .videoButton {
@@ -294,16 +318,43 @@
 
 .buttonIcon {
   color: #00e2fc;
+  transition: all 0.3s ease;
+}
+
+/* Анимация иконки на hover */
+.videoButton:hover .buttonIcon {
+  transform: scale(1.2);
+  color: #00e2fc;
+}
+
+/* Эффект свечения для информационных кнопок */
+.videoButton:before, .rentalButton:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(0, 226, 252, 0.3), transparent); /* Увеличена непрозрачность с 0.2 до 0.3 */
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
 }
 
 .videoButton:hover, .rentalButton:hover {
-  background: rgba(0, 102, 204, 0.3);
-  transform: translateY(-2px);
-  border-color: rgba(0, 102, 204, 0.6);
+  background: rgba(0, 102, 204, 0.5); /* Увеличена непрозрачность с 0.3 до 0.5 */
+  transform: translateY(-3px);
+  border-color: #00e2fc;
+  box-shadow: 0 5px 15px rgba(0, 102, 204, 0.4); /* Увеличена непрозрачность с 0.25 до 0.4 */
+  color: #00e2fc;
+}
+
+.videoButton:hover:before, .rentalButton:hover:before {
+  transform: translateX(100%);
 }
 
 .videoButton:active, .rentalButton:active {
   transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 102, 204, 0.15);
 }
 
 /* Стили для выделения ключевых слов */
