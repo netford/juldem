@@ -1,38 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Truck, Clock, CreditCard, MapPin } from 'lucide-react';
 import styles from './DeliverySection.module.css';
+import Button from './ui/Button'; // Добавляем импорт компонента Button
 
 const DeliverySection = () => {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
-
-  const deliveryMethods = [
-    {
-      id: 1,
-      title: 'СДЭК',
-      icon: Truck,
-      description: 'Доставка до пункта выдачи'
-    },
-    {
-      id: 2,
-      title: 'Boxberry',
-      icon: MapPin, 
-      description: 'Доставка до пункта выдачи'
-    },
-    {
-      id: 3,
-      title: 'DPD',
-      icon: Clock,
-      description: 'Доставка до пункта выдачи'
-    },
-    {
-      id: 4,
-      title: 'Самовывоз',
-      icon: CreditCard,
-      description: 'Бесплатно из нашей мастерской',
-      workingHours: 'с 10:00 до 19:00'
-    }
-  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -61,7 +34,33 @@ const DeliverySection = () => {
         </div>
 
         <div className={styles.deliveryGrid}>
-          {deliveryMethods.map((method, index) => {
+          {[
+            {
+              id: 1,
+              title: 'СДЭК',
+              icon: Truck,
+              description: 'Доставка до пункта выдачи'
+            },
+            {
+              id: 2,
+              title: 'Boxberry',
+              icon: MapPin, 
+              description: 'Доставка до пункта выдачи'
+            },
+            {
+              id: 3,
+              title: 'DPD',
+              icon: Clock,
+              description: 'Доставка до пункта выдачи'
+            },
+            {
+              id: 4,
+              title: 'Самовывоз',
+              icon: CreditCard,
+              description: 'Бесплатно из нашей мастерской',
+              workingHours: 'с 10:00 до 19:00'
+            }
+          ].map((method, index) => {
             const Icon = method.icon;
             return (
               <div
@@ -80,9 +79,12 @@ const DeliverySection = () => {
                 <p className={styles.deliveryDescription}>{method.description}</p>
                 
                 {method.title !== 'Самовывоз' ? (
-                  <button className={styles.calcButton}>
+                  <Button 
+                    variant="secondary"
+                    onClick={() => {}}
+                  >
                     Калькулятор доставки
-                  </button>
+                  </Button>
                 ) : (
                   <div className={styles.deliveryInfo}>
                     <div className={styles.infoItem}>
