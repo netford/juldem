@@ -282,7 +282,7 @@
 /* Специальный стиль для кнопок в секции Доставка */
 .delivery-secondary-btn {
   margin-top: auto; 
-  width: 100%;
+  width: auto; /* Изменено с width: 100% */
   padding: 0.8rem 1rem;
   background: rgba(0, 102, 204, 0.4);
   color: #fff;
@@ -299,6 +299,36 @@
 }
 
 .delivery-secondary-btn:hover {
+  background: rgba(0, 102, 204, 0.5);
+  transform: translateY(-3px);
+  border-color: #00e2fc;
+  box-shadow: 0 5px 15px rgba(0, 102, 204, 0.4);
+  color: #00e2fc;
+}
+
+/* Специальный стиль для кнопки "Задать свой вопрос" */
+.faq-ask-question-btn {
+  margin-top: auto; 
+  width: auto; /* Изменено с width: 100% */
+  padding: 0.8rem 1rem;
+  background: rgba(0, 102, 204, 0.4);
+  color: #fff;
+  border: 1px solid rgba(0, 102, 204, 0.6);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.faq-ask-question-btn:hover {
   background: rgba(0, 102, 204, 0.5);
   transform: translateY(-3px);
   border-color: #00e2fc;

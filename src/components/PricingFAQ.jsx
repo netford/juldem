@@ -179,9 +179,9 @@ const PricingFAQ = () => {
       </div>
       
       <div className={styles.faqAskQuestionContainer}>
-        <button 
+      <button 
           onClick={() => setIsQuestionModalOpen(true)}
-          className={styles.faqAskQuestionButton}
+          className="btn faq-ask-question-btn"
         >
           <MessageSquare size={20} />
           <span>Задать свой вопрос</span>
