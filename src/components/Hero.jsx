@@ -4,6 +4,7 @@ import { heroBg } from '../assets/images';
 import RentalModal from './RentalModal';
 import CustomOrderModal from './CustomOrderModal';
 import styles from './Hero.module.css';
+import Button from './ui/Button'; // Импортируем наш новый компонент Button
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -100,24 +101,31 @@ const Hero = () => {
         </h2>
         
         <div className={styles.heroButtons}>
-          <button 
-            className={`${styles.heroButton} ${styles.primary}`} 
+          {/* Заменяем существующие кнопки на нашу унифицированную кнопку */}
+          <Button 
+            variant="primary" 
+            size="lg" 
             onClick={() => setIsCustomOrderModalOpen(true)}
+            className={styles.heroButton}
           >
             ИНДИВИДУАЛЬНЫЙ ПОШИВ
-          </button>
-          <button 
-            className={`${styles.heroButton} ${styles.secondary}`} 
+          </Button>
+          <Button 
+            variant="secondary" 
+            size="lg" 
             onClick={scrollToReadySuits}
+            className={styles.heroButton}
           >
             В НАЛИЧИИ
-          </button>
-          <button 
-            className={`${styles.heroButton} ${styles.secondary}`} 
+          </Button>
+          <Button 
+            variant="secondary" 
+            size="lg" 
             onClick={scrollToRentalSuits}
+            className={styles.heroButton}
           >
             ПРОКАТ
-          </button>
+          </Button>
         </div>
       </div>
 

@@ -96,70 +96,10 @@
   margin-bottom: 3rem;
 }
 
+/* Используем только дополнительные стили для кнопок, 
+   основные стили берем из buttons.css */
 .heroButton {
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  font-weight: var(--font-weight-medium);
-  transition: var(--transition-base);
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.heroButton::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120%;
-  height: 120%;
-  background: rgba(255, 255, 255, 0.1);
-  transform: translate(-50%, -50%) scale(0);
-  border-radius: 50%;
-  transition: transform 0.6s ease-out;
-}
-
-.heroButton:hover::before {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.heroButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-}
-
-.heroButton:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.primary {
-  background: #00e2fc;
-  color: #000;
-  border: none;
-}
-
-.primary:hover {
-  background: #00ccff;
-}
-
-.secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--color-white);
-  border: 2px solid #00e2fc;
-  backdrop-filter: blur(5px);
-}
-
-.secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.9);
 }
 
 .scrollIndicator {
@@ -216,11 +156,6 @@
     padding: 0 2rem;
     /* Увеличиваем расстояние между кнопками */
     gap: 1.5rem;
-  }
-
-  .heroButton {
-    width: 100%;
-    padding: 1rem 1.5rem;
   }
 
   /* Скрываем десктопную версию заголовка и показываем мобильную */

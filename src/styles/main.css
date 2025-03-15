@@ -30,10 +30,48 @@
   /* Тень для текста */
   --text-shadow-header: 0 1px 2px rgba(0, 0, 0, 0.3); /* Новая переменная для тени заголовков */
 
+    /* Цвета кнопок */
+    --btn-primary-color: #0066cc;
+    --btn-primary-hover: #0077ee;
+    --btn-primary-bg: rgba(0, 102, 204, 0.4);
+    --btn-primary-border: rgba(0, 102, 204, 0.6);
+  
+    --btn-buy-color: #0066cc;
+    --btn-buy-hover: #0077ee;
+  
+    --btn-order-color: #00e6ff;
+    --btn-order-hover: #00ccff;
+  
+    --btn-rent-color: #00aaff;
+    --btn-rent-hover: #0099ee;
+  
+    --btn-secondary-bg: rgba(255, 255, 255, 0.1);
+    --btn-secondary-border: #00e2fc;
+    
+    --btn-ghost-border: rgba(255, 255, 255, 0.3);
+    --btn-ghost-hover-border: rgba(255, 255, 255, 0.9);
+    
+    /* Размеры кнопок */
+    --btn-lg-height: 52px;
+    --btn-lg-font-size: 18px;
+    
+    --btn-default-height: 44px;
+    --btn-default-font-size: 16px;
+    
+    --btn-sm-height: 36px;
+    --btn-sm-font-size: 14px;
+    
+    /* Эффекты */
+    --btn-border-radius: 8px;
+    --btn-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    --btn-hover-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    --btn-active-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    
   /* Анимации */
   --transition-base: all 0.3s ease;
   --transition-fast: all 0.15s ease;
   --transition-slow: all 0.5s ease;
+  --btn-transition: all 0.3s ease;
 }
 
 * {
