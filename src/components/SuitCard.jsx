@@ -108,7 +108,7 @@ const SuitCard = React.memo(({ suit, className, style }) => {
               Купить
             </a>
           ) : suit.category === 'renta' ? (
-            <a href="#" className={`${styles.orderBtn} ${styles.rentaBtn}`} onClick={handleOrderClick}>
+            <a href="#" className={styles.rentaBtn} onClick={handleOrderClick}>
               <ShoppingBag size={18} />
               Забронировать
             </a>
