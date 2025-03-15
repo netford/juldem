@@ -3,6 +3,7 @@ import { Ruler, Crown } from 'lucide-react';
 import styles from './PricesSection.module.css';
 import CustomOrderModal from './CustomOrderModal';
 import PricingFAQ from './PricingFAQ';
+import Button from './ui/Button'; // Добавляем импорт компонента Button
 
 const PricesSection = () => {
   const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
@@ -97,12 +98,13 @@ const PricesSection = () => {
                   </ul>
                 </div>
 
-                <button 
-                  className={styles.priceButton} 
+                <Button 
+                  variant={card.isHighlighted ? "primary" : "order"}
                   onClick={() => handleOrderClick(card)}
+                  className={styles.cardButton}
                 >
                   Заказать
-                </button>
+                </Button>
               </div>
             );
           })}
