@@ -152,9 +152,9 @@
     max-width: 100%;
     margin: 0 auto;
     width: 100%;
-    padding: 1.75rem;
+    padding: 1.5rem 1.25rem;
     height: auto;
-    min-height: 450px;
+    min-height: auto;
   }
 
   .container {
@@ -164,18 +164,25 @@
   .iconWrapper {
     width: 56px;
     height: 56px;
+    margin-bottom: 1rem;
   }
   
   .deliveryTitle {
     font-size: 1.2rem;
+    margin-bottom: 0.5rem;
   }
   
   .deliveryDescription {
     font-size: 0.95rem;
+    margin-bottom: 1rem;
   }
   
   .calcButton {
     padding: 0.75rem;
+  }
+  
+  .deliveryCard:hover {
+    transform: none;
   }
 }
 
@@ -187,7 +194,7 @@
   
   .deliveryCard {
     padding: 1.5rem;
-    min-height: 420px;
+    min-height: auto;
   }
   
   .iconWrapper {
