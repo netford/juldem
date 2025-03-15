@@ -7,6 +7,7 @@ import CalendarComponent from './OrderForm/Calendar';
 import SuccessMessage from './RentalForm/SuccessMessage';
 import ErrorDisplay from './RentalForm/ErrorDisplay';
 import useCustomOrderForm from '../hooks/useCustomOrderForm';
+import Button from './ui/Button'; // Добавляем импорт компонента Button
 
 const CustomOrderModal = ({ isOpen, onClose, product }) => {
   const {
@@ -296,10 +297,11 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
   const modalContent = (
     <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className={`${styles.modalContent} custom-modal-content`}>
-        {/* Кнопка закрытия */}
+        {/* Кнопка закрытия - используем обычную кнопку вместо компонента Button */}
         <button
           onClick={onClose}
           className={styles.closeButton}
+          aria-label="Закрыть"
         >
           <X size={isMobile ? 22 : 28} strokeWidth={2.5} />
         </button>
@@ -444,7 +446,7 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                           required={!isFirefoxMobile}
                           className={`${styles.input} ${styles.phoneInput} ${validationErrors.phone ? styles.inputError : ''}`}
                           placeholder="(___) ___-__-__"
-                          style={isMobile ? {paddingLeft: "2.4rem"} : {}}
+                          style={{paddingLeft: "2.4rem"}}
                         />
                         {isFieldValid('phone') !== null && (
                           <span className={styles.validationIndicator}>
@@ -503,13 +505,14 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                 </div>
                 
                 <div className={styles.formNavigation}>
-                  <button 
+                  <Button 
                     type="button" 
-                    className={styles.nextButton}
+                    variant="primary"
                     onClick={() => handleTabSwitch('product')}
+                    className={styles.nextButton}
                   >
                     Далее
-                  </button>
+                  </Button>
                 </div>
               </div>
               
@@ -657,26 +660,24 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
                 </div>
                 
                 <div className={styles.formNavigation}>
-                  <button 
+                  <Button 
                     type="button" 
-                    className={styles.backButton}
+                    variant="ghost"
                     onClick={() => setActiveTab('contact')}
+                    className={styles.backButton}
                   >
                     Назад
-                  </button>
+                  </Button>
                   
-                  <button 
+                  <Button 
                     type="submit" 
-                    className={`${styles.submitButton} ${isSubmitting ? styles.submitting : ''}`}
+                    variant="order"
+                    loading={isSubmitting}
                     disabled={isSubmitting}
+                    className={styles.submitButton}
                   >
-                    {isSubmitting && (
-                      <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={styles.spinner}>
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" strokeDasharray="60 28" />
-                      </svg>
-                    )}
                     {isSubmitting ? "Отправка..." : "Отправить заявку"}
-                  </button>
+                  </Button>
                 </div>
               </div>
               

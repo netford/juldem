@@ -281,7 +281,7 @@
 .phoneCode {
   position: absolute;
   left: 1rem;
-  top: 50%;
+  top: 25%;
   transform: translateY(-50%);
   color: #fff;
   font-size: 1rem;
