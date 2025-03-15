@@ -98,13 +98,13 @@ const PricesSection = () => {
                   </ul>
                 </div>
 
-                <Button 
-                  variant={card.isHighlighted ? "primary" : "order"}
-                  onClick={() => handleOrderClick(card)}
+                {/* Заменяем на наш новый стиль кнопки, используя класс cardButton */}
+                <button 
                   className={styles.cardButton}
+                  onClick={() => handleOrderClick(card)}
                 >
                   Заказать
-                </Button>
+                </button>
               </div>
             );
           })}
