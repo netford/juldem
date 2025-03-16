@@ -367,13 +367,42 @@ const RentalForm = ({
         type="submit" 
         className={`${styles.submitButton} ${isSubmitting ? styles.submitting : ''}`}
         disabled={isSubmitting}
+        style={{
+          background: "rgba(0, 170, 255, 0.9)",
+          color: "#1a1a1a",
+          border: "1px solid rgba(0, 153, 238, 0.9)",
+          borderRadius: "8px",
+          fontWeight: "500",
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
+          transition: "all 0.3s ease",
+          position: "relative",
+          overflow: "hidden"
+        }}
+        onMouseOver={(e) => {
+          e.currentTarget.style.background = "rgba(0, 153, 238, 0.9)";
+          e.currentTarget.style.transform = "translateY(-3px)";
+          e.currentTarget.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
+          e.currentTarget.style.color = "#fff";
+          // Изменяем цвет иконки, если она присутствует
+          const svg = e.currentTarget.querySelector('svg');
+          if (svg) svg.style.color = "#fff";
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.background = "rgba(0, 170, 255, 0.9)";
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+          e.currentTarget.style.color = "#1a1a1a";
+          // Возвращаем исходный цвет иконки
+          const svg = e.currentTarget.querySelector('svg');
+          if (svg) svg.style.color = "currentColor";
+        }}
       >
         {isSubmitting && (
           <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={styles.spinner}>
             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" strokeDasharray="60 28" />
           </svg>
         )}
-        {isSubmitting ? "Отправка..." : "Отправить заявку"}
+        {isSubmitting ? "Отправка..." : "Забронировать"}
       </button>
     </form>
   );

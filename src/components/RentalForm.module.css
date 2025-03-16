@@ -1,4 +1,4 @@
-/* Исправленный RentalForm/RentalForm.module.css */
+/* RentalForm.module.css */
 .form {
   display: flex;
   flex-direction: column;
@@ -15,6 +15,21 @@
   flex: 1;
 }
 
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -24,6 +39,14 @@
   color: #fff;
   font-size: 1rem;
   transition: all 0.2s ease;
+  height: 48px;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #0088ee;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 136, 238, 0.2);
 }
 
 .inputError {
@@ -31,17 +54,48 @@
   box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
 }
 
+.errorMessage {
+  color: #ff4d4f;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Контейнер для инпута с индикатором валидации */
+.inputWithValidation {
+  position: relative;
+}
+
+/* Индикатор валидации */
+.validationIndicator {
+  position: absolute !important;
+  right: 10px !important;
+  top: 14px !important;
+  z-index: 2 !important;
+  line-height: 0 !important;
+}
+
+.validIcon {
+  color: #52c41a;
+}
+
+.invalidIcon {
+  color: #ff4d4f;
+}
+
 .datePickerContainer {
   position: relative;
 }
 
 .calendarIcon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  z-index: 1;
+  position: absolute !important;
+  right: 10px !important;
+  top: 14px !important;
+  cursor: pointer !important;
+  z-index: 1 !important;
+  line-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .selectContainer {
@@ -49,11 +103,14 @@
 }
 
 .selectArrow {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  pointer-events: none;
+  position: absolute !important;
+  right: 10px !important;
+  top: 14px !important;
+  pointer-events: none !important;
+  line-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .checkboxContainer {
@@ -105,13 +162,13 @@
 
 .submitButton {
   width: 100%;
-  padding: 0.85rem;
-  background-color: #0066cc;
-  color: #fff;
-  border: none;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 170, 255, 0.9);
+  color: #1a1a1a !important;
+  border: 1px solid rgba(0, 153, 238, 0.9);
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 1rem;
@@ -124,15 +181,37 @@
   overflow: hidden;
 }
 
+.submitButton:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
 .submitButton:hover:not(:disabled) {
-  background-color: #0077ee;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  background: rgba(0, 153, 238, 0.9);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  color: #fff !important;
+}
+
+.submitButton:hover:not(:disabled):before {
+  transform: translateX(100%);
+}
+
+.submitButton:hover:not(:disabled) svg {
+  color: #fff;
 }
 
 .submitButton:disabled {
   background-color: #555;
   cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .spinner {
@@ -145,11 +224,34 @@
   100% { transform: rotate(360deg); }
 }
 
+.phoneInputContainer {
+  position: relative;
+}
+
+.phoneCode {
+  position: absolute;
+  left: 0.8rem;
+  top: 34%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1;
+}
+
+.phoneInput {
+  padding-left: 2.2rem;
+}
+
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .twoColumnContainer {
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .label {
+    font-size: 1rem;
   }
   
   .input {
@@ -189,6 +291,19 @@
     width: 20px;
     height: 20px;
   }
+  
+  .validationIndicator {
+    right: 0.8rem;
+  }
+  
+  .phoneCode {
+    font-size: 1.1rem;
+    left: 1rem;
+  }
+  
+  .phoneInput {
+    padding-left: 2.4rem;
+  }
 }
 
 /* Дополнительные правила для очень маленьких экранов */
@@ -196,4 +311,30 @@
   .form {
     gap: 0.8rem;
   }
+}
+
+.selectInput {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+  height: 48px; /* Убедимся, что и select имеет фиксированную высоту */
+  padding-right: 2.5rem; /* Добавим отступ справа, чтобы текст не накладывался на иконку */
+}
+
+/* Firefox hack для скрытия стрелки */
+.selectInput::-moz-focus-inner {
+  border: 0;
+}
+
+.selectInput::-ms-expand {
+  display: none;
+}
+
+.requiredMark {
+  color: #ff4d4f;
+  margin-left: 0;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
