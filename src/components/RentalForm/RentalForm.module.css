@@ -1,4 +1,4 @@
-/* RentalForm.module.css - добавим новые стили для валидации */
+/* RentalForm.module.css */
 .form {
   display: flex;
   flex-direction: column;
@@ -39,6 +39,8 @@
   color: #fff;
   font-size: 1rem;
   transition: all 0.2s ease;
+  height: 48px;
+  box-sizing: border-box;
 }
 
 .input:focus {
@@ -65,11 +67,11 @@
 
 /* Индикатор валидации */
 .validationIndicator {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
+  position: absolute !important;
+  right: 10px !important;
+  top: 14px !important;
+  z-index: 2 !important;
+  line-height: 0 !important;
 }
 
 .validIcon {
@@ -85,12 +87,15 @@
 }
 
 .calendarIcon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  z-index: 1;
+  position: absolute !important;
+  right: 10px !important;
+  top: 14px !important;
+  cursor: pointer !important;
+  z-index: 1 !important;
+  line-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .selectContainer {
@@ -98,11 +103,14 @@
 }
 
 .selectArrow {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  pointer-events: none;
+  position: absolute !important;
+  right: 10px !important;
+  top: 14px !important;
+  pointer-events: none !important;
+  line-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .checkboxContainer {
@@ -201,11 +209,12 @@
 .phoneCode {
   position: absolute;
   left: 0.8rem;
-  top: 50%;
+  top: 34%;
   transform: translateY(-50%);
   color: #fff;
   font-size: 1rem;
   opacity: 0.9;
+  line-height: 1;
 }
 
 .phoneInput {
@@ -283,6 +292,8 @@
   -moz-appearance: none;
   appearance: none;
   background-image: none;
+  height: 48px; /* Убедимся, что и select имеет фиксированную высоту */
+  padding-right: 2.5rem; /* Добавим отступ справа, чтобы текст не накладывался на иконку */
 }
 
 /* Firefox hack для скрытия стрелки */
