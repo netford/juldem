@@ -72,7 +72,7 @@
  .phoneCode {
   position: absolute;
   left: 0.8rem;
-  top: 50%;
+  top: 25%;
   transform: translateY(-50%);
   color: #fff;
   font-size: 1rem;
@@ -89,9 +89,9 @@
  
  .selectArrow {
   position: absolute;
-  top: 50%;
+  top: 12px; /* Фиксированное позиционирование */
   right: 1rem;
-  transform: translateY(-50%);
+  line-height: 0;
   pointer-events: none;
  }
 
@@ -104,9 +104,9 @@
 .validationIndicator {
   position: absolute;
   right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 12px; /* Фиксированное позиционирование */
   z-index: 2;
+  line-height: 0;
 }
 
 .validIcon {
@@ -200,5 +200,11 @@
 
   .validationIndicator {
     right: 0.8rem;
+  }
+  
+  /* Подстройка позиции иконок для мобильных устройств */
+  .selectArrow, 
+  .validationIndicator {
+    top: 10px; /* Немного выше для мобильных устройств */
   }
  }
