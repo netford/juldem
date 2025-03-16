@@ -313,10 +313,10 @@
 .selectArrow {
   position: absolute;
   right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 12px; /* Фиксированное позиционирование */
   color: #999;
   pointer-events: none;
+  line-height: 0;
 }
 
 .datePickerContainer {
@@ -326,11 +326,11 @@
 .calendarIcon {
   position: absolute;
   right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 12px; /* Фиксированное позиционирование */
   color: #999;
   cursor: pointer;
   z-index: 1;
+  line-height: 0;
 }
 
 /* Контейнер для инпута с индикатором валидации */
@@ -342,9 +342,9 @@
 .validationIndicator {
   position: absolute;
   right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 12px; /* Фиксированное позиционирование */
   z-index: 2;
+  line-height: 0;
 }
 
 .validIcon {
@@ -584,5 +584,12 @@
   .optional {
     font-size: 0.85rem;
     margin-left: 0.3rem;
+  }
+  
+  /* Подстройка позиции иконок для мобильных устройств */
+  .selectArrow, 
+  .calendarIcon,
+  .validationIndicator {
+    top: 10px; /* Немного выше для мобильных устройств */
   }
 }
