@@ -63,7 +63,7 @@
 .modalContent {
   background-color: #262626;
   border-radius: 16px;
-  max-width: 600px; /* Увеличиваем ширину */
+  max-width: 600px;
   width: 100%;
   position: relative;
   padding: 0;
@@ -212,7 +212,7 @@
 .formRow {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem; /* Уменьшил с 1.2rem до 1rem */
 }
 
 .formColumn {
@@ -220,7 +220,7 @@
 }
 
 .formGroup {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem; /* Уменьшил с 1.2rem до 1rem */
   position: relative;
 }
 
@@ -495,20 +495,39 @@
   
   .formRow {
     flex-direction: column;
-    gap: 0;
+    gap: 0.8rem; /* Увеличим отступ между элементами в строке при вертикальном отображении */
   }
   
   .formGroup {
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem; /* Уменьшено с 1.5rem до 0.8rem */
+  }
+  
+  .formGroup:last-child {
+    margin-bottom: 0.5rem; /* Уменьшено с 0.8rem до 0.5rem */
   }
   
   .label {
-    font-size: 0.85rem;
+    font-size: 1rem !important;
+    margin-bottom: 0.4rem !important;
+    line-height: 1.3;
+  }
+  
+  .label svg {
+    width: 18px;
+    height: 18px;
   }
 
   .input {
     padding: 0.7rem 0.9rem;
     font-size: 0.95rem;
+    margin-top: 0 !important;
+  }
+  
+  .inputWithValidation, 
+  .phoneInputContainer, 
+  .selectContainer, 
+  .datePickerContainer {
+    margin-top: 0 !important;
   }
   
   .submitButton,
@@ -537,5 +556,33 @@
     width: 16px;
     height: 16px;
     font-size: 0.7rem;
+  }
+  
+  .phoneCode {
+    font-size: 1.1rem;
+    left: 1rem;
+    top: 25%;
+  }
+  
+  .phoneInput {
+    padding-left: 2.4rem;
+  }
+  
+  /* Улучшение читаемости ошибок */
+  .errorMessage {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Увеличение и улучшение отображения обязательных полей */
+  .requiredMark {
+    font-size: 1.2rem;
+    margin-left: 0.4rem;
+  }
+  
+  /* Улучшение отображения опциональных полей */
+  .optional {
+    font-size: 0.85rem;
+    margin-left: 0.3rem;
   }
 }

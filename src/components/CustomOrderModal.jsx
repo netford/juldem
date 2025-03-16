@@ -359,149 +359,142 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
             <form onSubmit={handleSubmit} className={styles.form}>
               {/* Контактная информация - первая вкладка */}
               <div className={`${styles.tabContent} ${activeTab === 'contact' ? styles.activeTabContent : ''}`}>
-                <div className={styles.formRow}>
-                  <div className={styles.formColumn}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        <User size={14} className={styles.icon} />
-                        Ваше имя
-                        <span className={styles.requiredMark}>*</span>
-                      </label>
-                      <div className={styles.inputWithValidation}>
-                        <input 
-                          ref={nameRef}
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          onFocus={clearErrorOnFocus}
-                          onBlur={handleBlur}
-                          onKeyDown={(e) => handleTabKey(e, 'name', phoneRef)}
-                          required={!isFirefoxMobile}
-                          className={`${styles.input} ${validationErrors.name ? styles.inputError : ''}`}
-                          placeholder="Введите ваше имя"
-                        />
-                        {isFieldValid('name') !== null && (
-                          <span className={styles.validationIndicator}>
-                            {isFieldValid('name') 
-                              ? <Check size={16} className={styles.validIcon} /> 
-                              : <AlertCircle size={16} className={styles.invalidIcon} />}
-                          </span>
-                        )}
-                      </div>
-                      {validationErrors.name && !isFirefoxMobile && (
-                        <div className={styles.errorMessage}>Пожалуйста, укажите ваше имя</div>
-                      )}
-                    </div>
+                {/* Поле "Имя" */}
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>
+                    <User size={14} className={styles.icon} />
+                    Ваше имя
+                    <span className={styles.requiredMark}>*</span>
+                  </label>
+                  <div className={styles.inputWithValidation}>
+                    <input 
+                      ref={nameRef}
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      onFocus={clearErrorOnFocus}
+                      onBlur={handleBlur}
+                      onKeyDown={(e) => handleTabKey(e, 'name', phoneRef)}
+                      required={!isFirefoxMobile}
+                      className={`${styles.input} ${validationErrors.name ? styles.inputError : ''}`}
+                      placeholder="Введите ваше имя"
+                    />
+                    {isFieldValid('name') !== null && (
+                      <span className={styles.validationIndicator}>
+                        {isFieldValid('name') 
+                          ? <Check size={16} className={styles.validIcon} /> 
+                          : <AlertCircle size={16} className={styles.invalidIcon} />}
+                      </span>
+                    )}
                   </div>
-                  <div className={styles.formColumn}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        <MapPin size={14} className={styles.icon} />
-                        <span>Город <span className={styles.optional}>(необязательно)</span></span>
-                      </label>
-                      <div className={styles.inputWithValidation}>
-                        <input 
-                          type="text"
-                          name="city"
-                          value={formData.city}
-                          onChange={handleChange}
-                          onFocus={clearErrorOnFocus}
-                          className={styles.input}
-                          placeholder="Введите ваш город"
-                        />
-                        {isFieldValid('city') && (
-                          <span className={styles.validationIndicator}>
-                            <Check size={16} className={styles.validIcon} />
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                  {validationErrors.name && !isFirefoxMobile && (
+                    <div className={styles.errorMessage}>Пожалуйста, укажите ваше имя</div>
+                  )}
+                </div>
+
+                {/* Поле "Город" */}
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>
+                    <MapPin size={14} className={styles.icon} />
+                    <span>Город <span className={styles.optional}>(необязательно)</span></span>
+                  </label>
+                  <div className={styles.inputWithValidation}>
+                    <input 
+                      type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      onFocus={clearErrorOnFocus}
+                      className={styles.input}
+                      placeholder="Введите ваш город"
+                    />
+                    {isFieldValid('city') && (
+                      <span className={styles.validationIndicator}>
+                        <Check size={16} className={styles.validIcon} />
+                      </span>
+                    )}
                   </div>
                 </div>
                 
-                <div className={styles.formRow}>
-                  <div className={styles.formColumn}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        <Phone size={14} className={styles.icon} />
-                        Телефон
-                        <span className={styles.requiredMark}>*</span>
-                      </label>
-                      <div className={styles.phoneInputContainer}>
-                        <span className={styles.phoneCode}>+7</span>
-                        <input 
-                          ref={phoneRef}
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          onInput={handlePhoneInput}
-                          onKeyDown={(e) => {
-                            handlePhoneKeyDown(e);
-                            handleTabKey(e, 'phone', callTimeRef);
-                          }}
-                          onFocus={clearErrorOnFocus}
-                          onBlur={handleBlur}
-                          required={!isFirefoxMobile}
-                          className={`${styles.input} ${styles.phoneInput} ${validationErrors.phone ? styles.inputError : ''}`}
-                          placeholder="(___) ___-__-__"
-                          style={{paddingLeft: "2.4rem"}}
-                        />
-                        {isFieldValid('phone') !== null && (
-                          <span className={styles.validationIndicator}>
-                            {isFieldValid('phone') 
-                              ? <Check size={16} className={styles.validIcon} /> 
-                              : <AlertCircle size={16} className={styles.invalidIcon} />}
-                          </span>
-                        )}
-                      </div>
-                      {validationErrors.phone && !isFirefoxMobile && (
-                        <div className={styles.errorMessage}>Пожалуйста, введите корректный номер телефона</div>
-                      )}
-                    </div>
+                {/* Поле "Телефон" */}
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>
+                    <Phone size={14} className={styles.icon} />
+                    Телефон <span className={styles.requiredMark}>*</span>
+                  </label>
+                  <div className={styles.phoneInputContainer}>
+                    <span className={styles.phoneCode}>+7 </span>
+                    <input 
+                      ref={phoneRef}
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      onInput={handlePhoneInput}
+                      onKeyDown={(e) => {
+                        handlePhoneKeyDown(e);
+                        handleTabKey(e, 'phone', callTimeRef);
+                      }}
+                      onFocus={clearErrorOnFocus}
+                      onBlur={handleBlur}
+                      required={!isFirefoxMobile}
+                      className={`${styles.input} ${styles.phoneInput} ${validationErrors.phone ? styles.inputError : ''}`}
+                      placeholder="(___) ___-__-__"
+                      style={{paddingLeft: "2.4rem"}}
+                    />
+                    {isFieldValid('phone') !== null && (
+                      <span className={styles.validationIndicator}>
+                        {isFieldValid('phone') 
+                          ? <Check size={16} className={styles.validIcon} /> 
+                          : <AlertCircle size={16} className={styles.invalidIcon} />}
+                      </span>
+                    )}
                   </div>
-                  <div className={styles.formColumn}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        <Clock size={14} className={styles.icon} />
-                        Удобное время для звонка
-                        <span className={styles.requiredMark}>*</span>
-                      </label>
-                      <div className={styles.selectContainer}>
-                        <select
-                          ref={callTimeRef}
-                          name="callTime"
-                          value={formData.callTime}
-                          onChange={handleChange}
-                          onFocus={clearErrorOnFocus}
-                          onBlur={handleBlur}
-                          required={!isFirefoxMobile}
-                          className={`${styles.input} ${styles.selectInput} ${validationErrors.callTime ? styles.inputError : ''}`}
-                        >
-                          <option value="">Выберите время</option>
-                          {timeSlots.map(slot => (
-                            <option key={slot.value} value={slot.value}>
-                              {slot.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className={styles.selectArrow}>
-                          <ChevronDown size={18} />
-                        </div>
-                        {isFieldValid('callTime') !== null && (
-                          <span className={styles.validationIndicator}>
-                            {isFieldValid('callTime') 
-                              ? <Check size={16} className={styles.validIcon} /> 
-                              : <AlertCircle size={16} className={styles.invalidIcon} />}
-                          </span>
-                        )}
-                      </div>
-                      {validationErrors.callTime && !isFirefoxMobile && (
-                        <div className={styles.errorMessage}>Пожалуйста, выберите удобное время для звонка</div>
-                      )}
+                  {validationErrors.phone && !isFirefoxMobile && (
+                    <div className={styles.errorMessage}>Пожалуйста, введите корректный номер телефона</div>
+                  )}
+                </div>
+                
+                {/* Поле "Удобное время для звонка" */}
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>
+                    <Clock size={14} className={styles.icon} />
+                    Удобное время для звонка
+                    <span className={styles.requiredMark}>*</span>
+                  </label>
+                  <div className={styles.selectContainer}>
+                    <select
+                      ref={callTimeRef}
+                      name="callTime"
+                      value={formData.callTime}
+                      onChange={handleChange}
+                      onFocus={clearErrorOnFocus}
+                      onBlur={handleBlur}
+                      required={!isFirefoxMobile}
+                      className={`${styles.input} ${styles.selectInput} ${validationErrors.callTime ? styles.inputError : ''}`}
+                    >
+                      <option value="">Выберите время</option>
+                      {timeSlots.map(slot => (
+                        <option key={slot.value} value={slot.value}>
+                          {slot.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div className={styles.selectArrow}>
+                      <ChevronDown size={18} />
                     </div>
+                    {isFieldValid('callTime') !== null && (
+                      <span className={styles.validationIndicator}>
+                        {isFieldValid('callTime') 
+                          ? <Check size={16} className={styles.validIcon} /> 
+                          : <AlertCircle size={16} className={styles.invalidIcon} />}
+                      </span>
+                    )}
                   </div>
+                  {validationErrors.callTime && !isFirefoxMobile && (
+                    <div className={styles.errorMessage}>Пожалуйста, выберите удобное время для звонка</div>
+                  )}
                 </div>
                 
                 <div className={styles.formNavigation}>
@@ -518,145 +511,139 @@ const CustomOrderModal = ({ isOpen, onClose, product }) => {
               
               {/* Информация о купальнике - вторая вкладка */}
               <div className={`${styles.tabContent} ${activeTab === 'product' ? styles.activeTabContent : ''}`}>
-                <div className={styles.formRow}>
-                  <div className={styles.formColumn}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.icon}>
-                          <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                        Вид спорта
-                        <span className={styles.requiredMark}>*</span>
-                      </label>
-                      <div className={styles.selectContainer}>
-                        <select
-                          ref={sportTypeRef}
-                          name="sportType"
-                          value={formData.sportType}
-                          onChange={handleChange}
-                          onFocus={clearErrorOnFocus}
-                          onBlur={handleBlur}
-                          onKeyDown={(e) => handleTabKey(e, 'sportType', heightRef)}
-                          required={!isFirefoxMobile}
-                          className={`${styles.input} ${styles.selectInput} ${validationErrors.sportType ? styles.inputError : ''}`}
-                        >
-                          <option value="">Выберите вид спорта</option>
-                          <option value="gymnastics">Художественная гимнастика</option>
-                          <option value="figure-skating">Фигурное катание</option>
-                          <option value="acrobatics">Акробатика</option>
-                          <option value="other">Другое</option>
-                        </select>
-                        <div className={styles.selectArrow}>
-                          <ChevronDown size={18} />
-                        </div>
-                        {isFieldValid('sportType') !== null && (
-                          <span className={styles.validationIndicator}>
-                            {isFieldValid('sportType') 
-                              ? <Check size={16} className={styles.validIcon} /> 
-                              : <AlertCircle size={16} className={styles.invalidIcon} />}
-                          </span>
-                        )}
-                      </div>
-                      {validationErrors.sportType && !isFirefoxMobile && (
-                        <div className={styles.errorMessage}>Пожалуйста, выберите вид спорта</div>
-                      )}
+                {/* Поле "Вид спорта" */}
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.icon}>
+                      <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                    Вид спорта
+                    <span className={styles.requiredMark}>*</span>
+                  </label>
+                  <div className={styles.selectContainer}>
+                    <select
+                      ref={sportTypeRef}
+                      name="sportType"
+                      value={formData.sportType}
+                      onChange={handleChange}
+                      onFocus={clearErrorOnFocus}
+                      onBlur={handleBlur}
+                      onKeyDown={(e) => handleTabKey(e, 'sportType', heightRef)}
+                      required={!isFirefoxMobile}
+                      className={`${styles.input} ${styles.selectInput} ${validationErrors.sportType ? styles.inputError : ''}`}
+                    >
+                      <option value="">Выберите вид спорта</option>
+                      <option value="gymnastics">Художественная гимнастика</option>
+                      <option value="figure-skating">Фигурное катание</option>
+                      <option value="acrobatics">Акробатика</option>
+                      <option value="other">Другое</option>
+                    </select>
+                    <div className={styles.selectArrow}>
+                      <ChevronDown size={18} />
                     </div>
+                    {isFieldValid('sportType') !== null && (
+                      <span className={styles.validationIndicator}>
+                        {isFieldValid('sportType') 
+                          ? <Check size={16} className={styles.validIcon} /> 
+                          : <AlertCircle size={16} className={styles.invalidIcon} />}
+                      </span>
+                    )}
                   </div>
-                  <div className={styles.formColumn}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.icon}>
-                          <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"/>
-                        </svg>
-                        Рост
-                        <span className={styles.requiredMark}>*</span>
-                      </label>
-                      <div className={styles.selectContainer}>
-                        <select
-                          ref={heightRef}
-                          name="height"
-                          value={formData.height}
-                          onChange={handleChange}
-                          onFocus={clearErrorOnFocus}
-                          onBlur={handleBlur}
-                          required={!isFirefoxMobile}
-                          className={`${styles.input} ${styles.selectInput} ${validationErrors.height ? styles.inputError : ''}`}
-                        >
-                          <option value="">Выберите рост</option>
-                          {heightOptions.map(option => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className={styles.selectArrow}>
-                          <ChevronDown size={18} />
-                        </div>
-                        {isFieldValid('height') !== null && (
-                          <span className={styles.validationIndicator}>
-                            {isFieldValid('height') 
-                              ? <Check size={16} className={styles.validIcon} /> 
-                              : <AlertCircle size={16} className={styles.invalidIcon} />}
-                          </span>
-                        )}
-                      </div>
-                      {validationErrors.height && !isFirefoxMobile && (
-                        <div className={styles.errorMessage}>Пожалуйста, укажите рост</div>
-                      )}
+                  {validationErrors.sportType && !isFirefoxMobile && (
+                    <div className={styles.errorMessage}>Пожалуйста, выберите вид спорта</div>
+                  )}
+                </div>
+
+                {/* Поле "Рост" */}
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.icon}>
+                      <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"/>
+                    </svg>
+                    Рост
+                    <span className={styles.requiredMark}>*</span>
+                  </label>
+                  <div className={styles.selectContainer}>
+                    <select
+                      ref={heightRef}
+                      name="height"
+                      value={formData.height}
+                      onChange={handleChange}
+                      onFocus={clearErrorOnFocus}
+                      onBlur={handleBlur}
+                      required={!isFirefoxMobile}
+                      className={`${styles.input} ${styles.selectInput} ${validationErrors.height ? styles.inputError : ''}`}
+                    >
+                      <option value="">Выберите рост</option>
+                      {heightOptions.map(option => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div className={styles.selectArrow}>
+                      <ChevronDown size={18} />
                     </div>
+                    {isFieldValid('height') !== null && (
+                      <span className={styles.validationIndicator}>
+                        {isFieldValid('height') 
+                          ? <Check size={16} className={styles.validIcon} /> 
+                          : <AlertCircle size={16} className={styles.invalidIcon} />}
+                      </span>
+                    )}
                   </div>
+                  {validationErrors.height && !isFirefoxMobile && (
+                    <div className={styles.errorMessage}>Пожалуйста, укажите рост</div>
+                  )}
                 </div>
                 
-                <div className={styles.formRow}>
-                  <div className={styles.formColumn}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        <Calendar size={14} className={styles.icon} />
-                        <span>К какой дате нужен купальник <span className={styles.optional}>(необязательно)</span></span>
-                      </label>
-                      <div className={styles.datePickerContainer} ref={calendarRef}>
-                        <input 
-                          type="text" 
-                          id="dueDateDisplay" 
-                          value={formData.dueDate ? formatDate(formData.dueDate) : ''} 
-                          placeholder="ДД.ММ.ГГГГ"
-                          readOnly
-                          onFocus={clearErrorOnFocus}
-                          onClick={() => setShowCustomCalendar(!showCustomCalendar)}
-                          className={`${styles.input} ${validationErrors.dueDate ? styles.inputError : ''}`}
-                        />
-                        <div 
-                          className={styles.calendarIcon}
-                          onClick={() => setShowCustomCalendar(!showCustomCalendar)}
-                        >
-                          <Calendar size={18} />
-                        </div>
-                        {isFieldValid('dueDate') && (
-                          <span className={styles.validationIndicator}>
-                            <Check size={16} className={styles.validIcon} />
-                          </span>
-                        )}
-                        
-                        <div className="calendar-container">
-                          <CalendarComponent 
-                            visible={showCustomCalendar}
-                            selectedDate={formData.dueDate}
-                            onDateSelect={(date) => {
-                              const event = { 
-                                target: { name: 'dueDate', value: date }
-                              };
-                              handleChange(event);
-                              setShowCustomCalendar(false);
-                            }}
-                            minimumDays={7}
-                          />
-                        </div>
-                      </div>
-                      {validationErrors.dueDate && !isFirefoxMobile && (
-                        <div className={styles.errorMessage}>Пожалуйста, выберите дату</div>
-                      )}
+                {/* Поле "К какой дате нужен купальник" */}
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>
+                    <Calendar size={14} className={styles.icon} />
+                    <span>К какой дате нужен купальник <span className={styles.optional}>(необязательно)</span></span>
+                  </label>
+                  <div className={styles.datePickerContainer} ref={calendarRef}>
+                    <input 
+                      type="text" 
+                      id="dueDateDisplay" 
+                      value={formData.dueDate ? formatDate(formData.dueDate) : ''} 
+                      placeholder="ДД.ММ.ГГГГ"
+                      readOnly
+                      onFocus={clearErrorOnFocus}
+                      onClick={() => setShowCustomCalendar(!showCustomCalendar)}
+                      className={`${styles.input} ${validationErrors.dueDate ? styles.inputError : ''}`}
+                    />
+                    <div 
+                      className={styles.calendarIcon}
+                      onClick={() => setShowCustomCalendar(!showCustomCalendar)}
+                    >
+                      <Calendar size={18} />
+                    </div>
+                    {isFieldValid('dueDate') && (
+                      <span className={styles.validationIndicator}>
+                        <Check size={16} className={styles.validIcon} />
+                      </span>
+                    )}
+                    
+                    <div className="calendar-container">
+                      <CalendarComponent 
+                        visible={showCustomCalendar}
+                        selectedDate={formData.dueDate}
+                        onDateSelect={(date) => {
+                          const event = { 
+                            target: { name: 'dueDate', value: date }
+                          };
+                          handleChange(event);
+                          setShowCustomCalendar(false);
+                        }}
+                        minimumDays={7}
+                      />
                     </div>
                   </div>
+                  {validationErrors.dueDate && !isFirefoxMobile && (
+                    <div className={styles.errorMessage}>Пожалуйста, выберите дату</div>
+                  )}
                 </div>
                 
                 <div className={styles.formNavigation}>
