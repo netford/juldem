@@ -2,11 +2,13 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Truck, Clock, CreditCard, MapPin } from 'lucide-react';
 import styles from './DeliverySection.module.css';
 import PostShipmentModal from './PostShipmentModal';
+import SdekCalcModal from './SdekCalcModal';
 
 const DeliverySection = () => {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
   const [isPostShipmentModalOpen, setIsPostShipmentModalOpen] = useState(false);
+  const [isSdekCalcModalOpen, setIsSdekCalcModalOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,6 +89,13 @@ const DeliverySection = () => {
                     >
                       Виджет доставки
                     </button>
+                  ) : method.title === 'СДЭК' ? (
+                    <button 
+                      className="btn btn-secondary delivery-secondary-btn"
+                      onClick={() => setIsSdekCalcModalOpen(true)}
+                    >
+                      Калькулятор доставки
+                    </button>
                   ) : (
                     <button 
                       className="btn btn-secondary delivery-secondary-btn"
@@ -111,6 +120,11 @@ const DeliverySection = () => {
       <PostShipmentModal
         isOpen={isPostShipmentModalOpen}
         onClose={() => setIsPostShipmentModalOpen(false)}
+      />
+      
+      <SdekCalcModal
+        isOpen={isSdekCalcModalOpen}
+        onClose={() => setIsSdekCalcModalOpen(false)}
       />
     </section>
   );
