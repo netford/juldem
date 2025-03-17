@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Truck, Clock, CreditCard, MapPin } from 'lucide-react';
 import styles from './DeliverySection.module.css';
+import PostShipmentModal from './PostShipmentModal';
 
 const DeliverySection = () => {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
-  const [isCalculatorVisible, setIsCalculatorVisible] = useState(false);
+  const [isPostShipmentModalOpen, setIsPostShipmentModalOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,31 +26,6 @@ const DeliverySection = () => {
 
     return () => observer.disconnect();
   }, []);
-
-  const toggleCalculator = () => {
-    setIsCalculatorVisible(!isCalculatorVisible);
-  };
-
-  useEffect(() => {
-    if (isCalculatorVisible) {
-      const script = document.createElement('script');
-      script.src = 'https://widget.pochta.ru/map/widget/widget.js';
-      script.async = true;
-      document.body.appendChild(script);
-
-      script.onload = () => {
-        ecomStartWidget({
-          id: 54847,
-          callbackFunction: null,
-          containerId: 'ecom-widget',
-        });
-      };
-
-      return () => {
-        document.body.removeChild(script); // Удалить скрипт при размонтировании компонента
-      };
-    }
-  }, [isCalculatorVisible]);
 
   return (
     <section ref={sectionRef} id="delivery" className={styles.deliverySection}>
@@ -104,12 +80,20 @@ const DeliverySection = () => {
                 <p className={styles.deliveryDescription}>{method.description}</p>
                 
                 {method.title !== 'Самовывоз' ? (
-                  <button 
-                    className="btn btn-secondary delivery-secondary-btn"
-                    onClick={toggleCalculator}
-                  >
-                    Калькулятор доставки
-                  </button>
+                  method.title === 'Почта России' ? (
+                    <button 
+                      className="btn btn-secondary delivery-secondary-btn"
+                      onClick={() => setIsPostShipmentModalOpen(true)}
+                    >
+                      Виджет доставки
+                    </button>
+                  ) : (
+                    <button 
+                      className="btn btn-secondary delivery-secondary-btn"
+                    >
+                      Калькулятор доставки
+                    </button>
+                  )
                 ) : (
                   <div className={styles.deliveryInfo}>
                     <div className={styles.infoItem}>
@@ -118,15 +102,16 @@ const DeliverySection = () => {
                     </div>
                   </div>
                 )}
-
-                {isCalculatorVisible && method.title === 'Почта России' && (
-                  <div id="ecom-widget" style={{ height: '500px' }}></div>
-                )}
               </div>
             );
           })}
         </div>
       </div>
+
+      <PostShipmentModal
+        isOpen={isPostShipmentModalOpen}
+        onClose={() => setIsPostShipmentModalOpen(false)}
+      />
     </section>
   );
 };
