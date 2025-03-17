@@ -54,9 +54,9 @@
 }
 
 .priceCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-10px) !important;
   border-color: #444;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* Стили для PriceCard-иконок оставляем без изменений */
