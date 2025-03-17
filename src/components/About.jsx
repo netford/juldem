@@ -1,23 +1,26 @@
-import React, { useRef, useEffect } from 'react';
-import { Award, Brush, Users } from 'lucide-react';
-import { halfBlock } from '../assets/images';
+import React, { useRef, useEffect, useState } from 'react';
+import { Award, Brush, Users, Play } from 'lucide-react';
+import styles from './About.module.css';
 
 const About = () => {
   const sectionRef = useRef(null);
   const itemsRef = useRef([]);
+  const videoRef = useRef(null);
+  
+  // Добавим состояние для отслеживания, воспроизводится ли видео
+  const [isPlaying, setIsPlaying] = useState(false);
 
+  // Эффект для анимации появления элементов при прокрутке
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            entry.target.classList.add(styles.visible);
           }
         });
       },
-      {
-        threshold: 0.1
-      }
+      { threshold: 0.1 }
     );
 
     itemsRef.current.forEach((item) => {
@@ -27,235 +30,113 @@ const About = () => {
     return () => observer.disconnect();
   }, []);
 
-  const features = [
-    {
-      icon: Award,
-      title: 'Опыт и профессионализм',
-      description: 'Мастерская по пошиву спортивных купальников Юлии Дёминой основана в 2017 году. За 7 с лишним лет мы стали профессионалами в создании костюмов для художественной гимнастики, спортивной акробатики и фигурного катания.',
-      detail: 'С 2024 года работаем под брендом "JULDEM".'
-    },
-    {
-      icon: Brush,
-      title: 'Передовые технологии',
-      description: 'В нашем арсенале — передовые технологии: аэрография, инкрустация стразами и 3D-дизайн. Это позволяет воплощать любые идеи, создавая уникальные модели, которые не только впечатляют визуально, но и полностью соответствуют всем требованиям к соревновательным костюмам.',
-      detail: 'Идеальный крой купальника позволяет спортсмену забыть о костюме и полностью погрузиться в выступление.'
-    },
-    {
-      icon: Users,
-      title: 'Клиенты и достижения',
-      description: 'В нашем портфолио — сотни довольных клиентов, от начинающих до профессиональных спортсменов. Помимо индивидуальных заказов всегда в наличии имеется коллекция готовых моделей.',
-      detail: 'Работаем со спортсменами всех уровней из России и зарубежья.'
+  // Функция для воспроизведения/паузы видео
+  const toggleVideo = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
     }
+  };
+
+  // Данные для временной шкалы
+  const timelineEvents = [
+    { year: 2015, event: 'Первые эксперименты с пошивом купальников для выступлений' },
+    { year: 2017, event: 'Основание мастерской Юлией Дёминой, чемпионкой Европы по спортивной акробатике' },
+    { year: 2018, event: 'Открытие первой мастерской в Набережных Челнах, начало работы с местными спортивными школами' },
+    { year: 2019, event: 'Расширение ассортимента: добавление купальников для художественной гимнастики' },
+    { year: 2020, event: 'Внедрение новых технологий декорирования и отделки купальников' },
+    { year: 2023, event: 'Внедрение сервиса проката спортивных купальников' },
+    { year: 2024, event: 'Официальный запуск бренда "JULDEM", создание фирменного стиля' },
+    { year: 2025, event: 'Запуск обновленного сайта и расширение зоны обслуживания - теперь мы работаем по всей России' }
   ];
 
   return (
-    <section ref={sectionRef} id="about" className="about-section">
-      <style>{`
-        .about-section {
-          padding: 6rem 0;
-          background: #1a1a1a;
-          overflow: hidden;
-        }
-
-        .section-header {
-          text-align: center;
-          margin-bottom: 4rem;
-        }
-
-        .section-title {
-          font-size: clamp(2rem, 4vw, 2.5rem);
-          color: #fff;
-          margin-bottom: 1rem;
-          font-weight: var(--font-weight-bold);
-        }
-
-        .about-container {
-          display: grid;
-          grid-template-columns: 1fr 400px;
-          gap: 4rem;
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 2rem;
-          justify-content: center;
-        }
-
-        .features-list {
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-
-        .feature-card {
-          background: #262626;
-          border: 1px solid #333;
-          border-radius: 16px;
-          padding: 2rem;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-          transform: translateY(40px);
-          opacity: 0;
-          transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .feature-card.visible {
-          transform: translateY(0);
-          opacity: 1;
-        }
-
-        .feature-card:hover {
-          transform: translateY(-10px);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-          border-color: #444;
-        }
-
-        .feature-header {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .icon-wrapper {
-          width: 56px;
-          height: 56px;
-          border-radius: 16px;
-          background: var(--color-primary);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover .icon-wrapper {
-          transform: scale(1.1) rotate(5deg);
-        }
-
-        .icon-wrapper svg {
-          width: 28px;
-          height: 28px;
-          color: var(--color-white);
-        }
-
-        .feature-title {
-          font-size: 1.5rem;
-          color: #fff;
-          margin: 0;
-          font-weight: var(--font-weight-bold);
-        }
-
-        .feature-description {
-          color: #ccc;
-          line-height: 1.6;
-          margin-bottom: 1rem;
-        }
-
-        .feature-detail {
-          color: #999;
-          font-size: 0.95rem;
-          line-height: 1.5;
-          padding-left: 1rem;
-          border-left: 3px solid var(--color-primary);
-        }
-
-        .image-container {
-          position: relative;
-        }
-
-        .about-image {
-          width: 100%;
-          height: auto;
-          border-radius: 20px;
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-          transform: translateY(40px);
-          opacity: 0;
-          transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .about-image.visible {
-          transform: translateY(0);
-          opacity: 1;
-        }
-
-        @media (max-width: 1200px) {
-          .about-container {
-            grid-template-columns: 1fr 350px;
-            gap: 3rem;
-          }
-        }
-
-        @media (max-width: 992px) {
-          .about-container {
-            grid-template-columns: 1fr;
-            padding: 0 1rem;
-          }
-
-          .image-container {
-            order: -1;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            display: flex;
-            justify-content: center;
-          }
-
-          .about-image {
-            max-width: 100%;
-            height: auto;
-          }
+    <section ref={sectionRef} id="about" className={styles.aboutSection}>
+      <div className={styles.container}>
+        <h2 className={styles.sectionTitle}>О нас</h2>
+        
+        <div className={styles.aboutContainer}>
+          <div className={styles.aboutContent} ref={el => itemsRef.current[0] = el}>
+            <h3 className={styles.contentTitle}>Наша история</h3>
+            
+            <div className={styles.timeline}>
+              {timelineEvents.map((item, index) => (
+                <div key={index} className={styles.timelineItem}>
+                  <div className={styles.year}>{item.year}</div>
+                  <div className={styles.event}>{item.event}</div>
+                </div>
+              ))}
+            </div>
+          </div>
           
-          .features-list {
-            max-width: 600px;
-            margin: 0 auto;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .about-section {
-            padding: 4rem 0;
-          }
-
-          .section-header {
-            margin-bottom: 3rem;
-          }
-
-          .feature-card {
-            padding: 1.5rem;
-          }
-        }
-      `}</style>
-
-      <div className="section-header">
-        <h2 className="section-title">О нас</h2>
-      </div>
-
-      <div className="about-container">
-        <div className="features-list">
-          {features.map((feature, index) => {
+          <div className={styles.aboutMedia}>
+            <div className={styles.mediaGallery}>
+              <div className={styles.mainImage} ref={el => itemsRef.current[1] = el}>
+                <img src="/images/about/studio.jpg" alt="Мастерская JULDEM" />
+              </div>
+              
+              {/* Вертикальное видео вместо маленьких изображений */}
+              <div className={styles.videoContainer} ref={el => itemsRef.current[2] = el}>
+                <video 
+                  ref={videoRef}
+                  src="/videos/process.mp4" 
+                  poster="/images/about/video-poster.jpg"
+                  className={styles.processVideo}
+                  playsInline
+                  muted
+                  loop
+                  onClick={toggleVideo}
+                />
+                
+                {/* Кнопка воспроизведения */}
+                {!isPlaying && (
+                  <button className={styles.playButton} onClick={toggleVideo}>
+                    <Play size={32} />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className={styles.featuresContainer}>
+          {[
+            {
+              icon: Award,
+              title: 'Опыт и профессионализм',
+              description: 'Наши мастера имеют многолетний опыт в пошиве спортивных купальников для соревнований любого уровня.'
+            },
+            {
+              icon: Brush,
+              title: 'Передовые технологии',
+              description: 'Мы применяем передовые технологии: аэрографию, инкрустацию стразами и 3D-дизайн. Это позволяет создавать уникальные модели, впечатляющие визуально и соответствующие всем требованиям к соревновательным костюмам.'
+            },
+            {
+              icon: Users,
+              title: 'Клиенты и достижения',
+              description: 'В нашем портфолио — сотни довольных клиентов, от начинающих до профессиональных спортсменов. Помимо индивидуальных заказов всегда в наличии имеется коллекция готовых моделей.'
+            }
+          ].map((feature, index) => {
             const Icon = feature.icon;
             return (
               <div
                 key={index}
-                ref={el => itemsRef.current[index] = el}
-                className="feature-card"
+                ref={el => itemsRef.current[index + 4] = el}
+                className={styles.featureCard}
               >
-                <div className="feature-header">
-                  <div className="icon-wrapper">
-                    <Icon />
-                  </div>
-                  <h3 className="feature-title" style={{ color: '#fff' }}>{feature.title}</h3>
+                <div className={styles.iconWrapper}>
+                  <Icon size={24} />
                 </div>
-                <p className="feature-description">{feature.description}</p>
-                <p className="feature-detail">{feature.detail}</p>
+                <h3 className={styles.featureTitle}>{feature.title}</h3>
+                <p className={styles.featureDescription}>{feature.description}</p>
               </div>
             );
           })}
-        </div>
-
-        <div className="image-container">
-          <img
-            ref={el => itemsRef.current[3] = el}
-            src={halfBlock}
-            alt="Спортивные купальники"
-            className="about-image"
-          />
         </div>
       </div>
     </section>
