@@ -41,26 +41,26 @@ const SdekCalcModal = ({ isOpen, onClose }) => {
 
   const modalStyles = {
     position: 'relative',
-    width: '90%',
-    maxWidth: '900px',
     backgroundColor: '#262626',
     borderRadius: '16px',
     overflow: 'hidden',
     animation: 'slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-    padding: '2rem',
+    padding: '2rem 1rem 1rem',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: 'auto',
+    maxWidth: '460px' // Более компактный размер
   };
 
   const closeButtonStyles = {
     position: 'absolute',
-    top: '1rem',
-    right: '1rem',
+    top: '0.5rem',
+    right: '0.5rem',
     background: 'rgba(0, 0, 0, 0.7)',
     border: '2px solid rgba(255, 255, 255, 0.5)',
-    width: '44px',
-    height: '44px',
+    width: '36px',
+    height: '36px',
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
@@ -70,24 +70,23 @@ const SdekCalcModal = ({ isOpen, onClose }) => {
     zIndex: 2,
     transition: 'all 0.3s ease',
     boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-    padding: '8px'
+    padding: '6px'
   };
 
   const titleStyles = {
-    fontSize: '1.8rem',
+    fontSize: '1.6rem',
     fontWeight: 'bold',
-    marginBottom: '1.5rem',
-    color: '#fff',
+    marginBottom: '1rem',
+    color: '#00e2fc',
     textAlign: 'center'
   };
 
   const iframeContainerStyles = {
     width: '100%',
-    maxWidth: '850px',
     margin: '0 auto',
     display: 'flex',
     justifyContent: 'center',
-    transform: 'scale(1.1)',
+    transform: 'scale(1.05)',
     transformOrigin: 'center top'
   };
 
@@ -95,9 +94,8 @@ const SdekCalcModal = ({ isOpen, onClose }) => {
     border: 'none',
     borderRadius: '8px',
     backgroundColor: '#fff',
-    width: '100%',
-    height: '550px',
-    maxWidth: '850px'
+    width: '400px', // Фиксированная ширина для iframe
+    height: '350px' // Уменьшенная высота
   };
 
   // Определения для анимаций
@@ -128,7 +126,7 @@ const SdekCalcModal = ({ isOpen, onClose }) => {
             e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
           }}
         >
-          <X size={28} strokeWidth={2.5} />
+          <X size={24} strokeWidth={2.5} />
         </button>
 
         <h2 style={titleStyles}>Калькулятор стоимости доставки СДЭК</h2>
@@ -137,8 +135,8 @@ const SdekCalcModal = ({ isOpen, onClose }) => {
           <iframe 
             id="sdek_calc_iframe" 
             src="https://kit.cdek-calc.ru/calc.php?oplata=1&city_from=433&weight=0.5&length=17&width=9&height=5&tarifs=483" 
-            width="100%" 
-            height="550" 
+            width="400" 
+            height="350" 
             scrolling="no" 
             frameBorder="0"
             style={iframeStyles}
