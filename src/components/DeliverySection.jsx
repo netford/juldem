@@ -5,6 +5,7 @@ import styles from './DeliverySection.module.css';
 const DeliverySection = () => {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
+  const [isCalculatorVisible, setIsCalculatorVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,6 +26,31 @@ const DeliverySection = () => {
     return () => observer.disconnect();
   }, []);
 
+  const toggleCalculator = () => {
+    setIsCalculatorVisible(!isCalculatorVisible);
+  };
+
+  useEffect(() => {
+    if (isCalculatorVisible) {
+      const script = document.createElement('script');
+      script.src = 'https://widget.pochta.ru/map/widget/widget.js';
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        ecomStartWidget({
+          id: 54847,
+          callbackFunction: null,
+          containerId: 'ecom-widget',
+        });
+      };
+
+      return () => {
+        document.body.removeChild(script); // Удалить скрипт при размонтировании компонента
+      };
+    }
+  }, [isCalculatorVisible]);
+
   return (
     <section ref={sectionRef} id="delivery" className={styles.deliverySection}>
       <div className={styles.container}>
@@ -33,7 +59,7 @@ const DeliverySection = () => {
         </div>
 
         <div className={styles.deliveryGrid}>
-          {[
+          {[ 
             {
               id: 1,
               title: 'СДЭК',
@@ -42,7 +68,7 @@ const DeliverySection = () => {
             },
             {
               id: 2,
-              title: 'Boxberry',
+              title: 'Почта России',
               icon: MapPin, 
               description: 'Доставка до пункта выдачи'
             },
@@ -80,7 +106,7 @@ const DeliverySection = () => {
                 {method.title !== 'Самовывоз' ? (
                   <button 
                     className="btn btn-secondary delivery-secondary-btn"
-                    onClick={() => {}}
+                    onClick={toggleCalculator}
                   >
                     Калькулятор доставки
                   </button>
@@ -91,6 +117,10 @@ const DeliverySection = () => {
                       <div className={styles.infoValue}>{method.workingHours}</div>
                     </div>
                   </div>
+                )}
+
+                {isCalculatorVisible && method.title === 'Почта России' && (
+                  <div id="ecom-widget" style={{ height: '500px' }}></div>
                 )}
               </div>
             );
