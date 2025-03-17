@@ -28,6 +28,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  transition: filter 0.8s ease;
 }
 
 h1 {

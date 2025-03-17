@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, DollarSign, Shield, Star, ShoppingBag, ChevronDown, ChevronUp } from 'lucide-react';
+import { scrollToRentalSuits } from './Hero'; // Импортируем функцию
 
 const RentalModal = ({ isOpen, onClose }) => {
  const [showDetails, setShowDetails] = useState(false);
@@ -135,26 +136,6 @@ const RentalModal = ({ isOpen, onClose }) => {
    gap: '8px'
  };
  
- const mainButtonStyles = {
-   display: 'flex',
-   width: '100%',
-   padding: isMobile ? '1.1rem 0.8rem' : '1.1rem',
-   backgroundColor: '#0088cc',
-   color: '#fff',
-   border: 'none',
-   borderRadius: '12px',
-   fontSize: isMobile ? '1rem' : '1.05rem',
-   fontWeight: '600',
-   cursor: 'pointer',
-   transition: 'all 0.25s ease',
-   alignItems: 'center',
-   justifyContent: 'center',
-   gap: isMobile ? '8px' : '10px',
-   boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-   position: 'relative',
-   overflow: 'hidden'
- };
- 
  const detailsContainerStyles = {
    marginBottom: '1.5rem',
    padding: '0.5rem 0',
@@ -198,6 +179,26 @@ const RentalModal = ({ isOpen, onClose }) => {
  const highlightTextStyles = {
    color: '#FFD700', 
    fontWeight: '500'
+ };
+
+ const mainButtonStyles = {
+   display: 'flex',
+   width: '100%',
+   padding: isMobile ? '1.1rem 0.8rem' : '1.1rem',
+   backgroundColor: '#0088cc',
+   color: '#fff',
+   border: 'none',
+   borderRadius: '12px',
+   fontSize: isMobile ? '1rem' : '1.05rem',
+   fontWeight: '600',
+   cursor: 'pointer',
+   transition: 'all 0.25s ease',
+   alignItems: 'center',
+   justifyContent: 'center',
+   gap: isMobile ? '8px' : '10px',
+   boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+   position: 'relative',
+   overflow: 'hidden'
  };
 
  return (
@@ -323,7 +324,10 @@ const RentalModal = ({ isOpen, onClose }) => {
 
        <button 
          style={mainButtonStyles}
-         onClick={() => {}}
+         onClick={() => {
+           onClose(); // Закрываем модальное окно
+           scrollToRentalSuits(); // Прокручиваем к купальникам для проката
+         }}
          onMouseOver={(e) => {
            e.currentTarget.style.backgroundColor = '#0099dd';
            e.currentTarget.style.transform = 'translateY(-2px)';

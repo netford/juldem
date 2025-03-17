@@ -4,9 +4,9 @@ import { heroBg } from '../assets/images';
 import RentalModal from './RentalModal';
 import CustomOrderModal from './CustomOrderModal';
 import styles from './Hero.module.css';
-import Button from './ui/Button'; // Импортируем наш новый компонент Button
+import Button from './ui/Button'; 
 
-// Экспортируем функцию для использования в других компонентах
+// Функция для перехода к купальникам в наличии
 export const scrollToReadySuits = () => {
   const readySuitsSection = document.getElementById('our-works');
   if (readySuitsSection) {
@@ -18,6 +18,39 @@ export const scrollToReadySuits = () => {
         const changeEvent = new Event('change', { bubbles: true });
         filterSelect.dispatchEvent(changeEvent);
       }
+    }, 800);
+  }
+};
+
+// Функция для перехода к купальникам для проката
+export const scrollToRentalSuits = () => {
+  const readySuitsSection = document.getElementById('our-works');
+  if (readySuitsSection) {
+    // Плавная прокрутка к разделу
+    readySuitsSection.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+
+    // Добавляем анимацию затемнения и просветления
+    document.body.style.transition = 'filter 0.8s ease';
+    document.body.style.filter = 'brightness(0.5)';
+
+    setTimeout(() => {
+      const filterSelect = readySuitsSection.querySelector('select');
+      if (filterSelect) {
+        filterSelect.value = 'renta';
+        const changeEvent = new Event('change', { bubbles: true });
+        filterSelect.dispatchEvent(changeEvent);
+      }
+
+      // Возвращаем нормальную яркость
+      document.body.style.filter = 'brightness(1)';
+      
+      // Удаляем transition после анимации
+      setTimeout(() => {
+        document.body.style.transition = 'none';
+      }, 800);
     }, 800);
   }
 };
@@ -53,13 +86,6 @@ const Hero = () => {
     const nextSection = heroRef.current?.nextElementSibling;
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToPrices = () => {
-    const pricesSection = document.getElementById('prices');
-    if (pricesSection) {
-      pricesSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
