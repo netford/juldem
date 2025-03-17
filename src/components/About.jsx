@@ -106,7 +106,7 @@ const About = () => {
                 <img src="/images/about/studio.jpg" alt="Мастерская JULDEM" />
               </div>
               
-              <div className={styles.videoContainer} ref={el => itemsRef.current[2] = el}>
+              <div>
                 <video 
                   ref={videoRef}
                   src="/videos/process.mp4" 
