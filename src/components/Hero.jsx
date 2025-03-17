@@ -6,6 +6,22 @@ import CustomOrderModal from './CustomOrderModal';
 import styles from './Hero.module.css';
 import Button from './ui/Button'; // Импортируем наш новый компонент Button
 
+// Экспортируем функцию для использования в других компонентах
+export const scrollToReadySuits = () => {
+  const readySuitsSection = document.getElementById('our-works');
+  if (readySuitsSection) {
+    readySuitsSection.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      const filterSelect = readySuitsSection.querySelector('select');
+      if (filterSelect) {
+        filterSelect.value = 'available';
+        const changeEvent = new Event('change', { bubbles: true });
+        filterSelect.dispatchEvent(changeEvent);
+      }
+    }, 800);
+  }
+};
+
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
@@ -40,36 +56,6 @@ const Hero = () => {
     }
   };
 
-  const scrollToReadySuits = () => {
-    const readySuitsSection = document.getElementById('our-works');
-    if (readySuitsSection) {
-      readySuitsSection.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => {
-        const filterSelect = readySuitsSection.querySelector('select');
-        if (filterSelect) {
-          filterSelect.value = 'available';
-          const changeEvent = new Event('change', { bubbles: true });
-          filterSelect.dispatchEvent(changeEvent);
-        }
-      }, 800);
-    }
-  };
-
-  const scrollToRentalSuits = () => {
-    const readySuitsSection = document.getElementById('our-works');
-    if (readySuitsSection) {
-      readySuitsSection.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => {
-        const filterSelect = readySuitsSection.querySelector('select');
-        if (filterSelect) {
-          filterSelect.value = 'renta';
-          const changeEvent = new Event('change', { bubbles: true });
-          filterSelect.dispatchEvent(changeEvent);
-        }
-      }, 800);
-    }
-  };
-
   const scrollToPrices = () => {
     const pricesSection = document.getElementById('prices');
     if (pricesSection) {
@@ -101,7 +87,6 @@ const Hero = () => {
         </h2>
         
         <div className={styles.heroButtons}>
-          {/* Заменяем существующие кнопки на нашу унифицированную кнопку */}
           <Button 
             variant="primary" 
             size="lg" 
@@ -121,7 +106,7 @@ const Hero = () => {
           <Button 
             variant="secondary" 
             size="lg" 
-            onClick={scrollToRentalSuits}
+            onClick={() => setIsRentalModalOpen(true)}
             className={styles.heroButton}
           >
             ПРОКАТ

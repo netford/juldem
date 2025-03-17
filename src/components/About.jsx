@@ -1,13 +1,22 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Award, Brush, Users, Play } from 'lucide-react';
 import styles from './About.module.css';
+import CustomOrderModal from './CustomOrderModal';
+import OrderModal from './OrderModal';
+import RentalModal from './RentalModal';
+import { scrollToReadySuits } from './Hero'; // Импортируем функцию
 
 const About = () => {
   const sectionRef = useRef(null);
   const itemsRef = useRef([]);
   const videoRef = useRef(null);
   
-  // Добавим состояние для отслеживания, воспроизводится ли видео
+  // Состояния для модальных окон
+  const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
+  
+  // Состояние для отслеживания воспроизведения видео
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Эффект для анимации появления элементов при прокрутке
@@ -55,6 +64,39 @@ const About = () => {
     { year: 2025, event: 'Запуск обновленного сайта и расширение зоны обслуживания - теперь мы работаем (удалённо) по всей России' }
   ];
 
+  // Заглушка для продукта в модальном окне
+  const dummyProduct = {
+    name: "Индивидуальный пошив",
+    height: "По вашим меркам",
+    price: 25000,
+    image: "/favicon/favicon-96x96.png"
+  };
+
+  // Создаем информацию о карточках с новыми текстами и кнопками
+  const featureCards = [
+    {
+      icon: Award,
+      title: 'Профессиональный подход к каждому купальнику',
+      description: 'За 7 лет мы создали более 500 уникальных костюмов для художественной гимнастики, спортивной акробатики и фигурного катания. Каждый купальник — это результат глубокого понимания спортивной эстетики и индивидуальных потребностей спортсмена.',
+      buttonText: 'Заказать индивидуальный пошив',
+      onClick: () => setIsCustomOrderModalOpen(true)
+    },
+    {
+      icon: Brush,
+      title: 'Технологии, превращающие образ',
+      description: 'Мы используем передовые технологии аэрографии, инкрустации стразами и 3D-дизайна. Наши купальники не просто костюмы — это произведения искусства, которые подчеркивают харизму и талант спортсмена, полностью соответствуя строгим соревновательным стандартам.',
+      buttonText: 'Выбрать готовый купальник', // Изменил текст кнопки
+      onClick: scrollToReadySuits // Использую существующую функцию
+    },
+    {
+      icon: Users,
+      title: 'Комфорт и качество для каждого',
+      description: 'От начинающих спортсменов до профессионалов мирового уровня — мы обеспечиваем высококачественные решения для всех. В нашей коллекции есть как индивидуальные модели, так и готовые костюмы, которые можно получить здесь и сейчас.',
+      buttonText: 'Взять купальник напрокат',
+      onClick: () => setIsRentalModalOpen(true)
+    }
+  ];
+
   return (
     <section ref={sectionRef} id="about" className={styles.aboutSection}>
       <div className={styles.container}>
@@ -80,10 +122,7 @@ const About = () => {
                 <img src="/images/about/studio.jpg" alt="Мастерская JULDEM" />
               </div>
               
-              {/* Вертикальное видео вместо маленьких изображений */}
-              {/* <div className={styles.videoContainer} ref={el => itemsRef.current[2] = el}> */}
-              <div>
-
+              <div className={styles.videoContainer} ref={el => itemsRef.current[2] = el}>
                 <video 
                   ref={videoRef}
                   src="/videos/process.mp4" 
@@ -107,23 +146,7 @@ const About = () => {
         </div>
         
         <div className={styles.featuresContainer}>
-          {[
-            {
-              icon: Award,
-              title: 'Опыт и профессионализм',
-              description: 'Наши мастера имеют многолетний опыт в пошиве спортивных купальников для соревнований любого уровня.'
-            },
-            {
-              icon: Brush,
-              title: 'Передовые технологии',
-              description: 'Мы применяем передовые технологии: аэрографию, инкрустацию стразами и 3D-дизайн. Это позволяет создавать уникальные модели, впечатляющие визуально и соответствующие всем требованиям к соревновательным костюмам.'
-            },
-            {
-              icon: Users,
-              title: 'Клиенты и достижения',
-              description: 'В нашем портфолио — сотни довольных клиентов, от начинающих до профессиональных спортсменов. Помимо индивидуальных заказов всегда в наличии имеется коллекция готовых моделей.'
-            }
-          ].map((feature, index) => {
+          {featureCards.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <div
@@ -136,11 +159,35 @@ const About = () => {
                 </div>
                 <h3 className={styles.featureTitle}>{feature.title}</h3>
                 <p className={styles.featureDescription}>{feature.description}</p>
+                <button 
+                  className={styles.featureButton}
+                  onClick={feature.onClick}
+                >
+                  {feature.buttonText}
+                </button>
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Модальные окна */}
+      <CustomOrderModal
+        isOpen={isCustomOrderModalOpen}
+        onClose={() => setIsCustomOrderModalOpen(false)}
+        product={dummyProduct}
+      />
+      
+      <OrderModal
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+        product={dummyProduct}
+      />
+      
+      <RentalModal
+        isOpen={isRentalModalOpen}
+        onClose={() => setIsRentalModalOpen(false)}
+      />
     </section>
   );
 };
