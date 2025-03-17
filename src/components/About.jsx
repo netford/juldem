@@ -10,14 +10,11 @@ const About = () => {
   const sectionRef = useRef(null);
   const itemsRef = useRef([]);
   const videoRef = useRef(null);
-  
+
   // Состояния для модальных окон
   const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
-  
-  // Состояние для отслеживания воспроизведения видео
-  const [isPlaying, setIsPlaying] = useState(false);
 
   // Эффект для анимации появления элементов при прокрутке
   useEffect(() => {
@@ -38,19 +35,6 @@ const About = () => {
 
     return () => observer.disconnect();
   }, []);
-
-  // Функция для воспроизведения/паузы видео
-  const toggleVideo = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        videoRef.current.play();
-        setIsPlaying(true);
-      } else {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
-    }
-  };
 
   // Данные для временной шкалы
   const timelineEvents = [
@@ -129,17 +113,10 @@ const About = () => {
                   poster="/images/about/video-poster.jpg"
                   className={styles.processVideo}
                   playsInline
+                  autoPlay
                   muted
                   loop
-                  onClick={toggleVideo}
                 />
-                
-                {/* Кнопка воспроизведения */}
-                {!isPlaying && (
-                  <button className={styles.playButton} onClick={toggleVideo}>
-                    <Play size={32} />
-                  </button>
-                )}
               </div>
             </div>
           </div>
