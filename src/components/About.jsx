@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Award, Brush, Users, Play } from 'lucide-react';
+import { Award, Brush, Users } from 'lucide-react';
 import styles from './About.module.css';
 import CustomOrderModal from './CustomOrderModal';
 import OrderModal from './OrderModal';
@@ -50,10 +50,10 @@ const About = () => {
 
   // Заглушка для продукта в модальном окне
   const dummyProduct = {
-    name: "Индивидуальный пошив",
-    height: "По вашим меркам",
+    name: 'Индивидуальный пошив',
+    height: 'По вашим меркам',
     price: 25000,
-    image: "/favicon/favicon-96x96.png"
+    image: '/favicon/favicon-96x96.png'
   };
 
   // Стили для подсветки ключевых слов
@@ -62,17 +62,17 @@ const About = () => {
     fontWeight: '500'
   };
 
-  // Создаем информацию о карточках с новыми текстами и кнопками
+  // Создаем информацию о карточках
   const featureCards = [
     {
       icon: Award,
       title: 'Профессиональный подход',
       description: (
         <>
-          <div className="feature-item" style={{textIndent: '1.5rem'}}>
-            За <span style={highlightTextStyles}>7 лет</span> мы создали более <span style={highlightTextStyles}>300 уникальных костюмов</span> для художественной гимнастики, спортивной акробатики и фигурного катания. 
+          <div className="feature-item" style={{ textIndent: '1.5rem' }}>
+            За <span style={highlightTextStyles}>7 лет</span> мы создали более <span style={highlightTextStyles}>300 уникальных костюмов</span> для художественной гимнастики, спортивной акробатики и фигурного катания.
           </div>
-          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+          <div className="feature-item" style={{ textIndent: '1.5rem' }}>
             Каждый купальник — это результат глубокого понимания спортивной эстетики и <span style={highlightTextStyles}>индивидуальных потребностей спортсмена</span>.
           </div>
         </>
@@ -85,10 +85,10 @@ const About = () => {
       title: 'Современные технологии',
       description: (
         <>
-          <div className="feature-item" style={{textIndent: '1.5rem'}}>
-            Мы используем <span style={highlightTextStyles}>передовые технологии</span> аэрографии, инкрустации стразами и 3D-дизайна. 
+          <div className="feature-item" style={{ textIndent: '1.5rem' }}>
+            Мы используем <span style={highlightTextStyles}>передовые технологии</span> аэрографии, инкрустации стразами и 3D-дизайна.
           </div>
-          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+          <div className="feature-item" style={{ textIndent: '1.5rem' }}>
             Наши купальники — это не просто костюмы, а <span style={highlightTextStyles}>произведения искусства</span>, которые подчеркивают харизму спортсмена и при этом полностью соответствуют строгим соревновательным стандартам.
           </div>
         </>
@@ -98,19 +98,35 @@ const About = () => {
     },
     {
       icon: Users,
-      title: 'Качество и комфорт',
+      title: 'Качество и\u00A0комфорт',
       description: (
         <>
-          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+          <div className="feature-item" style={{ textIndent: '1.5rem' }}>
             От профессиональных спортсменов до самых начинающих — мы обеспечиваем <span style={highlightTextStyles}>качественные решения для всех</span>.
           </div>
-          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+          <div className="feature-item" style={{ textIndent: '1.5rem' }}>
             В нашей коллекции есть как <span style={highlightTextStyles}>готовые модели на продажу</span>, так и <span style={highlightTextStyles}>готовые купальники</span>, которые можно взять <span style={highlightTextStyles}>напрокат</span>.
           </div>
         </>
       ),
       buttonText: 'Взять купальник напрокат',
       onClick: () => setIsRentalModalOpen(true)
+    },
+    {
+      icon: Users,
+      title: 'Этапы большого\u00A0пути',
+      description: (
+        <>
+          <div className="feature-item" style={{ textIndent: '1.5rem' }}>
+            Наша история складывается из реальных этапов, пройденных вместе с нашими клиентами.
+          </div>
+          <div className="feature-item" style={{ textIndent: '1.5rem' }}>
+            В галерее представлены фото и видео с соревнований, а также моменты подготовки костюмов к выступлениям и прочие рабочие и творческие моменты из жизни нашей мастерской.
+          </div>
+        </>
+      ),
+      buttonText: 'Открыть галерею',
+      onClick: () => {} // заглушка для будущей галереи
     }
   ];
 
@@ -163,6 +179,7 @@ const About = () => {
                 key={index}
                 ref={el => itemsRef.current[index + 4] = el}
                 className={styles.featureCard}
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className={styles.iconWrapper}>
                   <Icon size={24} />

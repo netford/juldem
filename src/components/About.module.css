@@ -7,7 +7,8 @@
 }
 
 .container {
-  max-width: 1200px;
+  /* Увеличили ширину контейнера до 1400px, как в секции "Доставка" */
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   padding: 0 2rem;
@@ -170,40 +171,37 @@
   display: block;
 }
 
+/* Сетка для карточек - аналогично секции "Доставка" */
 .featuresContainer {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
+  margin-bottom: 2rem;
 }
 
+/* Карточка - аналогично deliveryCard */
 .featureCard {
   background: #262626;
   border: 1px solid #333;
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-}
-
-.featureCard:nth-child(1) {
-  transition-delay: 0.1s;
-}
-
-.featureCard:nth-child(2) {
-  transition-delay: 0.2s;
-}
-
-.featureCard:nth-child(3) {
-  transition-delay: 0.3s;
-}
-
-.featureCard.visible {
+  align-items: center; /* Центрирование содержимого по горизонтали */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(0);
   opacity: 1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Плавное появление */
+.featureCard {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.featureCard.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .featureCard:hover {
@@ -215,12 +213,12 @@
 .iconWrapper {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, #0066cc, #00e2fc);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.5rem; /* Центрирование по горизонтали */
+  margin-bottom: 1.5rem;
   transition: transform 0.3s ease;
 }
 
@@ -233,23 +231,21 @@
   color: #fff;
   margin-bottom: 1rem;
   font-weight: 600;
-  letter-spacing: -1px;
   text-align: center;
-  letter-spacing: -1.5px;
 }
 
 .featureDescription {
   color: #ccc;
   line-height: 1.6;
   margin-bottom: 1.5rem;
-  flex-grow: 1; /* Даем контенту возможность расти */
-  text-align: left; /* Изменено с center на left */
+  text-align: left;
+  width: 100%;
+  flex-grow: 1;
 }
 
-/* Стиль для кнопки в карточке */
 .featureButton {
   background: linear-gradient(135deg, #0066cc, #00e2fc);
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 12px;
   padding: 0.75rem 1.5rem;
@@ -271,24 +267,6 @@
 .featureButton:active {
   transform: translateY(0);
   box-shadow: 0 3px 10px rgba(0, 102, 204, 0.4);
-}
-
-.imagePlaceholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  background: #262626;
-  border: 1px dashed #444;
-  color: #666;
-}
-
-.imagePlaceholder p {
-  margin-top: 10px;
-  font-size: 14px;
 }
 
 .videoContainer {
@@ -343,7 +321,13 @@
   transform: translate(-50%, -50%) scale(1.1);
 }
 
-/* Адаптивность для планшетов */
+/* Адаптивно меняем количество колонок, как в "Доставка" */
+@media (max-width: 1200px) {
+  .featuresContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 992px) {
   .aboutContainer {
     grid-template-columns: 1fr;
@@ -357,11 +341,7 @@
   .aboutMedia {
     order: 0;
   }
-  
-  .featuresContainer {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
+
   .mainImage, .smallImage {
     max-height: 300px;
   }
@@ -375,7 +355,6 @@
   }
 }
 
-/* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
   .aboutSection {
     padding: 4rem 0;
@@ -388,23 +367,20 @@
   .aboutContainer {
     gap: 1.5rem;
   }
-  
+
+  /* Одна колонка на мобильных */
   .featuresContainer {
     grid-template-columns: 1fr;
     gap: 2rem;
-    width: 90%; /* Уменьшаем ширину контейнера */
-    max-width: 320px; /* Уменьшаем максимальную ширину */
-    margin: 0 auto; /* Центрирование контейнера */
+    max-width: 450px;
+    margin: 0 auto;
   }
-  
+
   .featureCard {
     width: 100%;
-    min-width: 280px; /* Минимальная ширина карточки */
-    max-width: 320px; /* Максимальная ширина карточки */
-    margin: 0 auto; /* Центрирование карточки */
-    padding: 1.5rem; /* Уменьшаем padding для мобильных */
+    padding: 1.5rem;
   }
-  
+
   .timeline {
     margin-left: 0;
   }
@@ -427,11 +403,11 @@
   }
   
   .featureTitle {
-    font-size: 1.3rem; /* Уменьшаем размер заголовка */
+    font-size: 1.3rem;
   }
   
   .featureDescription {
-    font-size: 1rem; /* Уменьшаем размер описания */
+    font-size: 1rem;
   }
   
   .featureButton {
@@ -447,16 +423,12 @@
   }
 }
 
-/* Добавим еще медиа-запрос для очень маленьких экранов */
 @media (max-width: 375px) {
   .featuresContainer {
-    width: 95%;
     max-width: 300px;
   }
-  
+
   .featureCard {
-    min-width: auto;
-    max-width: 280px;
     padding: 1.2rem;
   }
   
