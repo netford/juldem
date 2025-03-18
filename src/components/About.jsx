@@ -4,7 +4,7 @@ import styles from './About.module.css';
 import CustomOrderModal from './CustomOrderModal';
 import OrderModal from './OrderModal';
 import RentalModal from './RentalModal';
-import { scrollToReadySuits } from './Hero'; // Импортируем функцию
+import { scrollToReadySuits } from './Hero';
 
 const About = () => {
   const sectionRef = useRef(null);
@@ -56,26 +56,59 @@ const About = () => {
     image: "/favicon/favicon-96x96.png"
   };
 
+  // Стили для подсветки ключевых слов
+  const highlightTextStyles = {
+    color: '#00e2fc', 
+    fontWeight: '500'
+  };
+
   // Создаем информацию о карточках с новыми текстами и кнопками
   const featureCards = [
     {
       icon: Award,
       title: 'Профессиональный подход к каждому купальнику',
-      description: 'За 7 лет мы создали более 500 уникальных костюмов для художественной гимнастики, спортивной акробатики и фигурного катания. Каждый купальник — это результат глубокого понимания спортивной эстетики и индивидуальных потребностей спортсмена.',
+      description: (
+        <>
+          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+            За <span style={highlightTextStyles}>7 лет</span> мы создали более <span style={highlightTextStyles}>300 уникальных костюмов</span> для художественной гимнастики, спортивной акробатики и фигурного катания. 
+          </div>
+          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+            Каждый купальник — это результат глубокого понимания спортивной эстетики и <span style={highlightTextStyles}>индивидуальных потребностей спортсмена</span>.
+          </div>
+        </>
+      ),
       buttonText: 'Заказать индивидуальный пошив',
       onClick: () => setIsCustomOrderModalOpen(true)
     },
     {
       icon: Brush,
       title: 'Технологии, превращающие образ',
-      description: 'Мы используем передовые технологии аэрографии, инкрустации стразами и 3D-дизайна. Наши купальники не просто костюмы — это произведения искусства, которые подчеркивают харизму и талант спортсмена, полностью соответствуя строгим соревновательным стандартам.',
-      buttonText: 'Выбрать готовый купальник', // Изменил текст кнопки
-      onClick: scrollToReadySuits // Использую существующую функцию
+      description: (
+        <>
+          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+            Мы используем <span style={highlightTextStyles}>передовые технологии</span> аэрографии, инкрустации стразами и 3D-дизайна. 
+          </div>
+          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+            Наши купальники — это не просто костюмы, а <span style={highlightTextStyles}>произведения искусства</span>, которые подчеркивают харизму спортсмена и при этом полностью соответствуют строгим соревновательным стандартам.
+          </div>
+        </>
+      ),
+      buttonText: 'Выбрать готовый купальник',
+      onClick: scrollToReadySuits
     },
     {
       icon: Users,
       title: 'Комфорт и качество для каждого',
-      description: 'От начинающих спортсменов до профессионалов мирового уровня — мы обеспечиваем высококачественные решения для всех. В нашей коллекции есть как индивидуальные модели, так и готовые костюмы, которые можно получить здесь и сейчас.',
+      description: (
+        <>
+          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+            От профессиональных спортсменов до самых начинающих — мы обеспечиваем <span style={highlightTextStyles}>качественные решения для всех</span>.
+          </div>
+          <div className="feature-item" style={{textIndent: '1.5rem'}}>
+            В нашей коллекции есть как <span style={highlightTextStyles}>готовые модели на продажу</span>, так и <span style={highlightTextStyles}>готовые купальники</span>, которые можно взять <span style={highlightTextStyles}>напрокат</span>.
+          </div>
+        </>
+      ),
       buttonText: 'Взять купальник напрокат',
       onClick: () => setIsRentalModalOpen(true)
     }
@@ -135,7 +168,7 @@ const About = () => {
                   <Icon size={24} />
                 </div>
                 <h3 className={styles.featureTitle}>{feature.title}</h3>
-                <p className={styles.featureDescription}>{feature.description}</p>
+                <div className={styles.featureDescription}>{feature.description}</div>
                 <button 
                   className="btn btn-secondary delivery-secondary-btn"
                   onClick={feature.onClick}
@@ -148,7 +181,6 @@ const About = () => {
         </div>
       </div>
 
-      {/* Модальные окна */}
       <CustomOrderModal
         isOpen={isCustomOrderModalOpen}
         onClose={() => setIsCustomOrderModalOpen(false)}
