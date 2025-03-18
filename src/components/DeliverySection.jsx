@@ -3,12 +3,14 @@ import { Truck, Clock, CreditCard, MapPin } from 'lucide-react';
 import styles from './DeliverySection.module.css';
 import PostShipmentModal from './PostShipmentModal';
 import SdekCalcModal from './SdekCalcModal';
+import DpdCalcModal from './DpdCalcModal';
 
 const DeliverySection = () => {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
   const [isPostShipmentModalOpen, setIsPostShipmentModalOpen] = useState(false);
   const [isSdekCalcModalOpen, setIsSdekCalcModalOpen] = useState(false);
+  const [isDpdCalcModalOpen, setIsDpdCalcModalOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -52,7 +54,7 @@ const DeliverySection = () => {
             },
             {
               id: 3,
-              title: 'DPD',
+              title: 'Boxberry & DPD',
               icon: Clock,
               description: 'Доставка до пункта выдачи'
             },
@@ -99,6 +101,7 @@ const DeliverySection = () => {
                   ) : (
                     <button 
                       className="btn btn-secondary delivery-secondary-btn"
+                      onClick={() => setIsDpdCalcModalOpen(true)}
                     >
                       Калькулятор доставки
                     </button>
@@ -125,6 +128,11 @@ const DeliverySection = () => {
       <SdekCalcModal
         isOpen={isSdekCalcModalOpen}
         onClose={() => setIsSdekCalcModalOpen(false)}
+      />
+      
+      <DpdCalcModal
+        isOpen={isDpdCalcModalOpen}
+        onClose={() => setIsDpdCalcModalOpen(false)}
       />
     </section>
   );
