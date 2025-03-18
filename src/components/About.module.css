@@ -242,7 +242,7 @@
   line-height: 1.6;
   margin-bottom: 1.5rem;
   flex-grow: 1; /* Даем контенту возможность расти */
-  text-align: center;
+  text-align: left; /* Изменено с center на left */
 }
 
 /* Стиль для кнопки в карточке */
@@ -272,79 +272,6 @@
   box-shadow: 0 3px 10px rgba(0, 102, 204, 0.4);
 }
 
-/* Адаптивность для планшетов */
-@media (max-width: 992px) {
-  .aboutContainer {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  
-  .aboutContent {
-    order: 1;
-  }
-  
-  .aboutMedia {
-    order: 0;
-  }
-  
-  .featuresContainer {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  .mainImage, .smallImage {
-    max-height: 300px;
-  }
-  
-  .smallImage img {
-    height: 200px;
-  }
-}
-
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-  .aboutSection {
-    padding: 4rem 0;
-  }
-  
-  .aboutContainer {
-    gap: 1.5rem;
-  }
-  
-  .featuresContainer {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .timeline {
-    margin-left: 0;
-  }
-  
-  .timelineItem {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .year {
-    margin-right: 0;
-  }
-  
-  .mainImage, .smallImage {
-    max-height: none;
-  }
-  
-  .smallImage img {
-    height: auto;
-  }
-  
-  .featureTitle {
-    font-size: 1.4rem;
-  }
-  
-  .featureButton {
-    padding: 0.7rem 1rem;
-  }
-}
-
 .imagePlaceholder {
   display: flex;
   flex-direction: column;
@@ -362,8 +289,6 @@
   margin-top: 10px;
   font-size: 14px;
 }
-
-/* Добавьте эти стили для видео-контейнера */
 
 .videoContainer {
   position: relative;
@@ -417,18 +342,128 @@
   transform: translate(-50%, -50%) scale(1.1);
 }
 
-/* Обновите медиа-запросы для лучшей адаптивности видео */
+/* Адаптивность для планшетов */
 @media (max-width: 992px) {
+  .aboutContainer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .aboutContent {
+    order: 1;
+  }
+  
+  .aboutMedia {
+    order: 0;
+  }
+  
+  .featuresContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .mainImage, .smallImage {
+    max-height: 300px;
+  }
+  
+  .smallImage img {
+    height: 200px;
+  }
+  
   .videoContainer {
     min-height: 300px;
   }
 }
 
+/* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
+  .aboutSection {
+    padding: 4rem 0;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .aboutContainer {
+    gap: 1.5rem;
+  }
+  
+  .featuresContainer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    width: 90%; /* Уменьшаем ширину контейнера */
+    max-width: 320px; /* Уменьшаем максимальную ширину */
+    margin: 0 auto; /* Центрирование контейнера */
+  }
+  
+  .featureCard {
+    width: 100%;
+    min-width: 280px; /* Минимальная ширина карточки */
+    max-width: 320px; /* Максимальная ширина карточки */
+    margin: 0 auto; /* Центрирование карточки */
+    padding: 1.5rem; /* Уменьшаем padding для мобильных */
+  }
+  
+  .timeline {
+    margin-left: 0;
+  }
+  
+  .timelineItem {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .year {
+    margin-right: 0;
+  }
+  
+  .mainImage, .smallImage {
+    max-height: none;
+  }
+  
+  .smallImage img {
+    height: auto;
+  }
+  
+  .featureTitle {
+    font-size: 1.3rem; /* Уменьшаем размер заголовка */
+  }
+  
+  .featureDescription {
+    font-size: 0.95rem; /* Уменьшаем размер описания */
+  }
+  
+  .featureButton {
+    padding: 0.7rem 1rem;
+  }
+  
   .videoContainer {
     min-height: 250px;
   }
+  
   .playButton {
     top: 50%;
+  }
+}
+
+/* Добавим еще медиа-запрос для очень маленьких экранов */
+@media (max-width: 375px) {
+  .featuresContainer {
+    width: 95%;
+    max-width: 300px;
+  }
+  
+  .featureCard {
+    min-width: auto;
+    max-width: 280px;
+    padding: 1.2rem;
+  }
+  
+  .featureTitle {
+    font-size: 1.2rem;
+  }
+  
+  .featureDescription {
+    font-size: 0.9rem;
   }
 }
