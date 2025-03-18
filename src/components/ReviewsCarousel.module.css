@@ -105,21 +105,25 @@
   z-index: 5;
   transition: all 0.3s ease;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  pointer-events: auto; /* Всегда активна */
+  user-select: none; /* Запрещаем выделение */
 }
 
-.carouselButton:hover:not(:disabled) {
+/* Стили для кнопок при анимации (вместо disabled) */
+.carouselButton.animating {
+  opacity: 0.5;
+  pointer-events: none; /* Только при анимации отключаем клики */
+}
+
+.carouselButton:hover:not(.animating) {
   background-color: rgba(0, 102, 204, 0.8);
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 0 20px rgba(0, 102, 204, 0.5);
+  cursor: pointer; /* Принудительно устанавливаем курсор */
 }
 
-.carouselButton:active:not(:disabled) {
+.carouselButton:active:not(.animating) {
   transform: translateY(-50%) scale(0.95);
-}
-
-.carouselButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .prevButton {

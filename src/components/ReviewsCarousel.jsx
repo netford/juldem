@@ -139,10 +139,9 @@ const ReviewsSection = () => {
           className={styles.carouselContainer}
         >
           <button 
-            className={`${styles.carouselButton} ${styles.prevButton}`}
+            className={`${styles.carouselButton} ${styles.prevButton} ${isAnimating ? styles.animating : ''}`}
             onClick={scrollLeft}
             aria-label="Предыдущий отзыв"
-            disabled={isAnimating}
           >
             <ChevronLeft size={24} />
           </button>
@@ -150,10 +149,9 @@ const ReviewsSection = () => {
           {renderCarousel()}
           
           <button 
-            className={`${styles.carouselButton} ${styles.nextButton}`}
+            className={`${styles.carouselButton} ${styles.nextButton} ${isAnimating ? styles.animating : ''}`}
             onClick={scrollRight}
             aria-label="Следующий отзыв"
-            disabled={isAnimating}
           >
             <ChevronRight size={24} />
           </button>
