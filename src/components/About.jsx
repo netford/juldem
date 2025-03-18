@@ -4,6 +4,7 @@ import styles from './About.module.css';
 import CustomOrderModal from './CustomOrderModal';
 import OrderModal from './OrderModal';
 import RentalModal from './RentalModal';
+import DontReadyModal from './DontReadyModal';
 import { scrollToReadySuits } from './Hero';
 
 const About = () => {
@@ -15,6 +16,7 @@ const About = () => {
   const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
+  const [isDontReadyModalOpen, setIsDontReadyModalOpen] = useState(false);
 
   // Эффект для анимации появления элементов при прокрутке
   useEffect(() => {
@@ -58,11 +60,11 @@ const About = () => {
 
   // Стили для подсветки ключевых слов
   const highlightTextStyles = {
-    color: '#00e2fc', 
+    color: '#00e2fc',
     fontWeight: '500'
   };
 
-  // Создаем информацию о карточках
+  // Информация о карточках
   const featureCards = [
     {
       icon: Award,
@@ -118,15 +120,15 @@ const About = () => {
       description: (
         <>
           <div className="feature-item" style={{ textIndent: '1.5rem' }}>
-            Наша история складывается из реальных этапов, пройденных вместе с нашими клиентами.
+          Наша история складывается из реальных шагов, пройденных вместе с нашими клиентами.
           </div>
           <div className="feature-item" style={{ textIndent: '1.5rem' }}>
-            В галерее представлены фото и видео с соревнований, а также моменты подготовки костюмов к выступлениям и прочие рабочие и творческие моменты из жизни нашей мастерской.
+          В галерее представлены процессы создания костюмов, а также яркие кадры выступлений и побед наших спортсменов, как начинающих, так и профессиональных.
           </div>
         </>
       ),
       buttonText: 'Открыть галерею',
-      onClick: () => {} // заглушка для будущей галереи
+      onClick: () => setIsDontReadyModalOpen(true)
     }
   ];
 
@@ -134,11 +136,11 @@ const About = () => {
     <section ref={sectionRef} id="about" className={styles.aboutSection}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>О нас</h2>
-        
+
         <div className={styles.aboutContainer}>
           <div className={styles.aboutContent} ref={el => itemsRef.current[0] = el}>
             <h3 className={styles.contentTitle}>Наша история</h3>
-            
+
             <div className={styles.timeline}>
               {timelineEvents.map((item, index) => (
                 <div key={index} className={styles.timelineItem}>
@@ -148,17 +150,17 @@ const About = () => {
               ))}
             </div>
           </div>
-          
+
           <div className={styles.aboutMedia}>
             <div className={styles.mediaGallery}>
               <div className={styles.mainImage} ref={el => itemsRef.current[1] = el}>
                 <img src="/images/about/studio.jpg" alt="Мастерская JULDEM" />
               </div>
-              
+
               <div>
-                <video 
+                <video
                   ref={videoRef}
-                  src="/videos/process.mp4" 
+                  src="/videos/process.mp4"
                   poster="/images/about/video-poster.jpg"
                   className={styles.processVideo}
                   playsInline
@@ -170,7 +172,7 @@ const About = () => {
             </div>
           </div>
         </div>
-        
+
         <div className={styles.featuresContainer}>
           {featureCards.map((feature, index) => {
             const Icon = feature.icon;
@@ -186,7 +188,7 @@ const About = () => {
                 </div>
                 <h3 className={styles.featureTitle}>{feature.title}</h3>
                 <div className={styles.featureDescription}>{feature.description}</div>
-                <button 
+                <button
                   className="btn btn-secondary delivery-secondary-btn"
                   onClick={feature.onClick}
                 >
@@ -203,16 +205,21 @@ const About = () => {
         onClose={() => setIsCustomOrderModalOpen(false)}
         product={dummyProduct}
       />
-      
+
       <OrderModal
         isOpen={isOrderModalOpen}
         onClose={() => setIsOrderModalOpen(false)}
         product={dummyProduct}
       />
-      
+
       <RentalModal
         isOpen={isRentalModalOpen}
         onClose={() => setIsRentalModalOpen(false)}
+      />
+
+      <DontReadyModal
+        isOpen={isDontReadyModalOpen}
+        onClose={() => setIsDontReadyModalOpen(false)}
       />
     </section>
   );
