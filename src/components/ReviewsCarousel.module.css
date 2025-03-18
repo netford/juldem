@@ -21,80 +21,105 @@
 .carouselContainer {
   position: relative;
   max-width: 1200px;
+  height: 500px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 500px; /* Фиксированная высота для 3D-сцены */
+  perspective: 1000px; /* Добавляем перспективу для 3D-эффекта */
 }
 
-/* Стили для 3D-сцены */
-.scene {
-  width: 900px; /* Ширина сцены для трех элементов */
-  height: 400px; /* Высота сцены */
-  margin: 0 auto;
-  perspective: 1500px; /* Глубина перспективы */
-  transform-style: preserve-3d;
+/* Сцена для параллакс-эффекта */
+.parallaxStage {
   position: relative;
-}
-
-/* Стили для куба */
-.cube {
   width: 100%;
   height: 100%;
-  position: relative;
   transform-style: preserve-3d;
-  /* Начальная трансформация куба задается через инлайн-стили */
-}
-
-/* Стили для граней куба */
-.cubeFace {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  /* transform будет задаваться через инлайн-стили */
   display: flex;
   align-items: center;
   justify-content: center;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  transform-origin: center;
-  transition: opacity 0.3s ease;
-}
-
-.cubeFaceContent {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-style: preserve-3d;
-}
-
-.currentFace {
-  z-index: 2;
 }
 
 .reviewContainer {
+  position: absolute;
   width: 300px;
   height: 400px;
-  background: #000;
+  margin: 0;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  background: #000;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  transform-style: preserve-3d; /* Сохраняем 3D пространство для дочерних элементов */
+  backface-visibility: hidden; /* Скрываем обратную сторону элементов */
+  will-change: transform, opacity; /* Оптимизируем для анимации */
+}
+
+.reviewInner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   transform-style: preserve-3d;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+  backface-visibility: hidden;
+}
+
+/* Стиль активного слайда с подсветкой */
+.activeSlide {
+  z-index: 10 !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 102, 204, 0.4) !important;
+  opacity: 1 !important;
+  border: 1px solid rgba(0, 102, 204, 0.3);
 }
 
 .reviewImage {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
 }
 
+/* Мобильная версия карусели */
+.mobileCarousel {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.mobileTrack {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slideLeft {
+  animation: slideLeftAnimation 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slideRight {
+  animation: slideRightAnimation 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes slideLeftAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(280px));
+  }
+}
+
+@keyframes slideRightAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-280px));
+  }
+}
+
+/* Кнопки навигации */
 .carouselButton {
   position: absolute;
   top: 50%;
@@ -109,7 +134,7 @@
   justify-content: center;
   color: white;
   cursor: pointer;
-  z-index: 10;
+  z-index: 100;
   transition: all 0.3s ease;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
@@ -137,6 +162,7 @@
   right: 20px;
 }
 
+/* Пагинация */
 .pagination {
   display: flex;
   justify-content: center;
@@ -168,10 +194,29 @@
   box-shadow: 0 0 8px rgba(0, 102, 204, 0.5);
 }
 
+/* Эффект свечения для активного слайда */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 102, 204, 0.4);
+  }
+  50% {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 102, 204, 0.6);
+  }
+}
+
+.activeSlide {
+  animation: glow 3s infinite ease-in-out;
+}
+
 /* Медиа-запросы для адаптивности */
 @media (max-width: 1100px) {
-  .scene {
-    width: 700px;
+  .carouselContainer {
+    height: 450px;
+  }
+  
+  .reviewContainer {
+    width: 280px;
+    height: 380px;
   }
   
   .carouselButton {
@@ -181,13 +226,13 @@
 }
 
 @media (max-width: 992px) {
-  .scene {
-    width: 600px;
+  .carouselContainer {
+    height: 430px;
   }
   
   .reviewContainer {
-    width: 280px;
-    height: 380px;
+    width: 260px;
+    height: 350px;
   }
 }
 
@@ -198,18 +243,37 @@
   
   .carouselContainer {
     height: 400px;
+    perspective: none;
   }
   
-  .scene {
-    width: 290px; /* Ширина для одного элемента */
-    height: 380px;
-    perspective: 800px; /* Меньшая перспектива для мобильных */
+  .mobileCarousel {
+    height: 373px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
-  .reviewContainer {
+  .mobileTrack {
+    position: relative;
+    height: 373px;
+  }
+  
+  .mobileTrack .reviewContainer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0;
+    pointer-events: none;
     width: 280px;
     height: 373px;
-    transform: translateX(0) !important; /* Сброс горизонтального смещения */
+    transition: all 0.5s ease;
+  }
+  
+  .mobileTrack .activeSlide {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    pointer-events: auto;
   }
   
   .carouselButton {
@@ -241,12 +305,15 @@
 }
 
 @media (max-width: 480px) {
-  .scene {
-    width: 260px;
+  .carouselContainer {
     height: 350px;
   }
   
-  .reviewContainer {
+  .mobileCarousel {
+    height: 333px;
+  }
+  
+  .mobileTrack .reviewContainer {
     width: 250px;
     height: 333px;
   }
