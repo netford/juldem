@@ -3,6 +3,7 @@
   text-align: center;
   background: #1a1a1a;
   color: #fff;
+  overflow: hidden;
 }
 
 .container {
@@ -24,100 +25,83 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 500px; /* Фиксированная высота для 3D-сцены */
 }
 
-.carouselTrackContainer {
-  width: calc(300px * 3 + 4rem); /* 3 слайда с отступами */
-  overflow: hidden;
+/* Стили для 3D-сцены */
+.scene {
+  width: 900px; /* Ширина сцены для трех элементов */
+  height: 400px; /* Высота сцены */
   margin: 0 auto;
-  perspective: 1000px; /* Добавляем перспективу для 3D-эффектов */
+  perspective: 1500px; /* Глубина перспективы */
+  transform-style: preserve-3d;
+  position: relative;
 }
 
-.carouselTrack {
+/* Стили для куба */
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  /* Начальная трансформация куба задается через инлайн-стили */
+}
+
+/* Стили для граней куба */
+.cubeFace {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* transform будет задаваться через инлайн-стили */
   display: flex;
-  gap: 2rem;
-  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); /* Плавная анимация */
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  transition: opacity 0.3s ease;
 }
 
-/* Классы для эффекта масштабирования */
-.scaleprev {
-  transform: translateX(20px); /* Небольшое смещение для динамичности */
+.cubeFaceContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
 }
 
-.scalenext {
-  transform: translateX(-20px); /* Небольшое смещение для динамичности */
+.currentFace {
+  z-index: 2;
 }
 
 .reviewContainer {
   width: 300px;
   height: 400px;
-  flex-shrink: 0;
-  overflow: hidden;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: #000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
-              box-shadow 0.3s ease;
-}
-
-/* Анимация масштабирования при входе/выходе элементов */
-.scaleIn {
-  animation: scaleInAnimation 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.scaleOut {
-  animation: scaleOutAnimation 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-@keyframes scaleInAnimation {
-  0% {
-    transform: scale(0.5);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes scaleOutAnimation {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.5);
-    opacity: 0.5;
-  }
-}
-
-.reviewContainer:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-  z-index: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
 
 .reviewImage {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform 0.3s ease; /* Добавляем переход для изображения */
-}
-
-.reviewContainer:hover .reviewImage {
-  transform: scale(1.05); /* Небольшое увеличение изображения при наведении */
+  transform-style: preserve-3d;
 }
 
 .carouselButton {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 48px;
-  height: 48px;
-  background-color: rgba(0, 0, 0, 0.6);
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.7);
   border: none;
   border-radius: 50%;
   display: flex;
@@ -127,12 +111,13 @@
   cursor: pointer;
   z-index: 10;
   transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .carouselButton:hover:not(:disabled) {
   background-color: rgba(0, 102, 204, 0.8);
   transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 0 15px rgba(0, 102, 204, 0.5);
+  box-shadow: 0 0 20px rgba(0, 102, 204, 0.5);
 }
 
 .carouselButton:active:not(:disabled) {
@@ -145,11 +130,11 @@
 }
 
 .prevButton {
-  left: 10px;
+  left: 20px;
 }
 
 .nextButton {
-  right: 10px;
+  right: 20px;
 }
 
 .pagination {
@@ -157,6 +142,8 @@
   justify-content: center;
   gap: 0.5rem;
   margin-top: 2rem;
+  position: relative;
+  z-index: 5;
 }
 
 .paginationDot {
@@ -183,17 +170,24 @@
 
 /* Медиа-запросы для адаптивности */
 @media (max-width: 1100px) {
-  .carouselTrackContainer {
-    width: calc(300px * 3 + 3rem); /* Меньший отступ между слайдами */
-  }
-  
-  .carouselTrack {
-    gap: 1.5rem;
+  .scene {
+    width: 700px;
   }
   
   .carouselButton {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 992px) {
+  .scene {
+    width: 600px;
+  }
+  
+  .reviewContainer {
+    width: 280px;
+    height: 380px;
   }
 }
 
@@ -202,24 +196,38 @@
     padding: 4rem 0;
   }
   
-  .carouselTrackContainer {
-    width: 280px; /* Только 1 слайд для мобильных */
+  .carouselContainer {
+    height: 400px;
+  }
+  
+  .scene {
+    width: 290px; /* Ширина для одного элемента */
+    height: 380px;
     perspective: 800px; /* Меньшая перспектива для мобильных */
   }
   
   .reviewContainer {
     width: 280px;
     height: 373px;
+    transform: translateX(0) !important; /* Сброс горизонтального смещения */
   }
   
   .carouselButton {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
   
   .carouselButton svg {
     width: 20px;
     height: 20px;
+  }
+
+  .prevButton {
+    left: 10px;
+  }
+
+  .nextButton {
+    right: 10px;
   }
   
   .pagination {
@@ -229,5 +237,22 @@
   .paginationDot {
     width: 10px;
     height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scene {
+    width: 260px;
+    height: 350px;
+  }
+  
+  .reviewContainer {
+    width: 250px;
+    height: 333px;
+  }
+  
+  .carouselButton {
+    width: 36px;
+    height: 36px;
   }
 }

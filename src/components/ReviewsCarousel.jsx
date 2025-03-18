@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Импорт изображений отзывов
@@ -28,34 +28,61 @@ const ReviewsSection = () => {
     { id: 9, image: review009, alt: "Отзыв 9" }
   ];
 
-  // Начальный индекс (показываем первые три отзыва)
-  const [startIndex, setStartIndex] = useState(0);
-  // Направление анимации (prev или next)
-  const [animationDirection, setAnimationDirection] = useState(null);
+  // Начальный индекс
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // Направление вращения (1 для вправо, -1 для влево)
+  const [direction, setDirection] = useState(0);
   // Состояние анимации для блокировки множественных кликов
   const [isAnimating, setIsAnimating] = useState(false);
+  // Угол вращения куба
+  const [rotationAngle, setRotationAngle] = useState(0);
+  // Адаптация для мобильных устройств
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Количество отзывов, отображаемых одновременно
-  const visibleCount = 3;
+  // Проверка мобильного устройства при загрузке
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Количество отзывов, отображаемых одновременно для мобильных и десктопа
+  const visibleCount = isMobile ? 1 : 3;
   
+  // Расчет угла поворота для кубического эффекта
+  const calculateRotationAngle = (index) => {
+    // Угол грани куба для трех или одного элемента
+    const anglePerFace = visibleCount === 3 ? 120 : 360;
+    return index * -anglePerFace;
+  };
+
+  // Обновляем угол вращения при изменении индекса
+  useEffect(() => {
+    setRotationAngle(calculateRotationAngle(currentIndex));
+  }, [currentIndex, visibleCount]);
+
   // Функция для прокрутки влево
   const scrollLeft = () => {
     if (isAnimating) return;
     
     setIsAnimating(true);
-    setAnimationDirection('prev');
+    setDirection(-1);
     
     setTimeout(() => {
-      setStartIndex((prevIndex) => 
-        prevIndex === 0 ? reviews.length - visibleCount : prevIndex - 1
+      setCurrentIndex((prevIndex) => 
+        prevIndex === 0 ? Math.ceil(reviews.length / visibleCount) - 1 : prevIndex - 1
       );
       
-      // Сбрасываем анимацию после завершения
       setTimeout(() => {
-        setAnimationDirection(null);
         setIsAnimating(false);
+        setDirection(0);
       }, 50);
-    }, 400);
+    }, 500); // Подождать пока анимация почти завершится
   };
   
   // Функция для прокрутки вправо
@@ -63,34 +90,48 @@ const ReviewsSection = () => {
     if (isAnimating) return;
     
     setIsAnimating(true);
-    setAnimationDirection('next');
+    setDirection(1);
     
     setTimeout(() => {
-      setStartIndex((prevIndex) => 
-        prevIndex === reviews.length - visibleCount ? 0 : prevIndex + 1
+      setCurrentIndex((prevIndex) => 
+        prevIndex === Math.ceil(reviews.length / visibleCount) - 1 ? 0 : prevIndex + 1
       );
       
-      // Сбрасываем анимацию после завершения
       setTimeout(() => {
-        setAnimationDirection(null);
         setIsAnimating(false);
+        setDirection(0);
       }, 50);
-    }, 400);
+    }, 500); // Подождать пока анимация почти завершится
   };
   
-  // Получаем текущие видимые отзывы с учетом кругового отображения
+  // Получаем отзывы для текущего индекса
   const getVisibleReviews = () => {
-    const result = [];
-    for (let i = 0; i < visibleCount; i++) {
-      const index = (startIndex + i) % reviews.length;
-      result.push(reviews[index]);
+    const totalGroups = Math.ceil(reviews.length / visibleCount);
+    const allGroupedReviews = [];
+    
+    // Создаем группы отзывов по 1 или 3 элемента
+    for (let i = 0; i < totalGroups; i++) {
+      const start = i * visibleCount;
+      allGroupedReviews.push(reviews.slice(start, start + visibleCount));
     }
-    return result;
+    
+    // Добавляем пустые места для неполных групп
+    const lastGroup = allGroupedReviews[allGroupedReviews.length - 1];
+    while (lastGroup.length < visibleCount) {
+      lastGroup.push(null);
+    }
+    
+    return allGroupedReviews;
   };
   
-  // Видимые отзывы
-  const visibleReviews = getVisibleReviews();
-
+  const groupedReviews = getVisibleReviews();
+  
+  // Стили для 3D-куба
+  const cubeStyle = {
+    transform: `rotateY(${rotationAngle + (direction * 30)}deg)`, // Добавляем направление для анимации
+    transition: 'transform 0.6s cubic-bezier(0, 0.55, 0.45, 1)'
+  };
+  
   return (
     <section id="reviews" className={styles.reviewsSection}>
       <div className={styles.container}>
@@ -106,19 +147,34 @@ const ReviewsSection = () => {
             <ChevronLeft size={24} />
           </button>
           
-          <div className={styles.carouselTrackContainer}>
-            <div className={`${styles.carouselTrack} ${animationDirection ? styles[`scale${animationDirection}`] : ''}`}>
-              {visibleReviews.map((review, idx) => (
+          <div className={styles.scene}>
+            <div 
+              className={styles.cube} 
+              style={cubeStyle}
+            >
+              {groupedReviews.map((group, groupIndex) => (
                 <div 
-                  key={review.id} 
-                  className={`${styles.reviewContainer} ${
-                    animationDirection === 'prev' && idx === 0 ? styles.scaleIn :
-                    animationDirection === 'next' && idx === visibleCount - 1 ? styles.scaleIn :
-                    animationDirection === 'prev' && idx === visibleCount - 1 ? styles.scaleOut :
-                    animationDirection === 'next' && idx === 0 ? styles.scaleOut : ''
-                  }`}
+                  key={groupIndex} 
+                  className={`${styles.cubeFace} ${groupIndex === currentIndex ? styles.currentFace : ''}`}
+                  style={{ 
+                    transform: `rotateY(${groupIndex * (visibleCount === 3 ? 120 : 360)}deg) translateZ(${visibleCount === 3 ? 250 : 200}px)`
+                  }}
                 >
-                  <img src={review.image} alt={review.alt} className={styles.reviewImage} />
+                  <div className={styles.cubeFaceContent}>
+                    {group.map((review, index) => review && (
+                      <div 
+                        key={review.id} 
+                        className={styles.reviewContainer}
+                        style={{
+                          transform: visibleCount === 3 
+                            ? `translateX(${(index - 1) * 110}%)`
+                            : 'translateX(0)'
+                        }}
+                      >
+                        <img src={review.image} alt={review.alt} className={styles.reviewImage} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
@@ -135,16 +191,23 @@ const ReviewsSection = () => {
         </div>
         
         <div className={styles.pagination}>
-          {reviews.map((_, index) => (
+          {groupedReviews.map((_, index) => (
             <button 
               key={index} 
-              className={`${styles.paginationDot} ${
-                (index >= startIndex && index < startIndex + visibleCount) ||
-                (startIndex + visibleCount > reviews.length && 
-                 index < (startIndex + visibleCount) % reviews.length)
-                  ? styles.activeDot : ''
-              }`}
-              aria-label={`Отзыв ${index + 1}`}
+              className={`${styles.paginationDot} ${index === currentIndex ? styles.activeDot : ''}`}
+              aria-label={`Группа отзывов ${index + 1}`}
+              onClick={() => {
+                if (isAnimating) return;
+                setIsAnimating(true);
+                setDirection(index > currentIndex ? 1 : -1);
+                setTimeout(() => {
+                  setCurrentIndex(index);
+                  setTimeout(() => {
+                    setIsAnimating(false);
+                    setDirection(0);
+                  }, 50);
+                }, 500);
+              }}
             />
           ))}
         </div>
