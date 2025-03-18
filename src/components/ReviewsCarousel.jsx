@@ -30,8 +30,8 @@ const ReviewsSection = () => {
 
   // Начальный индекс (показываем первые три отзыва)
   const [startIndex, setStartIndex] = useState(0);
-  // Направление анимации (left или right)
-  const [slideDirection, setSlideDirection] = useState(null);
+  // Направление анимации (prev или next)
+  const [animationDirection, setAnimationDirection] = useState(null);
   // Состояние анимации для блокировки множественных кликов
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -43,18 +43,19 @@ const ReviewsSection = () => {
     if (isAnimating) return;
     
     setIsAnimating(true);
-    setSlideDirection('left');
+    setAnimationDirection('prev');
     
     setTimeout(() => {
       setStartIndex((prevIndex) => 
         prevIndex === 0 ? reviews.length - visibleCount : prevIndex - 1
       );
-      // Сбрасываем направление после завершения анимации
+      
+      // Сбрасываем анимацию после завершения
       setTimeout(() => {
-        setSlideDirection(null);
+        setAnimationDirection(null);
         setIsAnimating(false);
       }, 50);
-    }, 500); // Подождать пока анимация почти завершится
+    }, 400);
   };
   
   // Функция для прокрутки вправо
@@ -62,18 +63,19 @@ const ReviewsSection = () => {
     if (isAnimating) return;
     
     setIsAnimating(true);
-    setSlideDirection('right');
+    setAnimationDirection('next');
     
     setTimeout(() => {
       setStartIndex((prevIndex) => 
         prevIndex === reviews.length - visibleCount ? 0 : prevIndex + 1
       );
-      // Сбрасываем направление после завершения анимации
+      
+      // Сбрасываем анимацию после завершения
       setTimeout(() => {
-        setSlideDirection(null);
+        setAnimationDirection(null);
         setIsAnimating(false);
       }, 50);
-    }, 500); // Подождать пока анимация почти завершится
+    }, 400);
   };
   
   // Получаем текущие видимые отзывы с учетом кругового отображения
@@ -105,14 +107,17 @@ const ReviewsSection = () => {
           </button>
           
           <div className={styles.carouselTrackContainer}>
-            <div 
-              className={`${styles.carouselTrack} ${
-                slideDirection === 'left' ? styles.slideLeft :
-                slideDirection === 'right' ? styles.slideRight : ''
-              }`}
-            >
-              {visibleReviews.map((review) => (
-                <div key={review.id} className={styles.reviewContainer}>
+            <div className={`${styles.carouselTrack} ${animationDirection ? styles[`scale${animationDirection}`] : ''}`}>
+              {visibleReviews.map((review, idx) => (
+                <div 
+                  key={review.id} 
+                  className={`${styles.reviewContainer} ${
+                    animationDirection === 'prev' && idx === 0 ? styles.scaleIn :
+                    animationDirection === 'next' && idx === visibleCount - 1 ? styles.scaleIn :
+                    animationDirection === 'prev' && idx === visibleCount - 1 ? styles.scaleOut :
+                    animationDirection === 'next' && idx === 0 ? styles.scaleOut : ''
+                  }`}
+                >
                   <img src={review.image} alt={review.alt} className={styles.reviewImage} />
                 </div>
               ))}
