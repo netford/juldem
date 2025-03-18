@@ -137,7 +137,7 @@ const About = () => {
                 <h3 className={styles.featureTitle}>{feature.title}</h3>
                 <p className={styles.featureDescription}>{feature.description}</p>
                 <button 
-                  className={styles.featureButton}
+                  className="btn btn-secondary delivery-secondary-btn"
                   onClick={feature.onClick}
                 >
                   {feature.buttonText}

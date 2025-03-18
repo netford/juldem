@@ -258,7 +258,7 @@
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
   text-align: center;
-  margin-top: auto; /* Прижимаем кнопку к низу карточки */
+  margin-top: auto;
 }
 
 .featureButton:hover {
