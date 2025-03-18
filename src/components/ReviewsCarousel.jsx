@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Импорт изображений отзывов
@@ -16,7 +16,7 @@ import styles from './ReviewsCarousel.module.css';
 
 const ReviewsSection = () => {
   // Массив всех отзывов
-  const allReviews = [
+  const reviews = [
     { id: 1, image: review001, alt: "Отзыв 1" },
     { id: 2, image: review002, alt: "Отзыв 2" },
     { id: 3, image: review003, alt: "Отзыв 3" },
@@ -28,112 +28,54 @@ const ReviewsSection = () => {
     { id: 9, image: review009, alt: "Отзыв 9" }
   ];
 
-  // Количество отзывов, видимых одновременно (в зависимости от размера экрана)
-  const [visibleReviews, setVisibleReviews] = useState(3);
-  // Текущий индекс начального отзыва
-  const [currentIndex, setCurrentIndex] = useState(0);
-  // Состояние анимации
+  // Начальный индекс (показываем первые три отзыва)
+  const [startIndex, setStartIndex] = useState(0);
+  // Состояние анимации для блокировки множественных кликов
   const [isAnimating, setIsAnimating] = useState(false);
-  // Направление анимации (next или prev)
-  const [direction, setDirection] = useState('next');
+
+  // Количество отзывов, отображаемых одновременно
+  const visibleCount = 3;
   
-  // Функция для определения количества видимых отзывов в зависимости от размера экрана
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setVisibleReviews(1);
-      } else if (window.innerWidth <= 1100) {
-        setVisibleReviews(2);
-      } else {
-        setVisibleReviews(3);
-      }
-    };
-    
-    handleResize(); // Вызываем сразу для инициализации
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Функция для перехода к предыдущему слайду
-  const prevSlide = () => {
-    if (isAnimating) return; // Предотвращаем множественные клики во время анимации
+  // Функция для прокрутки влево
+  const scrollLeft = () => {
+    if (isAnimating) return;
     
     setIsAnimating(true);
-    setDirection('prev');
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? allReviews.length - 1 : prevIndex - 1
+    setStartIndex((prevIndex) => 
+      prevIndex === 0 ? reviews.length - visibleCount : prevIndex - 1
     );
     
-    // Сбрасываем флаг анимации через 1.5 секунды (длительность анимации)
     setTimeout(() => {
       setIsAnimating(false);
-    }, 1500);
+    }, 500);
   };
-
-  // Функция для перехода к следующему слайду
-  const nextSlide = () => {
-    if (isAnimating) return; // Предотвращаем множественные клики во время анимации
+  
+  // Функция для прокрутки вправо
+  const scrollRight = () => {
+    if (isAnimating) return;
     
     setIsAnimating(true);
-    setDirection('next');
-    setCurrentIndex((prevIndex) => 
-      prevIndex >= allReviews.length - 1 ? 0 : prevIndex + 1
+    setStartIndex((prevIndex) => 
+      prevIndex === reviews.length - visibleCount ? 0 : prevIndex + 1
     );
     
-    // Сбрасываем флаг анимации через 1.5 секунды (длительность анимации)
     setTimeout(() => {
       setIsAnimating(false);
-    }, 1500);
+    }, 500);
   };
-
-  // Получаем текущие видимые отзывы
-  const getCurrentReviews = () => {
-    // Создаем массив отзывов, который начинается с текущего индекса
-    const reviews = [];
-    for (let i = 0; i < visibleReviews; i++) {
-      const index = (currentIndex + i) % allReviews.length;
-      reviews.push(allReviews[index]);
+  
+  // Получаем текущие видимые отзывы с учетом кругового отображения
+  const getVisibleReviews = () => {
+    const result = [];
+    for (let i = 0; i < visibleCount; i++) {
+      const index = (startIndex + i) % reviews.length;
+      result.push(reviews[index]);
     }
-    return reviews;
+    return result;
   };
-
-  // Рендерим текущие видимые отзывы
-  const visibleReviewsToShow = getCurrentReviews();
-
-  // Функция для обработки клика на точке пагинации
-  const handleDotClick = (index) => {
-    if (isAnimating || index === currentIndex) return;
-    
-    setIsAnimating(true);
-    setDirection(index > currentIndex ? 'next' : 'prev');
-    setCurrentIndex(index);
-    
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 1500);
-  };
-
-  // Функция для создания индикаторов страниц
-  const renderPagination = () => {
-    const dots = [];
-    
-    for (let i = 0; i < allReviews.length; i++) {
-      // Активной должна быть только точка, соответствующая текущему индексу
-      const isActive = i === currentIndex;
-      dots.push(
-        <button 
-          key={i} 
-          className={`${styles.paginationDot} ${isActive ? styles.activeDot : ''}`}
-          onClick={() => handleDotClick(i)}
-          aria-label={`Перейти к отзыву ${i + 1}`}
-          disabled={isAnimating}
-        />
-      );
-    }
-    
-    return dots;
-  };
+  
+  // Видимые отзывы
+  const visibleReviews = getVisibleReviews();
 
   return (
     <section id="reviews" className={styles.reviewsSection}>
@@ -143,31 +85,28 @@ const ReviewsSection = () => {
         <div className={styles.carouselContainer}>
           <button 
             className={`${styles.carouselButton} ${styles.prevButton}`}
-            onClick={prevSlide}
+            onClick={scrollLeft}
             aria-label="Предыдущий отзыв"
             disabled={isAnimating}
           >
             <ChevronLeft size={24} />
           </button>
           
-          <div 
-            className={styles.reviewsGrid} 
-            data-animating={isAnimating ? "true" : "false"}
-            data-direction={direction}
-          >
-            {visibleReviewsToShow.map((review) => (
-              <div 
-                key={review.id} 
-                className={`${styles.reviewContainer}`}
-              >
-                <img src={review.image} alt={review.alt} className={styles.reviewImage} />
-              </div>
-            ))}
+          <div className={styles.carouselTrackContainer}>
+            <div 
+              className={`${styles.carouselTrack} ${isAnimating ? styles.animating : ''}`}
+            >
+              {visibleReviews.map((review) => (
+                <div key={review.id} className={styles.reviewContainer}>
+                  <img src={review.image} alt={review.alt} className={styles.reviewImage} />
+                </div>
+              ))}
+            </div>
           </div>
           
           <button 
             className={`${styles.carouselButton} ${styles.nextButton}`}
-            onClick={nextSlide}
+            onClick={scrollRight}
             aria-label="Следующий отзыв"
             disabled={isAnimating}
           >
@@ -176,7 +115,13 @@ const ReviewsSection = () => {
         </div>
         
         <div className={styles.pagination}>
-          {renderPagination()}
+          {reviews.map((_, index) => (
+            <button 
+              key={index} 
+              className={`${styles.paginationDot} ${index >= startIndex && index < startIndex + visibleCount ? styles.activeDot : ''}`}
+              aria-label={`Отзыв ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
