@@ -32,6 +32,10 @@ const ReviewsSection = () => {
   const [visibleReviews, setVisibleReviews] = useState(3);
   // Текущий индекс начального отзыва
   const [currentIndex, setCurrentIndex] = useState(0);
+  // Состояние анимации
+  const [isAnimating, setIsAnimating] = useState(false);
+  // Направление анимации (next или prev)
+  const [direction, setDirection] = useState('next');
   
   // Функция для определения количества видимых отзывов в зависимости от размера экрана
   useEffect(() => {
@@ -53,16 +57,34 @@ const ReviewsSection = () => {
 
   // Функция для перехода к предыдущему слайду
   const prevSlide = () => {
+    if (isAnimating) return; // Предотвращаем множественные клики во время анимации
+    
+    setIsAnimating(true);
+    setDirection('prev');
     setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? allReviews.length - visibleReviews : prevIndex - 1
+      prevIndex === 0 ? allReviews.length - 1 : prevIndex - 1
     );
+    
+    // Сбрасываем флаг анимации через 1.5 секунды (длительность анимации)
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 1500);
   };
 
   // Функция для перехода к следующему слайду
   const nextSlide = () => {
+    if (isAnimating) return; // Предотвращаем множественные клики во время анимации
+    
+    setIsAnimating(true);
+    setDirection('next');
     setCurrentIndex((prevIndex) => 
-      prevIndex >= allReviews.length - visibleReviews ? 0 : prevIndex + 1
+      prevIndex >= allReviews.length - 1 ? 0 : prevIndex + 1
     );
+    
+    // Сбрасываем флаг анимации через 1.5 секунды (длительность анимации)
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 1500);
   };
 
   // Получаем текущие видимые отзывы
@@ -79,6 +101,19 @@ const ReviewsSection = () => {
   // Рендерим текущие видимые отзывы
   const visibleReviewsToShow = getCurrentReviews();
 
+  // Функция для обработки клика на точке пагинации
+  const handleDotClick = (index) => {
+    if (isAnimating || index === currentIndex) return;
+    
+    setIsAnimating(true);
+    setDirection(index > currentIndex ? 'next' : 'prev');
+    setCurrentIndex(index);
+    
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 1500);
+  };
+
   // Функция для создания индикаторов страниц
   const renderPagination = () => {
     const dots = [];
@@ -90,8 +125,9 @@ const ReviewsSection = () => {
         <button 
           key={i} 
           className={`${styles.paginationDot} ${isActive ? styles.activeDot : ''}`}
-          onClick={() => setCurrentIndex(i)}
+          onClick={() => handleDotClick(i)}
           aria-label={`Перейти к отзыву ${i + 1}`}
+          disabled={isAnimating}
         />
       );
     }
@@ -109,13 +145,21 @@ const ReviewsSection = () => {
             className={`${styles.carouselButton} ${styles.prevButton}`}
             onClick={prevSlide}
             aria-label="Предыдущий отзыв"
+            disabled={isAnimating}
           >
             <ChevronLeft size={24} />
           </button>
           
-          <div className={styles.reviewsGrid}>
+          <div 
+            className={styles.reviewsGrid} 
+            data-animating={isAnimating ? "true" : "false"}
+            data-direction={direction}
+          >
             {visibleReviewsToShow.map((review) => (
-              <div key={review.id} className={styles.reviewContainer}>
+              <div 
+                key={review.id} 
+                className={`${styles.reviewContainer}`}
+              >
                 <img src={review.image} alt={review.alt} className={styles.reviewImage} />
               </div>
             ))}
@@ -125,6 +169,7 @@ const ReviewsSection = () => {
             className={`${styles.carouselButton} ${styles.nextButton}`}
             onClick={nextSlide}
             aria-label="Следующий отзыв"
+            disabled={isAnimating}
           >
             <ChevronRight size={24} />
           </button>

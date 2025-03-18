@@ -32,6 +32,11 @@
   gap: 2rem;
   margin: 0 auto;
   overflow: hidden;
+  perspective: 1000px;
+}
+
+.reviewsGrid[data-animating="true"] {
+  pointer-events: none;
 }
 
 .reviewContainer {
@@ -45,23 +50,51 @@
   justify-content: center;
   background: #000;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  animation: fadeIn 0.5s ease-in-out;
+  will-change: transform, opacity;
+  transition: transform 1.5s cubic-bezier(0.33, 1, 0.68, 1), 
+              opacity 1.5s cubic-bezier(0.33, 1, 0.68, 1),
+              box-shadow 0.3s ease;
 }
 
-@keyframes fadeIn {
-  from {
+.reviewsGrid[data-animating="true"][data-direction="next"] .reviewContainer {
+  animation: slideLeft 1.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+.reviewsGrid[data-animating="true"][data-direction="prev"] .reviewContainer {
+  animation: slideRight 1.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes slideLeft {
+  0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(60px) scale(0.92);
   }
-  to {
+  10% {
+    opacity: 0.3;
+  }
+  100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.92);
+  }
+  10% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
   }
 }
 
 .reviewContainer:hover {
   transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
 .reviewImage {
@@ -88,13 +121,18 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.carouselButton:hover {
+.carouselButton:hover:not(:disabled) {
   background-color: rgba(0, 102, 204, 0.8);
   transform: translateY(-50%) scale(1.1);
 }
 
-.carouselButton:active {
+.carouselButton:active:not(:disabled) {
   transform: translateY(-50%) scale(0.95);
+}
+
+.carouselButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .prevButton {
@@ -123,8 +161,12 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.paginationDot:hover {
+.paginationDot:hover:not(:disabled) {
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.paginationDot:disabled {
+  cursor: not-allowed;
 }
 
 .activeDot {
