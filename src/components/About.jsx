@@ -66,7 +66,7 @@ const About = () => {
   const featureCards = [
     {
       icon: Award,
-      title: 'Профессиональный подход к каждому купальнику',
+      title: 'Профессиональный подход',
       description: (
         <>
           <div className="feature-item" style={{textIndent: '1.5rem'}}>
@@ -77,12 +77,12 @@ const About = () => {
           </div>
         </>
       ),
-      buttonText: 'Заказать индивидуальный пошив',
+      buttonText: 'Заказать пошив',
       onClick: () => setIsCustomOrderModalOpen(true)
     },
     {
       icon: Brush,
-      title: 'Технологии, превращающие образ',
+      title: 'Современные технологии',
       description: (
         <>
           <div className="feature-item" style={{textIndent: '1.5rem'}}>
@@ -98,7 +98,7 @@ const About = () => {
     },
     {
       icon: Users,
-      title: 'Комфорт и качество для каждого',
+      title: 'Качество и комфорт',
       description: (
         <>
           <div className="feature-item" style={{textIndent: '1.5rem'}}>

@@ -235,6 +235,7 @@
   font-weight: 600;
   letter-spacing: -1px;
   text-align: center;
+  letter-spacing: -1.5px;
 }
 
 .featureDescription {
@@ -430,7 +431,7 @@
   }
   
   .featureDescription {
-    font-size: 0.95rem; /* Уменьшаем размер описания */
+    font-size: 1rem; /* Уменьшаем размер описания */
   }
   
   .featureButton {
@@ -464,6 +465,6 @@
   }
   
   .featureDescription {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
