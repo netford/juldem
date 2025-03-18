@@ -35,11 +35,34 @@
 .carouselTrack {
   display: flex;
   gap: 2rem;
-  transition: opacity 0.5s;
+  transition: transform 0.5s ease-in-out;
 }
 
-.carouselTrack.animating {
-  opacity: 0;
+/* Новые классы для анимации слайдов */
+.slideLeft {
+  animation: slideLeftAnimation 0.5s ease-in-out;
+}
+
+.slideRight {
+  animation: slideRightAnimation 0.5s ease-in-out;
+}
+
+@keyframes slideLeftAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(300px + 2rem)); /* Ширина одного слайда + отступ */
+  }
+}
+
+@keyframes slideRightAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-300px - 2rem)); /* Ширина одного слайда + отступ */
+  }
 }
 
 .reviewContainer {
@@ -148,6 +171,24 @@
     width: 40px;
     height: 40px;
   }
+  
+  @keyframes slideLeftAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(300px + 1.5rem)); /* Ширина одного слайда + уменьшенный отступ */
+    }
+  }
+
+  @keyframes slideRightAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-300px - 1.5rem)); /* Ширина одного слайда + уменьшенный отступ */
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -162,5 +203,24 @@
   .reviewContainer {
     width: 280px;
     height: 373px;
+  }
+  
+  /* Обновленная анимация для мобильных устройств */
+  @keyframes slideLeftAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(280px); /* Только ширина слайда */
+    }
+  }
+
+  @keyframes slideRightAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-280px); /* Только ширина слайда */
+    }
   }
 }

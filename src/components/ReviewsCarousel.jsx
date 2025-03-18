@@ -30,6 +30,8 @@ const ReviewsSection = () => {
 
   // Начальный индекс (показываем первые три отзыва)
   const [startIndex, setStartIndex] = useState(0);
+  // Направление анимации (left или right)
+  const [slideDirection, setSlideDirection] = useState(null);
   // Состояние анимации для блокировки множественных кликов
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -41,13 +43,18 @@ const ReviewsSection = () => {
     if (isAnimating) return;
     
     setIsAnimating(true);
-    setStartIndex((prevIndex) => 
-      prevIndex === 0 ? reviews.length - visibleCount : prevIndex - 1
-    );
+    setSlideDirection('left');
     
     setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
+      setStartIndex((prevIndex) => 
+        prevIndex === 0 ? reviews.length - visibleCount : prevIndex - 1
+      );
+      // Сбрасываем направление после завершения анимации
+      setTimeout(() => {
+        setSlideDirection(null);
+        setIsAnimating(false);
+      }, 50);
+    }, 500); // Подождать пока анимация почти завершится
   };
   
   // Функция для прокрутки вправо
@@ -55,13 +62,18 @@ const ReviewsSection = () => {
     if (isAnimating) return;
     
     setIsAnimating(true);
-    setStartIndex((prevIndex) => 
-      prevIndex === reviews.length - visibleCount ? 0 : prevIndex + 1
-    );
+    setSlideDirection('right');
     
     setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
+      setStartIndex((prevIndex) => 
+        prevIndex === reviews.length - visibleCount ? 0 : prevIndex + 1
+      );
+      // Сбрасываем направление после завершения анимации
+      setTimeout(() => {
+        setSlideDirection(null);
+        setIsAnimating(false);
+      }, 50);
+    }, 500); // Подождать пока анимация почти завершится
   };
   
   // Получаем текущие видимые отзывы с учетом кругового отображения
@@ -94,7 +106,10 @@ const ReviewsSection = () => {
           
           <div className={styles.carouselTrackContainer}>
             <div 
-              className={`${styles.carouselTrack} ${isAnimating ? styles.animating : ''}`}
+              className={`${styles.carouselTrack} ${
+                slideDirection === 'left' ? styles.slideLeft :
+                slideDirection === 'right' ? styles.slideRight : ''
+              }`}
             >
               {visibleReviews.map((review) => (
                 <div key={review.id} className={styles.reviewContainer}>
@@ -118,7 +133,12 @@ const ReviewsSection = () => {
           {reviews.map((_, index) => (
             <button 
               key={index} 
-              className={`${styles.paginationDot} ${index >= startIndex && index < startIndex + visibleCount ? styles.activeDot : ''}`}
+              className={`${styles.paginationDot} ${
+                (index >= startIndex && index < startIndex + visibleCount) ||
+                (startIndex + visibleCount > reviews.length && 
+                 index < (startIndex + visibleCount) % reviews.length)
+                  ? styles.activeDot : ''
+              }`}
               aria-label={`Отзыв ${index + 1}`}
             />
           ))}
