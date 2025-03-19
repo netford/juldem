@@ -244,11 +244,14 @@ const ReviewsSection = () => {
           {visibleSlides.map(({ review, position, index }) => (
             <div 
               key={review.id} 
-              className={`${styles.reviewContainer} ${position === 0 ? styles.activeSlide : ''} ${isMobile ? styles.mobileReviewContainer : ''}`}
+              className={`${styles.reviewContainer} ${position === 0 ? styles.activeSlide : styles.inactiveSlide}`}
               style={isMobile ? {
                 transform: `scale(${position === 0 ? scale : 1})`,
                 transition: 'transform 0.3s ease-out'
-              } : undefined}
+              } : {
+                // Для десктопа применяем только переходный эффект без изменения масштаба
+                transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'
+              }}
               onClick={() => {
                 if (!isAnimating && position !== 0 && !isMobile) {
                   setActiveIndex(index);
