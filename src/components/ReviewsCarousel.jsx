@@ -1,3 +1,4 @@
+// ReviewsCarousel.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -36,6 +37,18 @@ const ReviewsSection = () => {
   const [isMobile, setIsMobile] = useState(false);
   // Ссылка на контейнер карусели
   const carouselRef = useRef(null);
+  // Ссылки для свайпа
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
+  
+  // Состояние масштаба изображения на мобильных
+  const [scale, setScale] = useState(1);
+  // Отслеживаем направление свайпа (горизонтальное или вертикальное)
+  const [swipeDirection, setSwipeDirection] = useState(null);
+  // Текущий сдвиг при анимации свайпа
+  const [translateX, setTranslateX] = useState(0);
 
   // Обнаружение мобильного устройства
   useEffect(() => {
@@ -56,13 +69,25 @@ const ReviewsSection = () => {
     
     setIsAnimating(true);
     
-    setActiveIndex((prevIndex) => 
-      prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
-    );
+    // Анимация свайпа вправо (предыдущий слайд появляется слева)
+    setTranslateX(100); // Начинаем с положительного значения (слайд справа)
     
+    // Плавно возвращаем к 0 для создания анимации
     setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
+      setTranslateX(50);
+      setTimeout(() => {
+        setTranslateX(0);
+        
+        // После завершения анимации меняем активный индекс
+        setActiveIndex((prevIndex) => 
+          prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
+        );
+        
+        setTimeout(() => {
+          setIsAnimating(false);
+        }, 100);
+      }, 150);
+    }, 10);
   };
   
   // Функция для прокрутки вправо
@@ -71,17 +96,117 @@ const ReviewsSection = () => {
     
     setIsAnimating(true);
     
-    setActiveIndex((prevIndex) => 
-      prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
-    );
+    // Анимация свайпа влево (следующий слайд появляется справа)
+    setTranslateX(-100); // Начинаем с отрицательного значения (слайд слева)
     
+    // Плавно возвращаем к 0 для создания анимации
     setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
+      setTranslateX(-50);
+      setTimeout(() => {
+        setTranslateX(0);
+        
+        // После завершения анимации меняем активный индекс
+        setActiveIndex((prevIndex) => 
+          prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
+        );
+        
+        setTimeout(() => {
+          setIsAnimating(false);
+        }, 100);
+      }, 150);
+    }, 10);
+  };
+  
+  // Обработчики для свайпа
+  const handleTouchStart = (e) => {
+    // Сохраняем начальные координаты касания
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    setSwipeDirection(null); // Сбрасываем направление свайпа
+  };
+  
+  const handleTouchMove = (e) => {
+    if (!isMobile) return;
+    
+    touchEndX.current = e.touches[0].clientX;
+    touchEndY.current = e.touches[0].clientY;
+    
+    // Определяем, является ли свайп горизонтальным или вертикальным
+    if (swipeDirection === null) {
+      const diffX = Math.abs(touchEndX.current - touchStartX.current);
+      const diffY = Math.abs(touchEndY.current - touchStartY.current);
+      
+      // Если разница по X больше разницы по Y, считаем свайп горизонтальным
+      if (diffX > diffY) {
+        setSwipeDirection('horizontal');
+      } else if (diffY > diffX * 1.5) { // Вертикальный свайп должен быть явно выраженным
+        setSwipeDirection('vertical');
+      }
+    }
+    
+    // Обрабатываем горизонтальный свайп для переключения слайдов
+    if (swipeDirection === 'horizontal' && !isAnimating) {
+      const difference = touchStartX.current - touchEndX.current;
+      const percentDiff = (difference / window.innerWidth) * 100;
+      
+      // Ограничиваем сдвиг до определенных пределов
+      if (Math.abs(percentDiff) < 50) {
+        setTranslateX(-percentDiff);
+      }
+      
+      // Предотвращаем прокрутку страницы при горизонтальном свайпе
+      e.preventDefault();
+    }
+    
+    // Обрабатываем вертикальный свайп для масштабирования
+    if (swipeDirection === 'vertical' && !isAnimating) {
+      const difference = touchStartY.current - touchEndY.current;
+      const newScale = Math.max(0.8, Math.min(1.5, 1 + difference / 500));
+      setScale(newScale);
+    }
+  };
+  
+  const handleTouchEnd = () => {
+    if (!isMobile || isAnimating) return;
+    
+    // Обрабатываем горизонтальный свайп
+    if (swipeDirection === 'horizontal') {
+      const difference = touchStartX.current - touchEndX.current;
+      
+      // Если свайп достаточно сильный (более 50px), переключаем слайд
+      if (Math.abs(difference) > 50) {
+        if (difference > 0) {
+          // Свайп влево - следующий слайд
+          scrollRight();
+        } else {
+          // Свайп вправо - предыдущий слайд
+          scrollLeft();
+        }
+      } else {
+        // Если свайп был недостаточно сильным, возвращаем слайд на место
+        setTranslateX(0);
+      }
+    }
+    
+    // Сбрасываем масштаб при вертикальном свайпе
+    if (swipeDirection === 'vertical') {
+      // Плавно возвращаем к нормальному масштабу
+      setTimeout(() => {
+        setScale(1);
+      }, 300);
+    }
+    
+    // Сбрасываем направление свайпа
+    setSwipeDirection(null);
   };
   
   // Получение видимых отзывов с учетом цикличности
   const getVisibleSlides = () => {
+    if (isMobile) {
+      // Для мобильных устройств показываем только текущий слайд
+      return [{ review: reviews[activeIndex], position: 0, index: activeIndex }];
+    }
+    
     const result = [];
     
     // Индекс предыдущего слайда с циклическим переходом
@@ -98,19 +223,34 @@ const ReviewsSection = () => {
     return result;
   };
 
-  // Рендер основной карусели (для всех типов устройств)
+  // Рендер карусели
   const renderCarousel = () => {
     const visibleSlides = getVisibleSlides();
     
     return (
-      <div className={styles.carouselWrapper}>
-        <div className={styles.carouselTrack}>
+      <div 
+        className={styles.carouselWrapper}
+        onTouchStart={isMobile ? handleTouchStart : undefined}
+        onTouchMove={isMobile ? handleTouchMove : undefined}
+        onTouchEnd={isMobile ? handleTouchEnd : undefined}
+      >
+        <div 
+          className={`${styles.carouselTrack} ${isMobile ? styles.mobileTrack : ''}`}
+          style={isMobile ? { 
+            transform: `translateX(${translateX}px)`,
+            transition: isAnimating ? 'transform 0.3s ease-out' : 'transform 0.1s ease-out'
+          } : undefined}
+        >
           {visibleSlides.map(({ review, position, index }) => (
             <div 
               key={review.id} 
-              className={`${styles.reviewContainer} ${position === 0 ? styles.activeSlide : ''}`}
+              className={`${styles.reviewContainer} ${position === 0 ? styles.activeSlide : ''} ${isMobile ? styles.mobileReviewContainer : ''}`}
+              style={isMobile ? {
+                transform: `scale(${position === 0 ? scale : 1})`,
+                transition: 'transform 0.3s ease-out'
+              } : undefined}
               onClick={() => {
-                if (!isAnimating && position !== 0) {
+                if (!isAnimating && position !== 0 && !isMobile) {
                   setActiveIndex(index);
                 }
               }}
@@ -138,23 +278,28 @@ const ReviewsSection = () => {
           ref={carouselRef}
           className={styles.carouselContainer}
         >
-          <button 
-            className={`${styles.carouselButton} ${styles.prevButton} ${isAnimating ? styles.animating : ''}`}
-            onClick={scrollLeft}
-            aria-label="Предыдущий отзыв"
-          >
-            <ChevronLeft size={24} />
-          </button>
+          {/* Кнопки навигации только для десктопа */}
+          {!isMobile && (
+            <>
+              <button 
+                className={`${styles.carouselButton} ${styles.prevButton} ${isAnimating ? styles.animating : ''}`}
+                onClick={scrollLeft}
+                aria-label="Предыдущий отзыв"
+              >
+                <ChevronLeft size={24} strokeWidth={2.5} />
+              </button>
+              
+              <button 
+                className={`${styles.carouselButton} ${styles.nextButton} ${isAnimating ? styles.animating : ''}`}
+                onClick={scrollRight}
+                aria-label="Следующий отзыв"
+              >
+                <ChevronRight size={24} strokeWidth={2.5} />
+              </button>
+            </>
+          )}
           
           {renderCarousel()}
-          
-          <button 
-            className={`${styles.carouselButton} ${styles.nextButton} ${isAnimating ? styles.animating : ''}`}
-            onClick={scrollRight}
-            aria-label="Следующий отзыв"
-          >
-            <ChevronRight size={24} />
-          </button>
         </div>
         
         <div className={styles.pagination}>
@@ -171,6 +316,13 @@ const ReviewsSection = () => {
             />
           ))}
         </div>
+        
+        {/* Подсказка о свайпе только для мобильных */}
+        {isMobile && (
+          <div className={styles.swipeHint}>
+            Листайте влево или вправо для просмотра других отзывов
+          </div>
+        )}
       </div>
     </section>
   );
