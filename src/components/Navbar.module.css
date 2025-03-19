@@ -330,7 +330,81 @@
   }
 }
 
-/* Добавленный стиль для активного пункта меню */
+/* Добавленные стили для активных пунктов меню */
+
+/* Стили для активных ссылок в десктопной версии */
+.navLinks:not(.mobile) .navLink.active,
+.navLinks:not(.mobile) .navLink.active:hover {
+  color: #00e2fc !important;
+  position: relative;
+  font-weight: 600;
+}
+
+.navLinks:not(.mobile) .navLink.active::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #00e2fc;
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+/* Стили для активных ссылок в мобильной версии */
+.navLinks.mobile .navLink.active {
+  color: #00e2fc !important;
+  font-weight: 600;
+  position: relative;
+}
+
+.navLinks.mobile .navLink.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #00e2fc;
+  transform: scaleX(1);
+  transition: transform 0.3s ease;
+}
+
+.navLinks.mobile .navLink:hover {
+  color: #00e2fc !important;
+}
+
+.navLinks.mobile .navLink:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Добавляем стили для мобильного вида */
+@media (max-width: 1024px) {
+  .navLinks.mobile {
+    background: rgba(38, 38, 38, 0.95) !important;
+  }
+  
+  .navLinks.mobile .navLink {
+    color: rgba(255,255,255,0.7) !important;
+    padding: 10px 0;
+    display: block;
+    font-size: 1.2rem;
+  }
+  
+  .navLinks.mobile .navLink.active {
+    color: #00e2fc !important;
+    position: relative;
+  }
+  
+  .navLinks.mobile .navLink.active::after {
+    bottom: 4px;
+  }
+}
+
+/* Добавляем общий стиль для активного класса */
 :global(.nav-link.active) {
   color: #00e2fc !important;
 }

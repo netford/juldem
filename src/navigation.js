@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Добавляем небольшой отступ, чтобы активация происходила немного раньше
     const scrollOffset = 200;
     
+    // Отслеживаем, был ли найден активный раздел
+    let activeFound = false;
+    
     // Проверяем каждый раздел
     sections.forEach(section => {
       const sectionTop = section.offsetTop;
@@ -20,18 +23,42 @@ document.addEventListener('DOMContentLoaded', () => {
       // Если текущая позиция скролла находится в пределах данного раздела
       if (scrollPosition + scrollOffset >= sectionTop && 
           scrollPosition + scrollOffset < sectionTop + sectionHeight) {
-        // Удаляем класс 'active' у всех пунктов меню
+        // Удаляем класс 'active' у всех пунктов меню (десктопных и мобильных)
         navLinks.forEach(link => {
           link.classList.remove('active');
         });
         
-        // Добавляем класс 'active' к соответствующему пункту меню
-        const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-        if (activeLink) {
-          activeLink.classList.add('active');
-        }
+        // Выбираем все ссылки с указанным id (и десктопные, и мобильные версии)
+        const desktopLinks = document.querySelectorAll(`.navLinks:not(.mobile) .nav-link[href="#${sectionId}"]`);
+        const mobileLinks = document.querySelectorAll(`.navLinks.mobile .nav-link[href="#${sectionId}"]`);
+        const allLinks = document.querySelectorAll(`.nav-link[href="#${sectionId}"]`);
+        
+        // Добавляем класс 'active' ко всем найденным ссылкам
+        allLinks.forEach(link => {
+          link.classList.add('active');
+        });
+        
+        // Также применяем к мобильным и десктопным отдельно
+        desktopLinks.forEach(link => link.classList.add('active'));
+        mobileLinks.forEach(link => link.classList.add('active'));
+        
+        activeFound = true;
       }
     });
+    
+    // Если ни один раздел не активен (например, начало страницы), активируем раздел "main"
+    if (!activeFound && sections.length > 0) {
+      // Удаляем класс 'active' у всех пунктов меню
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // Добавляем класс 'active' к ссылкам на главную страницу
+      const mainLinks = document.querySelectorAll('.nav-link[href="#main"]');
+      mainLinks.forEach(link => {
+        link.classList.add('active');
+      });
+    }
   }
   
   // Функция плавного скролла с максимальной кроссбраузерностью
@@ -106,13 +133,29 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (targetElement) {
           // Закрываем мобильное меню, если оно открыто
-          const mobileNavLinks = document.querySelector('.nav-links.mobile');
+          const mobileNavLinks = document.querySelector('.navLinks.mobile.active');
+          
           if (mobileNavLinks) {
             mobileNavLinks.classList.remove('active');
+            
+            // Если используется кнопка бургер-меню, находим компонент, который её содержит
+            const burgerButton = document.querySelector('.burger');
+            if (burgerButton) {
+              burgerButton.click();
+            }
           }
           
           // Выполняем плавный скролл
           smoothScroll(targetElement);
+          
+          // Устанавливаем активный класс для всех ссылок с данным href
+          navLinks.forEach(navLink => {
+            if (navLink.getAttribute('href') === href) {
+              navLink.classList.add('active');
+            } else {
+              navLink.classList.remove('active');
+            }
+          });
         }
       }
     });

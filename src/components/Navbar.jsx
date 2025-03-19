@@ -28,6 +28,7 @@ const Navbar = () => {
       if (targetElement) {
         targetElement.scrollIntoView({ behavior: 'smooth' })
       }
+      // Закрываем мобильное меню при клике
       if (isOpen) {
         setIsOpen(false)
       }
