@@ -280,3 +280,29 @@
 :global(.nav-link.active) {
   color: #00e2fc !important;
 }
+
+@media (max-width: 768px) {
+  .navLinks.mobile {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background: rgba(38, 38, 38, 0.85); /* Полупрозрачный фон */
+    backdrop-filter: blur(10px); /* Эффект blur для фона */
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    z-index: 999;
+  }
+
+  .navLinks.mobile .navLink {
+    font-size: 1.2rem; /* Увеличенный размер шрифта */
+    color: rgba(255,255,255,0.9); /* Более яркий цвет текста */
+    padding: 0.5rem 0;
+  }
+}
