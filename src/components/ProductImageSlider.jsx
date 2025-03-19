@@ -76,14 +76,37 @@ const ProductImageSlider = ({ images, onError }) => {
     return () => observer.disconnect();
   }, [isMobile, images.length]);
 
+  // Принудительное применение transform при изменении currentIndex
+  useEffect(() => {
+    if (!trackRef.current || isMobile) return;
+    
+    // Принудительно применяем transform к элементу трека
+    const track = trackRef.current;
+    requestAnimationFrame(() => {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    });
+  }, [currentIndex, isMobile]);
+
   // Функции для десктопного переключения слайдов
-  const handlePrevSlide = () => {
+  const handlePrevSlide = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
     if (isMobile) return;
+    
     setCurrentIndex(prev => (prev > 0 ? prev - 1 : images.length - 1));
   };
 
-  const handleNextSlide = () => {
+  const handleNextSlide = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
     if (isMobile) return;
+    
     setCurrentIndex(prev => (prev < images.length - 1 ? prev + 1 : 0));
   };
 
@@ -101,14 +124,19 @@ const ProductImageSlider = ({ images, onError }) => {
   const handleImageClick = (e) => {
     if (isMobile) return;
 
+    // Получаем координаты клика относительно элемента
     const { left, width } = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - left;
 
+    // Определяем, в какой части изображения был клик
     if (clickX < width / 2) {
       handlePrevSlide();
     } else {
       handleNextSlide();
     }
+    
+    // Предотвращаем всплытие события
+    e.stopPropagation();
   };
 
   // Если слайдер еще не загрузился (не виден на экране), показываем placeholder
@@ -124,13 +152,22 @@ const ProductImageSlider = ({ images, onError }) => {
     );
   }
 
+  // Создаем инлайн стили для трека
+  const trackStyle = isMobile ? 
+    undefined : 
+    {
+      transform: `translateX(-${currentIndex * 100}%)`,
+      transition: 'transform 0.3s ease-out',
+      willChange: 'transform'
+    };
+
   // Основной рендер слайдера, когда он уже виден
   return (
     <div ref={lazyContainerRef} className={styles.sliderContainer}>
       <div 
         className={styles.sliderTrack} 
         ref={trackRef}
-        style={!isMobile ? { transform: `translateX(-${currentIndex * 100}%)` } : undefined}
+        style={trackStyle}
         onClick={handleImageClick}
       >
         {images.map((image, index) => (

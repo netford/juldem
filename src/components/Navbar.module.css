@@ -247,7 +247,8 @@
     top: 80px;
     left: 0;
     right: 0;
-    background: #262626;
+    background: rgba(38, 38, 38, 0.85);
+    backdrop-filter: blur(10px);
     flex-direction: column;
     padding: 2rem;
     gap: 1.5rem;
@@ -256,8 +257,9 @@
     opacity: 0;
     visibility: hidden;
     width: 100%;
+    z-index: 999;
   }
-  
+
   .navbar.scrolled .navLinks.mobile {
     top: 55px;
   }
@@ -266,6 +268,58 @@
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
+  }
+
+  .navLinks.mobile .navLink {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.9);
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .navLinks.mobile .navLink.active {
+    color: #00e2fc;
+    font-weight: 600;
+  }
+
+  .navLinks.mobile .navLink.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #00e2fc;
+    transform: scaleX(1);
+    transition: transform 0.3s ease;
+  }
+}
+
+@media (max-width: 768px) {
+  .navLinks.mobile .navLink {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.7); /* Слегка приглушенный цвет для неактивных пунктов */
+    padding: 0.5rem 0;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .navLinks.mobile .navLink.active {
+    color: #00e2fc; /* Яркий электрик-голубой цвет */
+    font-weight: 600; /* Жирность шрифта */
+    position: relative;
+  }
+
+  .navLinks.mobile .navLink.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Полная ширина подчеркивания */
+    height: 2px; /* Толщина подчеркивания */
+    background-color: #00e2fc; /* Цвет подчеркивания */
+    transform: scaleX(1);
   }
 }
 
@@ -279,30 +333,4 @@
 /* Добавленный стиль для активного пункта меню */
 :global(.nav-link.active) {
   color: #00e2fc !important;
-}
-
-@media (max-width: 768px) {
-  .navLinks.mobile {
-    position: fixed;
-    top: 80px;
-    left: 0;
-    right: 0;
-    background: rgba(38, 38, 38, 0.85); /* Полупрозрачный фон */
-    backdrop-filter: blur(10px); /* Эффект blur для фона */
-    flex-direction: column;
-    padding: 2rem;
-    gap: 1.5rem;
-    transform: translateY(-100%);
-    transition: transform 0.3s ease;
-    opacity: 0;
-    visibility: hidden;
-    width: 100%;
-    z-index: 999;
-  }
-
-  .navLinks.mobile .navLink {
-    font-size: 1.2rem; /* Увеличенный размер шрифта */
-    color: rgba(255,255,255,0.9); /* Более яркий цвет текста */
-    padding: 0.5rem 0;
-  }
 }
