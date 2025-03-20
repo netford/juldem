@@ -3,67 +3,89 @@ document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link, a[href^="#"]');
   
-  // Функция для определения активного раздела при скролле
+  // Расширенная функция диагностики и определения активного раздела
   function highlightActiveSection() {
-    // Получаем текущую позицию скролла
-    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollPosition = window.pageYOffset;
+    const windowHeight = window.innerHeight;
     
-    // Добавляем небольшой отступ, чтобы активация происходила немного раньше
-    const scrollOffset = 200;
+    // Диагностическая информация
+    console.group('Section Highlight Diagnosis');
+    console.log('Current scroll position:', scrollPosition);
+    console.log('Window height:', windowHeight);
     
-    // Отслеживаем, был ли найден активный раздел
-    let activeFound = false;
-    
-    // Проверяем каждый раздел
+    let mostVisibleSection = null;
+    let maxVisibleArea = 0;
+
+    // Расширенный анализ видимости разделов
     sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
+      const rect = section.getBoundingClientRect();
+      const sectionTop = rect.top + scrollPosition;
+      const sectionBottom = sectionTop + rect.height;
       
-      // Если текущая позиция скролла находится в пределах данного раздела
-      if (scrollPosition + scrollOffset >= sectionTop && 
-          scrollPosition + scrollOffset < sectionTop + sectionHeight) {
-        // Удаляем класс 'active' у всех пунктов меню (десктопных и мобильных)
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-        });
-        
-        // Выбираем все ссылки с указанным id (и десктопные, и мобильные версии)
-        const desktopLinks = document.querySelectorAll(`.navLinks:not(.mobile) .nav-link[href="#${sectionId}"]`);
-        const mobileLinks = document.querySelectorAll(`.navLinks.mobile .nav-link[href="#${sectionId}"]`);
-        const allLinks = document.querySelectorAll(`.nav-link[href="#${sectionId}"]`);
-        
-        // Добавляем класс 'active' ко всем найденным ссылкам
-        allLinks.forEach(link => {
-          link.classList.add('active');
-        });
-        
-        // Также применяем к мобильным и десктопным отдельно
-        desktopLinks.forEach(link => link.classList.add('active'));
-        mobileLinks.forEach(link => link.classList.add('active'));
-        
-        activeFound = true;
+      // Расчет видимой области раздела
+      const visibleTop = Math.max(sectionTop, scrollPosition);
+      const visibleBottom = Math.min(sectionBottom, scrollPosition + windowHeight);
+      const visibleArea = Math.max(0, visibleBottom - visibleTop);
+      
+      // Подробная диагностическая информация о каждом разделе
+      console.log(`Section #${section.id}`, {
+        top: rect.top,
+        bottom: rect.bottom,
+        height: rect.height,
+        visibleArea: visibleArea,
+        isInViewport: 
+          scrollPosition >= sectionTop && 
+          scrollPosition < sectionBottom
+      });
+      
+      // Определение наиболее видимого раздела
+      if (visibleArea > maxVisibleArea) {
+        maxVisibleArea = visibleArea;
+        mostVisibleSection = section;
+      }
+    });
+
+    // Обновление активных ссылок
+    if (mostVisibleSection) {
+      const sectionId = mostVisibleSection.getAttribute('id');
+      console.log('Most visible section:', sectionId);
+      
+      updateActiveNavLinks(sectionId);
+    }
+    
+    console.groupEnd();
+  }
+
+  // Функция обновления активных навигационных ссылок
+  function updateActiveNavLinks(sectionId) {
+    // Диагностическая информация
+    console.group('Navigation Links Update');
+    console.log('Updating links for section:', sectionId);
+    
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      const isActive = href === `#${sectionId}`;
+      
+      // Подробная информация о каждой ссылке
+      console.log(`Link ${href}`, {
+        willBeActive: isActive,
+        currentlyActive: link.classList.contains('active')
+      });
+      
+      // Обновление активного класса
+      if (isActive) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
     });
     
-    // Если ни один раздел не активен (например, начало страницы), активируем раздел "main"
-    if (!activeFound && sections.length > 0) {
-      // Удаляем класс 'active' у всех пунктов меню
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-      });
-      
-      // Добавляем класс 'active' к ссылкам на главную страницу
-      const mainLinks = document.querySelectorAll('.nav-link[href="#main"]');
-      mainLinks.forEach(link => {
-        link.classList.add('active');
-      });
-    }
+    console.groupEnd();
   }
-  
-  // Функция плавного скролла с максимальной кроссбраузерностью
+
+  // Функция плавного скролла
   function smoothScroll(targetElement) {
-    // Если поддерживается native smooth scroll
+    // Нативный smooth scroll, если поддерживается
     if ('scrollBehavior' in document.documentElement.style) {
       targetElement.scrollIntoView({ 
         behavior: 'smooth', 
@@ -77,21 +99,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const startPosition = window.pageYOffset;
     const distance = targetPosition - startPosition;
     
-    // Параметры анимации
-    const duration = 500; // 500мс
+    const duration = 500; // Длительность анимации
     let startTime = null;
     
-    // Функция анимации скролла с использованием requestAnimationFrame
     function animation(currentTime) {
       if (startTime === null) startTime = currentTime;
       const timeElapsed = currentTime - startTime;
       
-      // Функция ease-out с квадратичным замедлением
       const progress = Math.min(timeElapsed / duration, 1);
       const easeProgress = 1 - Math.pow(1 - progress, 4);
       const currentPosition = startPosition + distance * easeProgress;
       
-      // Совместимость с разными браузерами
+      // Кроссбраузерная прокрутка
       if ('scrollTo' in window) {
         window.scrollTo(0, currentPosition);
       } else {
@@ -102,62 +121,98 @@ document.addEventListener('DOMContentLoaded', () => {
       if (timeElapsed < duration) {
         requestAnimationFrame(animation);
       } else {
-        // После завершения анимации вызываем функцию подсветки активного элемента
+        // Обновление активного раздела после завершения анимации
         setTimeout(highlightActiveSection, 50);
       }
     }
     
-    // Запуск анимации
     requestAnimationFrame(animation);
   }
-  
-  // Вызываем функцию при загрузке страницы
+
+  // Вызываем функцию подсветки при загрузке страницы
   highlightActiveSection();
   
-  // Добавляем обработчик события скролла
-  window.addEventListener('scroll', highlightActiveSection);
+  // Резервные механизмы обновления активного раздела
+  let scrollEndTimer;
+  let throttleTimer;
   
-  // Добавляем обработчик клика по якорным ссылкам
+  // Основной обработчик скролла с торможением и диагностикой
+  window.addEventListener('scroll', () => {
+    // Торможение излишних вызовов
+    clearTimeout(throttleTimer);
+    throttleTimer = setTimeout(() => {
+      // Очистка таймера окончания скролла
+      clearTimeout(scrollEndTimer);
+      
+      // Отложенное обновление после окончания скролла
+      scrollEndTimer = setTimeout(() => {
+        console.log('Scroll ended, updating navigation');
+        highlightActiveSection();
+      }, 100);
+    }, 50);
+  });
+  
+  // Обработчик кликов по якорным ссылкам
   navLinks.forEach(link => {
     link.addEventListener('click', function(e) {
-      // Обрабатываем только якорные ссылки
       const href = this.getAttribute('href');
       
       if (href && href.startsWith('#')) {
         e.preventDefault();
         
-        // Обработка пустого якоря
+        // Пропускаем пустые якоря
         if (href === '#') return;
         
         const targetElement = document.querySelector(href);
         
         if (targetElement) {
-          // Закрываем мобильное меню, если оно открыто
+          // Закрытие мобильного меню
           const mobileNavLinks = document.querySelector('.navLinks.mobile.active');
           
           if (mobileNavLinks) {
             mobileNavLinks.classList.remove('active');
             
-            // Если используется кнопка бургер-меню, находим компонент, который её содержит
+            // Закрытие бургер-меню
             const burgerButton = document.querySelector('.burger');
             if (burgerButton) {
               burgerButton.click();
             }
           }
           
-          // Выполняем плавный скролл
+          // Выполнение плавного скролла
           smoothScroll(targetElement);
           
-          // Устанавливаем активный класс для всех ссылок с данным href
-          navLinks.forEach(navLink => {
-            if (navLink.getAttribute('href') === href) {
-              navLink.classList.add('active');
-            } else {
-              navLink.classList.remove('active');
-            }
-          });
+          // Обновление активных ссылок
+          updateActiveNavLinks(targetElement.getAttribute('id'));
         }
       }
     });
   });
+
+  // Глобальный диагностический инструмент
+  window.triggerNavDiagnostic = function() {
+    console.group('Navigation Diagnostic Report');
+    
+    // Информация о разделах
+    console.log('Sections:', sections.length);
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      console.log(`Section #${section.id}`, {
+        top: rect.top,
+        bottom: rect.bottom,
+        height: rect.height,
+        isVisible: rect.top >= 0 && rect.bottom <= window.innerHeight
+      });
+    });
+
+    // Информация о навигационных ссылках
+    console.log('Navigation Links:', navLinks.length);
+    navLinks.forEach(link => {
+      console.log(`Link ${link.href}`, {
+        isActive: link.classList.contains('active')
+      });
+    });
+
+    console.groupEnd();
+  };
 });

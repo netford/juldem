@@ -1,114 +1,93 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import { logo } from '../assets/images'
 import styles from './Navbar.module.css'
 import smoothscroll from 'smoothscroll-polyfill'
 
 const Navbar = () => {
+  // Состояния для управления навигацией и UI
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('main')
-  const mobileObserverRef = useRef(null)
-  const desktopObserverRef = useRef(null)
+  
+  // Рефы для наблюдателей десктопной и мобильной навигации
+  const observerRef = useRef(null)
 
+  // Инициализация smooth scroll полифилла при монтировании компонента
   useEffect(() => {
     smoothscroll.polyfill()
 
+    // Обработчик скролла для определения прокрутки
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
+    
+    // Добавление и очистка обработчика скролла
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    const handleNavObservers = () => {
-      const isMobile = window.innerWidth <= 768
-      const sections = document.querySelectorAll('section[id]')
+  // Оптимизированный обработчик навигационных наблюдателей
+  const handleNavObservers = useCallback(() => {
+    const sections = document.querySelectorAll('section[id]')
 
-      // Очистка предыдущих обсерверов
-      if (mobileObserverRef.current) {
-        sections.forEach(section => {
-          mobileObserverRef.current.unobserve(section)
-        })
-      }
-
-      if (desktopObserverRef.current) {
-        sections.forEach(section => {
-          desktopObserverRef.current.unobserve(section)
-        })
-      }
-
-      if (isMobile) {
-        const mobileObserverOptions = {
-          root: null,
-          rootMargin: '-20% 0px -50% 0px',
-          threshold: [0, 0.1, 1]
-        }
-
-        mobileObserverRef.current = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const id = entry.target.getAttribute('id')
-              setActiveSection(id)
-            }
-          })
-        }, mobileObserverOptions)
-
-        sections.forEach(section => {
-          mobileObserverRef.current.observe(section)
-        })
-      } else {
-        const desktopObserverOptions = {
-          threshold: 0.5
-        }
-
-        desktopObserverRef.current = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            const id = entry.target.getAttribute('id')
-            const navLinks = document.querySelectorAll(`.nav-link[href="#${id}"]`)
-            
-            navLinks.forEach(navLink => {
-              if (entry.isIntersecting) {
-                navLink.classList.add('active')
-              } else {
-                navLink.classList.remove('active')
-              }
-            })
-          })
-        }, desktopObserverOptions)
-
-        sections.forEach(section => {
-          desktopObserverRef.current.observe(section)
-        })
-      }
+    // Очистка предыдущего наблюдателя
+    if (observerRef.current) {
+      sections.forEach(section => {
+        observerRef.current.unobserve(section)
+      })
     }
 
-    // Первичный запуск
+    // Настройки наблюдателя
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: [0.2, 0.5, 0.8]
+    }
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id')
+        const navLinks = document.querySelectorAll(`.nav-link[href="#${id}"]`)
+        
+        if (entry.isIntersecting) {
+          // Обновляем активную секцию и ссылки
+          requestAnimationFrame(() => {
+            setActiveSection(id)
+            navLinks.forEach(link => link.classList.add('active'))
+          })
+        } else {
+          navLinks.forEach(link => link.classList.remove('active'))
+        }
+      })
+    }, observerOptions)
+
+    sections.forEach(section => {
+      observerRef.current.observe(section)
+    })
+  }, [])
+
+  // Установка навигационных наблюдателей
+  useEffect(() => {
     handleNavObservers()
 
-    // Повесим обработчик resize для динамической смены механизма
+    // Обработчик изменения размера окна
     window.addEventListener('resize', handleNavObservers)
 
     return () => {
       window.removeEventListener('resize', handleNavObservers)
       
-      if (mobileObserverRef.current) {
+      // Очистка наблюдателей при размонтировании
+      if (observerRef.current) {
         const sections = document.querySelectorAll('section[id]')
         sections.forEach(section => {
-          mobileObserverRef.current.unobserve(section)
-        })
-      }
-
-      if (desktopObserverRef.current) {
-        const sections = document.querySelectorAll('section[id]')
-        sections.forEach(section => {
-          desktopObserverRef.current.unobserve(section)
+          observerRef.current.unobserve(section)
         })
       }
     }
-  }, [])
+  }, [handleNavObservers])
 
+  // Обработчик клика по навигационной ссылке
   const handleNavClick = (e) => {
     const href = e.currentTarget.getAttribute('href')
     if (href && href.startsWith('#')) {
@@ -118,12 +97,14 @@ const Navbar = () => {
         targetElement.scrollIntoView({ behavior: 'smooth' })
       }
       
+      // Закрытие мобильного меню после клика
       if (isOpen) {
         setIsOpen(false)
       }
     }
   }
 
+  // Рендер десктопной навигации
   const renderDesktopNav = () => (
     <div className={styles.navContainer}>
       <div className={styles.navLeft}>
@@ -158,6 +139,7 @@ const Navbar = () => {
     </div>
   )
 
+  // Рендер мобильной навигации
   const renderMobileNav = () => (
     <>
       <div className={`${styles.navContainer} ${styles.mobile}`}>
