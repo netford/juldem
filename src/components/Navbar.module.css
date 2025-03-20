@@ -408,3 +408,24 @@
 :global(.nav-link.active) {
   color: #00e2fc !important;
 }
+
+/* Добавляем только новые медиа-правила для мобильной версии */
+@media (max-width: 768px) {
+  .navLinks.mobile .navLink.active {
+    color: #00e2fc !important;
+    position: relative;
+    font-weight: 600;
+  }
+
+  .navLinks.mobile .navLink.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #00e2fc;
+    transform: scaleX(1);
+    transition: transform 0.3s ease;
+  }
+}
