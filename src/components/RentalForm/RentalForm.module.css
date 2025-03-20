@@ -209,7 +209,7 @@
 .phoneCode {
   position: absolute;
   left: 0.8rem;
-  top: 34%;
+  top: 50%;
   transform: translateY(-50%);
   color: #fff;
   font-size: 1rem;
@@ -277,6 +277,7 @@
   .phoneCode {
     font-size: 1.1rem;
     left: 1rem;
+    top:50%;
   }
   
   .phoneInput {
