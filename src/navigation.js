@@ -3,20 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link, a[href^="#"]');
   
-  // Расширенная функция диагностики и определения активного раздела
+  // Функция определения активного раздела
   function highlightActiveSection() {
     const scrollPosition = window.pageYOffset;
     const windowHeight = window.innerHeight;
     
-    // Диагностическая информация
-    console.group('Section Highlight Diagnosis');
-    console.log('Current scroll position:', scrollPosition);
-    console.log('Window height:', windowHeight);
-    
     let mostVisibleSection = null;
     let maxVisibleArea = 0;
 
-    // Расширенный анализ видимости разделов
+    // Анализ видимости разделов
     sections.forEach(section => {
       const rect = section.getBoundingClientRect();
       const sectionTop = rect.top + scrollPosition;
@@ -26,17 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const visibleTop = Math.max(sectionTop, scrollPosition);
       const visibleBottom = Math.min(sectionBottom, scrollPosition + windowHeight);
       const visibleArea = Math.max(0, visibleBottom - visibleTop);
-      
-      // Подробная диагностическая информация о каждом разделе
-      console.log(`Section #${section.id}`, {
-        top: rect.top,
-        bottom: rect.bottom,
-        height: rect.height,
-        visibleArea: visibleArea,
-        isInViewport: 
-          scrollPosition >= sectionTop && 
-          scrollPosition < sectionBottom
-      });
       
       // Определение наиболее видимого раздела
       if (visibleArea > maxVisibleArea) {
@@ -48,29 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Обновление активных ссылок
     if (mostVisibleSection) {
       const sectionId = mostVisibleSection.getAttribute('id');
-      console.log('Most visible section:', sectionId);
-      
       updateActiveNavLinks(sectionId);
     }
-    
-    console.groupEnd();
   }
 
   // Функция обновления активных навигационных ссылок
   function updateActiveNavLinks(sectionId) {
-    // Диагностическая информация
-    console.group('Navigation Links Update');
-    console.log('Updating links for section:', sectionId);
-    
     navLinks.forEach(link => {
       const href = link.getAttribute('href');
       const isActive = href === `#${sectionId}`;
-      
-      // Подробная информация о каждой ссылке
-      console.log(`Link ${href}`, {
-        willBeActive: isActive,
-        currentlyActive: link.classList.contains('active')
-      });
       
       // Обновление активного класса
       if (isActive) {
@@ -79,8 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         link.classList.remove('active');
       }
     });
-    
-    console.groupEnd();
   }
 
   // Функция плавного скролла
@@ -136,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let scrollEndTimer;
   let throttleTimer;
   
-  // Основной обработчик скролла с торможением и диагностикой
+  // Основной обработчик скролла с торможением
   window.addEventListener('scroll', () => {
     // Торможение излишних вызовов
     clearTimeout(throttleTimer);
@@ -146,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Отложенное обновление после окончания скролла
       scrollEndTimer = setTimeout(() => {
-        console.log('Scroll ended, updating navigation');
         highlightActiveSection();
       }, 100);
     }, 50);
@@ -188,31 +155,4 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  // Глобальный диагностический инструмент
-  window.triggerNavDiagnostic = function() {
-    console.group('Navigation Diagnostic Report');
-    
-    // Информация о разделах
-    console.log('Sections:', sections.length);
-    sections.forEach(section => {
-      const rect = section.getBoundingClientRect();
-      console.log(`Section #${section.id}`, {
-        top: rect.top,
-        bottom: rect.bottom,
-        height: rect.height,
-        isVisible: rect.top >= 0 && rect.bottom <= window.innerHeight
-      });
-    });
-
-    // Информация о навигационных ссылках
-    console.log('Navigation Links:', navLinks.length);
-    navLinks.forEach(link => {
-      console.log(`Link ${link.href}`, {
-        isActive: link.classList.contains('active')
-      });
-    });
-
-    console.groupEnd();
-  };
 });

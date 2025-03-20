@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import { logo } from '../assets/images'
 import styles from './Navbar.module.css'
@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('main')
   
-  // Рефы для наблюдателей десктопной и мобильной навигации
+  // Реф для наблюдателя
   const observerRef = useRef(null)
 
   // Инициализация smooth scroll полифилла при монтировании компонента
