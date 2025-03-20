@@ -89,9 +89,9 @@ const RentalForm = ({
   const generateCalendarWeeks = () => {
     const today = new Date();
     
-    // Минимальная дата - сегодня + 7 дней
+    // Минимальная дата - сегодня + 1 день
     const minDate = new Date(today);
-    minDate.setDate(today.getDate() + 7);
+    minDate.setDate(today.getDate() + 1);
     
     // Генерация дат на 30 дней вперед, начиная с минимальной даты
     const generateAvailableDates = () => {

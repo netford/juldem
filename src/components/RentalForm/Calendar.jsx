@@ -48,9 +48,6 @@ const Calendar = ({
         </div>
       ))}
       
-      <div className={styles.calendarInfo}>
-        Доступны даты не ранее, чем через 7 дней от текущей даты
-      </div>
     </div>
   );
 };
