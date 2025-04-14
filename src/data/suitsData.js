@@ -4,6 +4,19 @@ import nonePhoto from '../assets/images/suits/none_photo.jpg';
 export const suits = [
   /* КУПАЛЬНИКИ В НАЛИЧИИ (available: true) */
   {
+    id: 99,
+    name: '"Рубиновый закат"',
+    category: "acrobatics_gymnastics",
+    price: 35000,
+    height: [110, 128],
+    images: ['images/products/categories/acrobatics_gymnastics/suit-096.png',
+             'images/products/categories/acrobatics_gymnastics/suit-097.png',
+             'images/products/categories/acrobatics_gymnastics/suit-098.png',
+             'images/products/categories/acrobatics_gymnastics/suit-099.png'
+            ],
+    available: true
+  },
+  {
     id: 1,
     name: '"Бабочка"',
     category: "acrobatics_gymnastics",
@@ -67,32 +80,6 @@ export const suits = [
   },
   {
     id: 6,
-    name: '"Радужный"',
-    category: "acrobatics_gymnastics",
-    price: 15000,
-    height: [120,124],
-    images: ['images/products/categories/acrobatics_gymnastics/photo_0000.webp',
-             'images/products/categories/acrobatics_gymnastics/photo_0000 (2).webp',
-             'images/products/categories/acrobatics_gymnastics/photo_0000 (3).webp',
-             'images/products/categories/acrobatics_gymnastics/photo_0000 (4).webp',
-             'images/products/categories/acrobatics_gymnastics/photo_0000 (5).webp'
-            ],
-    available: true
-  },
-  {
-    id: 7,
-    name: '"Амазонка"',
-    category: "acrobatics_gymnastics",
-    price: 12000,
-    height: [110, 128],
-    images: ['images/products/categories/acrobatics_gymnastics/amazonka-000.png',
-             'images/products/categories/acrobatics_gymnastics/amazonka-001.png',
-             'images/products/categories/acrobatics_gymnastics/amazonka-002.png'
-            ],
-    available: true
-  },
-  {
-    id: 8,
     name: '"Нежный пион"',
     category: "acrobatics_gymnastics",
     price: 10000,
@@ -103,12 +90,12 @@ export const suits = [
              'images/products/categories/acrobatics_gymnastics/pion-003.png',
              'images/products/categories/acrobatics_gymnastics/pion-004.png'
             ],
-    available: true
+    available: false
   },
   
   /* КУПАЛЬНИКИ ДЛЯ ПРОКАТА (category: "renta") */
   {
-    id: 17,
+    id: 7,
     name: '"Закат"',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -120,7 +107,52 @@ export const suits = [
     available: true
   },
   {
+    id: 8,
+    name: '"Полярная звезда"',
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [110, 128],
+    images: ['images/products/categories/acrobatics_gymnastics/star-000.png',
+             'images/products/categories/acrobatics_gymnastics/star-001.png',
+             'images/products/categories/acrobatics_gymnastics/star-002.png',
+             'images/products/categories/acrobatics_gymnastics/star-003.png'
+            ],
+    available: true
+  },
+  {
     id: 9,
+    name: '"Морской бриз"',
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [130, 144],
+    images: ['images/products/categories/acrobatics_gymnastics/briz-000.png',
+             'images/products/categories/acrobatics_gymnastics/briz-001.png',
+             'images/products/categories/acrobatics_gymnastics/briz-002.png',
+             'images/products/categories/acrobatics_gymnastics/briz-003.png',
+             'images/products/categories/acrobatics_gymnastics/briz-004.png',
+             'images/products/categories/acrobatics_gymnastics/briz-005.png',
+             'images/products/categories/acrobatics_gymnastics/briz-006.png'
+            ],
+    available: true
+  },
+  {
+    id: 10,
+    name: '"Лаванда"',
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [110, 128],
+    images: ['images/products/categories/acrobatics_gymnastics/lavanda-000.png',
+             'images/products/categories/acrobatics_gymnastics/lavanda-001.png',
+             'images/products/categories/acrobatics_gymnastics/lavanda-002.png',
+             'images/products/categories/acrobatics_gymnastics/lavanda-003.png'
+            ],
+    available: true
+  },
+  {
+    id: 11,
     name: '"Малинка"',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -132,7 +164,7 @@ export const suits = [
     available: true
   },
   {
-    id: 10,
+    id: 12,
     name: '"Туника" (голубой)',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -144,7 +176,35 @@ export const suits = [
     available: true
   },
   {
-    id: 11,
+    id: 13,
+    name: '"Радужный"',
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [120,124],
+    images: ['images/products/categories/acrobatics_gymnastics/photo_0000.webp',
+             'images/products/categories/acrobatics_gymnastics/photo_0000 (2).webp',
+             'images/products/categories/acrobatics_gymnastics/photo_0000 (3).webp',
+             'images/products/categories/acrobatics_gymnastics/photo_0000 (4).webp',
+             'images/products/categories/acrobatics_gymnastics/photo_0000 (5).webp'
+            ],
+    available: true
+  },
+  {
+    id: 14,
+    name: '"Амазонка"',
+    category: "renta",
+    price: 2000, // Цена за неделю проката
+    deposit: 7000, // Залог
+    height: [110, 128],
+    images: ['images/products/categories/acrobatics_gymnastics/amazonka-000.png',
+             'images/products/categories/acrobatics_gymnastics/amazonka-001.png',
+             'images/products/categories/acrobatics_gymnastics/amazonka-002.png'
+            ],
+    available: true
+  },
+  {
+    id: 15,
     name: '"Туника" (сиреневый)',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -156,7 +216,7 @@ export const suits = [
     available: true
   },
   {
-    id: 12,
+    id: 16,
     name: '"Январь"',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -169,7 +229,7 @@ export const suits = [
     available: true
   },
   {
-    id: 15,
+    id: 17,
     name: '"Океан"',
     category: "renta",
     price: 5000, // Цена за неделю проката
@@ -181,7 +241,7 @@ export const suits = [
     available: true
   },
   {
-    id: 16,
+    id: 18,
     name: '"Эльза"',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -193,7 +253,7 @@ export const suits = [
     available: true
   },
   {
-    id: 14,
+    id: 19,
     name: '"Всплеск"',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -206,7 +266,7 @@ export const suits = [
     available: true
   },
   {
-    id: 114,
+    id: 20,
     name: '"Всплеск"',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -219,7 +279,7 @@ export const suits = [
     available: true
   },
   {
-    id: 13,
+    id: 21,
     name: '"Бразильянка"',
     category: "renta",
     price: 2000, // Цена за неделю проката
@@ -233,7 +293,7 @@ export const suits = [
   
   /* ПРОДАННЫЕ КУПАЛЬНИКИ (available: false) */
   {
-    id: 18,
+    id: 22,
     name: '"Рубин"',
     category: "figure-skating",
     price: 17000,
@@ -242,7 +302,7 @@ export const suits = [
     available: false
   },
   {
-    id: 19,
+    id: 23,
     name: '"Сияние"',
     category: "acrobatics_gymnastics",
     price: 16000,
@@ -251,7 +311,7 @@ export const suits = [
     available: false
   },
   {
-    id: 20,
+    id: 24,
     name: '"Сказка"',
     category: "figure-skating",
     price: 18500,
@@ -260,7 +320,7 @@ export const suits = [
     available: false
   },
   {
-    id: 21,
+    id: 25,
     name: '"Лазурит"',
     category: "figure-skating",
     price: 16500,
@@ -271,7 +331,7 @@ export const suits = [
     available: false
   },
   {
-    id: 22,
+    id: 26,
     name: '"Фуксия"',
     category: "figure-skating",
     price: 15500,
@@ -280,7 +340,7 @@ export const suits = [
     available: false
   },
   {
-    id: 23,
+    id: 27,
     name: '"Персея"',
     category: "figure-skating",
     price: 17500,
@@ -289,7 +349,7 @@ export const suits = [
     available: false
   },
   {
-    id: 24,
+    id: 28,
     name: '"Каскад"',
     category: "figure-skating",
     price: 16500,
@@ -298,7 +358,7 @@ export const suits = [
     available: false
   },
   {
-    id: 25,
+    id: 29,
     name: '"Лаванда"',
     category: "acrobatics_gymnastics",
     price: 19000,
@@ -309,7 +369,7 @@ export const suits = [
     available: false
   },
   {
-    id: 26,
+    id: 30,
     name: '"Феникс"',
     category: "acrobatics_gymnastics",
     price: 17000,
@@ -318,7 +378,7 @@ export const suits = [
     available: false
   },
   {
-    id: 27,
+    id: 31,
     name: '"Тропикана"',
     category: "acrobatics_gymnastics",
     price: 16000,
@@ -330,7 +390,7 @@ export const suits = [
     available: false
   },
   {
-    id: 28,
+    id: 32,
     name: '"Волна"',
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -339,7 +399,7 @@ export const suits = [
     available: false
   },
   {
-    id: 29,
+    id: 33,
     name: '"Вулкан"',
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -348,7 +408,7 @@ export const suits = [
     available: false
   },
   {
-    id: 30,
+    id: 34,
     name: '"Византия"',
     category: "acrobatics_gymnastics",
     price: 18000,
@@ -359,7 +419,7 @@ export const suits = [
     available: false
   },
   {
-    id: 31,
+    id: 35,
     name: '"Аметист"',
     category: "acrobatics_gymnastics",
     price: 35000,
@@ -372,7 +432,7 @@ export const suits = [
     available: false
   },
   {
-    id: 32,
+    id: 36,
     name: '"Бабочка"',
     category: "acrobatics_gymnastics",
     price: 35000,
